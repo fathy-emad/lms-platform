@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Interfaces\ApiResponseInterface;
+use App\Interfaces\Api\ApiResponseInterface;
 use App\Models\Locale;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Validation\ValidatesRequests;
@@ -20,8 +20,8 @@ class Controller extends BaseController
 
     public function create_model($data)
     {
-        $data = Locale::create($data);
-        $this->apiResponse->send();
+//        $data = Locale::create($data);
+//        $this->apiResponse->send($data);
     }
 
     public function read_model()
