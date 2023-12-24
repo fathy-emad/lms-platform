@@ -2,8 +2,10 @@
 
 namespace App\Providers;
 
+
 use App\Concretes\ApiResponse;
-use App\Interfaces\Api\ApiResponseInterface;
+use App\Interfaces\ApiResponseInterface;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -21,6 +23,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        Schema::defaultStringLength(191);
     }
 }
