@@ -2,20 +2,18 @@
 
 namespace App\Http\Controllers\Admin\Administrator;
 
-use App\Http\Controllers\Admin\Administrator\Requests\CreateRequest;
-use App\Http\Controllers\Admin\Administrator\Requests\DeleteRequest;
-use App\Http\Controllers\Admin\Administrator\Requests\UpdateRequest;
-use App\Http\Controllers\Controller;
-use App\Http\Repositories\AdminRepository;
-use App\Interfaces\ApiResponseInterface;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
+use App\Http\Controllers\Controller;
+use App\Interfaces\ApiResponseInterface;
+use App\Http\Repositories\AdministratorRepository;
+use App\Http\Controllers\Admin\Administrator\Requests\{ CreateRequest, UpdateRequest };
 
 class AdministratorController extends Controller
 {
     public function __construct(
         protected ApiResponseInterface $apiResponse,
-        protected AdminRepository $repository,
+        protected AdministratorRepository $repository,
         protected AdministratorRequestHandler $requestHandler,
         protected string $resource = AdministratorResource::class,
     ){}
@@ -33,12 +31,7 @@ class AdministratorController extends Controller
 
     public function update(UpdateRequest $request): JsonResponse
     {
-        $data = $this->requestHandler->handleUpdate($request->validated());
+        $data = $this->requestHandler->set($request->validated())->handleUpdate()->get();
         return parent::update_model($request->id, $data);
-    }
-
-    public function delete(DeleteRequest $request): JsonResponse
-    {
-        return parent::delete_model($request->id);
     }
 }

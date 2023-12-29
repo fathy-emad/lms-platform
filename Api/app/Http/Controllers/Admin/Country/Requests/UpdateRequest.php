@@ -4,10 +4,6 @@ namespace App\Http\Controllers\Admin\Country\Requests;
 
 use App\Concretes\ValidateRequest;
 use App\Enums\ActiveEnum;
-use App\Enums\AdminRoleEnum;
-use App\Enums\AdminStatusEnum;
-use Illuminate\Validation\Rule;
-use Illuminate\Validation\Rules\Password;
 
 class UpdateRequest extends ValidateRequest
 {

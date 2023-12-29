@@ -16,8 +16,8 @@ return [
     'defaults' => [
 //        'guard' => 'web',
 //        'passwords' => 'users',
-        'guard' => 'student',
-        'passwords' => 'students',
+        'guard' => 'admin',
+        'passwords' => 'admins',
     ],
 
     /*
@@ -46,18 +46,18 @@ return [
             'driver' => 'jwt',
             'provider' => 'admins',
         ],
-        'teacher' => [
-            'driver' => 'jwt',
-            'provider' => 'teachers',
-        ],
-        'student' => [
-            'driver' => 'jwt',
-            'provider' => 'students',
-        ],
-        'parent' => [
-            'driver' => 'jwt',
-            'provider' => 'parents',
-        ],
+//        'teacher' => [
+//            'driver' => 'jwt',
+//            'provider' => 'teachers',
+//        ],
+//        'student' => [
+//            'driver' => 'jwt',
+//            'provider' => 'students',
+//        ],
+//        'parent' => [
+//            'driver' => 'jwt',
+//            'provider' => 'parents',
+//        ],
     ],
 
     /*
@@ -90,18 +90,18 @@ return [
             'driver' => 'eloquent',
             'model' => App\Models\Admin::class,
         ],
-        'teachers' => [
-            'driver' => 'eloquent',
-            'model' => App\Models\Teacher::class,
-        ],
-        'students' => [
-            'driver' => 'eloquent',
-            'model' => App\Models\Student::class,
-        ],
-        'parents' => [
-            'driver' => 'eloquent',
-            'model' => App\Models\Parent::class,
-        ],
+//        'teachers' => [
+//            'driver' => 'eloquent',
+//            'model' => App\Models\Teacher::class,
+//        ],
+//        'students' => [
+//            'driver' => 'eloquent',
+//            'model' => App\Models\Student::class,
+//        ],
+//        'parents' => [
+//            'driver' => 'eloquent',
+//            'model' => App\Models\Parent::class,
+//        ],
     ],
 
     /*
@@ -130,12 +130,12 @@ return [
 //            'expire' => 60,
 //            'throttle' => 60,
 //        ],
-//        'admins' => [
-//            'provider' => 'admins',
-//            'table' => 'password_reset_tokens',
-//            'expire' => 60,
-//            'throttle' => 60,
-//        ],
+        'admins' => [
+            'provider' => 'admins',
+            'table' => 'password_reset_tokens',
+            'expire' => 60,
+            'throttle' => 60,
+        ],
 //        'teachers' => [
 //            'provider' => 'teachers',
 //            'table' => 'password_reset_tokens',

@@ -2,14 +2,13 @@
 
 namespace App\Concretes;
 
-use App\Http\Controllers\Admin\Administrator\Requests\CreateRequest;
 use App\Interfaces\RequestHandlerInterface;
 
 class RequestHandler implements RequestHandlerInterface
 {
-    protected array $data;
+    protected ?array $data;
 
-    public function set(array $data): static
+    public function set(?array $data): static
     {
         $this->data = $data;
         return $this;

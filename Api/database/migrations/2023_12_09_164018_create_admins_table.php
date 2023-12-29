@@ -2,6 +2,7 @@
 
 use App\Enums\AdminRoleEnum;
 use App\Enums\AdminStatusEnum;
+use App\Enums\GenderEnum;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -18,35 +19,51 @@ return new class extends Migration
             $table->string('name');
             $table->string('phone')->unique();
             $table->string('email')->unique();
-            $table->string('password');
-            $table->string('roleEnum');
-            $table->string('genderEnum')->default('male');
-            $table->string('statusEnum')->default('pending');
+            $table->string('national_id');
+
+            $table->enum('AdminRoleEnum', [AdminRoleEnum::values()])->default(AdminRoleEnum::Administrator->value);
+            $table->enum('GenderEnum', [GenderEnum::values()])->default(GenderEnum::Male->value);
+            $table->enum('AdminStatusEnum', [AdminStatusEnum::values()])->default(AdminStatusEnum::Pending->value);
+
             $table->string('block_reason')->nullable();
-            $table->boolean('online')->default(false);
-            $table->string('national_id')->nullable();
-            $table->string('timezone')->nullable();
             $table->json('image')->nullable();
             $table->json('address')->nullable();
-            $table->timestamp('email_verified_at')->nullable();
-            $table->string('jwtToken')->nullable();
+            $table->boolean('online')->default(false);
+
+            $table->string('password');
+            $table->longText('jwtToken')->nullable();
             $table->string('verifyToken')->nullable();
 
-            $table->foreignId("country_id")
-                ->constrained("countries")
-                ->cascadeOnDelete()
-                ->restrictOnDelete();
+            $table->unsignedBigInteger('country_id');
+            //$table->unsignedBigInteger('permission_id')->nullable();
+            $table->unsignedBigInteger('created_by')->nullable();
+            $table->unsignedBigInteger('updated_by')->nullable();
 
-            $table->foreignId("created_by")
-                ->constrained("admins")
-                ->cascadeOnDelete()
-                ->restrictOnDelete();
+            $table->foreign("country_id")
+                ->references("id")
+                ->on("countries")
+                ->restrictOnDelete()
+                ->cascadeOnUpdate();
 
-            $table->foreignId("updated_by")->nullable()
-                ->constrained("admins")
-                ->cascadeOnDelete()
-                ->restrictOnDelete();
+            /*$table->foreign("permission_id")
+                ->references("id")
+                ->on("permissions")
+                ->restrictOnDelete()
+                ->cascadeOnUpdate();*/
 
+            $table->foreign("created_by")
+                ->references("id")
+                ->on("users")
+                ->restrictOnDelete()
+                ->cascadeOnUpdate();
+
+            $table->foreign("updated_by")
+                ->references("id")
+                ->on("users")
+                ->restrictOnDelete()
+                ->cascadeOnUpdate();
+
+            $table->timestamp('email_verified_at')->nullable();
             $table->timestamps();
         });
     }

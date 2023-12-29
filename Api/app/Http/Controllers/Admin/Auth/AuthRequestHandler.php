@@ -2,26 +2,65 @@
 
 namespace App\Http\Controllers\Admin\Auth;
 
-use RequestHandlerInterface;
+use App\Concretes\RequestHandler;
+use App\Enums\AdminStatusEnum;
+use App\Models\Admin;
 
-class AuthRequestHandler implements RequestHandlerInterface
+class AuthRequestHandler extends RequestHandler
 {
 
-    protected array $data;
-
-    public function set(array $data): array
+    public function handleLogin(): static
     {
-        // TODO: Implement set() method.
+        $this->attempt();
+        $this->checkStatus();
+        $this->addJwtTokenToModel();
+        return $this;
     }
 
-    public function handle(array $data): array
+    public function handleLogout(): static
     {
-
-        // TODO: Implement handle() method.
+        $this->terminateJwtTokenFromModel();
+        return $this;
     }
 
-    public function get(): array
+    public function attempt(): void
     {
-        // TODO: Implement get() method.
+        if (! $token = auth('admin')->attempt($this->data))
+        {
+            $this->data["token"] = null;
+            $this->data["message"] = "you are not Auth Admin";
+        }
+
+        else
+        {
+            $this->data["message"] = "you are Auth";
+            $this->data["token"] = $token;
+        }
+    }
+
+    public function checkStatus(): void
+    {
+        if (isset($this->data["token"]) && auth('admin')->user()->AdminStatusEnum->value != AdminStatusEnum::Active->value)
+        {
+            $this->data["token"] = null;
+            $this->data["message"] = "you are not Active Admin";
+        }
+    }
+
+    public function addJwtTokenToModel():void
+    {
+        if ($this->data["token"])
+        {
+            $model = Admin::find(auth('admin')->user()->id);
+            $model->update(["jwtToken" => $this->data["token"]]);
+            $this->data["data"] = $model;
+        }
+    }
+
+    public function terminateJwtTokenFromModel(): void
+    {
+        $model = Admin::find(auth('admin')->user()->id);
+        $model->update(["jwtToken" => null]);
+        $this->data["data"] = $model;
     }
 }

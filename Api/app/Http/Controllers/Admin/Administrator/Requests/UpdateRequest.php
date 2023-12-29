@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Admin\Administrator\Requests;
 use App\Concretes\ValidateRequest;
 use App\Enums\AdminRoleEnum;
 use App\Enums\AdminStatusEnum;
-use Illuminate\Validation\Rule;
+use App\Enums\GenderEnum;
 use Illuminate\Validation\Rules\Password;
 
 class UpdateRequest extends ValidateRequest
@@ -14,20 +14,18 @@ class UpdateRequest extends ValidateRequest
     {
         return [
             "id" => "required|integer|exists:admins",
-            "name" => "required|string|min:4|regex:/^[a-zA-Z]+\\s[a-zA-Z]+\\s[a-zA-Z]+$/",
-            "prefix" => "required|string",
-            "phone" => "required|integer|digits:10|unique:admins,phone," . $this->id,
-            "email" => "required|email|unique:admins,email," . $this->id,
-            "password" => ["sometimes", "confirmed", Password::min(8)->mixedCase()->numbers()->symbols()],
-            "password_confirmation" => "sometimes|required_if:password",
-            "roleEnum" => ["required", "string", Rule::in(AdminRoleEnum::cases())],
-            "statusEnum" => ["required", "string", Rule::in(AdminStatusEnum::cases())],
-            "block_reason" => "required_if:statusEnum,". AdminStatusEnum::Blocked->value ."|string",
-            "national_id" => "required|integer|digits:14",
+            "name" => "required|string|regex:/^[a-zA-Z0-9 .,?!\'’\"-]+$/u",
+            "phone" => "required|digits:10|unique:admins,phone,".$this->id,
+            "email" => "required|email|unique:admins,email,".$this->id,
+            "AdminRoleEnum" => "required|in:".implode(",", AdminRoleEnum::values()),
+            "GenderEnum" => "required|in:".implode(",", GenderEnum::values()),
+            "AdminStatusEnum" => "required|in:".implode(",", AdminStatusEnum::values()),
+            "blocked_reason" => "required_if:AdminStatusEnum," . AdminStatusEnum::Blocked->value,
+            "national_id" => "required|digits:14|unique:admins,national_id,".$this->id,
             "image" => "nullable|image",
-            "address" => "nullable|array",
-//            "country_id" => "",
-//            "permission_id" => "",
+            "country_id" => "required|exists:countries,id",
+            "password" => ["nullable", "confirmed", Password::min(8)->letters()->mixedCase()->numbers()->symbols()],
+            "password_confirmation" => "required_with:password",
         ];
     }
 }

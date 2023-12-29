@@ -2,13 +2,15 @@
 
 namespace App\Models;
 
+use Illuminate\Foundation\Auth\User as Authenticatable;
 use App\Enums\AdminRoleEnum;
 use App\Enums\AdminStatusEnum;
+use App\Enums\GenderEnum;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Tymon\JWTAuth\Contracts\JWTSubject;
 
-class Admin extends Model
+class Admin extends Authenticatable implements JWTSubject
 {
     use HasFactory;
     protected $guarded = [];
@@ -18,23 +20,40 @@ class Admin extends Model
         "verifyToken"
     ];
     protected $casts = [
-        "roleEnum" => AdminRoleEnum::class,
-        "statusEnum" => AdminStatusEnum::class,
+        "AdminRoleEnum" => AdminRoleEnum::class,
+        "GenderEnum" => GenderEnum::class,
+        "AdminStatusEnum" => AdminStatusEnum::class,
         "online" => "boolean",
         "image" => "array",
         "address" => "array",
         "email_verified_at" => "datetime",
         "created_at" => "datetime",
         "updated_at" => "datetime",
+        'password' => 'hashed',
     ];
+
+    public function country(): BelongsTo
+    {
+        return $this->belongsTo(Country::class, 'country_id');
+    }
 
     public function createdBy(): BelongsTo
     {
-        return $this->belongsTo(Admin::class, 'created_by', 'id');
+        return $this->belongsTo(Admin::class, 'created_by');
     }
 
     public function updatedBy(): BelongsTo
     {
-        return $this->belongsTo(Admin::class, 'created_by', 'id');
+        return $this->belongsTo(Admin::class, 'updated_by');
+    }
+
+    public function getJWTIdentifier(): mixed
+    {
+        return $this->getKey();
+    }
+
+    public function getJWTCustomClaims(): array
+    {
+        return [];
     }
 }

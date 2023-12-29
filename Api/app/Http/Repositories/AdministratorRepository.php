@@ -5,7 +5,7 @@ namespace App\Http\Repositories;
 use App\Concretes\Repository;
 use App\Models\Admin;
 
-class AdminRepository extends Repository
+class AdministratorRepository extends Repository
 {
     public function __construct(protected Admin $model){}
 }
