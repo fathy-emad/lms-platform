@@ -7,7 +7,7 @@ use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use App\Interfaces\ApiResponseInterface;
 use App\Http\Repositories\CountryRepository;
-use App\Http\Controllers\Admin\Country\Requests\{ CreateRequest, DeleteRequest, UpdateRequest };
+use App\Http\Controllers\Admin\Country\Requests\{ CreateRequest, UpdateRequest };
 
 class CountryController extends Controller
 {
@@ -34,10 +34,5 @@ class CountryController extends Controller
         $model = $this->repository->getById($request->id);
         $data = $this->requestHandler->set($request->validated())->handleUpdate($model)->get();
         return parent::update_model($request->id, $data);
-    }
-
-    public function delete(DeleteRequest $request): JsonResponse
-    {
-        return parent::delete_model($request->id);
     }
 }

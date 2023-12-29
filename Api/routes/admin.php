@@ -20,11 +20,13 @@ use Illuminate\Support\Facades\Route;
 //Auth
 Route::controller(AuthController::class)->group(function (){
     Route::post('login', 'login');
-    Route::post('logout', 'logout');
-    Route::post('change-password', 'changePassword');
-    Route::post('reset-password', 'resetPassword');
-    Route::post('change-email', 'changeEmail');
-    Route::post('verify-email', 'verifyEmail');
+    Route::post('forget-password', 'forgetPassword');
+    Route::post('verify-token', 'verifyToken');
+    Route::post('new-password', 'newPassword');
+
+    Route::post('logout', 'logout')->middleware('apiAuth:admin');
+    Route::post('change-password', 'changePassword')->middleware('apiAuth:admin');
+    Route::post('change-email', 'changeEmail')->middleware('apiAuth:admin');
 });
 
 Route::middleware('apiAuth:admin')->group(function (){
@@ -34,22 +36,19 @@ Route::middleware('apiAuth:admin')->group(function (){
         Route::get('language', 'read');
         Route::post('language', 'create');
         Route::put('language', 'update');
-//        Route::delete('language', 'delete');
     });
 
-//Country
+    //Country
     Route::controller(CountryController::class)->group(function (){
         Route::get('country', 'read');
         Route::post('country', 'create');
         Route::put('country', 'update');
-//        Route::delete('country', 'delete');
     });
 
-//Admin
+    //Admin
     Route::controller(AdministratorController::class)->group(function (){
         Route::get('administrator', 'read');
         Route::post('administrator', 'create');
         Route::put('administrator', 'update');
-        Route::delete('administrator', 'delete');
     });
 });
