@@ -20,13 +20,13 @@ use Illuminate\Support\Facades\Route;
 //Auth
 Route::controller(AuthController::class)->group(function (){
     Route::post('login', 'login');
-//    Route::post('forget-password', 'forgetPassword');
-//    Route::post('verify-token', 'verifyToken');
-//    Route::post('new-password', 'newPassword');
+    //Route::post('forget-password', 'forgetPassword');
+    //Route::post('verify-token', 'verifyToken');
+    //Route::post('new-password', 'newPassword');
 
     Route::post('logout', 'logout')->middleware('apiAuth:admin');
-//    Route::post('change-password', 'changePassword')->middleware('apiAuth:admin');
-//    Route::post('change-email', 'changeEmail')->middleware('apiAuth:admin');
+    //Route::post('change-password', 'changePassword')->middleware('apiAuth:admin');
+    //Route::post('change-email', 'changeEmail')->middleware('apiAuth:admin');
 });
 
 Route::middleware('apiAuth:admin')->group(function (){
