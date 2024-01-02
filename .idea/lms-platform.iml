@@ -124,6 +124,9 @@
       <excludeFolder url="file://$MODULE_DIR$/Api/vendor/vlucas/phpdotenv" />
       <excludeFolder url="file://$MODULE_DIR$/Api/vendor/voku/portable-ascii" />
       <excludeFolder url="file://$MODULE_DIR$/Api/vendor/webmozart/assert" />
+      <excludeFolder url="file://$MODULE_DIR$/Api/vendor/staudenmeir/eloquent-has-many-deep-contracts" />
+      <excludeFolder url="file://$MODULE_DIR$/Api/vendor/staudenmeir/eloquent-json-relations" />
+      <excludeFolder url="file://$MODULE_DIR$/Api/vendor/stichoza/google-translate-php" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

@@ -40,7 +40,7 @@ class CountryRequestHandler extends RequestHandler
     {
         if (isset($this->data["flag"]))
         {
-            $this->data["flag"] = $this->upload('public', $this->data["flag"], 'countries/flags', []);
+            $this->data["flag"] = $this->upload('public', $this->data["flag"], 'countries/flags');
         }
     }
 }
