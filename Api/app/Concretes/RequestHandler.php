@@ -21,11 +21,11 @@ class RequestHandler implements RequestHandlerInterface
 
     public function bindCreatedBy(): void
     {
-        $this->data["created_by"] = auth('admin')->user()->id ?? 1;
+        $this->data["created_by"] = auth('admin')->user()->id;
     }
 
     public function bindUpdatedBy(): void
     {
-        $this->data["updated_by"] = auth('admin')->user()->id ?? 1;
+        $this->data["updated_by"] = auth('admin')->user()->id;
     }
 }

@@ -29,11 +29,11 @@ class CountryRequestHandler extends RequestHandler
 
     public function translateCountry(?int $id): void
     {
-        $this->data["country"] = $this->translate($this->data["country"], $id);
+        $this->data["country"] = $this->translate('country', 'countries', $this->data["country"], $id);
     }
     public function translateCurrency(?int $id): void
     {
-        $this->data["currency"] = $this->translate($this->data["currency"], $id);
+        $this->data["currency"] = $this->translate('currency', 'countries', $this->data["currency"], $id);
     }
 
     public function uploadFlag(): void

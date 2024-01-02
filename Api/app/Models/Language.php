@@ -12,8 +12,14 @@ class Language extends Model
     use HasFactory;
     protected $guarded = [];
     protected $casts = [
+        "flag" => "array",
         "ActiveEnum" => ActiveEnum::class,
     ];
+
+    public function setLocaleAttribute($value): void
+    {
+        $this->attributes['locale'] = strtolower($value);
+    }
 
     public function languageTranslate(): BelongsTo
     {
@@ -27,11 +33,11 @@ class Language extends Model
 
     public function createdBy(): BelongsTo
     {
-        return $this->belongsTo(User::class, 'created_by');
+        return $this->belongsTo(Admin::class, 'created_by');
     }
 
     public function updatedBy(): BelongsTo
     {
-        return $this->belongsTo(User::class, 'updated_by');
+        return $this->belongsTo(Admin::class, 'updated_by');
     }
 }

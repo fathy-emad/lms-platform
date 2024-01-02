@@ -34,16 +34,16 @@ return new class extends Migration
             $table->longText('jwtToken')->nullable();
             $table->string('verifyToken')->nullable();
 
-            $table->unsignedBigInteger('country_id');
-            //$table->unsignedBigInteger('permission_id')->nullable();
+            $table->unsignedBigInteger('country_id')->nullable();
+            $table->unsignedBigInteger('permission_id')->nullable();
             $table->unsignedBigInteger('created_by')->nullable();
             $table->unsignedBigInteger('updated_by')->nullable();
 
-            $table->foreign("country_id")
+            /*$table->foreign("country_id")
                 ->references("id")
                 ->on("countries")
                 ->restrictOnDelete()
-                ->cascadeOnUpdate();
+                ->cascadeOnUpdate();*/
 
             /*$table->foreign("permission_id")
                 ->references("id")
@@ -53,13 +53,13 @@ return new class extends Migration
 
             $table->foreign("created_by")
                 ->references("id")
-                ->on("users")
+                ->on("admins")
                 ->restrictOnDelete()
                 ->cascadeOnUpdate();
 
             $table->foreign("updated_by")
                 ->references("id")
-                ->on("users")
+                ->on("admins")
                 ->restrictOnDelete()
                 ->cascadeOnUpdate();
 

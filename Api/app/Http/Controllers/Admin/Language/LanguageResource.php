@@ -19,8 +19,11 @@ class LanguageResource extends JsonResource
             "id" => $this->id,
             "locale" => $this->locale,
             "language" => $this->languageTranslate->translates[app()->getLocale()],
-            "country_id" => $this->country,
-            "ActiveEnum" => $this->ActiveEnum->title(),
+            "flag" => $this->flag,
+            "ActiveEnum" => [
+                'key' => $this->ActiveEnum->value,
+                'translation' => $this->ActiveEnum->title()
+            ],
             "created_by" => $this->createdBy->name ?? null,
             "created_at" => $this->created_at,
             "updated_by" => $this->updatedBy->name ?? null,

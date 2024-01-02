@@ -16,7 +16,7 @@ return new class extends Migration
             $table->id();
             $table->string('locale')->unique();
             $table->unsignedBigInteger('language');
-            $table->unsignedBigInteger('country_id')->nullable();
+            $table->json('flag');
             $table->enum('ActiveEnum', ActiveEnum::values())->default(ActiveEnum::Active);
             $table->unsignedBigInteger('created_by')->nullable();
             $table->unsignedBigInteger('updated_by')->nullable();
@@ -27,21 +27,15 @@ return new class extends Migration
                 ->restrictOnDelete()
                 ->cascadeOnUpdate();
 
-            $table->foreign("country_id")
-                ->references("id")
-                ->on("countries")
-                ->restrictOnDelete()
-                ->cascadeOnUpdate();
-
             $table->foreign("created_by")
                 ->references("id")
-                ->on("users")
+                ->on("admins")
                 ->restrictOnDelete()
                 ->cascadeOnUpdate();
 
             $table->foreign("updated_by")
                 ->references("id")
-                ->on("users")
+                ->on("admins")
                 ->restrictOnDelete()
                 ->cascadeOnUpdate();
 

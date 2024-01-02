@@ -22,10 +22,19 @@ class LoginResource extends JsonResource
             "email" => $this->email,
             "phone" => $this->phone,
             "national_id" => $this->national_id,
-            "country_id" => $this->country->countryTranslate->translates[app()->getLocale()],
-            "AdminRoleEnum" => $this->AdminRoleEnum->title(),
-            "AdminStatusEnum" => isset($this->AdminStatusEnum) ? $this->AdminStatusEnum->title() : AdminStatusEnum::Pending->title(),
-            "GenderEnum" => $this->GenderEnum->title(),
+            "country_id" => $this->country->countryTranslate->translates[app()->getLocale()] ?? null,
+            "AdminRoleEnum" => [
+                'key' => $this->AdminRoleEnum->value,
+                'translation' => $this->AdminRoleEnum->title()
+            ],
+            "AdminStatusEnum" => [
+                'key' => $this->AdminStatusEnum->value,
+                'translation' => $this->AdminStatusEnum->title()
+            ],
+            "GenderEnum" => [
+                'key' => $this->GenderEnum->value,
+                'translation' => $this->GenderEnum->title()
+            ],
             "block_reason" => $this->block_reason,
             "online" => $this->online,
             "image" => $this->image,

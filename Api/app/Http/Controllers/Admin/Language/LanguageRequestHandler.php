@@ -4,14 +4,16 @@ namespace App\Http\Controllers\Admin\Language;
 
 use App\Concretes\RequestHandler;
 use App\Traits\TranslationTrait;
+use App\Traits\UploadFileTrait;
 
 class LanguageRequestHandler extends RequestHandler
 {
-    use TranslationTrait;
+    use TranslationTrait, UploadFileTrait;
 
     public function handleCreate(): static
     {
         $this->translateLanguage(null);
+        $this->uploadFlag();
         $this->bindCreatedBy();
         return $this;
     }
@@ -25,6 +27,14 @@ class LanguageRequestHandler extends RequestHandler
 
     public function translateLanguage(?int $id): void
     {
-        $this->data["language"] = $this->translate($this->data["language"], $id);
+        $this->data["language"] = $this->translate('language', 'languages', $this->data["language"], $id);
+    }
+
+    public function uploadFlag(): void
+    {
+        if (isset($this->data["flag"]))
+        {
+            $this->data["flag"] = $this->upload('public', $this->data["flag"], 'languages/flags');
+        }
     }
 }

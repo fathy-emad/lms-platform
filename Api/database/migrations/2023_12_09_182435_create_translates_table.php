@@ -13,23 +13,10 @@ return new class extends Migration
     {
         Schema::create('translates', function (Blueprint $table) {
             $table->id();
+            $table->string('filed');
+            $table->string('table');
             $table->string('key');
             $table->json('translates');
-            $table->unsignedBigInteger('created_by')->nullable();
-            $table->unsignedBigInteger('updated_by')->nullable();
-
-            $table->foreign("created_by")
-                ->references("id")
-                ->on("users")
-                ->restrictOnDelete()
-                ->cascadeOnUpdate();
-
-            $table->foreign("updated_by")
-                ->references("id")
-                ->on("users")
-                ->restrictOnDelete()
-                ->cascadeOnUpdate();
-
             $table->timestamps();
         });
     }

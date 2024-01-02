@@ -8,7 +8,6 @@ use Illuminate\Support\Facades\Hash;
 
 class AdministratorRequestHandler extends RequestHandler
 {
-
     public function handleCreate(): static
     {
         $this->hashPassword();

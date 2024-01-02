@@ -24,7 +24,10 @@ class CountryResource extends JsonResource
             "currency" => $this->currencyTranslate->translates[app()->getLocale()],
             "currency_symbol" => $this->currency_symbol,
             "flag" => $this->flag,
-            "ActiveEnum" => $this->ActiveEnum->title(),
+            "ActiveEnum" => [
+                'key' => $this->ActiveEnum->value,
+                'translation' => $this->ActiveEnum->title()
+            ],
             "created_by" => $this->createdBy->name ?? null,
             "created_at" => $this->created_at,
             "updated_by" => $this->updatedBy->name ?? null,

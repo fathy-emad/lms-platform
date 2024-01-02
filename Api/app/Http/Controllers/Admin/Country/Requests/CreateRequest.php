@@ -22,7 +22,7 @@ class CreateRequest extends ValidateRequest
             "currency.ar" => "required|string|regex:/^[\x{0600}-\x{06FF}\s]+$/u",
             "currency.en" => "required|string|regex:/^[a-zA-Z0-9 .,?!\'’\"-]+$/u",
             "currency_symbol" => "required|string",
-            "flag" => "nullable|file|mimes:svg,xml",
+            "flag" => "required|file|mimes:svg,xml",
             "ActiveEnum" => "required|in:".implode(",", ActiveEnum::values()),
         ];
     }

@@ -16,7 +16,7 @@ class UpdateRequest extends ValidateRequest
             "language.*" => "nullable|string",
             "language.ar" => "required|string|regex:/^[\x{0600}-\x{06FF}\s]+$/u",
             "language.en" => "required|string|regex:/^[a-zA-Z0-9 .,?!\'’\"-]+$/u",
-            "country_id" => "nullable|exists:countries,id",
+            "flag" => "nullable|file|mimes:svg,xml",
             "ActiveEnum" => "required|in:".implode(",", ActiveEnum::values()),
         ];
     }

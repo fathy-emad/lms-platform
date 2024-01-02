@@ -39,13 +39,13 @@ return new class extends Migration
 
             $table->foreign("created_by")
                 ->references("id")
-                ->on("users")
+                ->on("admins")
                 ->restrictOnDelete()
                 ->cascadeOnUpdate();
 
             $table->foreign("updated_by")
                 ->references("id")
-                ->on("users")
+                ->on("admins")
                 ->restrictOnDelete()
                 ->cascadeOnUpdate();
 
