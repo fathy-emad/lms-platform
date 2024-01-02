@@ -3,13 +3,16 @@
 namespace App\Http\Controllers\Admin\Administrator;
 
 use App\Concretes\RequestHandler;
+use App\Traits\UploadFileTrait;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Hash;
 
 class AdministratorRequestHandler extends RequestHandler
 {
+    use UploadFileTrait;
     public function handleCreate(): static
     {
+        $this->uploadImage();
         $this->hashPassword();
         $this->bindCreatedBy();
         return $this;
@@ -17,6 +20,7 @@ class AdministratorRequestHandler extends RequestHandler
 
     public function handleUpdate(): static
     {
+        $this->uploadImage();
         $this->hashPasswordIfExists();
         $this->bindUpdatedBy();
         return $this;
@@ -39,6 +43,14 @@ class AdministratorRequestHandler extends RequestHandler
         {
             $this->data = Arr::except($this->data, 'password');
             $this->data = Arr::except($this->data, 'password_confirmation');
+        }
+    }
+
+    public function uploadImage(): void
+    {
+        if (isset($this->data["image"]))
+        {
+            $this->data["image"] = $this->upload('public', $this->data["image"], 'admins/images');
         }
     }
 }

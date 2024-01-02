@@ -10,7 +10,6 @@ trait UploadFileTrait
     {
             $extension = $file->getClientOriginalExtension();
             $filename = time() . "." . $extension;
-            $path = $path . "/" . $extension;
             return  [$extension => Storage::disk($driver)->putFileAs($path, $file, $filename)];
     }
 

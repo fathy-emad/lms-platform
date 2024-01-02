@@ -37,7 +37,7 @@ class AdministratorResource extends JsonResource
             ],
             "block_reason" => $this->block_reason,
             "online" => $this->online,
-            "image" => $this->image,
+            "image" => $this->image ? asset('uploads/' . $this->image) : null,
             "address" => $this->address,
             "email_verified_at" => $this->email_verified_at,
             "created_by" => $this->createdBy->name ?? null,
