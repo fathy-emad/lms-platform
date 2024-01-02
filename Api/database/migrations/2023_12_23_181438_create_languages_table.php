@@ -14,7 +14,7 @@ return new class extends Migration
     {
         Schema::create('languages', function (Blueprint $table) {
             $table->id();
-            $table->string('symbol')->unique();
+            $table->string('locale')->unique();
             $table->unsignedBigInteger('language');
             $table->unsignedBigInteger('country_id')->nullable();
             $table->enum('ActiveEnum', ActiveEnum::values())->default(ActiveEnum::Active);

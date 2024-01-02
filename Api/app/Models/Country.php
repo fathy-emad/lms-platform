@@ -19,6 +19,16 @@ class Country extends Model
         "ActiveEnum" => ActiveEnum::class
     ];
 
+    public function setSymbolAttribute($value): void
+    {
+        $this->attributes['symbol'] = strtoupper($value);
+    }
+
+    public function setTimezoneAttribute($value): void
+    {
+        $this->attributes['timezone'] = strtoupper($value);
+    }
+
     public function countryTranslate(): BelongsTo
     {
         return $this->belongsTo(Translate::class, 'country');

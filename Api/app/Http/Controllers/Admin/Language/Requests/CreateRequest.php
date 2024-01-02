@@ -10,7 +10,7 @@ class CreateRequest extends ValidateRequest
     public function rules(): array
     {
         return [
-            "symbol" => "required|string|unique:languages",
+            "locale" => "required|string|unique:languages",
             "language" => "required|array|min:2",
             "language.*" => "nullable|string",
             "language.ar" => "required|string|regex:/^[\x{0600}-\x{06FF}\s]+$/u",

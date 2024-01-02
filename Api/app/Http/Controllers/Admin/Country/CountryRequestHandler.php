@@ -4,13 +4,15 @@ namespace App\Http\Controllers\Admin\Country;
 
 use App\Concretes\RequestHandler;
 use App\Traits\TranslationTrait;
+use App\Traits\UploadFileTrait;
 
 class CountryRequestHandler extends RequestHandler
 {
-    use TranslationTrait;
+    use TranslationTrait, UploadFileTrait;
 
     public function handleCreate(): static
     {
+        $this->uploadFlag();
         $this->translateCountry(null);
         $this->translateCurrency(null);
         $this->bindCreatedBy();
@@ -32,5 +34,13 @@ class CountryRequestHandler extends RequestHandler
     public function translateCurrency(?int $id): void
     {
         $this->data["currency"] = $this->translate($this->data["currency"], $id);
+    }
+
+    public function uploadFlag(): void
+    {
+        if (isset($this->data["flag"]))
+        {
+            $this->data["flag"] = $this->upload('public', $this->data["flag"], 'countries/flags', []);
+        }
     }
 }

@@ -10,7 +10,7 @@ trait TranslationTrait
     public function translate(array $data, ?int $id): int
     {
         $languages = Language::all();
-        $data = $this->handleTranslate($data, $languages ?? [""]);
+        $data = $this->handleTranslate($data, $languages ?? []);
 
         if (!isset($id)){
             $data = $this->handleDataCreate($data);
@@ -27,7 +27,7 @@ trait TranslationTrait
         $translates = [];
 
         foreach ($languages AS $lang) {
-            $translates[$lang->symbol] = $data[$lang->symbol] ?? $data["en"];
+            $translates[$lang->locale] = $data[$lang->locale] ?? $data["en"];
         }
 
         return [

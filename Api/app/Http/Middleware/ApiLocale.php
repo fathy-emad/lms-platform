@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\Language;
 use Closure;
 use App\Models\Locale;
 use Illuminate\Http\Request;
@@ -22,7 +23,7 @@ class ApiLocale
         if ($request->hasHeader('locale'))
         {
             $locale = $request->header('locale');
-            $exists_locale = Locale::where('locale', $locale)->first();
+            $exists_locale = Language::where('locale', $locale)->first();
 
             if ($exists_locale) App::setLocale($locale);
         }

@@ -17,7 +17,7 @@ class LanguageResource extends JsonResource
     {
         return [
             "id" => $this->id,
-            "symbol" => $this->symbol,
+            "locale" => $this->locale,
             "language" => $this->languageTranslate->translates[app()->getLocale()],
             "country_id" => $this->country,
             "ActiveEnum" => $this->ActiveEnum->title(),

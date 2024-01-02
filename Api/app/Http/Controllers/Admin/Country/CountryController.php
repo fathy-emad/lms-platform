@@ -21,6 +21,7 @@ class CountryController extends Controller
     public function create(CreateRequest $request): JsonResponse
     {
         $data = $this->requestHandler->set($request->validated())->handleCreate()->get();
+        dd($data);
         return parent::create_model($data);
     }
 
