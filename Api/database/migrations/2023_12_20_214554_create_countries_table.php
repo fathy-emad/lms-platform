@@ -21,7 +21,7 @@ return new class extends Migration
             $table->string('currency_symbol')->nullable();
             $table->string("symbol")->unique();
             $table->json('flag')->nullable();
-            $table->enum('ActiveEnum', ActiveEnum::values())->default('active');
+            $table->enum('ActiveEnum', ActiveEnum::values())->default(ActiveEnum::Active->value);
             $table->unsignedBigInteger('created_by')->nullable();
             $table->unsignedBigInteger('updated_by')->nullable();
 

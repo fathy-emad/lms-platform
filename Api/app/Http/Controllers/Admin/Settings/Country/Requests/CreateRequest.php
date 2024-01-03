@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin\Country\Requests;
+namespace App\Http\Controllers\Admin\Settings\Country\Requests;
 
 use App\Concretes\ValidateRequest;
 use App\Enums\ActiveEnum;

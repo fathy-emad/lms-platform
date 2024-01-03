@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin\Administrator;
+namespace App\Http\Controllers\Admin\Employees\Administrator;
 
 use App\Concretes\RequestHandler;
 use App\Traits\UploadFileTrait;

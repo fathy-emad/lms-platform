@@ -8,5 +8,6 @@ enum AdminRoleEnum: string
 {
     use EnumTrait;
 
+    //do not miss if add any enum add it in admins table database
     case Administrator = 'admin';
 }

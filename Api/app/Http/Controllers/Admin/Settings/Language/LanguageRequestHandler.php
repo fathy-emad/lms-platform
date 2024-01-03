@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin\Language;
+namespace App\Http\Controllers\Admin\Settings\Language;
 
 use App\Concretes\RequestHandler;
 use App\Traits\TranslationTrait;

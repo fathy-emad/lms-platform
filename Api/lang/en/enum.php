@@ -1,7 +1,7 @@
 <?php
 
 return [
-    "RoleEnum" => [
+    "AdminRoleEnum" => [
         "Administrator" => "Administrator"
     ],
 
@@ -19,5 +19,11 @@ return [
     "GenderEnum" => [
         "Male" => "Male",
         "Female" => "Female"
+    ],
+
+    "EducationStageEnum" => [
+        "Primary" => "Primary",
+        "Preparatory" => "Preparatory",
+        "Secondary" => "Secondary"
     ],
 ];

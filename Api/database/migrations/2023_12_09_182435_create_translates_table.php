@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('translates', function (Blueprint $table) {
             $table->id();
-            $table->string('filed');
+            $table->string('field');
             $table->string('table');
             $table->string('key');
             $table->json('translates');

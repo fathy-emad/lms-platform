@@ -1,13 +1,14 @@
 <?php
 
-namespace App\Http\Controllers\Admin\Administrator;
+namespace App\Http\Controllers\Admin\Employees\Administrator;
 
-use Illuminate\Http\Request;
-use Illuminate\Http\JsonResponse;
+use App\Http\Controllers\Admin\Employees\Administrator\Requests\{CreateRequest};
+use App\Http\Controllers\Admin\Employees\Administrator\Requests\UpdateRequest;
 use App\Http\Controllers\Controller;
-use App\Interfaces\ApiResponseInterface;
 use App\Http\Repositories\AdministratorRepository;
-use App\Http\Controllers\Admin\Administrator\Requests\{ CreateRequest, UpdateRequest };
+use App\Interfaces\ApiResponseInterface;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 
 class AdministratorController extends Controller
 {

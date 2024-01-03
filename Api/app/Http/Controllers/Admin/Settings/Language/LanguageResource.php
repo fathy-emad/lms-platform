@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Controllers\Admin\Country;
+namespace App\Http\Controllers\Admin\Settings\Language;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class CountryResource extends JsonResource
+class LanguageResource extends JsonResource
 {
 
     /**
@@ -17,12 +17,8 @@ class CountryResource extends JsonResource
     {
         return [
             "id" => $this->id,
-            "symbol" => $this->symbol,
-            "country" => $this->countryTranslate->translates[app()->getLocale()],
-            "phone_prefix" => $this->phone_prefix,
-            "timezone" => $this->timezone,
-            "currency" => $this->currencyTranslate->translates[app()->getLocale()],
-            "currency_symbol" => $this->currency_symbol,
+            "locale" => $this->locale,
+            "language" => $this->languageTranslate->translates[app()->getLocale()],
             "flag" => $this->flag,
             "ActiveEnum" => [
                 'key' => $this->ActiveEnum->value,

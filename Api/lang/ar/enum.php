@@ -20,4 +20,10 @@ return [
         "Male" => "ذكر",
         "Female" => "أنثى"
     ],
+
+    "EducationStageEnum" => [
+        "Primary" => "إبتدائى",
+        "Preparatory" => "إعدادى",
+        "Secondary" => "ثانوى"
+    ],
 ];

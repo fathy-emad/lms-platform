@@ -21,9 +21,9 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->string('national_id');
 
-            $table->enum('AdminRoleEnum', [AdminRoleEnum::values()])->default(AdminRoleEnum::Administrator->value);
-            $table->enum('GenderEnum', [GenderEnum::values()])->default(GenderEnum::Male->value);
-            $table->enum('AdminStatusEnum', [AdminStatusEnum::values()])->default(AdminStatusEnum::Pending->value);
+            $table->enum('AdminRoleEnum', AdminRoleEnum::values());
+            $table->enum('GenderEnum', GenderEnum::values())->default(GenderEnum::Male->value);
+            $table->enum('AdminStatusEnum', AdminStatusEnum::values())->default(AdminStatusEnum::Pending->value);
 
             $table->string('block_reason')->nullable();
             $table->json('image')->nullable();

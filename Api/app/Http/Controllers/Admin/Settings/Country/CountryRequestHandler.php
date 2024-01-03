@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin\Country;
+namespace App\Http\Controllers\Admin\Settings\Country;
 
 use App\Concretes\RequestHandler;
 use App\Traits\TranslationTrait;

@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\Admin\Administrator\Requests;
+namespace App\Http\Controllers\Admin\Employees\Administrator\Requests;
 
 use App\Concretes\ValidateRequest;
+use App\Enums\ActiveEnum;
 use App\Enums\AdminRoleEnum;
-use App\Enums\AdminStatusEnum;
 use App\Enums\GenderEnum;
+use Illuminate\Validation\Rules\Enum;
 use Illuminate\Validation\Rules\Password;
 
 class CreateRequest extends ValidateRequest
@@ -18,8 +19,8 @@ class CreateRequest extends ValidateRequest
             "email" => "required|email|unique:admins",
             "password" => ["required", "confirmed", Password::min(8)->letters()->mixedCase()->numbers()->symbols()],
             "password_confirmation" => "required",
-            "AdminRoleEnum" => "required|in:".implode(",", AdminRoleEnum::values()),
-            "GenderEnum" => "required|in:".implode(",", GenderEnum::values()),
+            "AdminRoleEnum" => ["required", "string", new Enum(AdminRoleEnum::class)],
+            "GenderEnum" => ["required", "string", new Enum(ActiveEnum::class)],
             "national_id" => "required|digits:14|unique:admins",
             "image" => "nullable|image",
             "country_id" => "required|exists:countries,id"

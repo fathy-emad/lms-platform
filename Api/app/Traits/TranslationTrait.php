@@ -43,7 +43,7 @@ trait TranslationTrait
         }
 
         return [
-            "filed" => $field,
+            "field" => $field,
             "table" => $table,
             "key" => $translates["en"],
             "translates" => $translates

@@ -1,21 +1,22 @@
 <?php
 
-namespace App\Http\Controllers\Admin\Language;
+namespace App\Http\Controllers\Admin\Settings\Country;
 
-use Illuminate\Http\Request;
-use Illuminate\Http\JsonResponse;
+use App\Http\Controllers\Admin\Settings\Country\Requests\{UpdateRequest};
+use App\Http\Controllers\Admin\Settings\Country\Requests\CreateRequest;
 use App\Http\Controllers\Controller;
+use App\Http\Repositories\CountryRepository;
 use App\Interfaces\ApiResponseInterface;
-use App\Http\Repositories\LanguageRepository;
-use App\Http\Controllers\Admin\Language\Requests\{ CreateRequest, UpdateRequest };
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 
-class LanguageController extends Controller
+class CountryController extends Controller
 {
     public function __construct(
         protected ApiResponseInterface $apiResponse,
-        protected LanguageRepository $repository,
-        protected LanguageRequestHandler $requestHandler,
-        protected string $resource = LanguageResource::class,
+        protected CountryRepository $repository,
+        protected CountryRequestHandler $requestHandler,
+        protected string $resource = CountryResource::class,
     ){}
 
     public function create(CreateRequest $request): JsonResponse

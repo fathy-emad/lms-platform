@@ -1,8 +1,7 @@
 <?php
 
-namespace App\Http\Controllers\Admin\Administrator;
+namespace App\Http\Controllers\Admin\Employees\Administrator;
 
-use App\Enums\AdminStatusEnum;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -22,7 +21,8 @@ class AdministratorResource extends JsonResource
             "email" => $this->email,
             "phone" => $this->phone,
             "national_id" => $this->national_id,
-            "country_id" => $this->country->countryTranslate->translates[app()->getLocale()] ?? null,
+            "country_id" => $this->country_id,
+            "country" => $this->country->countryTranslate->translates[app()->getLocale()] ?? null,
             "AdminRoleEnum" => [
                 'key' => $this->AdminRoleEnum->value,
                 'translation' => $this->AdminRoleEnum->title()

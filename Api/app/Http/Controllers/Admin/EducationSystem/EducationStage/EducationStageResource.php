@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Controllers\Admin\Language;
+namespace App\Http\Controllers\Admin\EducationSystem\EducationStage;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class LanguageResource extends JsonResource
+class EducationStageResource extends JsonResource
 {
 
     /**
@@ -17,9 +17,12 @@ class LanguageResource extends JsonResource
     {
         return [
             "id" => $this->id,
-            "locale" => $this->locale,
-            "language" => $this->languageTranslate->translates[app()->getLocale()],
-            "flag" => $this->flag,
+            "country_id" => $this->country_id,
+            "country" => $this->country->countryTranslate->translates[app()->getLocale()],
+            "EducationStageEnum" => [
+                'key' => $this->EducationStageEnum->value,
+                'translation' => $this->EducationStageEnum->title()
+            ],
             "ActiveEnum" => [
                 'key' => $this->ActiveEnum->value,
                 'translation' => $this->ActiveEnum->title()

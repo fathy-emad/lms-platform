@@ -32,6 +32,11 @@ class Admin extends Authenticatable implements JWTSubject
         'password' => 'hashed',
     ];
 
+    public function getPhoneAttribute($value): string
+    {
+        return $this->country->phone_prefix . $value;
+    }
+
     public function country(): BelongsTo
     {
         return $this->belongsTo(Country::class, 'country_id');
