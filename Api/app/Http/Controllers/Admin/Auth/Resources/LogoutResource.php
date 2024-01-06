@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Admin\Auth\Resources;
 
 use App\Enums\AdminStatusEnum;
+use App\Http\Resources\AuthorResource;
+use App\Http\Resources\DateTimeResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -40,10 +42,10 @@ class LogoutResource  extends JsonResource
             "image" => $this->image,
             "address" => $this->address,
             "email_verified_at" => $this->email_verified_at,
-            "created_by" => $this->createdBy->name ?? null,
-            "created_at" => $this->created_at,
-            "updated_by" => $this->updatedBy->name ?? null,
-            "updated_at" => $this->updated_at,
+            "created_by" => new AuthorResource($this->createdBy),
+            "updated_by" => $this->updated_by ? new AuthorResource($this->updatedBy) : null,
+            "created_at" => new DateTimeResource($this->created_at),
+            "updated_at" => new DateTimeResource($this->updated_at),
         ];
     }
 }

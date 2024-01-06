@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers\Admin\Settings\Language;
 
+use App\Http\Resources\AuthorResource;
+use App\Http\Resources\DateTimeResource;
+use App\Http\Resources\TranslationResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -18,16 +21,13 @@ class LanguageResource extends JsonResource
         return [
             "id" => $this->id,
             "locale" => $this->locale,
-            "language" => $this->languageTranslate->translates[app()->getLocale()],
+            "language" => new TranslationResource($this->languageTranslate),
             "flag" => $this->flag,
-            "ActiveEnum" => [
-                'key' => $this->ActiveEnum->value,
-                'translation' => $this->ActiveEnum->title()
-            ],
-            "created_by" => $this->createdBy->name ?? null,
-            "created_at" => $this->created_at,
-            "updated_by" => $this->updatedBy->name ?? null,
-            "updated_at" => $this->updated_at,
+            "ActiveEnum" => new TranslationResource($this->ActiveEnum, true),
+            "created_by" => new AuthorResource($this->createdBy),
+            "updated_by" => $this->updated_by ? new AuthorResource($this->updatedBy) : null,
+            "created_at" => new DateTimeResource($this->created_at),
+            "updated_at" => new DateTimeResource($this->updated_at),
         ];
     }
 }

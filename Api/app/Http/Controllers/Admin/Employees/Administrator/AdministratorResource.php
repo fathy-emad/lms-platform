@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers\Admin\Employees\Administrator;
 
+use App\Http\Resources\AuthorResource;
+use App\Http\Resources\DateTimeResource;
+use App\Http\Resources\TranslationResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -21,29 +24,19 @@ class AdministratorResource extends JsonResource
             "email" => $this->email,
             "phone" => $this->phone,
             "national_id" => $this->national_id,
-            "country_id" => $this->country_id,
-            "country" => $this->country->countryTranslate->translates[app()->getLocale()] ?? null,
-            "AdminRoleEnum" => [
-                'key' => $this->AdminRoleEnum->value,
-                'translation' => $this->AdminRoleEnum->title()
-            ],
-            "AdminStatusEnum" => [
-                'key' => $this->AdminStatusEnum->value,
-                'translation' => $this->AdminStatusEnum->title()
-            ],
-            "GenderEnum" => [
-                'key' => $this->GenderEnum->value,
-                'translation' => $this->GenderEnum->title()
-            ],
+            "country" => $this->country ?? null,
+            "AdminRoleEnum" => new TranslationResource($this->AdminRoleEnum, true),
+            "AdminStatusEnum" => new TranslationResource($this->AdminStatusEnum, true),
+            "GenderEnum" => new TranslationResource($this->GenderEnum, true),
             "block_reason" => $this->block_reason,
             "online" => $this->online,
             "image" => $this->image ? asset('uploads/' . $this->image) : null,
             "address" => $this->address,
             "email_verified_at" => $this->email_verified_at,
-            "created_by" => $this->createdBy->name ?? null,
-            "created_at" => $this->created_at,
-            "updated_by" => $this->updatedBy->name ?? null,
-            "updated_at" => $this->updated_at,
+            "created_by" => new AuthorResource($this->createdBy),
+            "updated_by" => $this->updated_by ? new AuthorResource($this->updatedBy) : null,
+            "created_at" => new DateTimeResource($this->created_at),
+            "updated_at" => new DateTimeResource($this->updated_at),
         ];
     }
 }

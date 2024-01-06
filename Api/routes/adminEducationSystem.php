@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\EducationSystem\EducationStage\EducationStageController;
+use App\Http\Controllers\Admin\EducationSystem\EducationYear\EducationYearController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -21,6 +22,13 @@ Route::middleware('apiAuth:admin')->group(function (){
         Route::get('education-stage', 'read');
         Route::post('education-stage', 'create');
         Route::put('education-stage', 'update');
+    });
+
+    //Education year
+    Route::controller(EducationYearController::class)->group(function (){
+        Route::get('education-year', 'read');
+        Route::post('education-year', 'create');
+        Route::put('education-year', 'update');
     });
 
 });

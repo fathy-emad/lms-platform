@@ -26,4 +26,13 @@ return [
         "Preparatory" => "Preparatory",
         "Secondary" => "Secondary"
     ],
+
+    "EducationYearEnum" => [
+        "One" => "First grade",
+        "Two" => "Second grade",
+        "Three" => "Third grade",
+        "Four" => "Fourth grade",
+        "Five" => "Fifth grade",
+        "six" => "Sixth grade",
+    ],
 ];

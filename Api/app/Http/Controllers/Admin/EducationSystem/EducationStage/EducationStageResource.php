@@ -2,6 +2,10 @@
 
 namespace App\Http\Controllers\Admin\EducationSystem\EducationStage;
 
+use App\Http\Controllers\Admin\Settings\Country\CountryResource;
+use App\Http\Resources\AuthorResource;
+use App\Http\Resources\DateTimeResource;
+use App\Http\Resources\TranslationResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -17,20 +21,13 @@ class EducationStageResource extends JsonResource
     {
         return [
             "id" => $this->id,
-            "country_id" => $this->country_id,
-            "country" => $this->country->countryTranslate->translates[app()->getLocale()],
-            "EducationStageEnum" => [
-                'key' => $this->EducationStageEnum->value,
-                'translation' => $this->EducationStageEnum->title()
-            ],
-            "ActiveEnum" => [
-                'key' => $this->ActiveEnum->value,
-                'translation' => $this->ActiveEnum->title()
-            ],
-            "created_by" => $this->createdBy->name ?? null,
-            "created_at" => $this->created_at,
-            "updated_by" => $this->updatedBy->name ?? null,
-            "updated_at" => $this->updated_at,
+            "country" => new CountryResource($this->country),
+            "EducationStageEnum" => new TranslationResource($this->EducationStageEnum, true),
+            "ActiveEnum" => new TranslationResource($this->ActiveEnum, true),
+            "created_by" => new AuthorResource($this->createdBy),
+            "updated_by" => $this->updated_by ? new AuthorResource($this->updatedBy) : null,
+            "created_at" => new DateTimeResource($this->created_at),
+            "updated_at" => new DateTimeResource($this->updated_at),
         ];
     }
 }

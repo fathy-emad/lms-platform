@@ -1,14 +1,15 @@
 <?php
 
-namespace App\Http\Controllers\Admin\Settings\Country;
+namespace App\Http\Controllers\Admin\EducationSystem\EducationYear;
 
+use App\Http\Controllers\Admin\EducationSystem\EducationStage\EducationStageResource;
 use App\Http\Resources\AuthorResource;
 use App\Http\Resources\DateTimeResource;
 use App\Http\Resources\TranslationResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class CountryResource extends JsonResource
+class EducationYearResource extends JsonResource
 {
 
     /**
@@ -20,18 +21,13 @@ class CountryResource extends JsonResource
     {
         return [
             "id" => $this->id,
-            "symbol" => $this->symbol,
-            "country" => new TranslationResource($this->countryTranslate),
-            "phone_prefix" => $this->phone_prefix,
-            "timezone" => $this->timezone,
-            "currency" => new TranslationResource($this->currencyTranslate),
-            "currency_symbol" => $this->currency_symbol,
-            "flag" => $this->flag,
+            "stage" => new EducationStageResource($this->stage),
+            "EducationYearEnum" => new TranslationResource($this->EducationYearEnum, true),
             "ActiveEnum" => new TranslationResource($this->ActiveEnum, true),
             "created_by" => new AuthorResource($this->createdBy),
             "updated_by" => $this->updated_by ? new AuthorResource($this->updatedBy) : null,
             "created_at" => new DateTimeResource($this->created_at),
-            "updated_at" => new DateTimeResource($this->updated_at),
+            "updated_at" => new DateTimeResource($this->updated_at)
         ];
     }
 }
