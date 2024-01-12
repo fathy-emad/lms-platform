@@ -3,35 +3,23 @@
 namespace App\Models;
 
 use App\Enums\ActiveEnum;
+use App\Enums\SubjectEnum;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasOne;
 
-class Country extends Model
+class Subject extends Model
 {
-    use HasFactory;
-
     protected $guarded = [];
-
     protected $casts = [
-        "flag" => "array",
+        "SubjectEnum" => SubjectEnum::class,
+        "terms" => "boolean",
         "ActiveEnum" => ActiveEnum::class
     ];
 
-    public function setSymbolAttribute($value): void
+    public function year(): BelongsTo
     {
-        $this->attributes['symbol'] = strtoupper($value);
-    }
-
-    public function countryTranslate(): BelongsTo
-    {
-        return $this->belongsTo(Translate::class, 'country');
-    }
-
-    public function currencyTranslate(): BelongsTo
-    {
-        return $this->belongsTo(Translate::class, 'currency');
+        return $this->belongsTo(Year::class, 'year_id');
     }
 
     public function createdBy(): BelongsTo

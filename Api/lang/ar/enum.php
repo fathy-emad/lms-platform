@@ -21,18 +21,24 @@ return [
         "Female" => "أنثى"
     ],
 
-    "EducationStageEnum" => [
+    "StageEnum" => [
         "Primary" => "إبتدائى",
         "Preparatory" => "إعدادى",
         "Secondary" => "ثانوى"
     ],
 
-    "EducationYearEnum" => [
+    "YearEnum" => [
         "One" => "الصف الأول",
         "Two" => "الصف الثانى",
         "Three" => "الصف الثالث",
         "Four" => "الصف الرابع",
         "Five" => "الصف الخامس",
         "six" => "الصف السادس",
+    ],
+
+    "SubjectEnum" => [
+        "Arabic" => "اللغه العربية",
+        "English" => "اللغة الإنجليزية",
+        "French" => "اللغه الفرنسية",
     ],
 ];

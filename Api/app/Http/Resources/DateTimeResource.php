@@ -15,7 +15,7 @@ class DateTimeResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        $timezone = auth('admin')->user()->country->timezone;
+        $timezone = auth('admin')->user()->country->timezone ?? "Africa/Cairo";
         return [
             "timestamp" => $this->resource,
             "dateTime" => Carbon::parse($this->resource)->timezone($timezone)->format('d/n/Y g:i A'),

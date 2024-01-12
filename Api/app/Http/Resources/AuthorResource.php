@@ -18,7 +18,7 @@ class AuthorResource extends JsonResource
             "id" => $this->id,
             "name" => $this->name,
             "AdminRoleEnum" => new TranslationResource($this->AdminRoleEnum, true),
-            "flag" => $this->flag
+            "image" => $this->image
         ];
     }
 }

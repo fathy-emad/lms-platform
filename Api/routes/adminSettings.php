@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\Settings\Country\CountryController;
+use App\Http\Controllers\Admin\Settings\Enumeration\EnumerationController;
 use App\Http\Controllers\Admin\Settings\Language\LanguageController;
 use Illuminate\Support\Facades\Route;
 
@@ -29,5 +30,13 @@ Route::middleware('apiAuth:admin')->group(function (){
         Route::get('country', 'read');
         Route::post('country', 'create');
         Route::put('country', 'update');
+    });
+
+
+    //Enumeration
+    Route::controller(EnumerationController::class)->group(function (){
+        Route::get('enumeration', 'read');
+        Route::post('enumeration', 'create');
+        Route::put('enumeration', 'update');
     });
 });

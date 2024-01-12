@@ -11,16 +11,10 @@ class CreateRequest extends ValidateRequest
     {
         return [
             "symbol" => "required|string|unique:countries",
-            "country" => "required|array|min:2",
-            "country.*" => "nullable|string",
-            "country.ar" => "required|string|regex:/^[\x{0600}-\x{06FF}\s]+$/u",
-            "country.en" => "required|string|regex:/^[a-zA-Z0-9 .,?!\'’\"-]+$/u",
+            "country" => "required|string|min:2",
             "phone_prefix" => "required|string",
             "timezone" => "required|string",
-            "currency" => "required|array|min:2",
-            "currency.*" => "nullable|string",
-            "currency.ar" => "required|string|regex:/^[\x{0600}-\x{06FF}\s]+$/u",
-            "currency.en" => "required|string|regex:/^[a-zA-Z0-9 .,?!\'’\"-]+$/u",
+            "currency" => "required|string|min:2",
             "currency_symbol" => "required|string",
             "flag" => "required|file|mimes:svg,xml",
             "ActiveEnum" => "required|in:".implode(",", ActiveEnum::values()),

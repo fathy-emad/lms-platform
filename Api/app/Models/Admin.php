@@ -34,7 +34,12 @@ class Admin extends Authenticatable implements JWTSubject
 
     public function getPhoneAttribute($value): string
     {
-        return $this->country->phone_prefix . $value;
+        if ($this->country)
+        {
+            return $this->country->phone_prefix . $value;
+        }
+
+        return $value;
     }
 
     public function country(): BelongsTo

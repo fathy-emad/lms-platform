@@ -10,11 +10,8 @@ class CreateRequest extends ValidateRequest
     public function rules(): array
     {
         return [
-            "locale" => "required|string|unique:languages",
-            "language" => "required|array|min:2",
-            "language.*" => "nullable|string",
-            "language.ar" => "required|string|regex:/^[\x{0600}-\x{06FF}\s]+$/u",
-            "language.en" => "required|string|regex:/^[a-zA-Z0-9 .,?!\'’\"-]+$/u",
+            "locale" => "required|string|unique:languages,locale",
+            "language" => "required|string|min:2",
             "flag" => "required|file|mimes:svg,xml",
             "ActiveEnum" => "required|in:".implode(",", ActiveEnum::values()),
         ];

@@ -3,35 +3,22 @@
 namespace App\Models;
 
 use App\Enums\ActiveEnum;
+use App\Enums\YearEnum;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasOne;
 
-class Country extends Model
+class Year extends Model
 {
-    use HasFactory;
-
     protected $guarded = [];
-
     protected $casts = [
-        "flag" => "array",
+        "YearEnum" => YearEnum::class,
         "ActiveEnum" => ActiveEnum::class
     ];
 
-    public function setSymbolAttribute($value): void
+    public function stage(): BelongsTo
     {
-        $this->attributes['symbol'] = strtoupper($value);
-    }
-
-    public function countryTranslate(): BelongsTo
-    {
-        return $this->belongsTo(Translate::class, 'country');
-    }
-
-    public function currencyTranslate(): BelongsTo
-    {
-        return $this->belongsTo(Translate::class, 'currency');
+        return $this->belongsTo(Stage::class, 'stage_id');
     }
 
     public function createdBy(): BelongsTo

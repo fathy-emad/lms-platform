@@ -21,18 +21,25 @@ return [
         "Female" => "Female"
     ],
 
-    "EducationStageEnum" => [
+    "StageEnum" => [
         "Primary" => "Primary",
         "Preparatory" => "Preparatory",
         "Secondary" => "Secondary"
     ],
 
-    "EducationYearEnum" => [
+    "YearEnum" => [
         "One" => "First grade",
         "Two" => "Second grade",
         "Three" => "Third grade",
         "Four" => "Fourth grade",
         "Five" => "Fifth grade",
         "six" => "Sixth grade",
+    ],
+
+
+    "SubjectEnum" => [
+        "Arabic" => "Arabic",
+        "English" => "English",
+        "French" => "French",
     ],
 ];
