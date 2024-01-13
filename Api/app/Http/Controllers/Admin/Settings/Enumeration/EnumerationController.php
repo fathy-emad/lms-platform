@@ -5,14 +5,12 @@ namespace App\Http\Controllers\Admin\Settings\Enumeration;
 use App\Http\Controllers\Admin\Settings\Enumeration\Requests\{CreateRequest, UpdateRequest};
 use App\Http\Controllers\Controller;
 use App\Http\Repositories\EnumerationRepository;
-use App\Interfaces\ApiResponseInterface;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class EnumerationController extends Controller
 {
     public function __construct(
-        protected ApiResponseInterface $apiResponse,
         protected EnumerationRepository $repository,
         protected EnumerationRequestHandler $requestHandler,
         protected string $resource = EnumerationResource::class,

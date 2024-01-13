@@ -12,14 +12,17 @@ class Subject extends Model
 {
     protected $guarded = [];
     protected $casts = [
-        "SubjectEnum" => SubjectEnum::class,
-        "terms" => "boolean",
         "ActiveEnum" => ActiveEnum::class
     ];
 
     public function year(): BelongsTo
     {
         return $this->belongsTo(Year::class, 'year_id');
+    }
+
+    public function subjectEnum(): BelongsTo
+    {
+        return $this->belongsTo(Enumeration::class, 'SubjectEnumTable');
     }
 
     public function createdBy(): BelongsTo

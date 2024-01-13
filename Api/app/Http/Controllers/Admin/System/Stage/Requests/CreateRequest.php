@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Admin\System\Stage\Requests;
 
 use App\Concretes\ValidateRequest;
 use App\Enums\ActiveEnum;
-use App\Enums\StageEnum;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\Enum;
 
@@ -15,13 +14,13 @@ class CreateRequest extends ValidateRequest
         $request = $this;
         return [
             "country_id" => "required|integer|exists:countries,id",
-            "StageEnum" => [
+            "StageEnumTable" => [
                 "required",
-                "string",
-                new Enum(StageEnum::class),
+                "integer",
+                "exists:enumerations,id",
                 Rule::unique('stages')->where(function ($query) use ($request) {
                     return $query->where([
-                        'StageEnum' => $request->StageEnum,
+                        'StageEnumTable' => $request->StageEnumTable,
                         'country_id' => $request->country_id
                     ]);
                 })

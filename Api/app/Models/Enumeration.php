@@ -11,6 +11,12 @@ class Enumeration extends Model
     use HasFactory;
     protected $guarded = [];
 
+
+    public function setKeyAttribute($value): void
+    {
+        $this->attributes['key'] = strtolower(str_replace(" ", "_", trim($value)));
+    }
+
     public function valueTranslate(): BelongsTo
     {
         return $this->belongsTo(Translate::class, 'value');

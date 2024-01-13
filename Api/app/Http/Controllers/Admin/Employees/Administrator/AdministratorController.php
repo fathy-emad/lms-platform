@@ -6,14 +6,12 @@ use App\Http\Controllers\Admin\Employees\Administrator\Requests\{CreateRequest};
 use App\Http\Controllers\Admin\Employees\Administrator\Requests\UpdateRequest;
 use App\Http\Controllers\Controller;
 use App\Http\Repositories\AdministratorRepository;
-use App\Interfaces\ApiResponseInterface;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class AdministratorController extends Controller
 {
     public function __construct(
-        protected ApiResponseInterface $apiResponse,
         protected AdministratorRepository $repository,
         protected AdministratorRequestHandler $requestHandler,
         protected string $resource = AdministratorResource::class,

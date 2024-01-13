@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Admin\System\Stage;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
-use App\Interfaces\ApiResponseInterface;
 use App\Http\Repositories\StageRepository;
 use App\Http\Controllers\Admin\System\Stage\Requests\{
     CreateRequest,
@@ -15,7 +14,6 @@ use App\Http\Controllers\Admin\System\Stage\Requests\{
 class StageController extends Controller
 {
     public function __construct(
-        protected ApiResponseInterface $apiResponse,
         protected StageRepository $repository,
         protected StageRequestHandler $requestHandler,
         protected string $resource = StageResource::class,

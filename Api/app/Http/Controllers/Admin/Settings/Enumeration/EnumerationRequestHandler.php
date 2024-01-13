@@ -33,6 +33,8 @@ class EnumerationRequestHandler extends RequestHandler
 
     public function setPriority(): void
     {
+        $this->data["key"] = strtolower(str_replace(" ", "_", trim($this->data["key"])));
+
         $enumerationModel = Enumeration::where('key', $this->data["key"])->orderBy('priority', 'desc')->first();
 
         if ($enumerationModel){

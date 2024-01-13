@@ -6,14 +6,12 @@ use App\Http\Controllers\Admin\Settings\Country\Requests\{UpdateRequest};
 use App\Http\Controllers\Admin\Settings\Country\Requests\CreateRequest;
 use App\Http\Controllers\Controller;
 use App\Http\Repositories\CountryRepository;
-use App\Interfaces\ApiResponseInterface;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class CountryController extends Controller
 {
     public function __construct(
-        protected ApiResponseInterface $apiResponse,
         protected CountryRepository $repository,
         protected CountryRequestHandler $requestHandler,
         protected string $resource = CountryResource::class,

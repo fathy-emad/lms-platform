@@ -4,7 +4,6 @@ namespace App\Concretes;
 
 use App\Interfaces\ApiResponseInterface;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Resources\Json\JsonResource;
 
 class ApiResponse implements ApiResponseInterface
 {

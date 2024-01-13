@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Admin\System\Year;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
-use App\Interfaces\ApiResponseInterface;
 use App\Http\Repositories\YearRepository;
 use App\Http\Controllers\Admin\System\Year\Requests\{
     CreateRequest,
@@ -15,7 +14,6 @@ use App\Http\Controllers\Admin\System\Year\Requests\{
 class YearController extends Controller
 {
     public function __construct(
-        protected ApiResponseInterface $apiResponse,
         protected YearRepository $repository,
         protected YearRequestHandler $requestHandler,
         protected string $resource = YearResource::class,

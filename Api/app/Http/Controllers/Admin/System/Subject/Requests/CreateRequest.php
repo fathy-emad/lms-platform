@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Admin\System\Subject\Requests;
 
 use App\Concretes\ValidateRequest;
 use App\Enums\ActiveEnum;
-use App\Enums\SubjectEnum;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\Enum;
 
@@ -15,18 +14,17 @@ class CreateRequest extends ValidateRequest
         $request = $this;
         return [
             "year_id" => "required|integer|exists:years,id",
-            "SubjectEnum" => [
+            "SubjectEnumTable" => [
                 "required",
-                "string",
-                new Enum(SubjectEnum::class),
+                "integer",
+                "exists:enumerations,id",
                 Rule::unique('subjects')->where(function ($query) use ($request) {
                     return $query->where([
-                        'SubjectEnum' => $request->SubjectEnum,
+                        'SubjectEnumTable' => $request->SubjectEnumTable,
                         'year_id' => $request->year_id
                     ]);
                 })
             ],
-            "terms" => "required|boolean",
             "ActiveEnum" => ["required", "string", new Enum(ActiveEnum::class)],
         ];
     }

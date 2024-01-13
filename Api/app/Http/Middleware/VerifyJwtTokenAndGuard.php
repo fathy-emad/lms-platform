@@ -2,8 +2,8 @@
 
 namespace App\Http\Middleware;
 
-use App\Interfaces\ApiResponseInterface;
 use Closure;
+use ApiResponse;
 use Illuminate\Http\Request;
 use Tymon\JWTAuth\Exceptions\TokenExpiredException;
 use Tymon\JWTAuth\Exceptions\TokenInvalidException;
@@ -14,8 +14,6 @@ use Symfony\Component\HttpFoundation\Response;
 
 class VerifyJwtTokenAndGuard
 {
-    public function __construct(protected ApiResponseInterface $apiResponse){}
-
     /**
      * Handle an incoming request.
      *
@@ -32,25 +30,25 @@ class VerifyJwtTokenAndGuard
             // Check if the token is present
             $user = JWTAuth::parseToken()->authenticate();
             if (!$user) {
-                return $this->apiResponse->sendError(["you not Authenticated please login"], "Authentication error",null);
+                return ApiResponse::sendError(["you not Authenticated please login"], "Authentication error",null);
             }
 
             // Check if guard is valid
             if (!Auth::check()) {
-                return $this->apiResponse->sendError(["you not Authorized or allow to be here"], "Authorization error",null);
+                return ApiResponse::sendError(["you not Authorized or allow to be here"], "Authorization error",null);
             }
 
         } catch (JWTException $e) {
 
             // Handle different types of JWT exceptions
             if ($e instanceof TokenExpiredException) {
-                return $this->apiResponse->sendError([$e->getMessage()], "Token expired", null);
+                return ApiResponse::sendError([$e->getMessage()], "Token expired", null);
 
             } elseif ($e instanceof TokenInvalidException) {
-                return $this->apiResponse->sendError([$e->getMessage()], "Token is invalid", null);
+                return ApiResponse::sendError([$e->getMessage()], "Token is invalid", null);
 
             } else {
-                return $this->apiResponse->sendError(["Authorization Token not found please login"], "Token not found", null);
+                return ApiResponse::sendError(["Authorization Token not found please login"], "Token not found", null);
             }
         }
 

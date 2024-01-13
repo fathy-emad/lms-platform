@@ -12,6 +12,11 @@ class Translate extends Model
 
     protected $guarded = [];
 
+    public function setKeyAttribute($value): void
+    {
+        $this->attributes['key'] = strtolower(str_replace(" ", "_", trim($value)));
+    }
+
     protected $casts = [
         "translates" => "array",
     ];

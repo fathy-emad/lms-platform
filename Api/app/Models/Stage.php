@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use App\Enums\ActiveEnum;
-use App\Enums\StageEnum;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 //use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -12,9 +11,13 @@ class Stage extends Model
 {
     protected $guarded = [];
     protected $casts = [
-        "StageEnum" => StageEnum::class,
         "ActiveEnum" => ActiveEnum::class
     ];
+
+    public function stageEnum(): BelongsTo
+    {
+        return $this->belongsTo(Enumeration::class, 'StageEnumTable');
+    }
 
     public function country(): BelongsTo
     {

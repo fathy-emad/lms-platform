@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Admin\System\Year\Requests;
 
 use App\Concretes\ValidateRequest;
 use App\Enums\ActiveEnum;
-use App\Enums\YearEnum;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\Enum;
 
@@ -15,13 +14,13 @@ class CreateRequest extends ValidateRequest
         $request = $this;
         return [
             "stage_id" => "required|integer|exists:stages,id",
-            "YearEnum" => [
+            "YearEnumTable" => [
                 "required",
-                "string",
-                new Enum(YearEnum::class),
+                "integer",
+                "exists:enumerations,id",
                 Rule::unique('years')->where(function ($query) use ($request) {
                     return $query->where([
-                        'YearEnum' => $request->YearEnum,
+                        'YearEnumTable' => $request->YearEnumTable,
                         'stage_id' => $request->stage_id
                     ]);
                 })

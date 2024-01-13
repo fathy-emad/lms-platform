@@ -6,14 +6,12 @@ use App\Http\Controllers\Admin\Settings\Language\Requests\{CreateRequest};
 use App\Http\Controllers\Admin\Settings\Language\Requests\UpdateRequest;
 use App\Http\Controllers\Controller;
 use App\Http\Repositories\LanguageRepository;
-use App\Interfaces\ApiResponseInterface;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class LanguageController extends Controller
 {
     public function __construct(
-        protected ApiResponseInterface $apiResponse,
         protected LanguageRepository $repository,
         protected LanguageRequestHandler $requestHandler,
         protected string $resource = LanguageResource::class,

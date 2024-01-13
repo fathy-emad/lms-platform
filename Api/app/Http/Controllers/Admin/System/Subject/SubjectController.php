@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Admin\System\Subject;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
-use App\Interfaces\ApiResponseInterface;
 use App\Http\Repositories\SubjectRepository;
 use App\Http\Controllers\Admin\System\Subject\Requests\{
     CreateRequest,
@@ -15,7 +14,6 @@ use App\Http\Controllers\Admin\System\Subject\Requests\{
 class SubjectController extends Controller
 {
     public function __construct(
-        protected ApiResponseInterface $apiResponse,
         protected SubjectRepository $repository,
         protected SubjectRequestHandler $requestHandler,
         protected string $resource = SubjectResource::class,
