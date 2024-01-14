@@ -2,14 +2,13 @@
 
 namespace App\Http\Controllers\Admin\Employees\Administrator;
 
+use UploadFile;
 use App\Concretes\RequestHandler;
-use App\Traits\UploadFileTrait;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Hash;
 
 class AdministratorRequestHandler extends RequestHandler
 {
-    use UploadFileTrait;
     public function handleCreate(): static
     {
         $this->uploadImage();
@@ -50,7 +49,7 @@ class AdministratorRequestHandler extends RequestHandler
     {
         if (isset($this->data["image"]))
         {
-            $this->data["image"] = $this->upload('public', $this->data["image"], 'admins/images');
+            $this->data["image"] = UploadFile::upload('public', $this->data["image"], 'admins/images');
         }
     }
 }

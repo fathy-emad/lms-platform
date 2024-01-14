@@ -30,7 +30,7 @@ class AdministratorResource extends JsonResource
             "GenderEnum" => new TranslationResource($this->GenderEnum, true),
             "block_reason" => $this->block_reason,
             "online" => $this->online,
-            "image" => $this->image ? asset('uploads/' . $this->image) : null,
+            "image" => $this->image,
             "address" => $this->address,
             "email_verified_at" => $this->email_verified_at,
             "created_by" => new AuthorResource($this->createdBy),

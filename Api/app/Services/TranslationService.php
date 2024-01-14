@@ -1,13 +1,12 @@
 <?php
 
-namespace App\Traits;
+namespace App\Services;
 
 use App\Models\Language;
 use App\Models\Translate;
-use Illuminate\Support\Arr;
 use Stichoza\GoogleTranslate\GoogleTranslate;
 
-trait TranslationTrait
+class TranslationService
 {
     public function translate(string $filed, string $table, array|string $data, ?int $id): int
     {

@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Traits;
+namespace App\Services;
 
 use Illuminate\Support\Facades\Storage;
 
-trait UploadFileTrait
+class UploadFileService
 {
     public function upload($driver, $file, $path): array
     {

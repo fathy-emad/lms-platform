@@ -4,13 +4,11 @@ namespace App\Http\Controllers\Admin\Settings\Enumeration;
 
 use App\Concretes\RequestHandler;
 use App\Models\Enumeration;
-use App\Traits\TranslationTrait;
-use App\Traits\UploadFileTrait;
+use Translation;
+use UploadFile;
 
 class EnumerationRequestHandler extends RequestHandler
 {
-    use TranslationTrait, UploadFileTrait;
-
     public function handleCreate(): static
     {
         $this->translateValue(null);
@@ -28,7 +26,7 @@ class EnumerationRequestHandler extends RequestHandler
 
     public function translateValue(?int $id): void
     {
-        $this->data["value"] = $this->translate('value', 'enumerations', $this->data["value"], $id);
+        $this->data["value"] = Translation::translate('value', 'enumerations', $this->data["value"], $id);
     }
 
     public function setPriority(): void

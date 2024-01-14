@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Concretes;
+namespace App\Services;
 
 use App\Interfaces\ApiResponseInterface;
 use Illuminate\Http\JsonResponse;

@@ -167,8 +167,7 @@ return [
         App\Providers\AuthServiceProvider::class,
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
-        App\Providers\RouteServiceProvider::class,
-        App\Providers\ApiResponseServiceProvider::class
+        App\Providers\RouteServiceProvider::class
 
     ])->toArray(),
 
@@ -185,6 +184,8 @@ return [
 
     'aliases' => Facade::defaultAliases()->merge([
         "ApiResponse" => App\Facades\ApiResponseFacade::class,
+        "Translation" => App\Facades\TranslationFacade::class,
+        "UploadFile" => App\Facades\UploadFileFacade::class,
         // 'Example' => App\Facades\Example::class,
     ])->toArray(),
 

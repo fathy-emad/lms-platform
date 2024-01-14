@@ -12,25 +12,27 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('subjects', function (Blueprint $table) {
+        Schema::create('curricula', function (Blueprint $table) {
             $table->id();
-
-            $table->unsignedBigInteger('year_id');
-            $table->unsignedBigInteger('SubjectEnumTable');
-            $table->json('icon')->nullable();
+            $table->unsignedBigInteger("subject_id");
+            $table->unsignedBigInteger("curriculum");
+            $table->json("TermsEnumTable"); //ex:first terms or second term or both
+            $table->json("TypesEnumTable"); //ex:general, languages, azhar
             $table->enum('ActiveEnum', ActiveEnum::values())->default(ActiveEnum::Active->value);
+            $table->integer('priority');
+
             $table->unsignedBigInteger('created_by');
             $table->unsignedBigInteger('updated_by')->nullable();
 
-            $table->foreign("year_id")
+            $table->foreign("subject_id")
                 ->references("id")
-                ->on("years")
+                ->on("subjects")
                 ->restrictOnDelete()
                 ->cascadeOnUpdate();
 
-            $table->foreign("SubjectEnumTable")
+            $table->foreign("curriculum")
                 ->references("id")
-                ->on("enumerations")
+                ->on("translates")
                 ->restrictOnDelete()
                 ->cascadeOnUpdate();
 
@@ -46,6 +48,7 @@ return new class extends Migration
                 ->restrictOnDelete()
                 ->cascadeOnUpdate();
 
+
             $table->timestamps();
         });
     }
@@ -55,6 +58,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('subjects');
+        Schema::dropIfExists('curricula');
     }
 };

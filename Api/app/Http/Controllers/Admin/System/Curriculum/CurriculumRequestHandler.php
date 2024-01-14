@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Controllers\Admin\System\Year;
+namespace App\Http\Controllers\Admin\System\Curriculum;
 
 use App\Concretes\RequestHandler;
 
-class YearRequestHandler extends RequestHandler
+class CurriculumRequestHandler extends RequestHandler
 {
     public function handleCreate(): static
     {

@@ -8,7 +8,6 @@ use App\Models\Admin;
 
 class AuthRequestHandler extends RequestHandler
 {
-
     public function handleLogin(): static
     {
         $this->attempt();

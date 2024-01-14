@@ -3,13 +3,11 @@
 namespace App\Http\Controllers\Admin\Settings\Language;
 
 use App\Concretes\RequestHandler;
-use App\Traits\TranslationTrait;
-use App\Traits\UploadFileTrait;
+use Translation;
+use UploadFile;
 
 class LanguageRequestHandler extends RequestHandler
 {
-    use TranslationTrait, UploadFileTrait;
-
     public function handleCreate(): static
     {
         $this->translateLanguage(null);
@@ -27,14 +25,14 @@ class LanguageRequestHandler extends RequestHandler
 
     public function translateLanguage(?int $id): void
     {
-        $this->data["language"] = $this->translate('language', 'languages', $this->data["language"], $id);
+        $this->data["language"] = Translation::translate('language', 'languages', $this->data["language"], $id);
     }
 
     public function uploadFlag(): void
     {
         if (isset($this->data["flag"]))
         {
-            $this->data["flag"] = $this->upload('public', $this->data["flag"], 'languages/flags');
+            $this->data["flag"] = UploadFile::upload('public', $this->data["flag"], 'languages/flags');
         }
     }
 }
