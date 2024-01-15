@@ -127,6 +127,7 @@
       <excludeFolder url="file://$MODULE_DIR$/Api/vendor/staudenmeir/eloquent-has-many-deep-contracts" />
       <excludeFolder url="file://$MODULE_DIR$/Api/vendor/staudenmeir/eloquent-json-relations" />
       <excludeFolder url="file://$MODULE_DIR$/Api/vendor/stichoza/google-translate-php" />
+      <excludeFolder url="file://$MODULE_DIR$/Api/vendor/laravel/telescope" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
