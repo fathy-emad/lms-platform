@@ -1,10 +1,10 @@
 <?php
 
+use App\Http\Controllers\Admin\System\Curriculum\CurriculumController;
 use App\Http\Controllers\Admin\System\Stage\StageController;
 use App\Http\Controllers\Admin\System\Subject\SubjectController;
 use App\Http\Controllers\Admin\System\Year\YearController;
 use Illuminate\Support\Facades\Route;
-use Stichoza\GoogleTranslate\GoogleTranslate;
 
 /*
 |--------------------------------------------------------------------------
@@ -38,5 +38,12 @@ Route::middleware('apiAuth:admin')->group(function (){
         Route::get('subject', 'read');
         Route::post('subject', 'create');
         Route::put('subject', 'update');
+    });
+
+    //Curriculum
+    Route::controller(CurriculumController::class)->group(function (){
+        Route::get('curriculum', 'read');
+        Route::post('curriculum', 'create');
+        Route::put('curriculum', 'update');
     });
 });

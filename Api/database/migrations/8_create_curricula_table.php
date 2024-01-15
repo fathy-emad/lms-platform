@@ -15,7 +15,7 @@ return new class extends Migration
         Schema::create('curricula', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger("subject_id");
-            $table->unsignedBigInteger("curriculum");
+            $table->unsignedBigInteger("CurriculumEnumTable");
             $table->json("TermsEnumTable"); //ex:first terms or second term or both
             $table->json("TypesEnumTable"); //ex:general, languages, azhar
             $table->enum('ActiveEnum', ActiveEnum::values())->default(ActiveEnum::Active->value);
@@ -30,9 +30,9 @@ return new class extends Migration
                 ->restrictOnDelete()
                 ->cascadeOnUpdate();
 
-            $table->foreign("curriculum")
+            $table->foreign("CurriculumEnumTable")
                 ->references("id")
-                ->on("translates")
+                ->on("enumerations")
                 ->restrictOnDelete()
                 ->cascadeOnUpdate();
 

@@ -15,9 +15,27 @@ class UpdateRequest extends ValidateRequest
         return [
             "id" => "required|integer|exists:curricula,id",
             "subject_id" => "required|integer|exists:subjects,id",
-            "curriculum" => "required|array|min:1",
-            "curriculum.ar" => "required|string|regex:/^[\x{0600}-\x{06FF}\s]+$/u",
-            "curriculum.*" => "nullable|string",
+            "CurriculumEnumTable" => [
+                "required",
+                "integer",
+                Rule::unique('curricula')->where(function ($query) {
+                    $query->where('CurriculumEnumTable', $this->CurriculumEnumTable)
+                        ->where('subject_id', $this->subject_id);
+
+                    if (!empty($this->TermsEnumTable) && is_array($this->TermsEnumTable)) {
+                        foreach ($this->TermsEnumTable as $term) {
+                            $query->whereJsonContains('TermsEnumTable', (string) $term);
+                        }
+                    }
+                    if (!empty($this->TypesEnumTable) && is_array($this->TypesEnumTable)) {
+                        foreach ($this->TypesEnumTable as $type) {
+                            $query->whereJsonContains('TypesEnumTable', (string) $type);
+                        }
+                    }
+
+                    return $query;
+                })->ignore($this->id),
+            ],
             "TermsEnumTable" => "required|array",
             "TermsEnumTable.*" =>
                 Rule::exists('enumerations', 'id')->where(function ($query) {

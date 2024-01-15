@@ -11,9 +11,30 @@ class CreateRequest extends ValidateRequest
 {
     public function rules(): array
     {
+
         return [
             "subject_id" => "required|integer|exists:subjects,id",
-            "curriculum" => "required|string|min:2",
+            "CurriculumEnumTable" => [
+                "required",
+                "integer",
+                Rule::unique('curricula')->where(function ($query) {
+                    $query->where('CurriculumEnumTable', $this->CurriculumEnumTable)
+                        ->where('subject_id', $this->subject_id);
+
+                    if (!empty($this->TermsEnumTable) && is_array($this->TermsEnumTable)) {
+                        foreach ($this->TermsEnumTable as $term) {
+                            $query->whereJsonContains('TermsEnumTable', (string) $term);
+                        }
+                    }
+                    if (!empty($this->TypesEnumTable) && is_array($this->TypesEnumTable)) {
+                        foreach ($this->TypesEnumTable as $type) {
+                            $query->whereJsonContains('TypesEnumTable', (string) $type);
+                        }
+                    }
+
+                    return $query;
+                }),
+            ],
             "TermsEnumTable" => "required|array",
             "TermsEnumTable.*" =>
                 Rule::exists('enumerations', 'id')->where(function ($query) {

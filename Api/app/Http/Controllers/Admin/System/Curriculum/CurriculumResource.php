@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Admin\System\Curriculum;
 
-use App\Http\Controllers\Admin\System\Stage\StageResource;
+use App\Http\Controllers\Admin\System\Subject\SubjectResource;
 use App\Http\Resources\AuthorResource;
 use App\Http\Resources\DateTimeResource;
 use App\Http\Resources\TranslationResource;
@@ -21,9 +21,11 @@ class CurriculumResource extends JsonResource
     {
         return [
             "id" => $this->id,
-            "stage" => new StageResource($this->stage),
-            "year" => new TranslationResource($this->yearEnum->valueTranslate),
-            "ActiveEnum" => new TranslationResource($this->ActiveEnum, true),
+            "subject" => new SubjectResource($this->subject),
+            "CurriculumEnumTable" => new TranslationResource($this->curriculumEnum->valueTranslate),
+            "TermsEnumTable" => $this->TermsEnum,
+            "TypesEnumTable" => $this->TypesEnum,
+            "ActiveEnum" =>  new TranslationResource($this->ActiveEnum, true),
             "created_by" => new AuthorResource($this->createdBy),
             "updated_by" => $this->updated_by ? new AuthorResource($this->updatedBy) : null,
             "created_at" => new DateTimeResource($this->created_at),

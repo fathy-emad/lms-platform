@@ -25,9 +25,9 @@ class Curriculum extends Model
         return $this->belongsTo(Subject::class, 'subject_id');
     }
 
-    public function curriculumTranslate(): BelongsTo
+    public function curriculumEnum(): BelongsTo
     {
-        return $this->belongsTo(Translate::class, 'curriculum');
+        return $this->belongsTo(Enumeration::class, 'CurriculumEnumTable');
     }
 
     public function termsEnums(): BelongsToJson
