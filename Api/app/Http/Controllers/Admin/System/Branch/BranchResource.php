@@ -1,0 +1,35 @@
+<?php
+
+namespace App\Http\Controllers\Admin\System\Branch;
+
+use App\Http\Controllers\Admin\System\Curriculum\CurriculumResource;
+use App\Http\Controllers\Admin\System\Stage\StageResource;
+use App\Http\Resources\AuthorResource;
+use App\Http\Resources\DateTimeResource;
+use App\Http\Resources\TranslationResource;
+use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\JsonResource;
+
+class BranchResource extends JsonResource
+{
+
+    /**
+     * Transform the resource into an array.
+     *
+     * @return array<string, mixed>
+     */
+    public function toArray(Request $request): array
+    {
+        return [
+            "id" => $this->id,
+            "curriculum" => new CurriculumResource($this->curriculum),
+            "branch" => new TranslationResource($this->branchEnum->valueTranslate),
+            "ActiveEnum" => new TranslationResource($this->ActiveEnum, true),
+            "priority" => $this->priority,
+            "created_by" => new AuthorResource($this->createdBy),
+            "updated_by" => $this->updated_by ? new AuthorResource($this->updatedBy) : null,
+            "created_at" => new DateTimeResource($this->created_at),
+            "updated_at" => new DateTimeResource($this->updated_at)
+        ];
+    }
+}

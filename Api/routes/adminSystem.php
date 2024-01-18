@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\System\Curriculum\CurriculumController;
 use App\Http\Controllers\Admin\System\Stage\StageController;
 use App\Http\Controllers\Admin\System\Subject\SubjectController;
+use App\Http\Controllers\Admin\System\Branch\BranchController;
 use App\Http\Controllers\Admin\System\Year\YearController;
 use Illuminate\Support\Facades\Route;
 
@@ -45,5 +46,12 @@ Route::middleware('apiAuth:admin')->group(function (){
         Route::get('curriculum', 'read');
         Route::post('curriculum', 'create');
         Route::put('curriculum', 'update');
+    });
+
+    //Branch
+    Route::controller(BranchController::class)->group(function (){
+        Route::get('branch', 'read');
+        Route::post('branch', 'create');
+        Route::put('branch', 'update');
     });
 });

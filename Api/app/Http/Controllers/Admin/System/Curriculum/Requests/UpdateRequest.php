@@ -18,6 +18,9 @@ class UpdateRequest extends ValidateRequest
             "CurriculumEnumTable" => [
                 "required",
                 "integer",
+                Rule::exists('enumerations', 'id')->where(function ($query) {
+                    return $query->where('key', 'education_curricula');
+                }),
                 Rule::unique('curricula')->where(function ($query) {
                     $query->where('CurriculumEnumTable', $this->CurriculumEnumTable)
                         ->where('subject_id', $this->subject_id);
