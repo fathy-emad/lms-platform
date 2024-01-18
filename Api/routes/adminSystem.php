@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\System\Stage\StageController;
 use App\Http\Controllers\Admin\System\Subject\SubjectController;
 use App\Http\Controllers\Admin\System\Branch\BranchController;
 use App\Http\Controllers\Admin\System\Year\YearController;
+use App\Http\Controllers\Admin\System\Chapter\ChapterController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -53,5 +54,12 @@ Route::middleware('apiAuth:admin')->group(function (){
         Route::get('branch', 'read');
         Route::post('branch', 'create');
         Route::put('branch', 'update');
+    });
+
+    //Branch
+    Route::controller(ChapterController::class)->group(function (){
+        Route::get('chapter', 'read');
+        Route::post('chapter', 'create');
+        Route::put('chapter', 'update');
     });
 });

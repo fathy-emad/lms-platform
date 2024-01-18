@@ -13,7 +13,7 @@ class UpdateRequest extends ValidateRequest
     {
         $request = $this;
         return [
-            "id" => "required|integer|exists:years,id",
+            "id" => "required|integer|exists:branches,id",
             "curriculum_id" => "required|integer|exists:curricula,id",
             "BranchEnumTable" => [
                 "required",

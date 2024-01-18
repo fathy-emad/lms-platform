@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin\System\Stage\Requests;
+namespace App\Http\Controllers\Admin\System\Chapter\Requests;
 
 use App\Concretes\ValidateRequest;
 use App\Enums\ActiveEnum;
@@ -13,18 +13,18 @@ class UpdateRequest extends ValidateRequest
     {
         $request = $this;
         return [
-            "id" => "required|exists:stages,id",
-            "country_id" => "required|integer|exists:countries,id",
-            "StageEnumTable" => [
+            "id" => "required|integer|exists:chapters,id",
+            "branch_id" => "required|integer|exists:branches,id",
+            "ChapterEnumTable" => [
                 "required",
                 "integer",
                 Rule::exists('enumerations', 'id')->where(function ($query) {
-                    return $query->where('key', 'education_stages');
+                    return $query->where('key', 'education_chapters');
                 }),
-                Rule::unique('stages')->where(function ($query) use ($request) {
+                Rule::unique('chapters')->where(function ($query) use ($request) {
                     return $query->where([
-                        'StageEnumTable' => $request->StageEnumTable,
-                        'country_id' => $request->country_id
+                        'ChapterEnumTable' => $request->ChapterEnumTable,
+                        'branch_id' => $request->branch_id
                     ]);
                 })->ignore($request->id)
             ],
