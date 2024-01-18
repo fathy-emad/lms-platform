@@ -1,11 +1,12 @@
 <?php
 
-use App\Http\Controllers\Admin\System\Curriculum\CurriculumController;
 use App\Http\Controllers\Admin\System\Stage\StageController;
-use App\Http\Controllers\Admin\System\Subject\SubjectController;
-use App\Http\Controllers\Admin\System\Branch\BranchController;
 use App\Http\Controllers\Admin\System\Year\YearController;
+use App\Http\Controllers\Admin\System\Subject\SubjectController;
+use App\Http\Controllers\Admin\System\Curriculum\CurriculumController;
+use App\Http\Controllers\Admin\System\Branch\BranchController;
 use App\Http\Controllers\Admin\System\Chapter\ChapterController;
+use App\Http\Controllers\Admin\System\Lesson\LessonController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -61,5 +62,12 @@ Route::middleware('apiAuth:admin')->group(function (){
         Route::get('chapter', 'read');
         Route::post('chapter', 'create');
         Route::put('chapter', 'update');
+    });
+
+    //Lesson
+    Route::controller(LessonController::class)->group(function (){
+        Route::get('lesson', 'read');
+        Route::post('lesson', 'create');
+        Route::put('lesson', 'update');
     });
 });
