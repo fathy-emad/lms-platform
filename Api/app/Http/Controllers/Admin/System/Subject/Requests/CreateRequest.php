@@ -17,7 +17,9 @@ class CreateRequest extends ValidateRequest
             "SubjectEnumTable" => [
                 "required",
                 "integer",
-                "exists:enumerations,id",
+                Rule::exists('enumerations', 'id')->where(function ($query) {
+                    return $query->where('key', 'education_subjects');
+                }),
                 Rule::unique('subjects')->where(function ($query) use ($request) {
                     return $query->where([
                         'SubjectEnumTable' => $request->SubjectEnumTable,

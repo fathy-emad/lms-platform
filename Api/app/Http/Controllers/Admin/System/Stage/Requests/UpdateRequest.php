@@ -18,7 +18,9 @@ class UpdateRequest extends ValidateRequest
             "StageEnumTable" => [
                 "required",
                 "integer",
-                "exists:enumerations,id",
+                Rule::exists('enumerations', 'id')->where(function ($query) {
+                    return $query->where('key', 'education_stages');
+                }),
                 Rule::unique('stages')->where(function ($query) use ($request) {
                     return $query->where([
                         'StageEnumTable' => $request->StageEnumTable,

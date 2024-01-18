@@ -38,12 +38,12 @@ class CreateRequest extends ValidateRequest
             "TermsEnumTable" => "required|array",
             "TermsEnumTable.*" =>
                 Rule::exists('enumerations', 'id')->where(function ($query) {
-                    $query->where('key', 'education_terms');
+                    return $query->where('key', 'education_terms');
                 }),
             "TypesEnumTable" => "required|array",
             "TypesEnumTable.*" =>
                 Rule::exists('enumerations', 'id')->where(function ($query) {
-                    $query->where('key', 'education_types');
+                    return $query->where('key', 'education_types');
                 }),
             "ActiveEnum" => ["required", "string", new Enum(ActiveEnum::class)],
         ];

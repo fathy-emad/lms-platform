@@ -17,7 +17,9 @@ class CreateRequest extends ValidateRequest
             "YearEnumTable" => [
                 "required",
                 "integer",
-                "exists:enumerations,id",
+                Rule::exists('enumerations', 'id')->where(function ($query) {
+                    return $query->where('key', 'education_years');
+                }),
                 Rule::unique('years')->where(function ($query) use ($request) {
                     return $query->where([
                         'YearEnumTable' => $request->YearEnumTable,
