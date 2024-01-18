@@ -20,11 +20,11 @@ class CurriculumResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            "id" => $this->id,
-            "subject" => new SubjectResource($this->subject),
-            "CurriculumEnumTable" => new TranslationResource($this->curriculumEnum->valueTranslate),
-            "TermsEnumTable" => $this->TermsEnum,
-            "TypesEnumTable" => $this->TypesEnum,
+            "id"         => $this->id,
+            "subject"    => new TranslationResource($this->subject->subjectEnum->valueTranslate),
+            "curriculum" => new TranslationResource($this->curriculumEnum->valueTranslate),
+            "terms"      => $this->TermsEnum,
+            "types"      => $this->TypesEnum,
             "ActiveEnum" =>  new TranslationResource($this->ActiveEnum, true),
             "created_by" => new AuthorResource($this->createdBy),
             "updated_by" => $this->updated_by ? new AuthorResource($this->updatedBy) : null,

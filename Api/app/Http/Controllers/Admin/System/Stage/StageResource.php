@@ -20,9 +20,9 @@ class StageResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            "id" => $this->id,
-            "country" => new CountryResource($this->country),
-            "stage" => new TranslationResource($this->stageEnum->valueTranslate),
+            "id"         => $this->id,
+            "country"    => new TranslationResource($this->country->countryTranslate->valueTranslate),
+            "stage"      => new TranslationResource($this->stageEnum->valueTranslate),
             "ActiveEnum" => new TranslationResource($this->ActiveEnum, true),
             "created_by" => new AuthorResource($this->createdBy),
             "updated_by" => $this->updated_by ? new AuthorResource($this->updatedBy) : null,

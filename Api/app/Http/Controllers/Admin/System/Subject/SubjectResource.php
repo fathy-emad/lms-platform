@@ -20,9 +20,9 @@ class SubjectResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            "id" => $this->id,
-            "year" => new YearResource($this->year),
-            "subject" => new TranslationResource($this->SubjectEnum->valueTranslate),
+            "id"         => $this->id,
+            "year"       => new TranslationResource($this->year->yearEnum->valueTranslate),
+            "subject"    => new TranslationResource($this->SubjectEnum->valueTranslate),
             "ActiveEnum" => new TranslationResource($this->ActiveEnum, true),
             "created_by" => new AuthorResource($this->createdBy),
             "updated_by" => $this->updated_by ? new AuthorResource($this->updatedBy) : null,

@@ -21,11 +21,11 @@ class BranchResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            "id" => $this->id,
-            "curriculum" => new CurriculumResource($this->curriculum),
-            "branch" => new TranslationResource($this->branchEnum->valueTranslate),
+            "id"         => $this->id,
+            "curriculum" => new TranslationResource($this->curriculum->curriculumEnum->valueTranslate),
+            "branch"     => new TranslationResource($this->branch->valueTranslate),
             "ActiveEnum" => new TranslationResource($this->ActiveEnum, true),
-            "priority" => $this->priority,
+            "priority"   => $this->priority,
             "created_by" => new AuthorResource($this->createdBy),
             "updated_by" => $this->updated_by ? new AuthorResource($this->updatedBy) : null,
             "created_at" => new DateTimeResource($this->created_at),
