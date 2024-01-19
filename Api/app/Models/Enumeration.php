@@ -9,8 +9,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Enumeration extends Model
 {
     use HasFactory;
-    protected $guarded = [];
 
+    protected $guarded = [];
 
     public function setKeyAttribute($value): void
     {

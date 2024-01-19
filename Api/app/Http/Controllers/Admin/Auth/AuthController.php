@@ -6,14 +6,14 @@ use App\Http\Controllers\Admin\Auth\Resources\LogoutResource;
 use App\Http\Controllers\Admin\Auth\Resources\LoginResource;
 use App\Http\Controllers\Admin\Auth\Requests\{LoginRequest};
 use App\Http\Controllers\Controller;
-use App\Http\Repositories\AdministratorRepository;
+use App\Http\Repositories\AdminRepository;
 use Illuminate\Http\JsonResponse;
 use ApiResponse;
 
 class AuthController extends Controller
 {
     public function __construct(
-        protected AdministratorRepository $repository,
+        protected AdminRepository    $repository,
         protected AuthRequestHandler $requestHandler
     ){}
 

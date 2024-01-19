@@ -13,12 +13,15 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
 class Admin extends Authenticatable implements JWTSubject
 {
     use HasFactory;
+
     protected $guarded = [];
+
     protected $hidden = [
         "password",
         "jwtToken",
         "verifyToken"
     ];
+
     protected $casts = [
         "AdminRoleEnum" => AdminRoleEnum::class,
         "GenderEnum" => GenderEnum::class,

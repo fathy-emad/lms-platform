@@ -1,20 +1,19 @@
 <?php
 
-namespace App\Http\Controllers\Admin\Employees\Administrator;
+namespace App\Http\Controllers\Admin\Teacher\Register;
 
-use App\Http\Controllers\Admin\Employees\Administrator\Requests\{CreateRequest};
-use App\Http\Controllers\Admin\Employees\Administrator\Requests\UpdateRequest;
+use App\Http\Controllers\Admin\Teacher\Register\Requests\{CreateRequest, UpdateRequest};
 use App\Http\Controllers\Controller;
-use App\Http\Repositories\AdminRepository;
+use App\Http\Repositories\TeacherRepository;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
-class AdministratorController extends Controller
+class RegisterController extends Controller
 {
     public function __construct(
-        protected AdminRepository             $repository,
-        protected AdministratorRequestHandler $requestHandler,
-        protected string                      $resource = AdministratorResource::class,
+        protected TeacherRepository $repository,
+        protected RegisterRequestHandler $requestHandler,
+        protected string $resource = RegisterResource::class,
     ){}
 
     public function create(CreateRequest $request): JsonResponse
