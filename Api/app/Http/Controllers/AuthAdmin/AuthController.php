@@ -1,0 +1,32 @@
+<?php
+
+namespace App\Http\Controllers\AuthAdmin;
+
+use ApiResponse;
+use App\Http\Controllers\AuthAdmin\Requests\{LoginRequest};
+use App\Http\Controllers\AuthAdmin\Resources\LoginResource;
+use App\Http\Controllers\AuthAdmin\Resources\LogoutResource;
+use App\Http\Controllers\Controller;
+use App\Http\Repositories\AdminRepository;
+use Illuminate\Http\JsonResponse;
+
+class AuthController extends Controller
+{
+    public function __construct(
+        protected AdminRepository    $repository,
+        protected AuthRequestHandler $requestHandler
+    ){}
+
+    public function login(LoginRequest $request): JsonResponse
+    {
+        $data = $this->requestHandler->set($request->validated())->handleLogin()->get();
+        if (! $data["token"]) return ApiResponse::sendError(["Login error"], $data["message"], null);
+        return ApiResponse::sendSuccess(new LoginResource($data["data"]), "Login successfully", null);
+    }
+
+    public function logout(): JsonResponse
+    {
+        $data = $this->requestHandler->set(null)->handleLogout()->get();
+        return ApiResponse::sendSuccess(new LogoutResource($data["data"]), "logout successfully", null);
+    }
+}

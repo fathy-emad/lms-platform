@@ -31,35 +31,44 @@ class RouteServiceProvider extends ServiceProvider
         $this->routes(function () {
 
             Route::middleware('api')
-                ->prefix('admin/auth')
-                ->group(base_path('routes/adminAuth.php'));
+                ->prefix('/api/admin/auth')
+                ->group(base_path('routes/auth_admin.php'));
 
             Route::middleware('api')
-                ->prefix('admin/settings')
-                ->group(base_path('routes/adminSettings.php'));
+                ->prefix('api/employee')
+                ->group(base_path('routes/employee.php'));
 
             Route::middleware('api')
-                ->prefix('admin/employees')
-                ->group(base_path('routes/adminEmployees.php'));
+                ->prefix('api/setting')
+                ->group(base_path('routes/setting.php'));
 
             Route::middleware('api')
-                ->prefix('admin/system')
-                ->group(base_path('routes/adminSystem.php'));
+                ->prefix('api/setting-education')
+                ->group(base_path('routes/setting_education.php'));
 
             Route::middleware('api')
-                ->prefix('admin/teacher')
-                ->group(base_path('routes/adminTeacher.php'));
-
-            Route::middleware('api')
-                ->group(base_path('routes/student.php'));
-
-            Route::middleware('api')
-                ->prefix('teacher')
+                ->prefix('api/teacher')
                 ->group(base_path('routes/teacher.php'));
 
             Route::middleware('api')
-                ->prefix('parent')
-                ->group(base_path('routes/parent.php'));
+                ->prefix('api/course')
+                ->group(base_path('routes/course.php'));
+
+            Route::middleware('api')
+                ->prefix('/api/teacher/auth')
+                ->group(base_path('routes/auth_teacher.php'));
+
+
+//            Route::middleware('api')
+//                ->group(base_path('routes/student.php'));
+//
+//            Route::middleware('api')
+//                ->prefix('teacher')
+//                ->group(base_path('routes/teacher.php'));
+//
+//            Route::middleware('api')
+//                ->prefix('parent')
+//                ->group(base_path('routes/parent.php'));
 
 //            Route::middleware('web')
 //                ->group(base_path('routes/web.php'));
