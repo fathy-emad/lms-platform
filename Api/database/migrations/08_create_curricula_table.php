@@ -19,6 +19,7 @@ return new class extends Migration
             $table->json("TermsEnumTable"); //ex:first terms or second term or both
             $table->json("TypesEnumTable"); //ex:general, languages, azhar
             $table->enum('ActiveEnum', ActiveEnum::values())->default(ActiveEnum::Active->value);
+            $table->json('period'); //start { day, month } end { day, month }
             $table->integer('priority');
 
             $table->unsignedBigInteger('created_by');

@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\Employee\Register\RegisterController;
+use App\Http\Controllers\Course\Register\CourseController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,5 +15,10 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::middleware('apiAuth:admin')->group(function (){
-
+    //Register
+    Route::controller(CourseController::class)->group(function (){
+        Route::get('register', 'read');
+        Route::post('register', 'create');
+        Route::put('register', 'update');
+    });
 });

@@ -18,7 +18,6 @@ return new class extends Migration
             $table->unsignedBigInteger('teacher_id');
             $table->json('costs'); //for course or branch or chapter or lesson
             $table->enum('ActiveEnum', ActiveEnum::values())->default(ActiveEnum::Active->value);
-            $table->json('subscription'); //starts from and end to (time)
             $table->unsignedBigInteger('created_by')->nullable();
             $table->unsignedBigInteger('updated_by')->nullable();
             $table->timestamps();
