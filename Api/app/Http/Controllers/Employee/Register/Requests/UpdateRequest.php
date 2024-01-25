@@ -25,8 +25,6 @@ class UpdateRequest extends ValidateRequest
             "national_id" => "required|digits:14|unique:admins,national_id,".$this->id,
             "image" => "nullable|image",
             "country_id" => "required|exists:countries,id",
-            "password" => ["nullable", "confirmed", Password::min(8)->letters()->mixedCase()->numbers()->symbols()],
-            "password_confirmation" => "required_with:password",
         ];
     }
 }

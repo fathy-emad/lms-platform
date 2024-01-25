@@ -2,6 +2,8 @@
 
 namespace App\Http\Resources;
 
+use Translation;
+use App\Models\Translate;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -30,9 +32,17 @@ class TranslationResource extends JsonResource
             ];
         }
 
+        if (array_key_exists(app()->getLocale(), $this->translates)){
+            $translate = $this->translates[app()->getLocale()];
+        } else {
+            $id = Translation::translate($this->field, $this->table, $this->translates, $this->id);
+            $translation = Translate::find($id);
+            $translate = $translation->translates[app()->getLocale()];
+        }
+
         return [
             "key" => $this->key,
-            "translate" => $this->translates[app()->getLocale()]
+            "translate" => $translate
         ];
     }
 }

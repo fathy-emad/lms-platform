@@ -5,6 +5,8 @@ namespace App\Http\Controllers\AuthAdmin;
 use App\Concretes\RequestHandler;
 use App\Enums\AdminStatusEnum;
 use App\Models\Admin;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Hash;
 
 class AuthRequestHandler extends RequestHandler
 {
@@ -19,6 +21,13 @@ class AuthRequestHandler extends RequestHandler
     public function handleLogout(): static
     {
         $this->terminateJwtTokenFromModel();
+        return $this;
+    }
+
+    public function handleChangePassword(): static
+    {
+        $model = Admin::find(auth('admin')->user()->id);
+        $this->changePassword($model);
         return $this;
     }
 
@@ -60,6 +69,12 @@ class AuthRequestHandler extends RequestHandler
     {
         $model = Admin::find(auth('admin')->user()->id);
         $model->update(["jwtToken" => null]);
+        $this->data["data"] = $model;
+    }
+
+    public function changePassword($model): void
+    {
+        $model->update(["password" => Hash::make($this->data["password"])]);
         $this->data["data"] = $model;
     }
 }

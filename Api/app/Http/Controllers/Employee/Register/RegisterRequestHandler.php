@@ -20,7 +20,6 @@ class RegisterRequestHandler extends RequestHandler
     public function handleUpdate(): static
     {
         $this->uploadImage();
-        $this->hashPasswordIfExists();
         $this->bindUpdatedBy();
         return $this;
     }
@@ -29,20 +28,6 @@ class RegisterRequestHandler extends RequestHandler
     {
         $this->data["password"] = Hash::make($this->data["password"]);
         $this->data = Arr::except($this->data, 'password_confirmation');
-    }
-
-    public function hashPasswordIfExists(): void
-    {
-        if (isset($this->data["password"]))
-        {
-            $this->hashPassword();
-        }
-
-        else
-        {
-            $this->data = Arr::except($this->data, 'password');
-            $this->data = Arr::except($this->data, 'password_confirmation');
-        }
     }
 
     public function uploadImage(): void

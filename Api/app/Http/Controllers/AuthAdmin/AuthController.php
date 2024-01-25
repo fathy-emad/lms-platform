@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\AuthAdmin;
 
 use ApiResponse;
-use App\Http\Controllers\AuthAdmin\Requests\{LoginRequest};
+use App\Http\Controllers\AuthAdmin\Requests\{ChangePasswordRequest, LoginRequest};
 use App\Http\Controllers\AuthAdmin\Resources\LoginResource;
 use App\Http\Controllers\AuthAdmin\Resources\LogoutResource;
 use App\Http\Controllers\Controller;
@@ -13,7 +13,7 @@ use Illuminate\Http\JsonResponse;
 class AuthController extends Controller
 {
     public function __construct(
-        protected AdminRepository    $repository,
+        protected AdminRepository $repository,
         protected AuthRequestHandler $requestHandler
     ){}
 
@@ -29,4 +29,21 @@ class AuthController extends Controller
         $data = $this->requestHandler->set(null)->handleLogout()->get();
         return ApiResponse::sendSuccess(new LogoutResource($data["data"]), "logout successfully", null);
     }
+
+    public function changePassword(ChangePasswordRequest $request): JsonResponse
+    {
+        $data = $this->requestHandler->set($request->validated())->handleChangePassword()->get();
+        return ApiResponse::sendSuccess(new LoginResource($data["data"]), "Password changed successfully", null);
+    }
+
+    public function resetPassword(): JsonResponse
+    {
+
+    }
+
+    public function verifyToken(): JsonResponse
+    {
+
+    }
+
 }

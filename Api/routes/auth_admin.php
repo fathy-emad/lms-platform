@@ -14,17 +14,16 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-//Guest
 Route::controller(AuthController::class)->group(function (){
+
+    //Guest
     Route::post('login', 'login');
-    //Route::post('forget-password', 'forgetPassword');
-    //Route::post('verify-token', 'verifyToken');
-    //Route::post('new-password', 'newPassword');
+    Route::post('forget-password', 'forgetPassword');
+    Route::post('new-password', 'newPassword');
 
     //Auth
     Route::middleware('apiAuth:admin')->group(function (){
         Route::post('logout', 'logout');
-        //Route::post('change-password', 'changePassword');
-        //Route::post('change-email', 'changeEmail');
+        Route::post('change-password', 'changePassword');
     });
 });
