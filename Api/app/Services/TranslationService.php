@@ -2,40 +2,38 @@
 
 namespace App\Services;
 
+use App\Concretes\RequestHandler;
 use App\Models\Language;
 use App\Models\Translate;
 use Stichoza\GoogleTranslate\GoogleTranslate;
 
 class TranslationService
 {
+
+    protected $googleTranslate;
+    public function __construct()
+    {
+        $this->googleTranslate = new GoogleTranslate();
+    }
+
     public function translate(string $filed, string $table, array|string $data, ?int $id): int
     {
-        if (
-            ! in_array("ar", array_column((Language::all())->toArray(), "locale")) ||
-            ! in_array("en", array_column((Language::all())->toArray(), "locale"))
-        ) $languages = ["ar", "en"];
-        else $languages = array_column((Language::all())->toArray(), "locale");
-
-        $languages = $this->getLanguages($languages);
-        $googleTranslate = new GoogleTranslate();
-        $data = $this->handleTranslate($data, $languages, $googleTranslate);
-        $data = array_merge(
-            ["translates" => $data],
-            ["key" => $data["en"], "field" => $filed, "table" => $table]
-        );
+        $languages = $this->getLanguages();
+        $data = $this->handleTranslate($data, $languages);
+        $data = array_merge(["translates" => $data], ["key" => $data["en"], "field" => $filed, "table" => $table]);
 
         if(! isset($id)) return $this->createTranslate($data);
         else return $this->updateTranslate($data, $id);
     }
 
-    public function handleTranslate(array|string $data, array $languages, GoogleTranslate $googleTranslate): array
+    public function handleTranslate(array|string $data, array $languages): array
     {
         $translates = [];
 
         //on create translates
         if (! is_array($data))
         {
-            foreach ($languages AS $lang) $translates[$lang] = $googleTranslate->setSource()->setTarget($lang)->translate($data);
+            foreach ($languages AS $lang) $translates[$lang] = $this->googleTranslate->setSource()->setTarget($lang)->translate($data);
         }
 
         //on update translates
@@ -43,7 +41,7 @@ class TranslationService
         {
             foreach ($languages AS $lang)
             {
-                if (! isset($data[$lang]) || ! $data[$lang]) $translates[$lang] = $googleTranslate->setSource("ar")->setTarget($lang)->translate($data["ar"]);
+                if (! isset($data[$lang]) || ! $data[$lang]) $translates[$lang] = $this->googleTranslate->setSource("ar")->setTarget($lang)->translate($data["ar"]);
                 else $translates[$lang] = $data[$lang];
             }
         }
@@ -67,17 +65,29 @@ class TranslationService
     /**
      * if translation service called from languages controller
      * get new locale  from request to add it to current languages and translate it
+     * and check languages of system to get correct languages to translate
      *
-     * @param array $languages
      * @return array
-     *
      */
-    public function getLanguages(array $languages): array
+    public function getLanguages(): array
     {
         if (
-            class_basename(static::class) == "LanguageRequestHandler"
-            && ! in_array($this->data["locale"], $languages)
-        ) $languages[] = $this->data["locale"];
+            ! in_array("ar", array_column((Language::all())->toArray(), "locale")) ||
+            ! in_array("en", array_column((Language::all())->toArray(), "locale"))
+        ) $languages = ["ar", "en"];
+        else $languages = array_column((Language::all())->toArray(), "locale");
+
+        $backtrace = debug_backtrace();
+        $handlerClass = "";
+        foreach ($backtrace as $trace) {
+            if (isset($trace['class']) && is_subclass_of($trace['class'], RequestHandler::class)) {
+                $handlerClass = $trace['class'];
+                break;
+            }
+        }
+
+        if (class_basename($handlerClass) == "LanguageRequestHandler" && ! in_array(request()->get("locale"), $languages))
+            $languages[] = request()->get("locale");
 
         return $languages;
     }

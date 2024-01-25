@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::middleware('apiAuth:admin')->group(function (){
+
     //Register
     Route::controller(CourseController::class)->group(function (){
         Route::get('register', 'read');

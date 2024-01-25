@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\Setting\Language;
 
-use App\Concretes\RequestHandler;
-use Translation;
 use UploadFile;
+use Translation;
+use App\Concretes\RequestHandler;
 
 class LanguageRequestHandler extends RequestHandler
 {
@@ -19,6 +19,7 @@ class LanguageRequestHandler extends RequestHandler
     public function handleUpdate($model): static
     {
         $this->translateLanguage($model->language);
+        $this->uploadFlag();
         $this->bindUpdatedBy();
         return $this;
     }
