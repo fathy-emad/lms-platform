@@ -18,8 +18,8 @@ Route::controller(AuthController::class)->group(function (){
 
     //Guest
     Route::post('login', 'login');
-    Route::post('reset-password', 'resetPassword')->middleware('apiThrottle:1,3');
-    Route::post('verify-token', 'verifyToken')->middleware('apiThrottle:5,3');
+    Route::post('reset-password', 'resetPassword'); //->middleware('apiThrottle:1,5')
+    Route::post('verify-token', 'verifyToken'); //->middleware('apiThrottle:3,1')
     Route::post('new-password', 'newPassword');
 
     //Auth

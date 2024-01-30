@@ -3,10 +3,13 @@
 namespace App\Http\Controllers\AuthAdmin;
 
 use ApiResponse;
-use App\Http\Controllers\AuthAdmin\Requests\{ChangePasswordRequest,
+use App\Http\Controllers\AuthAdmin\Requests\{
+    ChangePasswordRequest,
     LoginRequest,
+    NewPasswordRequest,
     ResetPasswordRequest,
-    VerifyTokenRequest};
+    VerifyTokenRequest
+};
 use App\Http\Controllers\AuthAdmin\Resources\LoginResource;
 use App\Http\Controllers\AuthAdmin\Resources\LogoutResource;
 use App\Http\Controllers\Controller;
@@ -42,13 +45,22 @@ class AuthController extends Controller
     public function resetPassword(ResetPasswordRequest $request): JsonResponse
     {
         $data = $this->requestHandler->set($request->validated())->handleResetPassword()->get();
-        if ($data["success"]) return ApiResponse::sendSuccess(null, "Verify token sent to {$request->validated('email')} successfully", null);
-        else return ApiResponse::sendError(["Some thing went wrong please try again after 5 min"], "Reset Password failed", null);
+        if ($data["success"]) return ApiResponse::sendSuccess(null, "Verification code sent to {$request->validated('email')} successfully", null);
+        else return ApiResponse::sendError(["Some thing went wrong please try again later"], "Reset Password failed", null);
     }
 
     public function verifyToken(VerifyTokenRequest $request): JsonResponse
     {
+        $data = $this->requestHandler->set($request->validated())->handleVerifyToken()->get();
+        if ($data["success"]) return ApiResponse::sendSuccess($data["verifyToken"], "Verification code verified successfully", null);
+        else return ApiResponse::sendError(["Some thing went wrong please try again later"], "Verification code failed", null);
+    }
 
+    public function newPassword(NewPasswordRequest $request): JsonResponse
+    {
+        $data = $this->requestHandler->set($request->validated())->handleNewPassword()->get();
+        if ($data["success"]) return ApiResponse::sendSuccess(new LoginResource($data["data"]), "New password set and logged in successfully", null);
+        else return ApiResponse::sendError(["Some thing went wrong please try again later"], "New password failed", null);
     }
 
 }
