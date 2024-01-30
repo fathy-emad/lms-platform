@@ -9,6 +9,16 @@ use Illuminate\Database\Eloquent\Model;
 
 class Repository implements RepositoryInterface
 {
+    public function create(array $data): Model|string
+    {
+        try {
+            return $this->model->create($data);
+        } catch (Exception $e) {
+            // Handle exceptions related to model creation
+            return $e;
+        }
+    }
+
     public function getById(int $id): Model|string
     {
         try {
@@ -16,16 +26,6 @@ class Repository implements RepositoryInterface
         } catch (Exception $e) {
             // Handle other exceptions
             // Log the exception or handle it as required
-            return $e;
-        }
-    }
-
-    public function create(array $data): Model|string
-    {
-        try {
-            return $this->model->create($data);
-        } catch (Exception $e) {
-            // Handle exceptions related to model creation
             return $e;
         }
     }
