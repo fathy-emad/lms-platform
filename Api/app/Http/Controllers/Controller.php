@@ -28,10 +28,17 @@ class Controller extends BaseController
         {
             $data = $this->repository->getById($request->id);
             if($data instanceof Model) return ApiResponse::sendSuccess(new $this->resource($data), "record read successfully", null);
-        }
-        else
+
+        } elseif ($request->has("pagination")){
+            //some code
+        } else
         {
-            $data = $this->repository->getAll();
+            $data = $this->repository
+                ->where($request->where)
+                ->orderBy($request->orderBy)
+                ->skip($request->skip)
+                ->take($request->take)
+                ->getAll();
             if($data instanceof Collection) return ApiResponse::sendSuccess($this->resource::collection($data), "record read successfully", null);
         }
         return ApiResponse::sendError([$data], "some thing went wrong", null);

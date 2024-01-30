@@ -9,6 +9,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Repository implements RepositoryInterface
 {
+    protected $query;
+
     public function create(array $data): Model|string
     {
         try {
@@ -33,7 +35,9 @@ class Repository implements RepositoryInterface
     public function getAll(): Collection|string
     {
         try {
-            return $this->model->orderBy("id", "desc")->get();
+            $model = $this->query->get();
+            $this->query = $this->model->newQuery();
+            return $model;
         } catch (Exception $e) {
             // Handle exceptions
             // Return an empty collection or handle as required
@@ -41,15 +45,51 @@ class Repository implements RepositoryInterface
         }
     }
 
-    public function getAllWhere(array $attributes): Collection|string
+    public function Where($attributes): static
     {
-        try {
-            return $this->model->where($attributes)->get();
-        } catch (Exception $e) {
-            // Handle exceptions
-            // Return an empty collection or handle as required
-            return new Collection();
+        $this->query = $this->model->newQuery();
+
+        if ($attributes){
+            $attributes = explode(",", $attributes);
+            $conditions = [];
+
+            foreach ($attributes as $attribute) {
+                list($key, $value) = explode(':', $attribute);
+                $conditions[trim($key)] = trim($value);
+            }
+            $this->query = $this->query->where($conditions);
         }
+
+        return $this;
+    }
+
+    public function orderBy($attributes): static
+    {
+
+        if ($attributes){
+            $attributes = explode(",", $attributes);
+            $conditions = [];
+
+            foreach ($attributes as $attribute) {
+                list($key, $value) = explode(':', $attribute);
+                $conditions[trim($key)] = trim($value);
+                $this->query = $this->query->orderBy(trim($key), trim($value));
+            }
+        }
+
+        return $this;
+    }
+
+    public function skip($attribute): static
+    {
+        if ($attribute)$this->query = $this->query->skip(trim($attribute));
+        return $this;
+    }
+
+    public function take($attribute): static
+    {
+        if ($attribute)$this->query = $this->query->take(trim($attribute));
+        return $this;
     }
 
     public function update(int $id, array $data): Model|string
