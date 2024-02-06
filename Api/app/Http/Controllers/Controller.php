@@ -31,8 +31,8 @@ class Controller extends BaseController
 
         } elseif ($request->has("pagination")){
             //some code
-        } else
-        {
+
+        } else {
             $data = $this->repository
                 ->where($request->where)
                 ->orderBy($request->orderBy)
