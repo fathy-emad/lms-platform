@@ -3,9 +3,11 @@
 namespace App\Concretes;
 
 use Exception;
+use Illuminate\Database\Eloquent\Model;
 use App\Interfaces\RepositoryInterface;
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Arr;
 
 class Repository implements RepositoryInterface
 {
@@ -36,6 +38,20 @@ class Repository implements RepositoryInterface
     {
         try {
             $model = $this->query->get();
+            $this->query = $this->model->newQuery();
+            return $model;
+        } catch (Exception $e) {
+            // Handle exceptions
+            // Return an empty collection or handle as required
+            return $e;
+        }
+    }
+
+    public function paginate(): LengthAwarePaginator|string
+    {
+        try {
+            $model = $this->query->paginate(request()->per_page);
+            $model->appends(Arr::except(request()->all(), "page"));
             $this->query = $this->model->newQuery();
             return $model;
         } catch (Exception $e) {
