@@ -12,7 +12,9 @@ class CreateRequest extends ValidateRequest
         return [
             "locale" => "required|string|unique:languages,locale",
             "language" => "required|string|min:2",
-            "flag" => "required|file|mimes:svg,xml",
+            "flag" => "required|array|size:2",
+            "flag.file" => "required|file|mimes:svg,xml",
+            "flag.title" => "nullable|string",
             "ActiveEnum" => "required|in:".implode(",", ActiveEnum::values()),
         ];
     }

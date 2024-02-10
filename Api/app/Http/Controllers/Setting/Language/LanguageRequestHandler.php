@@ -19,7 +19,7 @@ class LanguageRequestHandler extends RequestHandler
     public function handleUpdate($model): static
     {
         $this->translateLanguage($model->language);
-        $this->uploadFlag();
+        $this->uploadFlag($model);
         $this->bindUpdatedBy();
         return $this;
     }
@@ -29,11 +29,8 @@ class LanguageRequestHandler extends RequestHandler
         $this->data["language"] = Translation::translate('language', 'languages', $this->data["language"], $id);
     }
 
-    public function uploadFlag(): void
+    public function uploadFlag($model = null): void
     {
-        if (isset($this->data["flag"]))
-        {
-            $this->data["flag"] = UploadFile::upload('public', $this->data["flag"], 'languages/flags');
-        }
+        $this->data["flag"] = UploadFile::uploadFile('public', $this->data["flag"], 'languages/flags', $model, "flag");
     }
 }
