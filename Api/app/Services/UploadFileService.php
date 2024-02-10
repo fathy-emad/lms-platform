@@ -46,7 +46,8 @@ class UploadFileService
     public function createFileKey(): string
     {
         $digits = range(0, 5);
-        return time(). implode("", shuffle($digits));
+        shuffle($digits);
+        return time(). implode("", $digits);
     }
 
 
