@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Setting\Country\Requests;
 
 use App\Concretes\ValidateRequest;
 use App\Enums\ActiveEnum;
+use Illuminate\Validation\Rule;
 
 class UpdateRequest extends ValidateRequest
 {
@@ -21,7 +22,16 @@ class UpdateRequest extends ValidateRequest
             "currency.ar" => "required|string|regex:/^[\x{0600}-\x{06FF}\s]+$/u",
             "currency.*" => "nullable|string",
             "currency_symbol" => "required|string",
-            "flag" => "nullable|file|mimes:svg,xml",
+            "flag" => "nullable|array",
+            "flag.key" => [
+                "nullable",
+                "integer",
+                Rule::exists("languages", "flag->key")->where(function ($query){
+                    return $query->where("id", $this->id);
+                })
+            ],
+            "flag.file" => "nullable|file|mimes:svg,xml",
+            "flag.title" => "nullable|string",
             "ActiveEnum" => "required|in:".implode(",", ActiveEnum::values()),
         ];
     }

@@ -17,9 +17,9 @@ class RegisterRequestHandler extends RequestHandler
         return $this;
     }
 
-    public function handleUpdate(): static
+    public function handleUpdate($model): static
     {
-        $this->uploadImage();
+        $this->uploadImage($model);
         $this->bindUpdatedBy();
         return $this;
     }
@@ -30,11 +30,8 @@ class RegisterRequestHandler extends RequestHandler
         $this->data = Arr::except($this->data, 'password_confirmation');
     }
 
-    public function uploadImage(): void
+    public function uploadImage($model = null): void
     {
-        if (isset($this->data["image"]))
-        {
-            $this->data["image"] = UploadFile::upload('public', $this->data["image"], 'admins/images');
-        }
+        $this->data["image"] = UploadFile::upload('public', $this->data["image"], 'admins/images', $model. "image");
     }
 }

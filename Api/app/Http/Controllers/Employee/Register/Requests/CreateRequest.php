@@ -21,7 +21,9 @@ class CreateRequest extends ValidateRequest
             "AdminRoleEnum" => ["required", "string", new Enum(AdminRoleEnum::class)],
             "GenderEnum" => ["required", "string", new Enum(GenderEnum::class)],
             "national_id" => "required|digits:14|unique:admins",
-            "image" => "nullable|image",
+            "image" => "nullable|array|size:2",
+            "image.file" => "nullable|image",
+            "image.title" => "nullable|string",
             "country_id" => "required|exists:countries,id"
         ];
     }

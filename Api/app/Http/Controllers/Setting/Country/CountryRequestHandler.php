@@ -20,6 +20,7 @@ class CountryRequestHandler extends RequestHandler
 
     public function handleUpdate($model): static
     {
+        $this->uploadFlag($model);
         $this->translateCountry($model->country);
         $this->translateCurrency($model->currency);
         $this->bindUpdatedBy();
@@ -35,11 +36,8 @@ class CountryRequestHandler extends RequestHandler
         $this->data["currency"] = Translation::translate('currency', 'countries', $this->data["currency"], $id);
     }
 
-    public function uploadFlag(): void
+    public function uploadFlag($model = null): void
     {
-        if (isset($this->data["flag"]))
-        {
-            $this->data["flag"] = UploadFile::upload('public', $this->data["flag"], 'countries/flags');
-        }
+        $this->data["flag"] = UploadFile::upload('public', $this->data["flag"], 'countries/flags', $model, "flag");
     }
 }

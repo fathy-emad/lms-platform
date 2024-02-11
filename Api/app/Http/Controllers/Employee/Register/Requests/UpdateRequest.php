@@ -6,6 +6,7 @@ use App\Concretes\ValidateRequest;
 use App\Enums\ActiveEnum;
 use App\Enums\AdminRoleEnum;
 use App\Enums\AdminStatusEnum;
+use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\Enum;
 use Illuminate\Validation\Rules\Password;
 
@@ -23,7 +24,16 @@ class UpdateRequest extends ValidateRequest
             "AdminStatusEnum" =>["required", "string", new Enum(AdminStatusEnum::class)],
             "blocked_reason" => "required_if:AdminStatusEnum," . AdminStatusEnum::Blocked->value,
             "national_id" => "required|digits:14|unique:admins,national_id,".$this->id,
-            "image" => "nullable|image",
+            "flag" => "nullable|array",
+            "flag.key" => [
+                "nullable",
+                "integer",
+                Rule::exists("languages", "flag->key")->where(function ($query){
+                    return $query->where("id", $this->id);
+                })
+            ],
+            "flag.file" => "nullable|image",
+            "flag.title" => "nullable|string",
             "country_id" => "required|exists:countries,id",
         ];
     }
