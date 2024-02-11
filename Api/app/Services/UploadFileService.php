@@ -8,29 +8,60 @@ class UploadFileService
 {
     public function uploadFile($driver, $fileData, $path, $model, $attribute): ?array
     {
-        $oldFile = isset($model) ? $model->{$attribute}["file"] : "";
-        $oldFileKey = isset($model) ? $model->{$attribute}["key"] : null;
-
         //attach new file and detach old
-        if (isset($fileData["file"]))
+        if (isset($fileData))
         {
-            $this->deleteFile($driver, $oldFile);
+            $this->deleteFile($driver, $model->{$attribute}["file"] ?? "");
             return $this->createFile($fileData, $path, $driver);
         }
 
         //not attach or detach file
-        else if ($fileData["key"] == $oldFileKey)
+        else if (isset($fileData["key"]))
         {
             return $model->{$attribute};
-
         }
 
         //detach file
         else {
-            $this->deleteFile($driver, $oldFile);
+            $this->deleteFile($driver, $model->{$attribute}["file"] ?? "");
             return null;
         }
 
+    }
+
+
+    public function uploadFiles($driver, $filesData, $path, $model, $attribute): ?array
+    {
+        $return = null;
+
+        //handling old files
+        if (isset($model->{$attribute})) {
+
+            foreach ($model->{$attribute} as $oldFileData) {
+                if (! in_array($oldFileData["key"], array_column($filesData ?? [], "key"))){
+
+                    //delete from uploads
+                    $this->deleteFile($driver, $oldFileData["file"]);
+
+                } else {
+                    $return[] = $oldFileData;
+                }
+            }
+
+            $return = array_values($return);
+        }
+
+
+        //attach new files
+        if (isset($filesData))
+        {
+            foreach ($filesData AS $file){
+                $return[] = $this->createFile($file, $path, $driver);
+            }
+            $return = array_values($return);
+        }
+
+        return $return;
     }
 
     public function getExtension($file): string
