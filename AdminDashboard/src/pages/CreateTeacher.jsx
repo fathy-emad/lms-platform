@@ -39,7 +39,9 @@ const CreateTeacher = () => {
                     <label className="block" htmlFor="contract">Contract</label>
                     <input type="file" name="contract" className="form-input" />
                 </div>
-                <button className=" bg-green-600 text-white p-5 col-span-2 rounded-md" type="submit">Create Teacher</button>
+                <div className=" col-span-2 flex justify-center">
+                    <button className=" bg-green-600 text-white p-3 rounded-md" type="submit">Create Teacher</button>
+                </div>
             </form>
         </div>
     )
