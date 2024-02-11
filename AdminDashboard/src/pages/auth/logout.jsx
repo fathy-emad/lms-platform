@@ -4,7 +4,7 @@ import { unAuthenticateUser } from "../../utils/auth/AuthUtils";
 const Logout = () => {
     const navigate = useNavigate();
     unAuthenticateUser().then(data => {
-        if(data.message == "true") {
+        if(data.message == true) {
             return navigate("/login");
         }
     });

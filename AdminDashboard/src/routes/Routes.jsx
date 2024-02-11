@@ -9,6 +9,9 @@ import DashboardContent from "../pages/DashboardContent";
 import PrivateRoute from "./PrivateRoute";
 import { isAuthenticated } from "../utils/auth/AuthUtils";
 import Logout from "../pages/auth/logout";
+import ChangePassword from "../pages/ChangePassword";
+import ForgetPass from "../pages/auth/forget";
+import VerificationToken from "../pages/auth/verificationToken";
 const AppRoutes = () => {
     return (
       <Routes>
@@ -19,11 +22,16 @@ const AppRoutes = () => {
               <Route index element={<Teachers />}></Route>
               <Route path="create" element={<CreateTeacher />}></Route>
             </Route>
+            <Route  path="settings">
+              <Route path="change-password" element={<ChangePassword />}></Route>
+            </Route>
             <Route exact path="courses" element={<Courses />} />
             <Route path="*" element={<NotFound />} />
             <Route exact path="/logout" element={<Logout />}  />
         </Route>
         <Route exact path="/login" element={isAuthenticated().message ? <Navigate to="/" /> : <Login />} />   
+        <Route exact path="/forget-password" element={isAuthenticated().message ? <Navigate to="/" /> : <ForgetPass />} /> 
+        <Route exact path="/forget-password" element={isAuthenticated().message ? <Navigate to="/" /> : <VerificationToken />} /> 
       </Routes>
     )
 }

@@ -37,3 +37,20 @@ export const unAuthenticateUser = async () => {
 export const getUserData = () => {
 
 }
+export const changePassword = async (currentPass, newPass, confirmPass) => {
+   const data = await axios.post(import.meta.env.VITE_API_URL + "/admin/auth/change-password", {currentPassword: currentPass, password: newPass, password_confirmation: confirmPass}, {headers: {Authorization: 'Bearer ' + localStorage.token}});
+   if(data.data.success == true) {
+      return true;
+   } else {
+      return false;
+   }
+}
+
+export const sendForgetPasswordRequest = async (email) => {
+  const res = await axios.post(import.meta.env.VITE_API_URL + "/admin/auth/reset-password", {email: email}, {headers: {
+      Authorization: 'Bearer ' + localStorage.token
+   }})
+   const data = {message: res.data.message, success: res.data.statusCode};
+    return data
+   
+}
