@@ -11,14 +11,13 @@ class CreateRequest extends ValidateRequest
 {
     public function rules(): array
     {
-
         return [
             "subject_id" => "required|integer|exists:subjects,id",
             "CurriculumEnumTable" => [
                 "required",
                 "integer",
                 Rule::exists('enumerations', 'id')->where(function ($query) {
-                    return $query->where('key', 'education_curricula');
+                    return $query->where('key', 'CurriculumEnumTable');
                 }),
                 Rule::unique('curricula')->where(function ($query) {
                     $query->where('CurriculumEnumTable', $this->CurriculumEnumTable)
@@ -41,12 +40,12 @@ class CreateRequest extends ValidateRequest
             "TermsEnumTable" => "required|array",
             "TermsEnumTable.*" =>
                 Rule::exists('enumerations', 'id')->where(function ($query) {
-                    return $query->where('key', 'education_terms');
+                    return $query->where('key', 'TermsEnumTable');
                 }),
             "TypesEnumTable" => "required|array",
             "TypesEnumTable.*" =>
                 Rule::exists('enumerations', 'id')->where(function ($query) {
-                    return $query->where('key', 'education_types');
+                    return $query->where('key', 'TypesEnumTable');
                 }),
             "ActiveEnum" => ["required", "string", new Enum(ActiveEnum::class)],
         ];

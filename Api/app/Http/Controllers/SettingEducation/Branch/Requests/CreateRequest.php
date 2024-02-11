@@ -11,19 +11,18 @@ class CreateRequest extends ValidateRequest
 {
     public function rules(): array
     {
-        $request = $this;
         return [
             "curriculum_id" => "required|integer|exists:curricula,id",
             "BranchEnumTable" => [
                 "required",
                 "integer",
                 Rule::exists('enumerations', 'id')->where(function ($query) {
-                    return $query->where('key', 'education_branches');
+                    return $query->where('key', 'BranchEnumTable');
                 }),
-                Rule::unique('branches')->where(function ($query) use ($request) {
+                Rule::unique('branches')->where(function ($query) {
                     return $query->where([
-                        'BranchEnumTable' => $request->BranchEnumTable,
-                        'curriculum_id' => $request->curriculum_id
+                        'BranchEnumTable' => $this->BranchEnumTable,
+                        'curriculum_id' => $this->curriculum_id
                     ]);
                 })
             ],

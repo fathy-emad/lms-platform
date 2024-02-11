@@ -11,7 +11,6 @@ class UpdateRequest extends ValidateRequest
 {
     public function rules(): array
     {
-        $request = $this;
         return [
             "id" => "required|integer|exists:lessons,id",
             "chapter_id" => "required|integer|exists:chapters,id",
@@ -19,14 +18,14 @@ class UpdateRequest extends ValidateRequest
                 "required",
                 "integer",
                 Rule::exists('enumerations', 'id')->where(function ($query) {
-                    return $query->where('key', 'education_lessons');
+                    return $query->where('key', 'LessonEnumTable');
                 }),
-                Rule::unique('chapters')->where(function ($query) use ($request) {
+                Rule::unique('chapters')->where(function ($query) {
                     return $query->where([
-                        'LessonEnumTable' => $request->LessonEnumTable,
-                        'chapter_id' => $request->chapter_id
+                        'LessonEnumTable' => $this->LessonEnumTable,
+                        'chapter_id' => $this->chapter_id
                     ]);
-                })->ignore($request->id)
+                })->ignore($this->id)
             ],
             "ActiveEnum" => ["required", "string", new Enum(ActiveEnum::class)],
         ];
