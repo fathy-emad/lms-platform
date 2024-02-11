@@ -16,7 +16,7 @@ class CreateRequest extends ValidateRequest
             "NamePrefixEnumTable" => [
                 "required", "integer",
                 Rule::exists('enumerations', 'id')->where(function ($query){
-                    return $query->where('key', 'name_prefixes');
+                    return $query->where('key', 'NamePrefixEnumTable');
                 })
             ],
             "name" => "required|string|regex:/^[a-zA-Z0-9 .,?!\'’\"-]+$/u",
@@ -31,7 +31,7 @@ class CreateRequest extends ValidateRequest
             "SubjectsEnumTable" => "required|array",
             "SubjectsEnumTable.*" =>
                 Rule::exists('enumerations', 'id')->where(function ($query) {
-                    return $query->where('key', 'education_subjects');
+                    return $query->where('key', 'SubjectsEnumTable');
                 }),
         ];
     }
