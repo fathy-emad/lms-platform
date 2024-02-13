@@ -11,7 +11,7 @@ import { isAuthenticated } from "../utils/auth/AuthUtils";
 import Logout from "../pages/auth/logout";
 import ChangePassword from "../pages/ChangePassword";
 import ForgetPass from "../pages/auth/forget";
-import VerificationToken from "../pages/auth/verificationToken";
+import NewPasswordForgoten from "../pages/newPassword";
 const AppRoutes = () => {
     return (
       <Routes>
@@ -32,7 +32,7 @@ const AppRoutes = () => {
         </Route>
         <Route exact path="/login" element={isAuthenticated().message ? <Navigate to="/" /> : <Login />} />   
         <Route exact path="/forget-password" element={isAuthenticated().message ? <Navigate to="/" /> : <ForgetPass />} /> 
-        <Route exact path="/forget-password" element={isAuthenticated().message ? <Navigate to="/" /> : <VerificationToken />} /> 
+        <Route exact path="/new-password" element={isAuthenticated().message ? <Navigate to="/" /> : <NewPasswordForgoten />} /> 
       </Routes>
     )
 }

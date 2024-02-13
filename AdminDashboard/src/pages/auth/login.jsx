@@ -15,7 +15,6 @@ const Login = () => {
         } else {
             setErrors(data.data)
         }
-
     }
     return (
         <section className="bg-gray-50 dark:bg-gray-900">
