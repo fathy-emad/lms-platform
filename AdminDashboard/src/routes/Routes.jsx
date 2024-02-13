@@ -11,7 +11,6 @@ import { isAuthenticated } from "../utils/auth/AuthUtils";
 import Logout from "../pages/auth/logout";
 import ChangePassword from "../pages/ChangePassword";
 import ForgetPass from "../pages/auth/forget";
-import NewPasswordForgoten from "../pages/newPassword";
 const AppRoutes = () => {
     return (
       <Routes>
@@ -26,13 +25,11 @@ const AppRoutes = () => {
               <Route path="change-password" element={<ChangePassword />}></Route>
             </Route>
             <Route exact path="courses" element={<Courses />} />
-            <Route path="/educationalsettings"></Route>
             <Route path="*" element={<NotFound />} />
             <Route exact path="/logout" element={<Logout />}  />
         </Route>
         <Route exact path="/login" element={isAuthenticated().message ? <Navigate to="/" /> : <Login />} />   
         <Route exact path="/forget-password" element={isAuthenticated().message ? <Navigate to="/" /> : <ForgetPass />} /> 
-        <Route exact path="/new-password" element={isAuthenticated().message ? <Navigate to="/" /> : <NewPasswordForgoten />} /> 
       </Routes>
     )
 }
