@@ -3,7 +3,8 @@ import DataTable from 'react-data-table-component';
 const columns = [
 	{
 		name: 'id',
-		selector: row => row.id
+		selector: row => row.id,
+		sortable: true
 	},
 	{
 		name: 'name',
