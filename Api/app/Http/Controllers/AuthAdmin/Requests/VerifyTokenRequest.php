@@ -14,7 +14,7 @@ class VerifyTokenRequest extends ValidateRequest
             "email" => "required|email|exists:admins,email",
             "verifyToken" => [
                 "required",
-                "integer",
+                "string",
                 Rule::exists('admins', 'verifyToken')->where(function ($query){
                     return $query->where("email", $this->email)
                         ->where('updated_at', '>=', Carbon::now()->subMinutes(5));
