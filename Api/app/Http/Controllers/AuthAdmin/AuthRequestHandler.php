@@ -72,7 +72,6 @@ class AuthRequestHandler extends RequestHandler
             $this->data["success"] = false;
         }
 
-
         return $this;
     }
     public function attempt(): void

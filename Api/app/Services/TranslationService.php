@@ -41,7 +41,7 @@ class TranslationService
         {
             foreach ($languages AS $lang)
             {
-                if (! isset($data[$lang]) || ! $data[$lang]) $translates[$lang] = $this->googleTranslate->setSource("ar")->setTarget($lang)->translate($data["ar"]);
+                if (! isset($data[$lang])) $translates[$lang] = $this->googleTranslate->setSource("ar")->setTarget($lang)->translate($data["ar"]);
                 else $translates[$lang] = $data[$lang];
             }
         }

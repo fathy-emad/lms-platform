@@ -3,6 +3,7 @@
 use App\Http\Controllers\Setting\Country\CountryController;
 use App\Http\Controllers\Setting\Enumeration\EnumerationController;
 use App\Http\Controllers\Setting\Language\LanguageController;
+use App\Http\Controllers\Setting\RouteMenu\RouteMenuController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -38,5 +39,12 @@ Route::middleware('apiAuth:admin')->group(function (){
         Route::get('enumeration', 'read');
         Route::post('enumeration', 'create');
         Route::put('enumeration', 'update');
+    });
+
+    //Route Menu
+    Route::controller(RouteMenuController::class)->group(function (){
+        Route::get('route-menu', 'read');
+        Route::post('route-menu', 'create');
+        Route::put('route-menu', 'update');
     });
 });
