@@ -40,7 +40,6 @@ class Curriculum extends Model
         return $this->belongsToJson(Enumeration::class, 'termsEnumTable');
     }
 
-
     public function createdBy(): BelongsTo
     {
         return $this->belongsTo(Admin::class, 'created_by');

@@ -3,25 +3,25 @@
 namespace App\Models;
 
 use App\Enums\ActiveEnum;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+//use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class RouteMenu extends Model
+class RouteItem extends Model
 {
-    use HasFactory;
-
     protected $guarded = [];
 
     protected $casts = [
+        "methods" => "array",
         "icon" => "array",
+        "read_all" => "boolean",
+        "update_all" => "boolean",
         "ActiveEnum" => ActiveEnum::class
     ];
 
-    public function items(): HasMany
+    public function menu(): BelongsTo
     {
-        return $this->hasMany(RouteItem::class, "menu_id");
+        return $this->belongsTo(RouteMenu::class, 'menu_id');
     }
 
     public function titleTranslate(): BelongsTo
