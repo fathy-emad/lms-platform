@@ -12,27 +12,29 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('courses', function (Blueprint $table) {
+        Schema::create('route_items', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('curriculum_id');
-            $table->unsignedBigInteger('teacher_id');
-            $table->json('costs'); //for course or branch or chapter or lesson
+            $table->unsignedBigInteger("menu_id");
+            $table->unsignedBigInteger("title");
+            $table->string("route");
+            $table->json("methods");
+            $table->json("icon")->nullable();
             $table->enum('ActiveEnum', ActiveEnum::values())->default(ActiveEnum::Active->value);
+            $table->unsignedInteger("priority")->nullable();
             $table->unsignedBigInteger('created_by')->nullable();
             $table->unsignedBigInteger('updated_by')->nullable();
 
-            $table->foreign("curriculum_id")
+            $table->foreign("menu_id")
                 ->references("id")
-                ->on("curricula")
+                ->on("route_menus")
                 ->restrictOnDelete()
                 ->cascadeOnUpdate();
 
-            $table->foreign("teacher_id")
+            $table->foreign("title")
                 ->references("id")
-                ->on("teachers")
+                ->on("translates")
                 ->restrictOnDelete()
                 ->cascadeOnUpdate();
-
 
             $table->foreign("created_by")
                 ->references("id")
@@ -55,6 +57,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('courses');
+        Schema::dropIfExists('route_items');
     }
 };

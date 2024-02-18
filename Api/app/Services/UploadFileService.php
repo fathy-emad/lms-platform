@@ -9,7 +9,7 @@ class UploadFileService
     public function uploadFile($driver, $fileData, $path, $model, $attribute): ?array
     {
         //attach new file and detach old
-        if (isset($fileData))
+        if (isset($fileData["file"]))
         {
             $this->deleteFile($driver, $model->{$attribute}["file"] ?? "");
             return $this->createFile($fileData, $path, $driver);
@@ -56,7 +56,7 @@ class UploadFileService
         if (isset($filesData))
         {
             foreach ($filesData AS $file){
-                $return[] = $this->createFile($file, $path, $driver);
+                if (isset($file["file"])) $return[] = $this->createFile($file, $path, $driver);
             }
             $return = array_values($return);
         }
@@ -84,7 +84,7 @@ class UploadFileService
 
     public function createFile($fileData, $path, $driver): array
     {
-        $file = $fileData["file"] ?? null;
+        $file = $fileData["file"];
         $titleFile = $fileData["title"] ?? null;
 
         $key = $this->createFileKey();
