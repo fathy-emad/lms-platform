@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import EmployeesTable from "../components/EmployeesTable";
 import { getEmployees } from "../utils/employees/EmployeesUtils";
+import EmployeesTable from "../components/tables/EmployeesTable";
 const Employees = () => {
     const [data, setData] = useState(null);
     const employees = async () => {
@@ -15,7 +15,6 @@ const Employees = () => {
             employees()
         }
     })
-
     return (
         <div>
             {data ? <EmployeesTable data={data}></EmployeesTable> : "no data found"}

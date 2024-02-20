@@ -11,6 +11,9 @@ import { isAuthenticated } from "../utils/auth/AuthUtils";
 import Logout from "../pages/auth/logout";
 import ChangePassword from "../pages/ChangePassword";
 import ForgetPass from "../pages/auth/forget";
+import Enums from "../pages/Enums";
+import Languages from "../pages/Languages";
+import Countries from "../pages/Countries";
 const AppRoutes = () => {
     return (
       <Routes>
@@ -23,6 +26,9 @@ const AppRoutes = () => {
             </Route>
             <Route  path="settings">
               <Route path="change-password" element={<ChangePassword />}></Route>
+              <Route exact path="enums" element={<Enums />} />
+              <Route exact path="languages" element={<Languages />} />
+              <Route exact path="countries" element={<Countries />} />
             </Route>
             <Route exact path="courses" element={<Courses />} />
             <Route path="*" element={<NotFound />} />
