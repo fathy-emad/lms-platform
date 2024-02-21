@@ -63,15 +63,8 @@ class AuthRequestHandler extends RequestHandler
             "jwtToken" => $token,
             "verifyToken" => null
         ]);
-        $model->refresh();
-
-        if ($model){
-            $this->data["success"] = true;
-            $this->data["data"] = $model;
-        } else {
-            $this->data["success"] = false;
-        }
-
+        $this->data["success"] = true;
+        $this->data["data"] = $model;
         return $this;
     }
     public function attempt(): void

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\AuthAdmin\Resources;
 
+use App\Http\Controllers\Employee\Permission\PermissionResource;
 use App\Http\Controllers\Setting\Country\CountryResource;
 use App\Http\Resources\TranslationResource;
 use Illuminate\Http\Request;
@@ -33,6 +34,7 @@ class LoginResource extends JsonResource
             "email_verified_at" => $this->email_verified_at,
             "jwtToken" => $this->jwtToken,
             "jwtTokenExpirationAfter" => auth('admin')->factory()->getTTL() * 60 . " seconds",
+            "permission" => new PermissionResource($this->permission),
         ];
     }
 }

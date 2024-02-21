@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use App\Enums\AdminRoleEnum;
 use App\Enums\AdminStatusEnum;
@@ -48,6 +49,11 @@ class Admin extends Authenticatable implements JWTSubject
     public function country(): BelongsTo
     {
         return $this->belongsTo(Country::class, 'country_id');
+    }
+
+    public function permission(): HasOne
+    {
+        return $this->hasOne(Permission::class, 'admin_id');
     }
 
     public function createdBy(): BelongsTo

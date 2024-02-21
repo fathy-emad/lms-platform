@@ -35,21 +35,14 @@ return new class extends Migration
             $table->string('verifyToken')->nullable();
 
             $table->unsignedBigInteger('country_id')->nullable();
-            $table->unsignedBigInteger('permission_id')->nullable();
             $table->unsignedBigInteger('created_by')->nullable();
             $table->unsignedBigInteger('updated_by')->nullable();
 
-            /*$table->foreign("country_id")
+            $table->foreign("country_id")
                 ->references("id")
                 ->on("countries")
                 ->restrictOnDelete()
-                ->cascadeOnUpdate();*/
-
-            /*$table->foreign("permission_id")
-                ->references("id")
-                ->on("permissions")
-                ->restrictOnDelete()
-                ->cascadeOnUpdate();*/
+                ->cascadeOnUpdate();
 
             $table->foreign("created_by")
                 ->references("id")
