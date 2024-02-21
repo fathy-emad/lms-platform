@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Employee\Permission\PermissionController;
 use App\Http\Controllers\Employee\Register\RegisterController;
 use Illuminate\Support\Facades\Route;
 
@@ -21,5 +22,13 @@ Route::middleware('apiAuth:admin')->group(function (){
         Route::get('register', 'read');
         Route::post('register', 'create');
         Route::put('register', 'update');
+    });
+
+    //Permission
+    Route::controller(PermissionController::class)->group(function (){
+        Route::get('permission', 'read');
+        Route::post('permission', 'create');
+        Route::put('permission', 'update');
+        Route::delete('permission', 'delete');
     });
 });

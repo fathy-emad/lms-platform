@@ -2,30 +2,18 @@
 
 namespace App\Models;
 
-use App\Enums\ActiveEnum;
 //use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class RouteItem extends Model
+class Permission extends Model
 {
+
     protected $guarded = [];
 
     protected $casts = [
-        "methods" => "array",
-        "icon" => "array",
-        "ActiveEnum" => ActiveEnum::class
+        "permissions" => "array",
     ];
-
-    public function menu(): BelongsTo
-    {
-        return $this->belongsTo(RouteMenu::class, 'menu_id');
-    }
-
-    public function titleTranslate(): BelongsTo
-    {
-        return $this->belongsTo(Translate::class, 'title');
-    }
 
     public function createdBy(): BelongsTo
     {
