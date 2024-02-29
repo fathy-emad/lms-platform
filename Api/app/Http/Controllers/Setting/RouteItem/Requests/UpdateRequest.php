@@ -22,7 +22,7 @@ class UpdateRequest extends ValidateRequest
                     return $query->where("menu_id", $this->menu_id);
                 })->ignore($this->id)
             ],
-            "methods" => "required|array",
+            "actions" => "required|array",
             //"priority" => "nullable|integer",
             "icon" => "nullable|array",
             "icon.key" => [

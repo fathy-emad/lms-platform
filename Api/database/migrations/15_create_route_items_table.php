@@ -17,7 +17,7 @@ return new class extends Migration
             $table->unsignedBigInteger("menu_id");
             $table->unsignedBigInteger("title");
             $table->string("route");
-            $table->json("methods");
+            $table->json("actions");
             $table->json("icon")->nullable();
             $table->enum('ActiveEnum', ActiveEnum::values())->default(ActiveEnum::Active->value);
             $table->unsignedInteger("priority")->nullable();

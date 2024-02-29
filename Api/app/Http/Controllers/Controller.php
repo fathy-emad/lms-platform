@@ -28,7 +28,7 @@ class Controller extends BaseController
         if ($request->has("id")) {
             $data = $this->repository->getById($request->id);
             if($data instanceof Model) return ApiResponse::sendSuccess(new $this->resource($data), "record read successfully", null);
-            return ApiResponse::sendError(["some thing went wrong to get record"], "some thing went wrong", null);
+            return ApiResponse::sendError(["some thing went wrong to get record"], $data, null);
 
         } elseif ($request->has("per_page") && $request->has("page")){
             $data = $this->repository

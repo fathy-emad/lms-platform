@@ -23,7 +23,7 @@ class RouteItemResource extends JsonResource
             "menu_id" => $this->menu_id,
             "title" => new TranslationResource($this->titleTranslate),
             "route" => $this->route,
-            "methods" => $this->methods,
+            "actions" => $this->actions,
             "icon" => $this->icon,
             "ActiveEnum" => new TranslationResource($this->ActiveEnum, true),
             "priority" => $this->priority,

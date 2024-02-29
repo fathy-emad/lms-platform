@@ -12,7 +12,7 @@ class RouteItem extends Model
     protected $guarded = [];
 
     protected $casts = [
-        "methods" => "array",
+        "actions" => "array",
         "icon" => "array",
         "ActiveEnum" => ActiveEnum::class
     ];
