@@ -1,5 +1,4 @@
 import { useNavigate } from "react-router-dom";
-import Login from "./login";
 import { unAuthenticateUser } from "../../utils/auth/AuthUtils";
 const Logout = () => {
     const navigate = useNavigate();

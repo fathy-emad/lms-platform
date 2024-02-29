@@ -65,7 +65,6 @@ export const changeForgotenPassword = async (email, token, password, newPassword
       localStorage.setItem("token", res.data.data.jwtToken);
       localStorage.setItem("isLoggedIn", true);
    }
-   console.log(res.data.errors)
    const data = {message: res.data.message, success: res.data.statusCode, errors: res.data.errors};
    return data;
 }

@@ -14,6 +14,7 @@ import ForgetPass from "../pages/auth/forget";
 import Enums from "../pages/Enums";
 import Languages from "../pages/Languages";
 import Countries from "../pages/Countries";
+import CreateRouteMenu from "../pages/CreateRouteMenu";
 const AppRoutes = () => {
     return (
       <Routes>
@@ -33,6 +34,7 @@ const AppRoutes = () => {
             <Route exact path="courses" element={<Courses />} />
             <Route path="*" element={<NotFound />} />
             <Route exact path="/logout" element={<Logout />}  />
+            <Route path="/create-route-menu" element={<CreateRouteMenu />} />
         </Route>
         <Route exact path="/login" element={isAuthenticated().message ? <Navigate to="/" /> : <Login />} />   
         <Route exact path="/forget-password" element={isAuthenticated().message ? <Navigate to="/" /> : <ForgetPass />} /> 
