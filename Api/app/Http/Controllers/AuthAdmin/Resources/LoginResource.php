@@ -34,7 +34,7 @@ class LoginResource extends JsonResource
             "email_verified_at" => $this->email_verified_at,
             "jwtToken" => $this->jwtToken,
             "jwtTokenExpirationAfter" => auth('admin')->factory()->getTTL() * 60 . " seconds",
-            "permission" => new PermissionResource($this->permission),
+            "permission" => $this->permission ? new PermissionResource($this->permission) : null,
         ];
     }
 }
