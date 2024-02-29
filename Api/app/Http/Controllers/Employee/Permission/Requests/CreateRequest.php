@@ -13,9 +13,10 @@ class CreateRequest extends ValidateRequest
             "permissions" => "required|array",
             "permissions.*.route.id" => "required|integer|exists:route_menus,id",
             "permissions.*.route.items.*.id" => "required|integer|exists:route_items,id",
-            "permissions.*.route.items.*.methods.*" => "required|boolean",
+            "permissions.*.route.items.*.actions.*" => "required|boolean",
             "permissions.*.route.items.*.allowed.read_all" => "required|boolean",
-            "permissions.*.route.items.*.allowed.update_any" => "required|boolean",
+            "permissions.*.route.items.*.allowed.update_all" => "required|boolean",
+            "permissions.*.route.items.*.allowed.delete_all" => "required|boolean",
         ];
     }
 }

@@ -6,6 +6,7 @@ use Exception;
 use Illuminate\Database\Eloquent\Model;
 use App\Interfaces\RepositoryInterface;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Arr;
 
@@ -25,12 +26,14 @@ class Repository implements RepositoryInterface
 
     public function getById(int $id): Model|string
     {
+
         try {
-            return $this->model->find($id);
-        } catch (Exception $e) {
-            // Handle other exceptions
-            // Log the exception or handle it as required
-            return $e;
+            $model = $this->model->find($id);
+            return $model ?: "Record Not Found";
+
+        } catch (ModelNotFoundException|Exception $e){
+            return $e->getMessage();
+
         }
     }
 
@@ -40,9 +43,8 @@ class Repository implements RepositoryInterface
             $model = $this->query->get();
             $this->query = $this->model->newQuery();
             return $model;
+
         } catch (Exception $e) {
-            // Handle exceptions
-            // Return an empty collection or handle as required
             return $e;
         }
     }

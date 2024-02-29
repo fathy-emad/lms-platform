@@ -19,7 +19,7 @@ class CreateRequest extends ValidateRequest
                     return $query->where("menu_id", $this->menu_id);
                 })
             ],
-            "methods" => "required|array",
+            "actions" => "required|array",
             //"priority" => "nullable|integer",
             "icon" => "nullable|array",
             "icon.file" => "nullable|file|mimes:svg,xml",
