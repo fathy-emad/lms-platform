@@ -33,7 +33,7 @@ class RouteItemRequestHandler extends RequestHandler
 
     public function uploadIcon($model = null): void
     {
-        $this->data["icon"] = UploadFile::uploadFile('public', $this->data["icon"], 'route/item/icon', $model, 'icon');
+        $this->data["icon"] = UploadFile::uploadFile('public', $this->data["icon"] ?? null, 'route/item/icon', $model, 'icon');
     }
 
     public function setPriority(): void

@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware(['apiAuth:admin', 'apiPermission'])->group(function (){
+Route::middleware(['apiAuth:admin'])->group(function (){
 
     //Language
     Route::controller(LanguageController::class)->group(function (){
