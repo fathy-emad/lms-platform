@@ -11,8 +11,9 @@ class UpdateRequest extends ValidateRequest
     public function rules(): array
     {
         return [
-            "id" => "required|integer|exists:route_items",
+            "id" => "required|integer|exists:route_items,id",
             "menu_id" => "required|integer|exists:route_menus,id",
+            "model" => "required|string",
             "title" => "required|array|min:1",
             "title.ar" => "required|string|regex:/^[\x{0600}-\x{06FF}\s]+$/u",
             "title.*" => "nullable|string",

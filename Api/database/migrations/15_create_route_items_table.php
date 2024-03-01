@@ -16,6 +16,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger("menu_id");
             $table->unsignedBigInteger("title");
+            $table->string("model");
             $table->string("route");
             $table->json("actions");
             $table->json("icon")->nullable();

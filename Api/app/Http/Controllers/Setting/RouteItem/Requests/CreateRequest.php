@@ -13,6 +13,7 @@ class CreateRequest extends ValidateRequest
         return [
             "menu_id" => "required|integer|exists:route_menus,id",
             "title" => "required|string|min:2",
+            "model" => "required|string",
             "route" => [
                 "required",
                 Rule::unique("route_items", "route")->where(function ($query){

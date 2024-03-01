@@ -21,6 +21,7 @@ class RouteItemResource extends JsonResource
         return [
             "id" => $this->id,
             "menu_id" => $this->menu_id,
+            "model" => $this->model,
             "title" => new TranslationResource($this->titleTranslate),
             "route" => $this->route,
             "actions" => $this->actions,

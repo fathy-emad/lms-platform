@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Setting\RouteItem;
 
-use App\Concretes\RequestHandler;
-use App\Models\RouteMenu;
-use Translation;
 use UploadFile;
+use Translation;
+use App\Models\RouteMenu;
+use App\Concretes\RequestHandler;
 
 class RouteItemRequestHandler extends RequestHandler
 {
