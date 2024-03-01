@@ -57,7 +57,7 @@ class RouteServiceProvider extends ServiceProvider
 
 
                 //api teacher routes
-                Route::prefix('api/teacher')->group(function (){
+                Route::prefix('teacher')->group(function (){
                     //some routes
                 });
 

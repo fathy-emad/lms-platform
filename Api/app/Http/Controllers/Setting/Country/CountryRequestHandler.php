@@ -38,6 +38,6 @@ class CountryRequestHandler extends RequestHandler
 
     public function uploadFlag($model = null): void
     {
-        $this->data["flag"] = UploadFile::upload('public', $this->data["flag"], 'countries/flags', $model, "flag");
+        $this->data["flag"] = UploadFile::uploadFile('public', $this->data["flag"], 'countries/flags', $model, "flag");
     }
 }

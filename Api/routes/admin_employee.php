@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('apiAuth:admin')->group(function (){
+Route::middleware(['apiAuth:admin', 'apiPermission'])->group(function (){
 
     //Register
     Route::controller(RegisterController::class)->group(function (){

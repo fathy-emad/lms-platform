@@ -20,7 +20,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('apiAuth:admin')->group(function (){
+Route::middleware(['apiAuth:admin', 'apiPermission'])->group(function (){
 
     //Stage
     Route::controller(StageController::class)->group(function (){
