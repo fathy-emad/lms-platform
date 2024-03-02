@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Setting\Country\Requests;
 use App\Concretes\ValidateRequest;
 use App\Enums\ActiveEnum;
 use Illuminate\Validation\Rule;
+use Illuminate\Validation\Validator;
 
 class UpdateRequest extends ValidateRequest
 {
@@ -34,5 +35,19 @@ class UpdateRequest extends ValidateRequest
             "flag.title" => "nullable|string",
             "ActiveEnum" => "required|in:".implode(",", ActiveEnum::values()),
         ];
+    }
+
+
+    /**
+     * Configure the validator instance.
+     *
+     * @param Validator $validator
+     * @return void
+     */
+    public function withValidator(Validator $validator): void
+    {
+        $validator->sometimes('flag.file', 'required|file|mimes:svg,xml', function ($input) {
+            return empty($input->flag['key']);
+        });
     }
 }
