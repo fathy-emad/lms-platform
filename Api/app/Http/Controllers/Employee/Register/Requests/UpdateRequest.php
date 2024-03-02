@@ -24,16 +24,15 @@ class UpdateRequest extends ValidateRequest
             "AdminStatusEnum" =>["required", "string", new Enum(AdminStatusEnum::class)],
             "blocked_reason" => "required_if:AdminStatusEnum," . AdminStatusEnum::Blocked->value,
             "national_id" => "required|digits:14|unique:admins,national_id,".$this->id,
-            "flag" => "nullable|array",
-            "flag.key" => [
+            "image.key" => [
                 "nullable",
                 "integer",
-                Rule::exists("languages", "flag->key")->where(function ($query){
+                Rule::exists("admins", "image->key")->where(function ($query){
                     return $query->where("id", $this->id);
                 })
             ],
-            "flag.file" => "nullable|image",
-            "flag.title" => "nullable|string",
+            "image.file" => "nullable|image",
+            "image.title" => "nullable|string",
             "country_id" => "required|exists:countries,id",
         ];
     }

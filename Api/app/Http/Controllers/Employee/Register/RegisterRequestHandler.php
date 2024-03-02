@@ -32,6 +32,6 @@ class RegisterRequestHandler extends RequestHandler
 
     public function uploadImage($model = null): void
     {
-        $this->data["image"] = UploadFile::upload('public', $this->data["image"], 'admins/images', $model. "image");
+        $this->data["image"] = UploadFile::uploadFile('public', $this->data["image"], 'admins/images', $model, "image");
     }
 }
