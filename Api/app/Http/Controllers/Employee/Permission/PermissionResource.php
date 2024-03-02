@@ -30,9 +30,7 @@ class PermissionResource extends JsonResource
                 $item["title"] = new TranslationResource($item_data->titleTranslate);
                 $item["link"] = $route_data->route ."/".$item_data->route;
                 $item["icon"] = $item_data->icon;
-                foreach ($item["actions"] as &$value) $value = (bool) $value;
-                unset($value);
-                foreach ($item["allowed"] as &$value) $value = (bool) $value;
+                foreach ($item["actions"] as &$value) $value = (int) $value;
                 unset($value);
             }
             unset($item);

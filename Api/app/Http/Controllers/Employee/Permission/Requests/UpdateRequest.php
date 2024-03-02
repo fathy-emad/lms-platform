@@ -13,10 +13,7 @@ class UpdateRequest extends ValidateRequest
             "permissions" => "required|array",
             "permissions.*.route.id" => "required|integer|exists:route_menus,id",
             "permissions.*.route.items.*.id" => "required|integer|exists:route_items,id",
-            "permissions.*.route.items.*.actions.*" => "required|boolean",
-            "permissions.*.route.items.*.allowed.read_all" => "required|boolean",
-            "permissions.*.route.items.*.allowed.update_all" => "required|boolean",
-            "permissions.*.route.items.*.allowed.delete_all" => "required|boolean",
+            "permissions.*.route.items.*.actions.*" => "required|integer|in:0,1,2",
         ];
     }
 }
