@@ -54,3 +54,17 @@ export const sendForgetPasswordRequest = async (email) => {
     return data
    
 }
+export const sendVerificationToken = async (token, email) => {
+   const res = await axios.post(import.meta.env.VITE_API_URL + "/admin/auth/verify-token", {email: email, verifyToken: token})
+   const data = {message: res.data.message, success: res.data.statusCode, errors: res.errors, data: res.data.data};
+   return data;
+}
+export const changeForgotenPassword = async (email, token, password, newPassword) => {
+   const res = await axios.post(import.meta.env.VITE_API_URL + "/admin/auth/new-password", {email: email, verifyToken: token, password: password, password_confirmation: newPassword});
+   if(res.data.statusCode == "200") {
+      localStorage.setItem("token", res.data.data.jwtToken);
+      localStorage.setItem("isLoggedIn", true);
+   }
+   const data = {message: res.data.message, success: res.data.statusCode, errors: res.data.errors};
+   return data;
+}
