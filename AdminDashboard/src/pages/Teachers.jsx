@@ -1,15 +1,19 @@
 import { useEffect, useState } from "react";
-import MainDataTable from "../components/MainDataTable";
-import axios from "axios";
-
+import { getTeachers } from "../utils/teachers/TeachersUtils";
 const Teachers = () => {
+
   const [data, setData] = useState(null);
+  const teachers = async () => {
+    const TeachersLoad = await getTeachers();
+    setData(TeachersLoad)
+  }
   useEffect(() => {
-    axios.get(import.meta.env.VITE_API_URL)
-  }, [data])
+    if(!data) {
+      teachers()
+    }
+  })
     return (
         <div>
-            <MainDataTable data={data} />
         </div>
     )
 }
