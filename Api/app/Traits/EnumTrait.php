@@ -13,12 +13,4 @@ trait EnumTrait
     {
         return array_map(fn($case) => $case->value, self::cases());
     }
-
-    public static function namesValues(): array
-    {
-        $names = array_map(fn($case) => $case->name, self::cases());
-        $values = array_map(fn($case) => $case->value, self::cases());
-
-        return array_combine($names, $values);
-    }
 }
