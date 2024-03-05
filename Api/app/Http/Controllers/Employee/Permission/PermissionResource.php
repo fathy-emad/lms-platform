@@ -22,10 +22,10 @@ class PermissionResource extends JsonResource
     {
         $permissions = $this->permissions;
         foreach ($permissions as &$route){
-            $route_data = RouteMenu::find($route["route"]["id"]);
-            $route["route"]["title"] = new TranslationResource($route_data->titleTranslate);
-            $route["route"]["icon"] = $route_data->icon;
-            foreach ($route["route"]["items"] as &$item){
+            $route_data = RouteMenu::find($route["id"]);
+            $route["title"] = new TranslationResource($route_data->titleTranslate);
+            $route["icon"] = $route_data->icon;
+            foreach ($route["items"] as &$item){
                 $item_data = RouteItem::find($item["id"]);
                 $item["title"] = new TranslationResource($item_data->titleTranslate);
                 $item["link"] = $route_data->route ."/".$item_data->route;

@@ -29,8 +29,8 @@ class ApiPermission
             $requestAction = explode("@", Route::currentRouteAction())[1];
             $permissions = auth()->user()->permission->permissions ?? [];
             foreach ($permissions as $route){
-                $route_data = RouteMenu::find($route["route"]["id"]);
-                foreach ($route["route"]["items"] as $item){
+                $route_data = RouteMenu::find($route["id"]);
+                foreach ($route["items"] as $item){
                     $item_data = RouteItem::find($item["id"]);
                     $results[$route_data->route ."/".$item_data->route] = [
                         "model" => $item_data->model,

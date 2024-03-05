@@ -12,7 +12,7 @@ class PermissionRequestHandler extends RequestHandler
         return $this;
     }
 
-    public function handleUpdate($model): static
+    public function handleUpdate(): static
     {
         $this->bindUpdatedBy();
         return $this;
