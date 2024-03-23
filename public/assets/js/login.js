@@ -1,0 +1,25 @@
+
+$(function () {
+    "use strict";
+    /*----------------------------------------
+     passward show hide
+     ----------------------------------------*/
+    $('.show-hide').show();
+    $('.show-hide span').addClass('show');
+
+    $('.show-hide span').click(function () {
+
+        if ($(this).hasClass('show')) {
+            $('input[name="password"]').attr('type', 'password');
+            $(this).addClass('show');
+        } else {
+            $('input[name="password"]').attr('type', 'text');
+            $(this).removeClass('show');
+        }
+    });
+    $('form button[type="submit"]').on('click', function () {
+        $('.show-hide span').text('Show').addClass('show');
+        $('.show-hide').parent().find('input[name="password"]').attr('type', 'password');
+    });
+
+});
