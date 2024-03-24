@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Employee\Register;
 
+use App\Http\Controllers\Employee\Permission\PermissionResource;
 use App\Http\Resources\AuthorResource;
 use App\Http\Resources\DateTimeResource;
 use App\Http\Resources\TranslationResource;
@@ -37,6 +38,7 @@ class RegisterResource extends JsonResource
             "updated_by" => $this->updated_by ? new AuthorResource($this->updatedBy) : null,
             "created_at" => new DateTimeResource($this->created_at),
             "updated_at" => new DateTimeResource($this->updated_at),
+            "permission" => $this->permission ? new PermissionResource($this->permission) : null,
         ];
     }
 }

@@ -363,10 +363,12 @@ $("#flip-back").click(function(){
 function submitForm(submit)
 {
     //Collect form data
+    $(submit).prop("disabled", true);
     let form = $(submit).closest("form");
     let action = form.attr("action");
     let method = form.attr("method").toUpperCase();
     let locale = form.attr("locale");
+    let csrf = form.attr("csrf");
     let formData = new FormData(form[0]); // form[0] gets the native form element
 
     //Before send new request do
@@ -378,16 +380,45 @@ function submitForm(submit)
         url: action,
         type: method,
         data: formData,
-        processData: false, // Important: Tell jQuery not to process the data
-        contentType: false, // Important: Tell jQuery not to set contentType
+        processData: false,
+        contentType: false,
         headers: {
             'locale': locale,
         },
         success: function(response, textStatus, jqXHR) {
+            //Case is login
+            $(submit).prop("disabled", true);
+            if (response.success && action.split("/")[action.split("/").length - 1] === "login") {
+                let data = JSON.stringify(response.data);
+                $.ajax({
+                    url: "http://127.0.0.1:8000/admin/create/session",
+                    type: "POST",
+                    processData: false,
+                    data: data,
+                    contentType: "application/json",
+                    headers: {
+                        'X-CSRF-TOKEN': csrf
+                    },
+                    success: function(response) {
 
-            console.log("success", response)
+                        let title = "Login Successfully";
+                        let message = "You will redirect to dashboard";
+                        notifyForm(title, message, "success", function () {
+                            window.location = "http://127.0.0.1:8000/admin/dashboard";
+                        }, 0, 3000);
+
+                    },
+                    error: function(xhr) {
+                        $(submit).prop("disabled", false);
+                        let title = "Some thing went wrong";
+                        let message = xhr.responseText || "Unknown error";
+                        notifyForm(title, message, "danger");
+                    }
+                });
+            }
         },
         error: function(xhr, status, error) {
+            $(submit).prop("disabled", false);
             let title = "";
             let message = "";
 
@@ -415,8 +446,9 @@ function submitForm(submit)
     });
 }
 
-function notifyForm(title, message, type)
+function notifyForm(title, message, type, callback, delay = 1000, timer = 10000)
 {
+
     $.notify(
         {
             title: title,
@@ -429,7 +461,7 @@ function notifyForm(title, message, type)
             mouse_over:true,
             showProgressbar:false,
             spacing:50,
-            timer:10000,
+            timer:timer,
             placement:{
                 from:'bottom',
                 align:'right'
@@ -438,7 +470,7 @@ function notifyForm(title, message, type)
                 x:30,
                 y:30
             },
-            delay:1000 ,
+            delay:delay ,
             z_index:10000,
             animate:{
                 enter:'animated shake',
@@ -446,4 +478,12 @@ function notifyForm(title, message, type)
             }
         }
     );
+
+    // Calculate total duration the notification will be on screen
+    const totalDuration = delay + timer;
+
+    // Set a timeout to execute the callback after the notification is done
+    if (typeof callback === 'function') {
+        setTimeout(callback, totalDuration);
+    }
 }

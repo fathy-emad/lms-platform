@@ -10,20 +10,39 @@
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-use Illuminate\Support\Facades\Route;
-use Illuminate\Http\Request;
-use Illuminate\Foundation\Application;
-use Illuminate\Support\Facades\Session;
 
+use Carbon\Carbon;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cookie;
+use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Session;
 
 Route::prefix("admin")->name("admin.")->group(function (){
 
     //guest
-    Route::view('auth/login', 'admin.auth.login')->name('auth.login');
+    Route::middleware("entity.guest:admin")->group(function (){
+        Route::post("create/session", function(Request $request){
+            $expirationMinutes = (explode(" ", $request["jwtTokenExpirationAfter"])[0] / 60) - 5;
+            session([
+                "admin_data" => [
+                    "id" => $request["id"],
+                    "jwtToken" => $request["jwtToken"],
+                    "jwtTokenExpirationAfter" => Carbon::now()->addSeconds($expirationMinutes),
+                ],
+            ]);
+            Cookie::queue(session()->getName(), session()->getId(), $expirationMinutes);
+            return true;
+        });
+        Route::view('auth/login', 'admin.auth.login')->name('auth.login');
+    });
+
 
     //Auth
-    Route::view('dashboard', 'admin.dashboard')->name('dashboard');
-    Route::view('dashboard-02', 'dashboard.dashboard-02')->name('dashboard-02');
+    Route::middleware("entity.auth:admin")->group(function (){
+        Route::view('dashboard', 'admin.dashboard')->name('dashboard');
+        Route::view('dashboard-02', 'dashboard.dashboard-02')->name('dashboard-02');
+    });
+
 
 
 });

@@ -2,9 +2,6 @@
 
 namespace App\Http\Controllers\AuthAdmin\Resources;
 
-use App\Http\Controllers\Employee\Permission\PermissionResource;
-use App\Http\Controllers\Setting\Country\CountryResource;
-use App\Http\Resources\TranslationResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -20,21 +17,8 @@ class LoginResource extends JsonResource
     {
         return [
             "id" => $this->id,
-            "name" => $this->name,
-            "email" => $this->email,
-            "phone" => $this->phone,
-            "national_id" => $this->national_id,
-            "country" => new CountryResource($this->country),
-            "AdminRoleEnum" => new TranslationResource($this->AdminRoleEnum, true),
-            "AdminStatusEnum" => new TranslationResource($this->AdminStatusEnum, true),
-            "GenderEnum" => new TranslationResource($this->GenderEnum, true),
-            "online" => $this->online,
-            "image" => $this->image,
-            "address" => $this->address,
-            "email_verified_at" => $this->email_verified_at,
             "jwtToken" => $this->jwtToken,
             "jwtTokenExpirationAfter" => auth('admin')->factory()->getTTL() * 60 . " seconds",
-            "permission" => $this->permission ? new PermissionResource($this->permission) : null,
         ];
     }
 }
