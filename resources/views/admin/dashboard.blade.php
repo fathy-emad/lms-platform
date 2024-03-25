@@ -487,4 +487,64 @@
     <script src="{{asset('assets/js/typeahead/typeahead.custom.js')}}"></script>
     <script src="{{asset('assets/js/typeahead-search/handlebars.js')}}"></script>
     <script src="{{asset('assets/js/typeahead-search/typeahead-custom.js')}}"></script>
+    <script>
+        $(function () {
+            $.ajax({
+                url: "{{ url('/api/admin/employee/register?id=' . session("admin_data")["id"]) }}",
+                type: "GET",
+                //data: formData,
+                processData: false,
+                contentType: false,
+                headers: {
+                    'locale': "{{ session("locale") }}",
+                    'Authorization': "Bearer {{ session("admin_data")["jwtToken"] }}"
+                },
+                success: function(response, textStatus, jqXHR) {
+                    if (response.success && response.statusCode === 200){
+                        let profileNav = $(".profile-nav");
+                        profileNav.find(".account-name").text(response.data.name);
+                        profileNav.find(".account-role").text(response.data.AdminRoleEnum.translate);
+
+                        if(response.data.image.file){
+                            let image = "{{url('uploads')}}/" + response.data.image.file;
+                            profileNav.find(".account-image").attr("src", image);
+                        }
+
+                    } else {
+                        let title = "Some thing went wrong";
+                        let message = "Unknown error";
+                        notifyForm(title, message, "danger");
+                    }
+                },
+                error: function(xhr, status, error) {
+                    let title = "";
+                    let message = "";
+
+                    if(xhr.status === 422 && !xhr.responseJSON.success ) {
+                        let response = xhr.responseJSON;
+                        let errors = response.errors;
+                        message = "<ul>";
+                        for (let key in errors) {
+                            if (errors.hasOwnProperty(key)) {
+                                form.find("[name=" + key + "]").addClass("is-invalid");
+                                form.addClass("was-validated");
+                                message += `<li>${errors[key]}</li>`;
+                            }
+                        }
+                        message += "</ul>";
+                        title = response.message;
+
+                    } else {
+                        title = "Some thing went wrong";
+                        message = xhr.responseText || "Unknown error";
+                    }
+
+                    notifyForm(title, message, "danger");
+                }
+            });
+        });
+    </script>
+
+
+
 @endsection

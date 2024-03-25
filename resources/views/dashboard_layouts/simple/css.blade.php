@@ -10,7 +10,7 @@
 <!-- Plugins css start-->
 @yield('css')
 <link rel="stylesheet" type="text/css" href="{{asset('assets/css/vendors/scrollbar.css')}}">
-@if(app()->getLocale() == "ar")
+@if(session("locale")== "ar")
     <link rel="stylesheet" type="text/css" href="{{asset('assets/css/vendors/prism.css')}}">
 @endif
 <!-- Bootstrap css-->

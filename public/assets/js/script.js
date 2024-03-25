@@ -15,7 +15,7 @@
     })
 
     /*----------------------------------------
-     passward show hide
+     password show hide
      ----------------------------------------*/
     $('.show-hide').show();
     $('.show-hide span').addClass('show');
@@ -109,10 +109,6 @@
     });
 
 })(jQuery);
-
-$('.loader-wrapper').fadeOut('slow', function () {
-    $(this).remove();
-});
 
 $(window).on('scroll', function () {
     if ($(this).scrollTop() > 600) {
@@ -487,3 +483,15 @@ function notifyForm(title, message, type, callback, delay = 1000, timer = 10000)
         setTimeout(callback, totalDuration);
     }
 }
+
+
+$(document).ready(function() {
+    // This ensures your code runs after the DOM has fully loaded.
+
+    $(document).ajaxStop(function() {
+        // This event is triggered when all AJAX requests have completed.
+        $('.loader-wrapper').fadeOut('slow', function() {
+            $(this).remove(); // Remove the element after the fadeOut animation.
+        });
+    });
+});

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html @if(app()->getLocale() == "ar") lang="ar" dir="rtl" @else lang="en" dir="ltr" @endif>
+<html @if(session("locale") == "ar") lang="ar" dir="rtl" @else lang="en" dir="ltr" @endif>
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -16,7 +16,7 @@
     @include('dashboard_layouts.simple.css')
     @yield('style')
   </head>
-  <body @if(app()->getLocale() == "ar") class="rtl" @endif @if(Route::current()->getName() == 'admin.dashboard') onload="startTime()" @endif>
+  <body @if(session("locale") == "ar") class="rtl" @endif @if(Route::current()->getName() == 'admin.dashboard') onload="startTime()" @endif>
     @if(Route::current()->getName() == 'admin.dashboard')
       <div class="loader-wrapper">
         <div class="loader-index"><span></span></div>

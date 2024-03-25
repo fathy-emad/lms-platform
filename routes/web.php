@@ -17,7 +17,20 @@ use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Session;
 
-Route::prefix("admin")->name("admin.")->group(function (){
+//Language Change
+Route::get('lang/{locale}', function ($locale) {
+    if (! in_array($locale, ['en', 'ar'])) {
+        abort(400);
+    }
+    Session()->put('locale', $locale);
+    Session::get('locale');
+
+    return redirect()->back();
+})->name('lang');
+
+
+//Admin routes
+Route::prefix("admin")->name("admin.")->middleware("entity.locale")->group(function (){
 
     //guest
     Route::middleware("entity.guest:admin")->group(function (){
@@ -27,7 +40,7 @@ Route::prefix("admin")->name("admin.")->group(function (){
                 "admin_data" => [
                     "id" => $request["id"],
                     "jwtToken" => $request["jwtToken"],
-                    "jwtTokenExpirationAfter" => Carbon::now()->addSeconds($expirationMinutes),
+                    "jwtTokenExpirationAfter" => Carbon::now()->addMinutes($expirationMinutes),
                 ],
             ]);
             Cookie::queue(session()->getName(), session()->getId(), $expirationMinutes);
@@ -43,20 +56,8 @@ Route::prefix("admin")->name("admin.")->group(function (){
         Route::view('dashboard-02', 'dashboard.dashboard-02')->name('dashboard-02');
     });
 
-
-
 });
 
-
-//Language Change
-Route::get('lang/{locale}', function ($locale) {
-    if (! in_array($locale, ['en', 'de', 'es','fr','pt', 'cn', 'ae'])) {
-        abort(400);
-    }
-    Session()->put('locale', $locale);
-    Session::get('locale');
-    return redirect()->back();
-})->name('lang');
 
 Route::prefix('widgets')->group(function () {
     Route::view('general-widget', 'widgets.general-widget')->name('general-widget');

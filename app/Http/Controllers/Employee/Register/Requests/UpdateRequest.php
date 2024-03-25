@@ -6,6 +6,7 @@ use App\Concretes\ValidateRequest;
 use App\Enums\ActiveEnum;
 use App\Enums\AdminRoleEnum;
 use App\Enums\AdminStatusEnum;
+use App\Enums\GenderEnum;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\Enum;
 use Illuminate\Validation\Rules\Password;
@@ -20,7 +21,7 @@ class UpdateRequest extends ValidateRequest
             "phone" => "required|digits:10|unique:admins,phone,".$this->id,
             "email" => "required|email|unique:admins,email,".$this->id,
             "AdminRoleEnum" => ["required", "string", new Enum(AdminRoleEnum::class)],
-            "GenderEnum" => ["required", "string", new Enum(ActiveEnum::class)],
+            "GenderEnum" => ["required", "string", new Enum(GenderEnum::class)],
             "AdminStatusEnum" =>["required", "string", new Enum(AdminStatusEnum::class)],
             "blocked_reason" => "required_if:AdminStatusEnum," . AdminStatusEnum::Blocked->value,
             "national_id" => "required|digits:14|unique:admins,national_id,".$this->id,

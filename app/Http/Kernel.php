@@ -74,6 +74,6 @@ class Kernel extends HttpKernel
         //WEB
         'entity.auth' => \App\Http\Middleware\EnsureEntityIsAuthenticated::class,
         'entity.guest' => \App\Http\Middleware\EnsureEntityIsGuest::class,
-
+        'entity.locale' => \App\Http\Middleware\WebLocale::class,
     ];
 }
