@@ -351,7 +351,12 @@
 {{--            <li><a href="#"><i data-feather="mail"></i><span>Inbox</span></a></li>--}}
 {{--            <li><a href="#"><i data-feather="file-text"></i><span>Taskboard</span></a></li>--}}
 {{--            <li><a href="#"><i data-feather="settings"></i><span>Settings</span></a></li>--}}
-            <li><a href="#"><i data-feather="log-in"> </i><span>Log in</span></a></li>
+            <li>
+                <form novalidate="" class="theme-form needs-validation" id="form" method="POST"
+                      action="{{ url("api/admin/auth/logout") }}" authorization="{{ session("admin_data")["jwtToken"] }}" locale="{{app()->getLocale()}}" csrf="{{ csrf_token()}}">
+                    <a href="#" onclick="submitForm(this)"><i data-feather="log-in"> </i><span>{{ __('lang.logout') }}</span></a>
+                </form>
+            </li>
           </ul>
         </li>
       </ul>

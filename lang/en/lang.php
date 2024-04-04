@@ -63,6 +63,8 @@
 		'Support Ticket' => 'Support Ticket',
 		'Search Result' => 'Search Result',
 		'Landing Page' => 'Landing Page',
+        'login' => 'Login',
+        'logout' => 'Logout',
 
 	];
 ?>

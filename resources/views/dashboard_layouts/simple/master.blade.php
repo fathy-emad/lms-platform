@@ -17,18 +17,20 @@
     @yield('style')
   </head>
   <body @if(session("locale") == "ar") class="rtl" @endif @if(Route::current()->getName() == 'admin.dashboard') onload="startTime()" @endif>
-    @if(Route::current()->getName() == 'admin.dashboard')
-      <div class="loader-wrapper">
-        <div class="loader-index"><span></span></div>
-        <svg>
-          <defs></defs>
-          <filter id="goo">
-            <fegaussianblur in="SourceGraphic" stddeviation="11" result="blur"></fegaussianblur>
-            <fecolormatrix in="blur" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 19 -9" result="goo"> </fecolormatrix>
-          </filter>
-        </svg>
-      </div>
-     @endif
+
+
+    <!-- loader -->
+    <div class="loader-wrapper">
+    <div class="loader-index"><span></span></div>
+    <svg>
+      <defs></defs>
+      <filter id="goo">
+        <fegaussianblur in="SourceGraphic" stddeviation="11" result="blur"></fegaussianblur>
+        <fecolormatrix in="blur" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 19 -9" result="goo"> </fecolormatrix>
+      </filter>
+    </svg>
+    </div>
+
     <!-- tap on top starts-->
     <div class="tap-top"><i data-feather="chevrons-up"></i></div>
     <!-- tap on tap ends-->

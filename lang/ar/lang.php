@@ -64,5 +64,7 @@
 		'Support Ticket' => 'بطاقة الدعم',
 		'Search Result' => 'نتيجة البحث',
 		'Landing Page' => 'الصفحة المقصودة',
+        'login' => 'الدخول',
+        'logout' => 'الخروج',
 	];
 ?>

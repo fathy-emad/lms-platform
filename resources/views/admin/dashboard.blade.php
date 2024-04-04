@@ -470,23 +470,23 @@
 @endsection
 
 @section('script')
-    <script src="{{asset('assets/js/chart/chartist/chartist.js')}}"></script>
-    <script src="{{asset('assets/js/chart/chartist/chartist-plugin-tooltip.js')}}"></script>
-    <script src="{{asset('assets/js/chart/knob/knob.min.js')}}"></script>
-    <script src="{{asset('assets/js/chart/knob/knob-chart.js')}}"></script>
-    <script src="{{asset('assets/js/chart/apex-chart/apex-chart.js')}}"></script>
-    <script src="{{asset('assets/js/chart/apex-chart/stock-prices.js')}}"></script>
-    <script src="{{asset('assets/js/notify/bootstrap-notify.min.js')}}"></script>
-    <script src="{{asset('assets/js/dashboard/default.js')}}"></script>
-    <script src="{{asset('assets/js/notify/index.js')}}"></script>
-    <script src="{{asset('assets/js/datepicker/date-picker/datepicker.js')}}"></script>
-    <script src="{{asset('assets/js/datepicker/date-picker/datepicker.en.js')}}"></script>
-    <script src="{{asset('assets/js/datepicker/date-picker/datepicker.custom.js')}}"></script>
-    <script src="{{asset('assets/js/typeahead/handlebars.js')}}"></script>
-    <script src="{{asset('assets/js/typeahead/typeahead.bundle.js')}}"></script>
-    <script src="{{asset('assets/js/typeahead/typeahead.custom.js')}}"></script>
-    <script src="{{asset('assets/js/typeahead-search/handlebars.js')}}"></script>
-    <script src="{{asset('assets/js/typeahead-search/typeahead-custom.js')}}"></script>
+{{--    <script src="{{asset('assets/js/chart/chartist/chartist.js')}}"></script>--}}
+{{--    <script src="{{asset('assets/js/chart/chartist/chartist-plugin-tooltip.js')}}"></script>--}}
+{{--    <script src="{{asset('assets/js/chart/knob/knob.min.js')}}"></script>--}}
+{{--    <script src="{{asset('assets/js/chart/knob/knob-chart.js')}}"></script>--}}
+{{--    <script src="{{asset('assets/js/chart/apex-chart/apex-chart.js')}}"></script>--}}
+{{--    <script src="{{asset('assets/js/chart/apex-chart/stock-prices.js')}}"></script>--}}
+{{--    <script src="{{asset('assets/js/notify/bootstrap-notify.min.js')}}"></script>--}}
+{{--    <script src="{{asset('assets/js/dashboard/default.js')}}"></script>--}}
+{{--    <script src="{{asset('assets/js/notify/index.js')}}"></script>--}}
+{{--    <script src="{{asset('assets/js/datepicker/date-picker/datepicker.js')}}"></script>--}}
+{{--    <script src="{{asset('assets/js/datepicker/date-picker/datepicker.en.js')}}"></script>--}}
+{{--    <script src="{{asset('assets/js/datepicker/date-picker/datepicker.custom.js')}}"></script>--}}
+{{--    <script src="{{asset('assets/js/typeahead/handlebars.js')}}"></script>--}}
+{{--    <script src="{{asset('assets/js/typeahead/typeahead.bundle.js')}}"></script>--}}
+{{--    <script src="{{asset('assets/js/typeahead/typeahead.custom.js')}}"></script>--}}
+{{--    <script src="{{asset('assets/js/typeahead-search/handlebars.js')}}"></script>--}}
+{{--    <script src="{{asset('assets/js/typeahead-search/typeahead-custom.js')}}"></script>--}}
     <script>
         $(function () {
             $.ajax({
@@ -508,6 +508,38 @@
                         if(response.data.image.file){
                             let image = "{{url('uploads')}}/" + response.data.image.file;
                             profileNav.find(".account-image").attr("src", image);
+                        }
+
+                        if (response.data.permission.permissions){
+                            let permissions = response.data.permission.permissions;
+                            let sidebarMenu = $("#simple-bar").find(".simplebar-content");
+                            for (const i in permissions) {
+
+                                let items = permissions[i]["items"];
+                                let item =`
+                                    <li class="sidebar-main-title">
+                                        <div>
+                                            <h6 class="lan-1">${permissions[i]["title"]["translate"]}</h6>
+                                            <p class="lan-2">{{ trans('lang.Dashboards,widgets & layout.') }}</p>
+                                        </div>
+                                    </li>
+                                    <li class="sidebar-list">
+                                    <a class="sidebar-link sidebar-title" href="#">
+                                        <i data-feather="home"></i>
+                                        <span class="lan-7">${permissions[i]["title"]["translate"]}</span>
+                                        <div class="according-menu"><i class="fa fa-angle-down"></i></div>
+                                    </a>
+                                    <ul class="sidebar-submenu" style="display:block">`;
+
+                                for (const itemKey in items) {
+                                    let active = '';
+                                    if ("api/{{request()->path()}}" === items[itemKey]["link"]) active = 'active';
+                                    item += `<li><a href="#" class="${active}">${items[itemKey]["title"]["translate"]}</a></li>`;
+                                }
+
+                                item += `</ul></li>`;
+                                sidebarMenu.append(item);
+                            }
                         }
 
                     } else {
@@ -544,7 +576,4 @@
             });
         });
     </script>
-
-
-
 @endsection

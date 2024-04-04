@@ -363,8 +363,9 @@ function submitForm(submit)
     let form = $(submit).closest("form");
     let action = form.attr("action");
     let method = form.attr("method").toUpperCase();
-    let locale = form.attr("locale");
-    let csrf = form.attr("csrf");
+    let locale = form.attr("locale") || 'ar';
+    let csrf = form.attr("csrf") || '';
+    let authorization = form.attr("authorization");
     let formData = new FormData(form[0]); // form[0] gets the native form element
 
     //Before send new request do
@@ -379,6 +380,7 @@ function submitForm(submit)
         processData: false,
         contentType: false,
         headers: {
+            'Authorization': 'Bearer ' + authorization,
             'locale': locale,
         },
         success: function(response, textStatus, jqXHR) {
@@ -402,6 +404,34 @@ function submitForm(submit)
                         notifyForm(title, message, "success", function () {
                             window.location = "http://127.0.0.1:8000/admin/dashboard";
                         }, 0, 3000);
+
+                    },
+                    error: function(xhr) {
+                        $(submit).prop("disabled", false);
+                        let title = "Some thing went wrong";
+                        let message = xhr.responseText || "Unknown error";
+                        notifyForm(title, message, "danger");
+                    }
+                });
+
+            }
+            else if(response.success && action.split("/")[action.split("/").length - 1] === "logout"){
+                $.ajax({
+                    url: "http://127.0.0.1:8000/admin/destroy/session",
+                    type: "POST",
+                    processData: false,
+                    //data: data,
+                    contentType: "application/json",
+                    headers: {
+                        'X-CSRF-TOKEN': csrf
+                    },
+                    success: function(response) {
+
+                        let title = "Logout Successfully";
+                        let message = "You will redirect to login";
+                        notifyForm(title, message, "success", function () {
+                            window.location = "http://127.0.0.1:8000/admin/auth/login";
+                        }, 0, 2000);
 
                     },
                     error: function(xhr) {
@@ -444,7 +474,6 @@ function submitForm(submit)
 
 function notifyForm(title, message, type, callback, delay = 1000, timer = 10000)
 {
-
     $.notify(
         {
             title: title,
@@ -484,14 +513,16 @@ function notifyForm(title, message, type, callback, delay = 1000, timer = 10000)
     }
 }
 
-
 $(document).ready(function() {
-    // This ensures your code runs after the DOM has fully loaded.
-
+    //This ensures your code runs after the DOM has fully loaded.
     $(document).ajaxStop(function() {
         // This event is triggered when all AJAX requests have completed.
         $('.loader-wrapper').fadeOut('slow', function() {
             $(this).remove(); // Remove the element after the fadeOut animation.
         });
+
+        loadSidebarMenuJs();
+        feather.replace();
     });
+
 });

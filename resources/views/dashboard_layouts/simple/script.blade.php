@@ -3,7 +3,6 @@
 <script src="{{asset('assets/js/bootstrap/bootstrap.bundle.min.js')}}"></script>
 <!-- feather icon js-->
 <script src="{{asset('assets/js/icons/feather-icon/feather.min.js')}}"></script>
-<script src="{{asset('assets/js/icons/feather-icon/feather-icon.js')}}"></script>
 <!-- scrollbar js-->
 <script src="{{asset('assets/js/scrollbar/simplebar.js')}}"></script>
 <script src="{{asset('assets/js/scrollbar/custom.js')}}"></script>
@@ -11,6 +10,10 @@
 <script src="{{asset('assets/js/config.js')}}"></script>
 <!-- Plugins JS start-->
 <script id="menu" src="{{asset('assets/js/sidebar-menu.js')}}"></script>
+
+<script src="{{asset('assets/js/notify/bootstrap-notify.min.js')}}"></script>
+<script src="{{asset('assets/js/notify/notify-script.js')}}"></script>
+
 @yield('script')
 
 @if(Route::current()->getName() != 'popover')

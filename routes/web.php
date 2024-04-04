@@ -40,7 +40,7 @@ Route::prefix("admin")->name("admin.")->middleware("entity.locale")->group(funct
                 "admin_data" => [
                     "id" => $request["id"],
                     "jwtToken" => $request["jwtToken"],
-                    "jwtTokenExpirationAfter" => Carbon::now()->addMinutes($expirationMinutes),
+                    "jwtTokenExpirationAfter" => Carbon::now()->addMinutes($expirationMinutes)
                 ],
             ]);
             Cookie::queue(session()->getName(), session()->getId(), $expirationMinutes);
@@ -52,8 +52,22 @@ Route::prefix("admin")->name("admin.")->middleware("entity.locale")->group(funct
 
     //Auth
     Route::middleware("entity.auth:admin")->group(function (){
+        Route::post("destroy/session", function(){
+            // Clear the session data
+            session()->flush();
+
+            // Forget the session cookie by setting its expiration to the past
+            Cookie::queue(Cookie::forget(session()->getName()));
+            // Optionally, you can regenerate the session to ensure a new session ID is generated
+            session()->regenerate();
+            return true;
+        });
+
         Route::view('dashboard', 'admin.dashboard')->name('dashboard');
         Route::view('dashboard-02', 'dashboard.dashboard-02')->name('dashboard-02');
+
+
+
     });
 
 });
