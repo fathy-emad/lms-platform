@@ -1,4 +1,4 @@
-function loadSidebarMenuJs() {
+// function loadSidebarMenuJs() {
     $(".toggle-nav").click(function () {
         $('#sidebar-links .nav-menu').css("left", "0px");
     });
@@ -361,4 +361,4 @@ function loadSidebarMenuJs() {
         }, 1000);
     }
 
-}
+// }

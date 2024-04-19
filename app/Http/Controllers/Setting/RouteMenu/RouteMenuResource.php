@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Setting\RouteMenu;
 
+use App\Http\Controllers\Setting\RouteItem\RouteItemResource;
 use App\Http\Resources\AuthorResource;
 use App\Http\Resources\DateTimeResource;
 use App\Http\Resources\TranslationResource;
@@ -25,6 +26,7 @@ class RouteMenuResource extends JsonResource
             "icon" => $this->icon,
             "ActiveEnum" => new TranslationResource($this->ActiveEnum, true),
             "priority" => $this->priority,
+            "activeItems" => RouteItemResource::collection($this->activeItems),
             "created_by" => new AuthorResource($this->createdBy),
             "updated_by" => $this->updated_by ? new AuthorResource($this->updatedBy) : null,
             "created_at" => new DateTimeResource($this->created_at),

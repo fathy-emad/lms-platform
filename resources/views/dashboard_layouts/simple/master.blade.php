@@ -72,7 +72,6 @@
     <!-- latest jquery-->
     @include('dashboard_layouts.simple.script')
     <!-- Plugin used-->
-
     <script type="text/javascript">
       if ($(".page-wrapper").hasClass("horizontal-wrapper")) {
             $(".according-menu.other" ).css( "display", "none" );

@@ -5,7 +5,7 @@
 		'Dashboards,widgets & layout.' => 'Dashboards,widgets & layout.',
 		'Dashboards & layout.' => 'Dashboards & layout.',
 		'Dashboards' => 'Dashboards',
-		'Dashboard' => 'Dashboard',
+		'dashboard' => 'Dashboard',
 		'Default' => 'Default',
 		'Widgets' => 'Widgets',
 		'General' => 'General',
@@ -65,6 +65,12 @@
 		'Landing Page' => 'Landing Page',
         'login' => 'Login',
         'logout' => 'Logout',
+        'create' => 'Create',
+        'update' => 'Update',
+        'delete' => 'Delete',
+        'view' => 'View',
+        'translate' => 'Translates',
+        'goTo' => 'Go to'
 
 	];
 ?>

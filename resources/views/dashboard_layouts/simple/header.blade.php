@@ -340,10 +340,16 @@
         <li class="maximize"><a class="text-dark" href="#!" onclick="javascript:toggleFullScreen()"><i data-feather="maximize"></i></a></li>
         <li class="profile-nav onhover-dropdown p-0 me-0">
           <div class="media profile-media">
-            <img class="b-r-10 account-image" src="{{asset('assets/images/dashboard/profile.jpg')}}" width="37" height="37" alt="">
+              @php
+                  $file = session("admin_data")["image"]["file"];
+                  $image = asset(isset($file) ? "uploads/$file" : "assets/images/dashboard/profile.jpg");
+              @endphp
+            <img class="b-r-10 account-image"
+                 src="{{ $image }}"
+                 width="37" height="37" alt="">
             <div class="media-body">
-              <span class="account-name">Emay Walter</span>
-              <p class="mb-0 font-roboto account-role">Admin <i class="middle fa fa-angle-down"></i></p>
+              <span class="account-name">{{ session("admin_data")["name"] }}</span>
+              <p class="mb-0 font-roboto account-role"> {{ session("admin_data")["AdminRoleEnum"]["translate"] }} <i class="middle fa fa-angle-down"></i></p>
             </div>
           </div>
           <ul class="profile-dropdown onhover-show-div">

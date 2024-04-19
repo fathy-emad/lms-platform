@@ -14,16 +14,59 @@
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cookie;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Session;
 
 //Language Change
 Route::get('lang/{locale}', function ($locale) {
+
     if (! in_array($locale, ['en', 'ar'])) {
         abort(400);
     }
     Session()->put('locale', $locale);
-    Session::get('locale');
+    $locale = Session::get('locale');
+
+    $url = 'http://localhost/lms-platform/public/api/admin/employee/register';
+    $queryParams = [
+        'id' => session("admin_data")["id"]
+    ];
+    $headers = [
+        'locale' => $locale,
+        'Authorization' => 'Bearer ' . session("admin_data")["jwtToken"],
+        'Accept' => 'application/json',
+    ];
+
+    $response = Http::withHeaders($headers)->get($url, $queryParams);
+
+    if ($response->successful() && $response->json()["statusCode"] == 200 && $response->json()["success"]) {
+        $session_data = session("admin_data");
+        $data = $response->json()["data"];
+        session()->put("admin_data", array_merge($session_data, $data));
+    }
+
+    if(session("page_data") !== null){
+        $url = 'http://localhost/lms-platform/public/api/admin/setting/route-item';
+        $queryParams = [
+            'id' => session("page_data")["id"]
+        ];
+        $headers = [
+            'locale' => $locale,
+            'Authorization' => 'Bearer ' . session("admin_data")["jwtToken"],
+            'Accept' => 'application/json',
+        ];
+
+        $response = Http::withHeaders($headers)->get($url, $queryParams);
+
+        if ($response->successful() && $response->json()["statusCode"] == 200 && $response->json()["success"]) {
+            $page_data = $response->json()["data"];
+            $session_page_data = session("page_data");
+            $session_page_data["route_title"] = $page_data["menu_title"]["translate"];
+            $session_page_data["title"] = $page_data["title"];
+            session()->put("page_data", $session_page_data);
+        }
+    }
+
 
     return redirect()->back();
 })->name('lang');
@@ -34,24 +77,28 @@ Route::prefix("admin")->name("admin.")->middleware("entity.locale")->group(funct
 
     //guest
     Route::middleware("entity.guest:admin")->group(function (){
+
         Route::post("create/session", function(Request $request){
-            $expirationMinutes = (explode(" ", $request["jwtTokenExpirationAfter"])[0] / 60) - 5;
-            session([
-                "admin_data" => [
-                    "id" => $request["id"],
-                    "jwtToken" => $request["jwtToken"],
-                    "jwtTokenExpirationAfter" => Carbon::now()->addMinutes($expirationMinutes)
-                ],
-            ]);
+            $admin_data = $request->all();
+            $expirationMinutes = (explode(" ", $admin_data["jwtTokenExpirationAfter"])[0] / 60) - 5;
+            $admin_data["jwtTokenExpirationAfter"] = Carbon::now()->addMinutes($expirationMinutes);
+            session(["admin_data" => $admin_data]);
             Cookie::queue(session()->getName(), session()->getId(), $expirationMinutes);
             return true;
         });
+
         Route::view('auth/login', 'admin.auth.login')->name('auth.login');
     });
 
 
     //Auth
     Route::middleware("entity.auth:admin")->group(function (){
+
+        Route::post("addTo/session", function(Request $request){
+            Session()->put($request->all());
+            return true;
+        });
+
         Route::post("destroy/session", function(){
             // Clear the session data
             session()->flush();
@@ -64,9 +111,10 @@ Route::prefix("admin")->name("admin.")->middleware("entity.locale")->group(funct
         });
 
         Route::view('dashboard', 'admin.dashboard')->name('dashboard');
-        Route::view('dashboard-02', 'dashboard.dashboard-02')->name('dashboard-02');
 
-
+        Route::prefix("employee")->name("employee.")->group(function(){
+            Route::view('permission', 'admin.employee.permission')->name("permission");
+        });
 
     });
 

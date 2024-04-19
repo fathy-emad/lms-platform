@@ -7,7 +7,7 @@
 		'Dashboards,widgets & layout.' => 'لوحات المعلومات والأدوات والتخطيط.',
 		'Dashboards & layout.' => 'لوحات القيادة والتخطيط.',
 		'Dashboards' => 'لوحات القيادة',
-		'Dashboard' => 'لوحة القيادة',
+		'dashboard' => 'لوحة القيادة',
 		'Default' => 'إفتراضي',
 		'Ecommerce' => 'التجارة الإلكترونية',
 		'Widgets' => 'الحاجيات',
@@ -66,5 +66,11 @@
 		'Landing Page' => 'الصفحة المقصودة',
         'login' => 'الدخول',
         'logout' => 'الخروج',
+        'create' => 'إنشاء',
+        'update' => 'تعديل',
+        'delete' => 'حذف',
+        'view' => 'عرض',
+        'translate' => 'الترجمه',
+        'goTo' => 'الذهاب إلى'
 	];
 ?>

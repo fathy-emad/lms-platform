@@ -24,6 +24,11 @@ class RouteMenu extends Model
         return $this->hasMany(RouteItem::class, "menu_id");
     }
 
+    public function activeItems(): HasMany
+    {
+        return $this->items()->where("ActiveEnum", "active");
+    }
+
     public function titleTranslate(): BelongsTo
     {
         return $this->belongsTo(Translate::class, 'title');

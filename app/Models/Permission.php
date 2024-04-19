@@ -15,6 +15,11 @@ class Permission extends Model
         "permissions" => "array",
     ];
 
+    public function admin(): BelongsTo
+    {
+        return $this->belongsTo(Admin::class, "admin_id");
+    }
+
     public function createdBy(): BelongsTo
     {
         return $this->belongsTo(Admin::class, 'created_by');

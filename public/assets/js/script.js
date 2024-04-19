@@ -355,8 +355,7 @@ $("#flip-back").click(function(){
     $(".flip-card-inner").removeClass("flipped")
 })
 
-
-function submitForm(submit)
+function submitForm(submit, datatable = null)
 {
     //Collect form data
     $(submit).prop("disabled", true);
@@ -389,7 +388,7 @@ function submitForm(submit)
             if (response.success && action.split("/")[action.split("/").length - 1] === "login") {
                 let data = JSON.stringify(response.data);
                 $.ajax({
-                    url: "http://127.0.0.1:8000/admin/create/session",
+                    url: APP_URL + "/admin/create/session",
                     type: "POST",
                     processData: false,
                     data: data,
@@ -402,8 +401,8 @@ function submitForm(submit)
                         let title = "Login Successfully";
                         let message = "You will redirect to dashboard";
                         notifyForm(title, message, "success", function () {
-                            window.location = "http://127.0.0.1:8000/admin/dashboard";
-                        }, 0, 3000);
+                            window.location = APP_URL + "/admin/dashboard";
+                        }, 0, 2000);
 
                     },
                     error: function(xhr) {
@@ -417,7 +416,7 @@ function submitForm(submit)
             }
             else if(response.success && action.split("/")[action.split("/").length - 1] === "logout"){
                 $.ajax({
-                    url: "http://127.0.0.1:8000/admin/destroy/session",
+                    url: APP_URL + "/admin/destroy/session",
                     type: "POST",
                     processData: false,
                     //data: data,
@@ -441,6 +440,17 @@ function submitForm(submit)
                         notifyForm(title, message, "danger");
                     }
                 });
+            }
+            else {
+                $(submit).prop("disabled", false);
+                form[0].reset();
+                if(window.afterSubmit) afterSubmit();
+                datatable.DataTable().ajax.reload(null, false);
+                form.closest(".modal").find(".btn-close").click();
+
+                let title = response.message;
+                let message = "";
+                notifyForm(title, message, "success",null, 0, 5000);
             }
         },
         error: function(xhr, status, error) {
@@ -514,15 +524,52 @@ function notifyForm(title, message, type, callback, delay = 1000, timer = 10000)
 }
 
 $(document).ready(function() {
-    //This ensures your code runs after the DOM has fully loaded.
-    $(document).ajaxStop(function() {
-        // This event is triggered when all AJAX requests have completed.
-        $('.loader-wrapper').fadeOut('slow', function() {
-            $(this).remove(); // Remove the element after the fadeOut animation.
+
+    $('.loader-wrapper').fadeOut('slow', function() {
+        $(this).remove(); // Remove the element after the fadeOut animation.
+    });
+
+    //init datatable if found
+    if ($("#data-table-ajax").length){
+
+        $('#data-table-ajax').DataTable({
+            "processing": true,
+            //"serverSide": true,
+            "ajax": {
+                "url": datatableUri,
+                "type": "GET",
+                "headers": {
+                    'Authorization': 'Bearer ' + datatableAuthToken,
+                    'locale': dataTableLocale,
+                },
+                "dataSrc": function (json) {
+                    return json.data;
+                }
+            },
+            "columns": datatableColumns,
         });
 
-        loadSidebarMenuJs();
-        feather.replace();
-    });
+        $('#data-table-ajax tbody').on('click', '.action-edit', function() {
+            var id = $(this).data('id');
+            alert(id)
+            // You can now use this id to handle your edit action, e.g., open a modal with a form
+            // ...
+        });
+
+        $('#data-table-ajax tbody').on('click', '.action-delete', function() {
+            var id = $(this).data('id');
+            alert(id)
+            // You can now use this id to handle your delete action
+            // ...
+        });
+
+        $('#data-table-ajax tbody').on('click', '.action-view', function() {
+            var id = $(this).data('id');
+            alert(id)
+            // You can now use this id to handle your delete action
+            // ...
+        });
+    }
+
 
 });

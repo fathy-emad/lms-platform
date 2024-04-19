@@ -15,6 +15,7 @@ class UpdateRequest extends ValidateRequest
             "permissions" => "required|array",
             "permissions.*.id" => "required|integer|exists:route_menus,id",
             "permissions.*.items.*.id" => "required|integer|exists:route_items,id",
+            "permissions.*.items.*.specific_actions_belongs_to" => "nullable|string",
             "permissions.*.items.*.actions.*" => "required|integer|in:0,1,2",
         ];
     }
