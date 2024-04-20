@@ -55,6 +55,8 @@
 </div>
 <script>
     function setPageDataToSession(pageData) {
+        let url = "{{ url('') }}";
+
         $.ajax({
             url: "http://127.0.0.1:8000/admin/addTo/session",
             type: "POST",
@@ -65,7 +67,9 @@
                 'X-CSRF-TOKEN': '{{ csrf_token() }}',
             },
             success: function(response) {
-                window.location = "{{ url('admin/employee/permission') }}";
+                let uri = url + JSON.parse(pageData).link
+                uri = uri.replace(new RegExp('api', 'g'), '');
+                window.location = uri;
             },
             error: function(xhr, status, error) {
                 let title = "Some thing went wrong";

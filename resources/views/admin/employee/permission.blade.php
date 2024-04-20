@@ -45,7 +45,11 @@
                     <div class="card">
                         @if(session("page_data")["actions"]["create"])
                             <div class="card-header">
-                                <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target=".create_modal" data-bs-original-title="" title="" fdprocessedid="pqwxqf">{{ __('lang.create') }} {{ session("page_data")["title"]["translate"] }}</button>
+                                <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target=".create_modal"
+                                        data-bs-original-title="{{ __('lang.create') }} {{ session("page_data")["title"]["translate"] }}"
+                                        title="{{ __('lang.create') }} {{ session("page_data")["title"]["translate"] }}" fdprocessedid="pqwxqf">
+                                    {{ __('lang.create') }} {{ session("page_data")["title"]["translate"] }}
+                                </button>
                             </div>
                         @endif
                         <div class="card-body">
@@ -100,7 +104,7 @@
                                         <div class="col-12 mb-3">
                                             @php $admins = \App\Models\Admin::all(); @endphp
                                             <div class="col-form-label">{{ __("attributes.admin") }}</div>
-                                            <select name="admin_id" class="admin_id col-sm-12">
+                                            <select name="admin_id" class="col-sm-12" id="admin_id">
                                                 @foreach($admins as $admin)
                                                     <option value="{{ $admin->id }}">{{ $admin->name }} ({{ $admin->phone }})</option>
                                                 @endforeach
@@ -124,6 +128,48 @@
                     </div>
                 </div>
             </div>
+            <div class="modal fade update_modal" aria-labelledby="myLargeModalLabel" style="display: none;" data-bs-backdrop="static" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title" id="myLargeModalLabel">{{ __('lang.update') }} {{ session("page_data")["title"]["translate"] }}</h4>
+                            <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close" data-bs-original-title="" title=""></button>
+                        </div>
+                        <div class="modal-body">
+                            <form novalidate="" class="theme-form needs-validation" id="form2" method="POST" authorization="{{session("admin_data")["jwtToken"]}}"
+                                  action="{{ url(session("page_data")["link"]) }}" locale="{{session("locale")}}" csrf="{{ csrf_token()}}">
+                                <input type="hidden" name="id" value="">
+                                <input type="hidden" name="_method" value="PUT">
+                                <div class="form-group">
+                                    <div class="row">
+
+                                        <div class="col-12 mb-3">
+                                            @php $admins = \App\Models\Admin::all(); @endphp
+                                            <div class="col-form-label">{{ __("attributes.admin") }}</div>
+                                            <select name="admin_id" class="col-sm-12" id="admin_id">
+                                                @foreach($admins as $admin)
+                                                    <option value="{{ $admin->id }}">{{ $admin->name }} ({{ $admin->phone }})</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+
+                                        <div class="col-sm-12">
+                                            <div class="col-form-label">{{ __("attributes.select_permissions") }}</div>
+                                            <div class="megaoptions-border-space-sm">
+                                                <div class="row megaOptions"></div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="form-group mb-0">
+                                    <button class="btn btn-primary btn-block" onclick="submitForm(this, $('#data-table-ajax'))" type="button">{{ __("lang.update") }}</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
         @endif
     </div>
 @endsection
@@ -134,6 +180,7 @@
     <script src="{{asset('assets/js/height-equal.js')}}"></script>
     <script>
 
+        let htmlPermissions = "";
         let datatableUri = "{{ url("api")."/admin/employee/permission"}}";
         let datatableAuthToken = "{{session("admin_data")["jwtToken"]}}";
         let dataTableLocale =  "{{session("locale")}}";
@@ -154,23 +201,74 @@
                 "data": null,
                 "orderable": false,
                 "searchable": false,
-                "render": function (data, type, row) {
-                    return `
-                                   <div class="row justify-content-start">
-                                        <div class="col-auto"><button class="btn btn-warning btn-sm action-edit" data-id="${row.name}"><i class="fa fa-edit"></i></button></div>
-                                        <div class="col-auto"><button class="btn btn-primary btn-sm action-view" data-id="${row.id}"><i class="fa fa-eye"></i></button></div>
-                                        <div class="col-auto"><button class="btn btn-danger btn-sm action-delete" data-id="${row.id}"><i class="fa fa-trash"></i></button></div>
-                                   </div>`;
+                "render": function (data) {
+                    const dataString = JSON.stringify(data).replace(/"/g, '&quot;');
+                    return `<div class="row justify-content-start">
+                                <div class="col-auto">
+                                    <button class="btn btn-sm btn-warning" type="button" onclick="openModalUpdate(${dataString})"
+                                            data-bs-original-title="{{ __('lang.update') }} {{ session("page_data")["title"]["translate"] }}"
+                                            title="{{ __('lang.update') }} {{ session("page_data")["title"]["translate"] }}" fdprocessedid="pqwxqf">
+                                        <i class="fa fa-edit"></i></button>
+                                    </button>
+                                </div>
+                                <div class="col-auto"><button class="btn btn-primary btn-sm action-view" data-id="${data.id}"><i class="fa fa-eye"></i></button></div>
+                                <div class="col-auto"><button class="btn btn-danger btn-sm action-delete" data-id="${data.id}"><i class="fa fa-trash"></i></button></div>
+                           </div>`;
                 }
             }
         ];
-        function afterSubmit(){
-            $("[data-type=itemContainer]").css("opacity", 0.5);
-            $("[data-type=itemData]").css("opacity", 0.5);
+
+        function onRouteMenuCheckBoxChange(element){
+            $(element).closest("[data-type=routeContainer]").find("[data-type=itemContainer]").css("opacity", $(element).prop("checked") ? 1 : 0.5);
+            $(element).closest("[data-type=routeContainer]").find("[data-type=itemCheckBox]").prop("disabled", !$(element).prop("checked"));
+            $(element).prev().prop("disabled", !$(element).prop("checked"));
         }
 
+        function onItemCheckBoxChange(element){
+            $(element).closest("[data-type=itemContainer]").find("[data-type=input]").prop("disabled", !$(element).prop("checked"));
+            $(element).closest("[data-type=itemContainer]").find("[data-type=itemData]").css("opacity", $(element).prop("checked") ? 1 : 0.5);
+        }
+
+
+        function openModalUpdate(data) {
+            let modal = $(".update_modal");
+            let form = modal.find("form");
+            form[0].reset();
+            $(modal).find('#admin_id').select2();
+            $(modal).find('#admin_id').val(data.admin_id).trigger('change');
+            $(modal).find(".megaOptions").empty();
+            $(modal).find(".megaOptions").append(htmlPermissions);
+            $(modal).find("[name=id]").val(data.id);
+            for (const i in data.permissions) {
+                let permission = data.permissions[i];
+                $(modal).find("[data-routeMenuCheckBox=" + permission.id + "]").click();
+
+                for (const j in permission.items) {
+                    let item = permission.items[j];
+                    $(modal).find("[data-itemsCheckBox=" + item.id + "]").click();
+                    $(modal).find("[data-specific_actions_belongs_to=" + item.id + "]").val(item.specific_actions_belongs_to);
+
+                    for (const k in item.actions) {
+                        let action = item.actions[k];
+                        $(modal).find(`[data-actions=${k}_${item.id}]`).val(action);
+                    }
+                }
+            }
+            modal.modal("show");
+        }
+
+
+        $('.create_modal').on('show.bs.modal', function (e) {
+            let form = $(this).find("form");
+            form[0].reset();
+            $(this).find('#admin_id').select2();
+            $(this).find('#admin_id').val($(this).find('#admin_id option:first').val()).trigger('change');
+            $(this).find(".megaOptions").append(htmlPermissions);
+        });
+
+        $('.create_modal').on('hidden.bs.modal', function (e) { $(this).find(".megaOptions").empty(); });
+
         $(document).ready(function() {
-            $(".admin_id").select2();
 
             //Get route menu and set data to dom object
             $.ajax({
@@ -184,7 +282,6 @@
                     'locale': "{{ session("locale") }}",
                 },
                 success: function(response, textStatus, jqXHR) {
-                    let htmlPermissions = "";
                     let data = response.data;
                     for (const i in data) {
                         htmlPermissions += `<div class="col-sm-12 mb-3" style="box-shadow: 2px 4px 6px 0px rgba(0, 0, 0, 0.3);" data-type="routeContainer">
@@ -192,7 +289,7 @@
                                                     <div class="media p-1">
                                                         <div class="form-check checkbox checkbox-solid-primary me-1">
                                                              <input type="hidden" name="permissions[${i}][id]" value="${data[i].id}" data-type="input" disabled/>
-                                                             <input class="form-check-input" id="check_${i}" type="checkbox" data-type="routeMenuCheckBox">
+                                                             <input class="form-check-input" id="check_${i}" type="checkbox" data-routeMenuCheckBox="${data[i].id}" onchange="onRouteMenuCheckBoxChange(this)">
                                                              <label class="form-check-label" for="check_${i}"></label>
                                                         </div>
                                                         <div class="media-body">
@@ -204,7 +301,7 @@
                                                         <div class="media p-1">
                                                             <div class="form-check checkbox checkbox-solid-primary me-1">
                                                                 <input type="hidden" type="checkbox" name="permissions[${i}][items][${j}][id]" value="${item.id}" data-type="input" disabled/>
-                                                                <input class="form-check-input" id="check_${i}_${j}" type="checkbox" data-type="itemCheckBox" disabled>
+                                                                <input class="form-check-input" id="check_${i}_${j}" type="checkbox" data-itemsCheckBox="${item.id}" onchange="onItemCheckBoxChange(this)" data-type="itemCheckBox" disabled>
                                                                 <label class="form-check-label" for="check_${i}_${j}"></label>
                                                             </div>
                                                             <div class="media-body">
@@ -213,7 +310,7 @@
                                                                     <div class="col-12">
                                                                         <div class="mb-3">
                                                                             <label for="specific_actions_belongs_to">Specific actions belongs to (filed)</label>
-                                                                            <input class="form-control" name="permissions[${i}][items][${j}][specific_actions_belongs_to]" id="specific_actions_belongs_to" type="text" placeholder="created_by" data-type="input" disabled>
+                                                                            <input class="form-control" name="permissions[${i}][items][${j}][specific_actions_belongs_to]" id="specific_actions_belongs_to" type="text" placeholder="created_by" data-specific_actions_belongs_to="${item.id}" data-type="input" disabled>
                                                                         </div>
                                                                     </div>
                                                                     <div class="col-12">
@@ -225,7 +322,7 @@
                                 htmlPermissions += `<div class="col-6 mt-3">
                                                         <div class="mb-3">
                                                             <label for="actions_${i}_${j}_${k}">${action}</label>
-                                                            <select name="permissions[${i}][items][${j}][actions][${action}]" data-type="input" disabled>
+                                                            <select name="permissions[${i}][items][${j}][actions][${action}]" data-actions="${action}_${item.id}" data-type="input" disabled>
                                                                 <option value="0">none</option>
                                                                 <option value="2">belongs to</option>
                                                                 <option value="1">any</option>
@@ -238,18 +335,6 @@
                         }
                         htmlPermissions += `</div></div></div></div>`;
                     }
-
-                    $(".megaOptions").append(htmlPermissions);
-                    $("[data-type=routeMenuCheckBox]").on("change", function () {
-                        $(this).closest("[data-type=routeContainer]").find("[data-type=itemContainer]").css("opacity", $(this).prop("checked") ? 1 : 0.5);
-                        $(this).closest("[data-type=routeContainer]").find("[data-type=itemCheckBox]").prop("disabled", !$(this).prop("checked"));
-                        $(this).prev().prop("disabled", !$(this).prop("checked"));
-                    });
-
-                    $("[data-type=itemCheckBox]").on("change", function () {
-                        $(this).closest("[data-type=itemContainer]").find("[data-type=input]").prop("disabled", !$(this).prop("checked"));
-                        $(this).closest("[data-type=itemContainer]").find("[data-type=itemData]").css("opacity", $(this).prop("checked") ? 1 : 0.5);
-                    });
                 },
                 error: function(xhr, status, error) {
                     let title = "Some thing went wrong";
@@ -257,6 +342,22 @@
                     notifyForm(title, message, "danger");
                 }
             });
+
+
+            $('#data-table-ajax tbody').on('click', '.action-delete', function() {
+                var id = $(this).data('id');
+                alert(id)
+                // You can now use this id to handle your delete action
+                // ...
+            });
+
+            $('#data-table-ajax tbody').on('click', '.action-view', function() {
+                var id = $(this).data('id');
+                alert(id)
+                // You can now use this id to handle your delete action
+                // ...
+            });
+
         });
 
     </script>

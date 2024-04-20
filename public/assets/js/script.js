@@ -444,10 +444,8 @@ function submitForm(submit, datatable = null)
             else {
                 $(submit).prop("disabled", false);
                 form[0].reset();
-                if(window.afterSubmit) afterSubmit();
                 datatable.DataTable().ajax.reload(null, false);
                 form.closest(".modal").find(".btn-close").click();
-
                 let title = response.message;
                 let message = "";
                 notifyForm(title, message, "success",null, 0, 5000);
@@ -549,26 +547,6 @@ $(document).ready(function() {
             "columns": datatableColumns,
         });
 
-        $('#data-table-ajax tbody').on('click', '.action-edit', function() {
-            var id = $(this).data('id');
-            alert(id)
-            // You can now use this id to handle your edit action, e.g., open a modal with a form
-            // ...
-        });
-
-        $('#data-table-ajax tbody').on('click', '.action-delete', function() {
-            var id = $(this).data('id');
-            alert(id)
-            // You can now use this id to handle your delete action
-            // ...
-        });
-
-        $('#data-table-ajax tbody').on('click', '.action-view', function() {
-            var id = $(this).data('id');
-            alert(id)
-            // You can now use this id to handle your delete action
-            // ...
-        });
     }
 
 
