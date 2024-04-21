@@ -170,6 +170,72 @@
                     </div>
                 </div>
             </div>
+            <div class="modal fade view_modal" aria-labelledby="myLargeModalLabel" style="display: none;" data-bs-backdrop="static" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title" id="myLargeModalLabel">{{ __('lang.view') }} {{ session("page_data")["title"]["translate"] }}</h4>
+                            <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close" data-bs-original-title="" title=""></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <form novalidate="" class="theme-form needs-validation">
+                                    <div class="row">
+                                        <div class="col-12 mb-3">
+                                            @php $admins = \App\Models\Admin::all(); @endphp
+                                            <div class="col-form-label">{{ __("attributes.admin") }}</div>
+                                            <select name="admin_id" class="col-sm-12" id="admin_id">
+                                                @foreach($admins as $admin)
+                                                    <option value="{{ $admin->id }}">{{ $admin->name }} ({{ $admin->phone }})</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+
+                                        <div class="col-sm-12">
+                                            <div class="col-form-label">{{ __("attributes.select_permissions") }}</div>
+                                            <div class="megaoptions-border-space-sm">
+                                                <div class="row megaOptions"></div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal fade delete_modal" aria-labelledby="myLargeModalLabel" style="display: none;" data-bs-backdrop="static" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title" id="myLargeModalLabel">{{ __('lang.delete') }} {{ session("page_data")["title"]["translate"] }}</h4>
+                            <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close" data-bs-original-title="" title=""></button>
+                        </div>
+                        <div class="modal-body">
+                            <form novalidate="" class="theme-form needs-validation" id="form3" method="POST" authorization="{{session("admin_data")["jwtToken"]}}"
+                                  action="{{ url(session("page_data")["link"]) }}" locale="{{session("locale")}}" csrf="{{ csrf_token()}}">
+                                <input type="hidden" name="id" value="">
+                                <input type="hidden" name="_method" value="DELETE">
+                                <div class="form-group">
+                                    <div class="row">
+                                        <div class="alert alert-danger" role="alert">
+                                            <h4 class="alert-heading">Well done!</h4>
+                                            <p>Aww yeah, you successfully read this important alert message.</p>
+                                            <hr>
+                                            <p data-type="message" class="mb-0">Are you sure you want to delete this record</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group mb-0">
+                                    <button class="btn btn-danger btn-block" onclick="submitForm(this, $('#data-table-ajax'))" type="button">{{ __("lang.delete") }}</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         @endif
     </div>
 @endsection
@@ -211,8 +277,20 @@
                                         <i class="fa fa-edit"></i></button>
                                     </button>
                                 </div>
-                                <div class="col-auto"><button class="btn btn-primary btn-sm action-view" data-id="${data.id}"><i class="fa fa-eye"></i></button></div>
-                                <div class="col-auto"><button class="btn btn-danger btn-sm action-delete" data-id="${data.id}"><i class="fa fa-trash"></i></button></div>
+                                <div class="col-auto">
+                                    <button class="btn btn-sm btn-primary" type="button" onclick="openModalView(${dataString})"
+                                            data-bs-original-title="{{ __('lang.view') }} {{ session("page_data")["title"]["translate"] }}"
+                                            title="{{ __('lang.view') }} {{ session("page_data")["title"]["translate"] }}" fdprocessedid="pqwxqf">
+                                        <i class="fa fa-eye"></i></button>
+                                    </button>
+                                </div>
+                                <div class="col-auto">
+                                    <button class="btn btn-sm btn-danger" type="button" onclick="openModalDelete(${dataString})"
+                                            data-bs-original-title="{{ __('lang.delete') }} {{ session("page_data")["title"]["translate"] }}"
+                                            title="{{ __('lang.delete') }} {{ session("page_data")["title"]["translate"] }}" fdprocessedid="pqwxqf">
+                                        <i class="fa fa-trash"></i></button>
+                                    </button>
+                                </div>
                            </div>`;
                 }
             }
@@ -228,7 +306,6 @@
             $(element).closest("[data-type=itemContainer]").find("[data-type=input]").prop("disabled", !$(element).prop("checked"));
             $(element).closest("[data-type=itemContainer]").find("[data-type=itemData]").css("opacity", $(element).prop("checked") ? 1 : 0.5);
         }
-
 
         function openModalUpdate(data) {
             let modal = $(".update_modal");
@@ -256,6 +333,43 @@
             }
             modal.modal("show");
         }
+        function openModalView(data) {
+            let modal = $(".view_modal");
+            $(modal).find('#admin_id').select2();
+            $(modal).find('#admin_id').val(data.admin_id).trigger('change');
+            $(modal).find(".megaOptions").empty();
+            $(modal).find(".megaOptions").append(htmlPermissions);
+
+            for (const i in data.permissions) {
+                let permission = data.permissions[i];
+                $(modal).find("[data-routeMenuCheckBox=" + permission.id + "]").click();
+
+                for (const j in permission.items) {
+                    let item = permission.items[j];
+                    $(modal).find("[data-itemsCheckBox=" + item.id + "]").click();
+                    $(modal).find("[data-specific_actions_belongs_to=" + item.id + "]").val(item.specific_actions_belongs_to);
+
+                    for (const k in item.actions) {
+                        let action = item.actions[k];
+                        $(modal).find(`[data-actions=${k}_${item.id}]`).val(action);
+                    }
+                }
+            }
+
+            $(modal).find('#admin_id').prop("disabled", true);
+            $(modal).find("[data-routeMenuCheckBox]").prop("disabled", true);
+            $(modal).find("[data-specific_actions_belongs_to]").prop("disabled", true);
+            $(modal).find("[data-itemsCheckBox]").prop("disabled", true);
+            $(modal).find("[data-actions]").prop("disabled", true);
+
+            modal.modal("show");
+        }
+        function openModalDelete(data) {
+            let modal = $(".delete_modal");
+            $(modal).find("[name=id]").val(data.id);
+            $(modal).find("[data-type=message]").html(`Are you sure you want to delete <strong>(${data.admin.name})</strong> permissions?`);
+            modal.modal("show");
+        }
 
 
         $('.create_modal').on('show.bs.modal', function (e) {
@@ -281,7 +395,7 @@
                     'Authorization': 'Bearer ' + "{{ session("admin_data")["jwtToken"] }}",
                     'locale': "{{ session("locale") }}",
                 },
-                success: function(response, textStatus, jqXHR) {
+                success: function(response) {
                     let data = response.data;
                     for (const i in data) {
                         htmlPermissions += `<div class="col-sm-12 mb-3" style="box-shadow: 2px 4px 6px 0px rgba(0, 0, 0, 0.3);" data-type="routeContainer">
@@ -342,22 +456,6 @@
                     notifyForm(title, message, "danger");
                 }
             });
-
-
-            $('#data-table-ajax tbody').on('click', '.action-delete', function() {
-                var id = $(this).data('id');
-                alert(id)
-                // You can now use this id to handle your delete action
-                // ...
-            });
-
-            $('#data-table-ajax tbody').on('click', '.action-view', function() {
-                var id = $(this).data('id');
-                alert(id)
-                // You can now use this id to handle your delete action
-                // ...
-            });
-
         });
 
     </script>
