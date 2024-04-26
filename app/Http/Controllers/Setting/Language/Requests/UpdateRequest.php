@@ -29,7 +29,7 @@ class UpdateRequest extends ValidateRequest
             ],
             "flag.file" => "nullable|file|mimes:svg,xml",
             "flag.title" => "nullable|string",
-            "ActiveEnum" => "required|in:".implode(",", ActiveEnum::values()),
+            "ActiveEnum" => "sometimes|in:".implode(",", ActiveEnum::values()),
         ];
     }
 

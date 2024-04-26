@@ -11,7 +11,6 @@
 
     $('.prooduct-details-box .close').on('click', function (e) {
         var tets = $(this).parent().parent().parent().parent().addClass('d-none');
-        console.log(tets);
     })
 
     /*----------------------------------------
@@ -83,7 +82,6 @@
         }
     });
     $(".search-full input").keyup(function (e) {
-        console.log(e.target.value);
         if (e.target.value) {
             $("body").addClass("offcanvas");
         } else {
@@ -444,6 +442,8 @@ function submitForm(submit, datatable = null)
             else {
                 $(submit).prop("disabled", false);
                 form[0].reset();
+                form.find("[name]").removeClass("is-invalid");
+                form.removeClass("was-validated");
                 datatable.DataTable().ajax.reload(null, false);
                 form.closest(".modal").find(".btn-close").click();
                 let title = response.message;
@@ -462,8 +462,8 @@ function submitForm(submit, datatable = null)
                 message = "<ul>";
                 for (let key in errors) {
                     if (errors.hasOwnProperty(key)) {
-                        form.find("[name=" + key + "]").addClass("is-invalid");
-                        form.addClass("was-validated");
+                        //note check if name contain . spread and find test[]
+                        form.find("[name='" + key + "']").addClass("is-invalid");
                         message += `<li>${errors[key]}</li>`;
                     }
                 }
@@ -549,5 +549,61 @@ $(document).ready(function() {
 
     }
 
+    //upload file builder
+    if ($(".fileUploadBuilder").length){
 
+        let count = 0;
+        $(".fileUploadBuilder").each(function () {
+
+            let uploadFileBuilder = $(this),
+                title = uploadFileBuilder.data("title") || false,
+                multiple = uploadFileBuilder.data("multiple") || false,
+                values = uploadFileBuilder.data("values") || [],
+                name = uploadFileBuilder.data("name"),
+                accepts = uploadFileBuilder.data("accepts"),
+                template = `<div class="mb-3 add-upload-file"><button type="button" class="btn btn-sm btn-primary" style="height: 60px !important;" onclick=""><i class="fa fa-plus"></i></button></div>
+                                    <div class="border border-2 rounded-3 p-2 row justify-content-between align-items-center file-container">
+                                        <div class="col-1 image-upload-file"><img data-file="preview" class="border border-1 round-badge-primary" src="${APP_URL}/assets/images/no-image.jpg" alt="no-image" width="75" height="60"></div>
+                                        <div class="col-1">
+                                            <input type="hidden" data-file="key" name="${name}${multiple ? `[${count}]` : ''}[key]" value="">
+                                            <input type="file" data-file="file"  name="${name}${multiple ? `[${count}]` : ''}[file]" accept="${accepts}" style="display: none">
+                                            <button type="button" class="btn btn-lg btn-success upload-file" style="height: 60px !important;" onclick="$(this).prev().click()"><i class="fa fa-cloud-upload"></i></button>
+                                        </div>
+                                        <div class="col-6 title-container">
+                                            <div class="input-group-square">
+                                                <div class="input-group" style="height: 60px !important;">
+                                                    <div class="input-group-prepend"><span class="input-group-text" style="height: 100% !important;">title</span></div>
+                                                    <input class="form-control" type="text" name="${name}${multiple ? `[${count}]` : ''}[title]" placeholder="title image">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-1">
+                                            <button type="button" class="btn btn-lg btn-danger delete-upload-file" style="height: 60px !important;" onclick=""><i class="fa fa-trash"></i></button>
+                                        </div>
+                                    </div>`;
+
+
+            uploadFileBuilder.append(template);
+            if (!title) uploadFileBuilder.find(".title-container").hide();
+            if (!multiple){
+                uploadFileBuilder.find(".add-upload-file").hide();
+                uploadFileBuilder.find(".delete-upload-file").hide();
+            }
+
+            //add event to input file
+            uploadFileBuilder.find("[type=file]").on("change", function (event) {
+                let file = event.target.files[0];
+                let reader = new FileReader();
+                reader.onload = function(e) {
+                    uploadFileBuilder.find("img").attr('src', e.target.result); // Set the src of the img tag
+                };
+                reader.readAsDataURL(file);
+                $(this).prev().val("");
+            });
+
+            count++;
+        });
+
+
+    }
 });

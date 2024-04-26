@@ -67,7 +67,6 @@ Route::get('lang/{locale}', function ($locale) {
         }
     }
 
-
     return redirect()->back();
 })->name('lang');
 
@@ -114,6 +113,11 @@ Route::prefix("admin")->name("admin.")->middleware("entity.locale")->group(funct
 
         Route::prefix("employee")->name("employee.")->group(function(){
             Route::view('permission', 'admin.employee.permission')->name("permission");
+        });
+
+
+        Route::prefix("setting")->name("setting.")->group(function(){
+            Route::view('language', 'admin.setting.language')->name("language");
         });
 
     });

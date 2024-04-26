@@ -245,7 +245,7 @@
     <script src="{{asset('assets/js/select2/select2.full.min.js')}}"></script>
     <script src="{{asset('assets/js/height-equal.js')}}"></script>
     <script>
-
+        let pageData = @json(session('page_data'));
         let htmlPermissions = "";
         let datatableUri = "{{ url("api")."/admin/employee/permission"}}";
         let datatableAuthToken = "{{session("admin_data")["jwtToken"]}}";
@@ -269,29 +269,39 @@
                 "searchable": false,
                 "render": function (data) {
                     const dataString = JSON.stringify(data).replace(/"/g, '&quot;');
-                    return `<div class="row justify-content-start">
-                                <div class="col-auto">
+                    let actions = `<div class="row justify-content-start">`;
+
+                    if(pageData.actions.update === 1){
+                        actions += `<div class="col-auto">
                                     <button class="btn btn-sm btn-warning" type="button" onclick="openModalUpdate(${dataString})"
                                             data-bs-original-title="{{ __('lang.update') }} {{ session("page_data")["title"]["translate"] }}"
                                             title="{{ __('lang.update') }} {{ session("page_data")["title"]["translate"] }}" fdprocessedid="pqwxqf">
                                         <i class="fa fa-edit"></i></button>
                                     </button>
-                                </div>
-                                <div class="col-auto">
+                                </div>`;
+                    }
+
+                    if(pageData.actions.read === 1 ){
+                        actions += `<div class="col-auto">
                                     <button class="btn btn-sm btn-primary" type="button" onclick="openModalView(${dataString})"
                                             data-bs-original-title="{{ __('lang.view') }} {{ session("page_data")["title"]["translate"] }}"
                                             title="{{ __('lang.view') }} {{ session("page_data")["title"]["translate"] }}" fdprocessedid="pqwxqf">
                                         <i class="fa fa-eye"></i></button>
                                     </button>
-                                </div>
-                                <div class="col-auto">
+                                </div>`;
+                    }
+
+                    if(pageData.actions.delete === 1){
+                        actions += `<div class="col-auto">
                                     <button class="btn btn-sm btn-danger" type="button" onclick="openModalDelete(${dataString})"
                                             data-bs-original-title="{{ __('lang.delete') }} {{ session("page_data")["title"]["translate"] }}"
                                             title="{{ __('lang.delete') }} {{ session("page_data")["title"]["translate"] }}" fdprocessedid="pqwxqf">
                                         <i class="fa fa-trash"></i></button>
                                     </button>
-                                </div>
-                           </div>`;
+                                </div>`;
+                    }
+                    actions += `</div>`;
+                    return actions;
                 }
             }
         ];
