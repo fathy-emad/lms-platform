@@ -34,18 +34,22 @@ class TranslationResource extends JsonResource
 
         if (array_key_exists(app()->getLocale(), $this->translates)){
             $translate = $this->translates[app()->getLocale()];
+            $translates = $this->translates;
 
         } else if ($id = Translation::translate($this->field, $this->table, $this->translates, $this->id)) {
             $translation = Translate::find($id);
             $translate = $translation->translates[app()->getLocale()];
+            $translates = $translation->translates;
 
         } else {
             $translate = $this->translates["ar"];
+            $translates = $this->translates;
         }
 
         return [
             "key" => $this->key,
-            "translate" => $translate
+            "translate" => $translate,
+            "translates" => $translates
         ];
     }
 }

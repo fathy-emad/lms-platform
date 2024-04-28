@@ -50,8 +50,12 @@
                                     <tr>
                                         <th>{{ __("attributes.flag") }}</th>
                                         <th>#ID</th>
-                                        <th>{{ __("attributes.locale_symbol") }}</th>
-                                        <th>{{ __("attributes.language") }}</th>
+                                        <th>{{ __("attributes.country_symbol") }}</th>
+                                        <th>{{ __("attributes.country") }}</th>
+                                        <th>{{ __("attributes.currency") }}</th>
+                                        <th>{{ __("attributes.currency_symbol") }}</th>
+                                        <th>{{ __("attributes.phone_prefix") }}</th>
+                                        <th>{{ __("attributes.timezone") }}</th>
                                         <th>{{ __("attributes.ActiveEnum") }}</th>
                                         <th>{{ __("attributes.created_at") }}</th>
                                         <th>{{ __("attributes.created_by") }}</th>
@@ -64,8 +68,12 @@
                                     <tr>
                                         <th>{{ __("attributes.flag") }}</th>
                                         <th>#ID</th>
-                                        <th>{{ __("attributes.locale_symbol") }}</th>
-                                        <th>{{ __("attributes.language") }}</th>
+                                        <th>{{ __("attributes.country_symbol") }}</th>
+                                        <th>{{ __("attributes.country") }}</th>
+                                        <th>{{ __("attributes.currency") }}</th>
+                                        <th>{{ __("attributes.currency_symbol") }}</th>
+                                        <th>{{ __("attributes.phone_prefix") }}</th>
+                                        <th>{{ __("attributes.timezone") }}</th>
                                         <th>{{ __("attributes.ActiveEnum") }}</th>
                                         <th>{{ __("attributes.created_at") }}</th>
                                         <th>{{ __("attributes.created_by") }}</th>
@@ -97,14 +105,36 @@
                                     <div class="row">
 
                                         <div class="col-12 mb-3">
-                                            <label for="locale">{{ __("attributes.locale_symbol") }}</label>
-                                            <input class="form-control" name="locale" id="locale" type="text" placeholder="ex: ar, en" />
+                                            <label for="symbol">{{ __("attributes.country_symbol") }}</label>
+                                            <input class="form-control" name="symbol" id="symbol" type="text" placeholder="ex: EG, US" />
                                         </div>
 
-                                        <div class="col-sm-12 mb-3">
-                                            <label for="language">{{ __("attributes.language") }}</label>
-                                            <input class="form-control" name="language" id="language" type="text" placeholder="ex: english, arabic, french" />
+                                        <div class="col-12 mb-3">
+                                            <label for="country">{{ __("attributes.country") }}</label>
+                                            <input class="form-control" name="country" id="country" type="text" placeholder="ex: Egypt, Saudi Arabia" />
                                         </div>
+
+                                        <div class="col-12 mb-3">
+                                            <label for="currency_symbol">{{ __("attributes.currency_symbol") }}</label>
+                                            <input class="form-control" name="currency_symbol" id="currency_symbol" type="text" placeholder="ex: LE, RS" />
+                                        </div>
+
+                                        <div class="col-12 mb-3">
+                                            <label for="currency">{{ __("attributes.currency") }}</label>
+                                            <input class="form-control" name="currency" id="currency" type="text" placeholder="ex: Egypt Pound, Saudi Arabia Riyal" />
+                                        </div>
+
+
+                                        <div class="col-12 mb-3">
+                                            <label for="phone_prefix">{{ __("attributes.phone_prefix") }}</label>
+                                            <input class="form-control" name="phone_prefix" id="phone_prefix" type="text" placeholder="ex: +20" />
+                                        </div>
+
+                                        <div class="col-12 mb-3">
+                                            <label for="timezone">{{ __("attributes.timezone") }}</label>
+                                            <input class="form-control" name="timezone" id="timezone" type="text" placeholder="ex: EET" />
+                                        </div>
+
 
                                         <div class="col-sm-12 mb-3 fileUploadBuilder">
                                             <label for="flag">{{ __("attributes.flag") }}</label>
@@ -148,15 +178,35 @@
                                         <div class="col-12">
                                             <ul class="nav nav-pills nav-info mb-3" id="pills-infotab" role="tablist">
                                                 <li class="nav-item"><a class="nav-link active" id="update-data-tab" data-bs-toggle="pill" href="#update-data" role="tab" aria-controls="update-data" aria-selected="true" data-bs-original-title="" title=""><i class="icofont icofont-ui-home"></i>data</a></li>
-                                                <li class="nav-item"><a class="nav-link" id="update-translate-tab" data-bs-toggle="pill" href="#update-translate" role="tab" aria-controls="update-translate" aria-selected="false" data-bs-original-title="" title=""><i class="icofont icofont-contacts"></i>language translates</a></li>
+                                                <li class="nav-item"><a class="nav-link" id="update-country-translate-tab" data-bs-toggle="pill" href="#update-country-translate" role="tab" aria-controls="update-country-translate" aria-selected="false" data-bs-original-title="" title=""><i class="icofont icofont-contacts"></i>country translates</a></li>
+                                                <li class="nav-item"><a class="nav-link" id="update-currency-translate-tab" data-bs-toggle="pill" href="#update-currency-translate" role="tab" aria-controls="update-currency-translate" aria-selected="false" data-bs-original-title="" title=""><i class="icofont icofont-contacts"></i>currency translates</a></li>
                                             </ul>
                                             <div class="tab-content" id="pills-infotabContent">
 
                                                 <div class="tab-pane fade  active show" id="update-data" role="tabpanel" aria-labelledby="update-data-tab">
+
                                                     <div class="col-12 mb-3">
-                                                        <label for="locale">{{ __("attributes.locale_symbol") }}</label>
-                                                        <input class="form-control" name="locale" id="locale" type="text" placeholder="ex: ar, en" />
+                                                        <label for="symbol">{{ __("attributes.country_symbol") }}</label>
+                                                        <input class="form-control" name="symbol" id="symbol" type="text" placeholder="ex: EG, US" />
                                                     </div>
+
+                                                    <div class="col-12 mb-3">
+                                                        <label for="currency_symbol">{{ __("attributes.currency_symbol") }}</label>
+                                                        <input class="form-control" name="currency_symbol" id="currency_symbol" type="text" placeholder="ex: LE, RS" />
+                                                    </div>
+
+
+                                                    <div class="col-12 mb-3">
+                                                        <label for="phone_prefix">{{ __("attributes.phone_prefix") }}</label>
+                                                        <input class="form-control" name="phone_prefix" id="phone_prefix" type="text" placeholder="ex: +20" />
+                                                    </div>
+
+                                                    <div class="col-12 mb-3">
+                                                        <label for="timezone">{{ __("attributes.timezone") }}</label>
+                                                        <input class="form-control" name="timezone" id="timezone" type="text" placeholder="ex: EET" />
+                                                    </div>
+
+
                                                     <div class="col-sm-12 mb-3 fileUploadBuilder">
                                                         <label for="flag">{{ __("attributes.flag") }}</label>
                                                     </div>
@@ -169,11 +219,16 @@
                                                             </label>
                                                         </div>
                                                     </div>
+
+
                                                 </div>
 
+                                                <div class="tab-pane fade" id="update-country-translate" role="tabpanel" aria-labelledby="update-country-translate-tab">
+                                                    <div class="row update-country-translates"></div>
+                                                </div>
 
-                                                <div class="tab-pane fade" id="update-translate" role="tabpanel" aria-labelledby="update-translate-tab">
-                                                    <div class="row update-translates"></div>
+                                                <div class="tab-pane fade" id="update-currency-translate" role="tabpanel" aria-labelledby="update-currency-translate-tab">
+                                                    <div class="row update-currency-translates"></div>
                                                 </div>
                                             </div>
                                         </div>
@@ -205,18 +260,37 @@
                                             <div class="col-12">
                                                 <ul class="nav nav-pills nav-info mb-3" id="pills-infotab" role="tablist">
                                                     <li class="nav-item"><a class="nav-link active" id="view-data-tab" data-bs-toggle="pill" href="#view-data" role="tab" aria-controls="view-data" aria-selected="true" data-bs-original-title="" title=""><i class="icofont icofont-ui-home"></i>data</a></li>
-                                                    <li class="nav-item"><a class="nav-link" id="view-translate-tab" data-bs-toggle="pill" href="#view-translate" role="tab" aria-controls="view-translate" aria-selected="false" data-bs-original-title="" title=""><i class="icofont icofont-contacts"></i>language translates</a></li>
+                                                    <li class="nav-item"><a class="nav-link" id="view-country-translate-tab" data-bs-toggle="pill" href="#view-country-translate" role="tab" aria-controls="view-country-translate" aria-selected="false" data-bs-original-title="" title=""><i class="icofont icofont-contacts"></i>country translates</a></li>
+                                                    <li class="nav-item"><a class="nav-link" id="view-currency-translate-tab" data-bs-toggle="pill" href="#view-currency-translate" role="tab" aria-controls="view-currency-translate" aria-selected="false" data-bs-original-title="" title=""><i class="icofont icofont-contacts"></i>currency translates</a></li>
                                                 </ul>
                                                 <div class="tab-content" id="pills-infotabContent">
 
-                                                    <div class="tab-pane fade  active show" id="view-data" role="tabpanel" aria-labelledby="update-data-tab">
+                                                    <div class="tab-pane fade  active show" id="view-data" role="tabpanel" aria-labelledby="view-data-tab">
+
                                                         <div class="col-12 mb-3">
-                                                            <label for="locale">{{ __("attributes.locale_symbol") }}</label>
-                                                            <input class="form-control" name="locale" id="locale" type="text" placeholder="ex: ar, en" />
+                                                            <label for="symbol">{{ __("attributes.country_symbol") }}</label>
+                                                            <input class="form-control" name="symbol" id="symbol" type="text" placeholder="ex: EG, US" />
                                                         </div>
-                                                        <div class="col-sm-12 mb-3">
+
+                                                        <div class="col-12 mb-3">
+                                                            <label for="currency_symbol">{{ __("attributes.currency_symbol") }}</label>
+                                                            <input class="form-control" name="currency_symbol" id="currency_symbol" type="text" placeholder="ex: LE, RS" />
+                                                        </div>
+
+
+                                                        <div class="col-12 mb-3">
+                                                            <label for="phone_prefix">{{ __("attributes.phone_prefix") }}</label>
+                                                            <input class="form-control" name="phone_prefix" id="phone_prefix" type="text" placeholder="ex: +20" />
+                                                        </div>
+
+                                                        <div class="col-12 mb-3">
+                                                            <label for="timezone">{{ __("attributes.timezone") }}</label>
+                                                            <input class="form-control" name="timezone" id="timezone" type="text" placeholder="ex: EET" />
+                                                        </div>
+
+
+                                                        <div class="col-sm-12 mb-3 fileUploadBuilder">
                                                             <label for="flag">{{ __("attributes.flag") }}</label>
-                                                            <div class="fileUploadBuilder" data-name="flag" data-title="" data-multiple="" data-value="" data-accepts="image/svg+xml"></div>
                                                         </div>
 
                                                         <div class="col-sm-12 mb-3 media">
@@ -227,11 +301,16 @@
                                                                 </label>
                                                             </div>
                                                         </div>
+
+
                                                     </div>
 
+                                                    <div class="tab-pane fade" id="view-country-translate" role="tabpanel" aria-labelledby="view-country-translate-tab">
+                                                        <div class="row view-country-translates"></div>
+                                                    </div>
 
-                                                    <div class="tab-pane fade" id="view-translate" role="tabpanel" aria-labelledby="update-translate-tab">
-                                                        <div class="row view-translates"></div>
+                                                    <div class="tab-pane fade" id="view-currency-translate" role="tabpanel" aria-labelledby="view-currency-translate-tab">
+                                                        <div class="row view-currency-translates"></div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -245,6 +324,7 @@
                 </div>
             </div>
 
+
         @endif
     </div>
 @endsection
@@ -253,9 +333,10 @@
     <script src="{{asset('assets/js/datatable/datatables/jquery.dataTables.min.js')}}"></script>
     <script>
 
-        let languageTranslates = "";
+        let countryTranslates = "";
+        let currencyTranslates = "";
         let pageData = @json(session('page_data'));
-        let datatableUri = "{{ url("api")."/admin/setting/language"}}";
+        let datatableUri = "{{ url("api")."/admin/setting/country"}}";
         let datatableAuthToken = "{{session("admin_data")["jwtToken"]}}";
         let dataTableLocale =  "{{session("locale")}}";
         let datatableColumns = [
@@ -266,8 +347,12 @@
                 }
             },
             { "data": "id" },
-            { "data": "locale" },
-            { "data": "language.translate" },
+            { "data": "symbol" },
+            { "data": "country.translate" },
+            { "data": "currency_symbol" },
+            { "data": "currency.translate" },
+            { "data": "phone_prefix" },
+            { "data": "timezone" },
             { "data": "ActiveEnum.translate" },
             { "data": "created_at.dateTime" },
             { "data": "created_by.name" },
@@ -297,7 +382,7 @@
                                 </div>`;
                     }
 
-                   //if(pageData.actions.read === 1 || (pageData.actions.read === 2 && "{{session("admin_data")["id"]}}" == data[pageData.specific_actions_belongs_to].id)){
+                    //if(pageData.actions.read === 1 || (pageData.actions.read === 2 && "{{session("admin_data")["id"]}}" == data[pageData.specific_actions_belongs_to].id)){
                     if(pageData.actions.read === 1 ){
                         actions += `<div class="col-auto">
                                     <button class="btn btn-sm btn-primary" type="button" onclick="openModalView(${dataString})"
@@ -319,14 +404,23 @@
             form[0].reset();
             form.find("[name]").removeClass("is-invalid");
             modal.find("[name=id]").val(data.id);
-            modal.find("[name=locale]").val(data.locale);
+            modal.find("[name=symbol]").val(data.symbol);
+            modal.find("[name=currency_symbol]").val(data.currency_symbol);
+            modal.find("[name=phone_prefix]").val(data.phone_prefix);
+            modal.find("[name=timezone]").val(data.timezone);
             modal.find("[name=ActiveEnum]").prop("checked", data.ActiveEnum.key === "active");
             fileUploadBuilder($(modal).find(".fileUploadBuilder"), "flag", data.flag, false, "image/svg+xml");
 
 
-            modal.find("[data-locale]").each(function (){
+            modal.find(".update-country-translates").find("[data-locale]").each(function (){
                 let locale = $(this).data("locale");
-                $(this).val(data.language_translates[locale] || '');
+                $(this).val(data.country.translates[locale] || '');
+
+            });
+
+            modal.find(".update-currency-translates").find("[data-locale]").each(function (){
+                let locale = $(this).data("locale");
+                $(this).val(data.currency.translates[locale] || '');
 
             });
 
@@ -337,25 +431,28 @@
             let modal = $(".view_modal");
             let form = modal.find("form");
             form[0].reset();
-            modal.find("[name=locale]").val(data.locale).prop("disabled", true);
+            modal.find("[name=symbol]").val(data.symbol).prop("disabled", true);
+            modal.find("[name=currency_symbol]").val(data.currency_symbol).prop("disabled", true);
+            modal.find("[name=phone_prefix]").val(data.phone_prefix).prop("disabled", true);
+            modal.find("[name=timezone]").val(data.timezone).prop("disabled", true);
             modal.find("[name=ActiveEnum]").prop("checked", data.ActiveEnum.key === "active").prop("disabled", true);
             fileUploadBuilder($(modal).find(".fileUploadBuilder"), "flag", data.flag, false, "image/svg+xml");
             $(modal).find(".fileUploadBuilder").find("button").remove();
-            modal.find("[data-locale]").each(function (){
+
+            modal.find(".view-country-translates").find("[data-locale]").each(function (){
                 let locale = $(this).data("locale");
-                $(this).val(data.language_translates[locale] || '').prop("disabled", true);
+                $(this).val(data.country.translates[locale] || '').prop("disabled", true);
+
+            });
+
+            modal.find(".view-currency-translates").find("[data-locale]").each(function (){
+                let locale = $(this).data("locale");
+                $(this).val(data.currency.translates[locale] || '').prop("disabled", true);
+
             });
 
             modal.modal("show");
         }
-
-        function openModalDelete(data) {
-            let modal = $(".delete_modal");
-            $(modal).find("[name=id]").val(data.id);
-            $(modal).find("[data-type=message]").html(`Are you sure you want to delete <strong>()</strong> permissions?`);
-            modal.modal("show");
-        }
-
 
         $('.create_modal').on('show.bs.modal', function (e) {
             let form = $(this).find("form");
@@ -380,13 +477,20 @@
                 success: function(response) {
                     let data = response.data;
                     for (const i in data) {
-                        languageTranslates += `<div class="col-12 mb-3">
+                        countryTranslates += `<div class="col-12 mb-3">
                                                     <label for="${data[i].locale}">${data[i].language.translate}</label>
-                                                    <input data-locale="${data[i].locale}" class="form-control" id="${data[i].locale}" type="text" name="language[${data[i].locale}]" value="">
+                                                    <input data-locale="${data[i].locale}" class="form-control" id="${data[i].locale}" type="text" name="country[${data[i].locale}]" value="">
+                                                </div>`;
+                        currencyTranslates += `<div class="col-12 mb-3">
+                                                    <label for="${data[i].locale}">${data[i].language.translate}</label>
+                                                    <input data-locale="${data[i].locale}" class="form-control" id="${data[i].locale}" type="text" name="currency[${data[i].locale}]" value="">
                                                 </div>`;
                     }
-                    $(".update_modal").find(".update-translates").append(languageTranslates);
-                    $(".view_modal").find(".view-translates").append(languageTranslates);
+
+                    $(".update_modal").find(".update-country-translates").append(countryTranslates);
+                    $(".update_modal").find(".update-currency-translates").append(currencyTranslates);
+                    $(".view_modal").find(".view-country-translates").append(countryTranslates);
+                    $(".view_modal").find(".view-currency-translates").append(currencyTranslates);
                 },
                 error: function(xhr, status, error) {
                     let title = "Some thing went wrong";

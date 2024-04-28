@@ -1,5 +1,6 @@
 <?php
 
+use App\Enums\SystemConstantsEnum;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -14,7 +15,7 @@ return new class extends Migration
         Schema::create('enumerations', function (Blueprint $table) {
             $table->id();
 
-            $table->string("key");
+            $table->enum('key', SystemConstantsEnum::values());
             $table->unsignedBigInteger("value");
             $table->integer("priority");
             $table->unsignedBigInteger('created_by');

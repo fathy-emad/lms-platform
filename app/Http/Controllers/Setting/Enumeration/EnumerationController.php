@@ -20,6 +20,7 @@ class EnumerationController extends Controller
     public function create(CreateRequest $request): JsonResponse
     {
         $data = $this->requestHandler->set($request->validated())->handleCreate()->get();
+        $data["key"] = $request->key;
         return parent::create_model($data);
     }
 
@@ -32,6 +33,7 @@ class EnumerationController extends Controller
     {
         $model = $this->repository->getById($request->id);
         $data = $this->requestHandler->set($request->validated())->handleUpdate($model)->get();
+        $data["key"] = $request->key;
         return parent::update_model($request->id, $data);
     }
 }

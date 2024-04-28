@@ -8,8 +8,17 @@ return [
     "actions" => "Actions",
     "admin" => "Admin",
     "select_permissions" => "Select Permissions",
-    "locale_symbol" => "Locale symbol",
+    "locale_symbol" => "Locale (symbol)",
     "language" => "Language",
     "ActiveEnum" => "Activation",
-    "flag" => "Flag"
+    "flag" => "Flag",
+    "country" => "Country",
+    "country_symbol" => "Country (symbol)",
+    "currency" => "Currency",
+    "currency_symbol" => "Currency (symbol)",
+    "phone_prefix" => "Phone prefix",
+    "timezone" => "Timezone",
+    "priority" => "Priority",
+    "key" => "Key",
+    "value" => "Value"
 ];

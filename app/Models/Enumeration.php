@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\SystemConstantsEnum;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -12,10 +13,9 @@ class Enumeration extends Model
 
     protected $guarded = [];
 
-    public function setKeyAttribute($value): void
-    {
-        $this->attributes['key'] = strtolower(str_replace(" ", "_", trim($value)));
-    }
+    protected $casts = [
+        "key" => SystemConstantsEnum::class
+    ];
 
     public function valueTranslate(): BelongsTo
     {

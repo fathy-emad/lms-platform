@@ -20,7 +20,7 @@ class EnumerationResource extends JsonResource
     {
         return [
             "id" => $this->id,
-            "key" => $this->key,
+            "key" => new TranslationResource($this->key, true),
             "value" => new TranslationResource($this->valueTranslate),
             "priority" => $this->priority,
             "created_by" => new AuthorResource($this->createdBy),

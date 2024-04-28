@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Setting\Country;
 
 
 use App\Concretes\RequestHandler;
+use App\Enums\ActiveEnum;
 use Translation;
 use UploadFile;
 
@@ -14,6 +15,7 @@ class CountryRequestHandler extends RequestHandler
         $this->uploadFlag();
         $this->translateCountry(null);
         $this->translateCurrency(null);
+        $this->handleActiveEnum();
         $this->bindCreatedBy();
         return $this;
     }
@@ -23,6 +25,7 @@ class CountryRequestHandler extends RequestHandler
         $this->uploadFlag($model);
         $this->translateCountry($model->country);
         $this->translateCurrency($model->currency);
+        $this->handleActiveEnum();
         $this->bindUpdatedBy();
         return $this;
     }
@@ -39,5 +42,10 @@ class CountryRequestHandler extends RequestHandler
     public function uploadFlag($model = null): void
     {
         $this->data["flag"] = UploadFile::uploadFile('public', $this->data["flag"], 'countries/flags', $model, "flag");
+    }
+
+    public function handleActiveEnum(): void
+    {
+        $this->data["ActiveEnum"] = isset($this->data["ActiveEnum"]) ? ActiveEnum::Active->value :  ActiveEnum::NotActive->value;
     }
 }

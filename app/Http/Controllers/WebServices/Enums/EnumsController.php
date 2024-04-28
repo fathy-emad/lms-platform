@@ -7,6 +7,7 @@ use App\Enums\ActiveEnum;
 use App\Enums\AdminRoleEnum;
 use App\Enums\AdminStatusEnum;
 use App\Enums\GenderEnum;
+use App\Enums\SystemConstantsEnum;
 use App\Enums\TeacherStatusEnum;
 use App\Http\Resources\TranslationResource;
 use Illuminate\Http\JsonResponse;
@@ -42,5 +43,11 @@ class EnumsController extends Controller
     {
         $translations = collect(TeacherStatusEnum::cases())->map(fn($case) => new TranslationResource($case, true));
         return ApiResponse::sendSuccess($translations, "record read successfully", null);
+    }
+
+    public function systemConstants(): JsonResponse
+    {
+        $systemConstants = collect(SystemConstantsEnum::cases())->map(fn($case) => new TranslationResource($case, true));
+        return ApiResponse::sendSuccess($systemConstants, "record read successfully", null);
     }
 }

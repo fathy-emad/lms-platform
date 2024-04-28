@@ -521,6 +521,46 @@ function notifyForm(title, message, type, callback, delay = 1000, timer = 10000)
     }
 }
 
+function fileUploadBuilder(element, name, value, title, accept) {
+    $(element).find("[data-file=container]").remove();
+    let template = `<div class="border border-2 rounded-3 p-2 row justify-content-around align-items-center" data-file="container">
+                                <div class="col-1"><img data-file="preview" class="border border-1 round-badge-primary"
+                                    src="${value ? APP_URL+'/uploads/'+value.file : APP_URL + '/assets/images/no-image.jpg'}" alt="no-image" width="75" height="60"></div>
+                                <div class="col-1">
+                                    <input type="hidden" name="${name}[key]" data-file="key" value="${value ? value.key : ''}">
+                                    <input type="file" name="${name}[file]" data-file="file" accept="${accept}" style="display: none">
+                                    <button type="button" data-file="upload" class="btn btn-lg btn-success" style="height: 60px !important;" onclick="$(this).prev().click()" title="upload file"><i class="fa fa-cloud-upload"></i></button>
+                                </div>
+                                <div class="col-6 title-container">
+                                    <div class="input-group-square">
+                                        <div class="input-group" style="height: 60px !important;">
+                                            <div class="input-group-prepend"><span class="input-group-text" style="height: 100% !important;">title</span></div>
+                                            <input class="form-control" type="text" data-file="title" placeholder="title image" value="${value ? value.title : ''}">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-1">
+                                    <button type="button" data-file="reset" class="btn btn-lg btn-danger" style="height: 60px !important;" title="reset file"><i class="fa fa-trash"></i></button>
+                                </div>
+                            </div>`;
+    element.append(template);
+    if (!title) $(element).find(".title-container").hide();
+    $(element).find("[data-file=file]").on("change", function (event){
+        let file = event.target.files[0];
+        let reader = new FileReader();
+        reader.onload = function(e) {
+            $(element).find("[data-file=preview]").attr('src', e.target.result); // Set the src of the img tag
+        };
+        reader.readAsDataURL(file);
+        $(element).find("[data-file=key]").val('');
+    });
+    $(element).find("[data-file=reset]").on("click", function (){
+        $(element).find("[data-file=key]").val('');
+        $(element).find("[data-file=file]").val('');
+        $(element).find("[data-file=preview]").attr('src', `${APP_URL}/assets/images/no-image.jpg`);
+    });
+}
+
 $(document).ready(function() {
 
     $('.loader-wrapper').fadeOut('slow', function() {
@@ -549,61 +589,4 @@ $(document).ready(function() {
 
     }
 
-    //upload file builder
-    if ($(".fileUploadBuilder").length){
-
-        let count = 0;
-        $(".fileUploadBuilder").each(function () {
-
-            let uploadFileBuilder = $(this),
-                title = uploadFileBuilder.data("title") || false,
-                multiple = uploadFileBuilder.data("multiple") || false,
-                values = uploadFileBuilder.data("values") || [],
-                name = uploadFileBuilder.data("name"),
-                accepts = uploadFileBuilder.data("accepts"),
-                template = `<div class="mb-3 add-upload-file"><button type="button" class="btn btn-sm btn-primary" style="height: 60px !important;" onclick=""><i class="fa fa-plus"></i></button></div>
-                                    <div class="border border-2 rounded-3 p-2 row justify-content-between align-items-center file-container">
-                                        <div class="col-1 image-upload-file"><img data-file="preview" class="border border-1 round-badge-primary" src="${APP_URL}/assets/images/no-image.jpg" alt="no-image" width="75" height="60"></div>
-                                        <div class="col-1">
-                                            <input type="hidden" data-file="key" name="${name}${multiple ? `[${count}]` : ''}[key]" value="">
-                                            <input type="file" data-file="file"  name="${name}${multiple ? `[${count}]` : ''}[file]" accept="${accepts}" style="display: none">
-                                            <button type="button" class="btn btn-lg btn-success upload-file" style="height: 60px !important;" onclick="$(this).prev().click()"><i class="fa fa-cloud-upload"></i></button>
-                                        </div>
-                                        <div class="col-6 title-container">
-                                            <div class="input-group-square">
-                                                <div class="input-group" style="height: 60px !important;">
-                                                    <div class="input-group-prepend"><span class="input-group-text" style="height: 100% !important;">title</span></div>
-                                                    <input class="form-control" type="text" name="${name}${multiple ? `[${count}]` : ''}[title]" placeholder="title image">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-1">
-                                            <button type="button" class="btn btn-lg btn-danger delete-upload-file" style="height: 60px !important;" onclick=""><i class="fa fa-trash"></i></button>
-                                        </div>
-                                    </div>`;
-
-
-            uploadFileBuilder.append(template);
-            if (!title) uploadFileBuilder.find(".title-container").hide();
-            if (!multiple){
-                uploadFileBuilder.find(".add-upload-file").hide();
-                uploadFileBuilder.find(".delete-upload-file").hide();
-            }
-
-            //add event to input file
-            uploadFileBuilder.find("[type=file]").on("change", function (event) {
-                let file = event.target.files[0];
-                let reader = new FileReader();
-                reader.onload = function(e) {
-                    uploadFileBuilder.find("img").attr('src', e.target.result); // Set the src of the img tag
-                };
-                reader.readAsDataURL(file);
-                $(this).prev().val("");
-            });
-
-            count++;
-        });
-
-
-    }
 });

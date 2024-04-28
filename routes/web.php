@@ -118,6 +118,8 @@ Route::prefix("admin")->name("admin.")->middleware("entity.locale")->group(funct
 
         Route::prefix("setting")->name("setting.")->group(function(){
             Route::view('language', 'admin.setting.language')->name("language");
+            Route::view('country', 'admin.setting.country')->name("country");
+            Route::view('enumeration', 'admin.setting.enumeration')->name("enumeration");
         });
 
     });

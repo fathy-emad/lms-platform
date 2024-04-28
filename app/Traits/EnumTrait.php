@@ -13,4 +13,5 @@ trait EnumTrait
     {
         return array_map(fn($case) => $case->value, self::cases());
     }
+
 }

@@ -23,7 +23,6 @@ class UpdateRequest extends ValidateRequest
             "currency.ar" => "required|string|regex:/^[\x{0600}-\x{06FF}\s]+$/u",
             "currency.*" => "nullable|string",
             "currency_symbol" => "required|string",
-            "flag" => "nullable|array",
             "flag.key" => [
                 "nullable",
                 "integer",
@@ -33,7 +32,7 @@ class UpdateRequest extends ValidateRequest
             ],
             "flag.file" => "nullable|file|mimes:svg,xml",
             "flag.title" => "nullable|string",
-            "ActiveEnum" => "required|in:".implode(",", ActiveEnum::values()),
+            "ActiveEnum" => "sometimes|in:".implode(",", ActiveEnum::values()),
         ];
     }
 

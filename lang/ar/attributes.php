@@ -12,4 +12,13 @@ return [
     "language" => "اللغة",
     "ActiveEnum" => "النشاط",
     "flag" => "العلم",
+    "country" => "الدولة",
+    "country_symbol" => "رمز الدولة",
+    "currency" => "العملة",
+    "currency_symbol" => "رمز العملة",
+    "phone_prefix" => "بادئة الهاتف",
+    "timezone" => "المنطقة الزمنية",
+    "priority" => "الترتيب",
+    "key" => "المفتاح",
+    "value" => "القيمة"
 ];
