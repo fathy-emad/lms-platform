@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Setting\RouteMenu;
 
 use App\Concretes\RequestHandler;
+use App\Enums\ActiveEnum;
 use App\Models\RouteMenu;
 use Translation;
 use UploadFile;
@@ -13,6 +14,7 @@ class RouteMenuRequestHandler extends RequestHandler
     {
         $this->uploadIcon();
         $this->translateTitle(null);
+        $this->handleActiveEnum();
         $this->setPriority();
         $this->bindCreatedBy();
         return $this;
@@ -22,6 +24,7 @@ class RouteMenuRequestHandler extends RequestHandler
     {
         $this->uploadIcon($model);
         $this->translateTitle($model->title);
+        $this->handleActiveEnum();
         $this->bindUpdatedBy();
         return $this;
     }

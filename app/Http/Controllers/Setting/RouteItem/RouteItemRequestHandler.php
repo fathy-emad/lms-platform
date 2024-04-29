@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Setting\RouteItem;
 
 use UploadFile;
 use Translation;
-use App\Models\RouteMenu;
+use App\Models\RouteItem;
 use App\Concretes\RequestHandler;
 
 class RouteItemRequestHandler extends RequestHandler
@@ -13,6 +13,7 @@ class RouteItemRequestHandler extends RequestHandler
     {
         $this->uploadIcon();
         $this->translateTitle(null);
+        $this->handleActiveEnum();
         $this->setPriority();
         $this->bindCreatedBy();
         return $this;
@@ -22,6 +23,7 @@ class RouteItemRequestHandler extends RequestHandler
     {
         $this->uploadIcon($model);
         $this->translateTitle($model->title);
+        $this->handleActiveEnum();
         $this->bindUpdatedBy();
         return $this;
     }
@@ -39,7 +41,7 @@ class RouteItemRequestHandler extends RequestHandler
     public function setPriority(): void
     {
 
-        $model = RouteMenu::orderBy('priority', 'desc')->first();
+        $model = RouteItem::orderBy('priority', 'desc')->first();
 
         if ($model){
             $this->data["priority"] = $model->priority + 1;

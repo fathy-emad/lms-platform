@@ -20,5 +20,10 @@ return [
     "timezone" => "Timezone",
     "priority" => "Priority",
     "key" => "Key",
-    "value" => "Value"
+    "value" => "Value",
+    "icon" => "Icon",
+    "title" => "Title",
+    "route" => "Route",
+    "menu_id" => "Page menu",
+    "model" => "Model"
 ];

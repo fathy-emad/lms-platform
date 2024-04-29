@@ -18,30 +18,31 @@
                         @foreach(session("admin_data")["permission"]["permissions"] as $route)
                             @php $items = $route["items"] @endphp
 
-                                <li class="sidebar-main-title">
-                                    <div>
-                                        <h6 class="lan-1">{{ $route["title"]["translate"] }}</h6>
-                                        <p class="lan-2">{{ trans('lang.Dashboards,widgets & layout.') }}</p>
-                                    </div>
-                                </li>
+{{--                                <li class="sidebar-main-title">--}}
+{{--                                    <div>--}}
+{{--                                        <h6 class="lan-1">{{ $route["title"]["translate"] }}</h6>--}}
+{{--                                        <p class="lan-2">{{ trans('lang.Dashboards,widgets & layout.') }}</p>--}}
+{{--                                    </div>--}}
+{{--                                </li>--}}
                                 <li class="sidebar-list">
+                                    @php
+                                        $request_path = request()->path();
+                                        $activeMenu = in_array("api/".$request_path, array_column($items, "link"));
+                                    @endphp
                                     <a class="sidebar-link sidebar-title" href="#">
-                                        <i data-feather="home"></i>
+                                        <i data-feather="settings"></i>
                                         <span class="lan-7">{{ $route["title"]["translate"] }}</span>
-                                        <div class="according-menu"><i class="fa fa-angle-down"></i></div>
+                                        <div class="according-menu"><i class="fa fa-angle-{{ $activeMenu ? "down" : "right" }}"></i></div>
                                     </a>
-                                    <ul class="sidebar-submenu" style="display:block">
+                                    <ul class="sidebar-submenu" style="display:{{ $activeMenu ? "block" : "none" }}">
                                         @foreach($items as $item)
                                             @php
+                                                $active = '';
                                                 $item["route_title"] = $route["title"]["translate"];
                                                 $item_data = json_encode($item);
-                                                $active = '';
-                                                $request_path = request()->path();
                                                 if ("api/$request_path" === $item["link"]) $active = 'active';
                                             @endphp
-
-                                            <li><a href="#" onclick="setPageDataToSession('{{$item_data}}')" class="{{$active}}">{{ $item["title"]["translate"] }}</a></li>
-
+                                            <li><a href="#" onclick="setPageDataToSession('{{$item_data}}')" class="{{$active}}"><i data-feather="settings"></i>{{ $item["title"]["translate"] }}</a></li>
                                         @endforeach
                                     </ul>
                                 </li>

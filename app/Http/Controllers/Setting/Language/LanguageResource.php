@@ -22,7 +22,6 @@ class LanguageResource extends JsonResource
             "id" => $this->id,
             "locale" => $this->locale,
             "language" => new TranslationResource($this->languageTranslate),
-            "language_translates" => $this->languageTranslate->translates,
             "flag" => $this->flag,
             "ActiveEnum" => new TranslationResource($this->ActiveEnum, true),
             "created_by" => new AuthorResource($this->createdBy),

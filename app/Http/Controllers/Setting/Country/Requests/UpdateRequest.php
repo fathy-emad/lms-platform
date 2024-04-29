@@ -26,7 +26,7 @@ class UpdateRequest extends ValidateRequest
             "flag.key" => [
                 "nullable",
                 "integer",
-                Rule::exists("languages", "flag->key")->where(function ($query){
+                Rule::exists("countries", "flag->key")->where(function ($query){
                     return $query->where("id", $this->id);
                 })
             ],

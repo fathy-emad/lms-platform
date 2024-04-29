@@ -8,15 +8,7 @@
 
 @section('style')
     <link rel="stylesheet" type="text/css" href="{{asset('assets/css/vendors/datatables.css')}}">
-    <link rel="stylesheet" type="text/css" href="{{asset('assets/css/vendors/select2.css')}}">
-    <style>
-        .select2-dropdown { z-index: 10000 !important; }
-        /* CSS to set mouse pointer to none for disabled elements */
-        [disabled] {
-            pointer-events: none;
-        }
-
-    </style>
+    <style>[disabled] {  pointer-events: none; }</style>
 @endsection
 
 @section('breadcrumb-title')
@@ -56,10 +48,12 @@
                                 <table class="display datatables" id="data-table-ajax">
                                     <thead>
                                     <tr>
+                                        <th>{{ __("attributes.icon") }}</th>
                                         <th>#ID</th>
                                         <th>{{ __("attributes.priority") }}</th>
-                                        <th>{{ __("attributes.key") }}</th>
-                                        <th>{{ __("attributes.value") }}</th>
+                                        <th>{{ __("attributes.title") }}</th>
+{{--                                        <th>{{ __("attributes.route") }}</th>--}}
+                                        <th>{{ __("attributes.ActiveEnum") }}</th>
                                         <th>{{ __("attributes.created_at") }}</th>
                                         <th>{{ __("attributes.created_by") }}</th>
                                         <th>{{ __("attributes.updated_at") }}</th>
@@ -69,10 +63,12 @@
                                     </thead>
                                     <tfoot>
                                     <tr>
+                                        <th>{{ __("attributes.icon") }}</th>
                                         <th>#ID</th>
                                         <th>{{ __("attributes.priority") }}</th>
-                                        <th>{{ __("attributes.key") }}</th>
-                                        <th>{{ __("attributes.value") }}</th>
+                                        <th>{{ __("attributes.title") }}</th>
+{{--                                        <th>{{ __("attributes.route") }}</th>--}}
+                                        <th>{{ __("attributes.ActiveEnum") }}</th>
                                         <th>{{ __("attributes.created_at") }}</th>
                                         <th>{{ __("attributes.created_by") }}</th>
                                         <th>{{ __("attributes.updated_at") }}</th>
@@ -102,13 +98,27 @@
                                 <div class="form-group">
                                     <div class="row">
 
-                                        <div class="col-12 mb-3" data-type="key">
-                                            <label for="key">{{ __("attributes.key") }}</label>
+                                        <div class="col-12 mb-3">
+                                            <label for="title">{{ __("attributes.title") }}</label>
+                                            <input class="form-control" name="title" id="title" type="text" placeholder="" />
                                         </div>
 
-                                        <div class="col-12 mb-3">
-                                            <label for="value">{{ __("attributes.value") }}</label>
-                                            <input class="form-control" name="value" id="value" type="text" placeholder="" />
+                                        <div class="col-sm-12 mb-3">
+                                            <label for="route">{{ __("attributes.route") }}</label>
+                                            <input class="form-control" name="route" id="route" type="text" placeholder="ex: admin/example" />
+                                        </div>
+
+                                        <div class="col-sm-12 mb-3 fileUploadBuilder">
+                                            <label for="flag">{{ __("attributes.icon") }}</label>
+                                        </div>
+
+                                        <div class="col-sm-12 mb-3 media">
+                                            <label class="col-form-label m-r-10">{{ __("attributes.ActiveEnum") }}</label>
+                                            <div class="media-body icon-state">
+                                                <label class="switch">
+                                                    <input type="checkbox" name="ActiveEnum" value="{{\App\Enums\ActiveEnum::Active->value}}"><span class="switch-state"></span>
+                                                </label>
+                                            </div>
                                         </div>
 
                                     </div>
@@ -140,22 +150,33 @@
                                         <div class="col-12">
                                             <ul class="nav nav-pills nav-info mb-3" id="pills-infotab" role="tablist">
                                                 <li class="nav-item"><a class="nav-link active" id="update-data-tab" data-bs-toggle="pill" href="#update-data" role="tab" aria-controls="update-data" aria-selected="true" data-bs-original-title="" title=""><i class="icofont icofont-ui-home"></i>data</a></li>
-                                                <li class="nav-item"><a class="nav-link" id="update-value-translate-tab" data-bs-toggle="pill" href="#update-value-translate" role="tab" aria-controls="update-value-translate" aria-selected="false" data-bs-original-title="" title=""><i class="icofont icofont-contacts"></i>value translates</a></li>
+                                                <li class="nav-item"><a class="nav-link" id="update-translate-tab" data-bs-toggle="pill" href="#update-translate" role="tab" aria-controls="update-translate" aria-selected="false" data-bs-original-title="" title=""><i class="icofont icofont-contacts"></i>title translates</a></li>
                                             </ul>
                                             <div class="tab-content" id="pills-infotabContent">
 
                                                 <div class="tab-pane fade  active show" id="update-data" role="tabpanel" aria-labelledby="update-data-tab">
-
-                                                    <div class="col-12 mb-3" data-type="key">
-                                                        <label for="key">{{ __("attributes.key") }}</label>
+                                                    <div class="col-12 mb-3">
+                                                        <label for="route">{{ __("attributes.route") }}</label>
+                                                        <input class="form-control" name="route" id="route" type="text" placeholder="ex: ar, en" />
+                                                    </div>
+                                                    <div class="col-sm-12 mb-3 fileUploadBuilder">
+                                                        <label for="flag">{{ __("attributes.icon") }}</label>
                                                     </div>
 
+                                                    <div class="col-sm-12 mb-3 media">
+                                                        <label class="col-form-label m-r-10">{{ __("attributes.ActiveEnum") }}</label>
+                                                        <div class="media-body icon-state">
+                                                            <label class="switch">
+                                                                <input type="checkbox" name="ActiveEnum" value="{{\App\Enums\ActiveEnum::Active->value}}"><span class="switch-state"></span>
+                                                            </label>
+                                                        </div>
+                                                    </div>
                                                 </div>
 
-                                                <div class="tab-pane fade" id="update-value-translate" role="tabpanel" aria-labelledby="update-country-translate-tab">
-                                                    <div class="row update-value-translates"></div>
-                                                </div>
 
+                                                <div class="tab-pane fade" id="update-translate" role="tabpanel" aria-labelledby="update-translate-tab">
+                                                    <div class="row update-translates"></div>
+                                                </div>
                                             </div>
                                         </div>
 
@@ -186,23 +207,33 @@
                                             <div class="col-12">
                                                 <ul class="nav nav-pills nav-info mb-3" id="pills-infotab" role="tablist">
                                                     <li class="nav-item"><a class="nav-link active" id="update-data-tab" data-bs-toggle="pill" href="#update-data" role="tab" aria-controls="update-data" aria-selected="true" data-bs-original-title="" title=""><i class="icofont icofont-ui-home"></i>data</a></li>
-                                                    <li class="nav-item"><a class="nav-link" id="view-value-translate-tab" data-bs-toggle="pill" href="#view-value-translate" role="tab" aria-controls="view-value-translate" aria-selected="false" data-bs-original-title="" title=""><i class="icofont icofont-contacts"></i>value translates</a></li>
+                                                    <li class="nav-item"><a class="nav-link" id="view-translate-tab" data-bs-toggle="pill" href="#view-translate" role="tab" aria-controls="view-translate" aria-selected="false" data-bs-original-title="" title=""><i class="icofont icofont-contacts"></i>title translates</a></li>
                                                 </ul>
                                                 <div class="tab-content" id="pills-infotabContent">
 
                                                     <div class="tab-pane fade  active show" id="update-data" role="tabpanel" aria-labelledby="update-data-tab">
-
-                                                        <div class="col-12 mb-3" data-type="key">
-                                                            <label for="key">{{ __("attributes.key") }}</label>
+                                                        <div class="col-12 mb-3">
+                                                            <label for="route">{{ __("attributes.route") }}</label>
+                                                            <input class="form-control" name="route" id="route" type="text" placeholder="ex: ar, en" />
+                                                        </div>
+                                                        <div class="col-sm-12 mb-3 fileUploadBuilder">
+                                                            <label for="flag">{{ __("attributes.icon") }}</label>
                                                         </div>
 
-
+                                                        <div class="col-sm-12 mb-3 media">
+                                                            <label class="col-form-label m-r-10">{{ __("attributes.ActiveEnum") }}</label>
+                                                            <div class="media-body icon-state">
+                                                                <label class="switch">
+                                                                    <input type="checkbox" name="ActiveEnum" value="{{\App\Enums\ActiveEnum::Active->value}}"><span class="switch-state"></span>
+                                                                </label>
+                                                            </div>
+                                                        </div>
                                                     </div>
 
-                                                    <div class="tab-pane fade" id="view-value-translate" role="tabpanel" aria-labelledby="update-country-translate-tab">
-                                                        <div class="row view-value-translates"></div>
-                                                    </div>
 
+                                                    <div class="tab-pane fade" id="view-translate" role="tabpanel" aria-labelledby="view-translate-tab">
+                                                        <div class="row view-translates"></div>
+                                                    </div>
                                                 </div>
                                             </div>
 
@@ -215,28 +246,31 @@
                 </div>
             </div>
 
-
         @endif
     </div>
 @endsection
 
 @section('script')
     <script src="{{asset('assets/js/datatable/datatables/jquery.dataTables.min.js')}}"></script>
-    <script src="{{asset('assets/js/select2/select2.full.min.js')}}"></script>
-    <script src="{{asset('assets/js/height-equal.js')}}"></script>
     <script>
 
-        let valueTranslates = "";
-        let selectKey = "";
+        let titleTranslates = "";
         let pageData = @json(session('page_data'));
         let datatableUri = `${APP_URL}/${pageData.link}`;
         let datatableAuthToken = "{{session("admin_data")["jwtToken"]}}";
         let dataTableLocale =  "{{session("locale")}}";
         let datatableColumns = [
+            {
+                "data": "icon.file",
+                "render": function(data) {
+                    return data ? `<img src="${APP_URL}/uploads/${data}" style="height: 25px; width: auto;">` : '-';
+                }
+            },
             { "data": "id" },
             { "data": "priority" },
-            { "data": "key.translate" },
-            { "data": "value.translate" },
+            { "data": "title.translate" },
+            // { "data": "route" },
+            { "data": "ActiveEnum.translate" },
             { "data": "created_at.dateTime" },
             { "data": "created_by.name" },
             { "data": "updated_at.dateTime" },
@@ -283,10 +317,13 @@
             form[0].reset();
             form.find("[name]").removeClass("is-invalid");
             modal.find("[name=id]").val(data.id);
-            modal.find("[name=key]").val(data.key.key);
-            modal.find(".update-value-translates").find("[data-locale]").each(function (){
+            modal.find("[name=route]").val(data.route);
+            modal.find("[name=ActiveEnum]").prop("checked", data.ActiveEnum.key === "active");
+            fileUploadBuilder($(modal).find(".fileUploadBuilder"), "icon", data.icon, false, "image/svg+xml");
+            modal.find("[data-locale]").each(function (){
                 let locale = $(this).data("locale");
-                $(this).val(data.value.translates[locale] || '');
+                $(this).val(data.title.translates[locale] || '');
+
             });
             modal.modal("show");
         }
@@ -295,10 +332,13 @@
             let modal = $(".view_modal");
             let form = modal.find("form");
             form[0].reset();
-            modal.find("[name=key]").val(data.key.key).prop("disabled", true);
-            modal.find(".view-value-translates").find("[data-locale]").each(function (){
+            modal.find("[name=route]").val(data.route).prop("disabled", true);
+            modal.find("[name=ActiveEnum]").prop("checked", data.ActiveEnum.key === "active").prop("disabled", true);
+            fileUploadBuilder($(modal).find(".fileUploadBuilder"), "icon", data.icon, false, "image/svg+xml");
+            $(modal).find(".fileUploadBuilder").find("button").remove();
+            modal.find("[data-locale]").each(function (){
                 let locale = $(this).data("locale");
-                $(this).val(data.value.translates[locale] || '').prop("disabled", true);
+                $(this).val(data.title.translates[locale] || '').prop("disabled", true);
             });
             modal.modal("show");
         }
@@ -307,11 +347,11 @@
             let form = $(this).find("form");
             form[0].reset();
             form.find("[name]").removeClass("is-invalid");
+            fileUploadBuilder($(".create_modal").find(".fileUploadBuilder"), "icon", null, false, "image/svg+xml");
         });
 
         $(document).ready(function() {
-
-            //Get languages
+            //Get route menu and set data to dom object
             $.ajax({
                 url: APP_URL + "/api/admin/setting/language",
                 type: "GET",
@@ -325,15 +365,13 @@
                 success: function(response) {
                     let data = response.data;
                     for (const i in data) {
-                        valueTranslates += `<div class="col-12 mb-3">
+                        titleTranslates += `<div class="col-12 mb-3">
                                                     <label for="${data[i].locale}">${data[i].language.translate}</label>
-                                                    <input data-locale="${data[i].locale}" class="form-control" id="${data[i].locale}" type="text" name="value[${data[i].locale}]" value="">
+                                                    <input data-locale="${data[i].locale}" class="form-control" id="${data[i].locale}" type="text" name="title[${data[i].locale}]" value="">
                                                 </div>`;
                     }
-
-                    $(".update_modal").find(".update-value-translates").append(valueTranslates);
-                    $(".view_modal").find(".view-value-translates").append(valueTranslates);
-
+                    $(".update_modal").find(".update-translates").append(titleTranslates);
+                    $(".view_modal").find(".view-translates").append(titleTranslates);
                 },
                 error: function(xhr, status, error) {
                     let title = "Some thing went wrong";
@@ -341,34 +379,6 @@
                     notifyForm(title, message, "danger");
                 }
             });
-
-            //Get system Constants
-            $.ajax({
-                url: APP_URL + "/api/web-services/enums/system-constants",
-                type: "GET",
-                data: null,
-                processData: false,
-                contentType: false,
-                headers: {
-                    //'Authorization': 'Bearer ' + "{{ session("admin_data")["jwtToken"] }}",
-                    'locale': "{{ session("locale") }}",
-                },
-                success: function(response) {
-                    let data = response.data;
-                    selectKey += `<select name="key" class="col-12 mb-3">`;
-                    for (const i in data) { selectKey += `<option value="${data[i].key}">${data[i].translate}</option>`; }
-                    selectKey += `</select>`;
-                    $(".create_modal").find("[data-type=key]").append(selectKey);
-                    $(".update_modal").find("[data-type=key]").append(selectKey);
-                    $(".view_modal").find("[data-type=key]").append(selectKey);
-                },
-                error: function(xhr, status, error) {
-                    let title = "Some thing went wrong";
-                    let message = xhr.responseText || "Unknown error";
-                    notifyForm(title, message, "danger");
-                }
-            });
-
         });
 
     </script>

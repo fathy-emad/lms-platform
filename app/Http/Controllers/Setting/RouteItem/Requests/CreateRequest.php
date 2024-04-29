@@ -25,7 +25,7 @@ class CreateRequest extends ValidateRequest
             "icon" => "nullable|array",
             "icon.file" => "nullable|file|mimes:svg,xml",
             "icon.title" => "nullable|string",
-            "ActiveEnum" => "required|in:".implode(",", ActiveEnum::values()),
+            "ActiveEnum" => "sometimes|in:".implode(",", ActiveEnum::values()),
         ];
     }
 }

@@ -8,7 +8,15 @@
 
 @section('style')
     <link rel="stylesheet" type="text/css" href="{{asset('assets/css/vendors/datatables.css')}}">
-    <style>[disabled] {  pointer-events: none; }</style>
+    <link rel="stylesheet" type="text/css" href="{{asset('assets/css/vendors/select2.css')}}">
+    <style>
+        .select2-dropdown { z-index: 10000 !important; }
+        /* CSS to set mouse pointer to none for disabled elements */
+        [disabled] {
+            pointer-events: none;
+        }
+
+    </style>
 @endsection
 
 @section('breadcrumb-title')
@@ -48,14 +56,14 @@
                                 <table class="display datatables" id="data-table-ajax">
                                     <thead>
                                     <tr>
-                                        <th>{{ __("attributes.flag") }}</th>
+                                        <th>{{ __("attributes.icon") }}</th>
                                         <th>#ID</th>
-                                        <th>{{ __("attributes.country_symbol") }}</th>
-                                        <th>{{ __("attributes.country") }}</th>
-                                        <th>{{ __("attributes.currency") }}</th>
-                                        <th>{{ __("attributes.currency_symbol") }}</th>
-                                        <th>{{ __("attributes.phone_prefix") }}</th>
-                                        <th>{{ __("attributes.timezone") }}</th>
+                                        <th>{{ __("attributes.priority") }}</th>
+                                        <th>{{ __("attributes.title") }}</th>
+                                        <th>{{ __("attributes.route") }}</th>
+{{--                                        <th>{{ __("attributes.menu_id") }}</th>--}}
+{{--                                        <th>{{ __("attributes.model") }}</th>--}}
+{{--                                        <th>{{ __("attributes.actions") }}</th>--}}
                                         <th>{{ __("attributes.ActiveEnum") }}</th>
                                         <th>{{ __("attributes.created_at") }}</th>
                                         <th>{{ __("attributes.created_by") }}</th>
@@ -66,14 +74,14 @@
                                     </thead>
                                     <tfoot>
                                     <tr>
-                                        <th>{{ __("attributes.flag") }}</th>
+                                        <th>{{ __("attributes.icon") }}</th>
                                         <th>#ID</th>
-                                        <th>{{ __("attributes.country_symbol") }}</th>
-                                        <th>{{ __("attributes.country") }}</th>
-                                        <th>{{ __("attributes.currency") }}</th>
-                                        <th>{{ __("attributes.currency_symbol") }}</th>
-                                        <th>{{ __("attributes.phone_prefix") }}</th>
-                                        <th>{{ __("attributes.timezone") }}</th>
+                                        <th>{{ __("attributes.priority") }}</th>
+                                        <th>{{ __("attributes.title") }}</th>
+                                        <th>{{ __("attributes.route") }}</th>
+{{--                                        <th>{{ __("attributes.menu_id") }}</th>--}}
+{{--                                        <th>{{ __("attributes.model") }}</th>--}}
+{{--                                        <th>{{ __("attributes.actions") }}</th>--}}
                                         <th>{{ __("attributes.ActiveEnum") }}</th>
                                         <th>{{ __("attributes.created_at") }}</th>
                                         <th>{{ __("attributes.created_by") }}</th>
@@ -105,39 +113,34 @@
                                     <div class="row">
 
                                         <div class="col-12 mb-3">
-                                            <label for="symbol">{{ __("attributes.country_symbol") }}</label>
-                                            <input class="form-control" name="symbol" id="symbol" type="text" placeholder="ex: EG, US" />
+                                            <label for="title">{{ __("attributes.title") }}</label>
+                                            <input class="form-control" name="title" id="title" type="text" placeholder="" />
                                         </div>
 
-                                        <div class="col-12 mb-3">
-                                            <label for="country">{{ __("attributes.country") }}</label>
-                                            <input class="form-control" name="country" id="country" type="text" placeholder="ex: Egypt, Saudi Arabia" />
+                                        <div class="col-sm-12 mb-3">
+                                            <label for="route">{{ __("attributes.route") }}</label>
+                                            <input class="form-control" name="route" id="route" type="text" placeholder="" />
                                         </div>
 
-                                        <div class="col-12 mb-3">
-                                            <label for="currency_symbol">{{ __("attributes.currency_symbol") }}</label>
-                                            <input class="form-control" name="currency_symbol" id="currency_symbol" type="text" placeholder="ex: LE, RS" />
+                                        <div class="col-sm-12 mb-3">
+                                            <label for="model">{{ __("attributes.model") }}</label>
+                                            <input class="form-control" name="model" id="model" type="text" placeholder="ex: User, Admin" />
                                         </div>
 
-                                        <div class="col-12 mb-3">
-                                            <label for="currency">{{ __("attributes.currency") }}</label>
-                                            <input class="form-control" name="currency" id="currency" type="text" placeholder="ex: Egypt Pound, Saudi Arabia Riyal" />
+                                        <div class="col-sm-12 mb-3">
+                                            <label for="menu_id">{{ __("attributes.menu_id") }}</label>
+                                            <select class="col-sm-12" name="menu_id" id="menu_id"></select>
                                         </div>
 
-
-                                        <div class="col-12 mb-3">
-                                            <label for="phone_prefix">{{ __("attributes.phone_prefix") }}</label>
-                                            <input class="form-control" name="phone_prefix" id="phone_prefix" type="text" placeholder="ex: +20" />
+                                        <div class="col-sm-12 mb-3 mt-3 actions-container">
+                                            <div class="row justify-content-start align-items-center">
+                                                <div class="col-auto"><label for="menu_id">{{ __("attributes.actions") }}</label></div>
+                                                <div class="col-auto"><button type="button" class="btn btn-sm btn-primary add-action"><i class="fa fa-plus"></i></button></div>
+                                            </div>
                                         </div>
-
-                                        <div class="col-12 mb-3">
-                                            <label for="timezone">{{ __("attributes.timezone") }}</label>
-                                            <input class="form-control" name="timezone" id="timezone" type="text" placeholder="ex: EET" />
-                                        </div>
-
 
                                         <div class="col-sm-12 mb-3 fileUploadBuilder">
-                                            <label for="flag">{{ __("attributes.flag") }}</label>
+                                            <label for="flag">{{ __("attributes.icon") }}</label>
                                         </div>
 
                                         <div class="col-sm-12 mb-3 media">
@@ -178,37 +181,36 @@
                                         <div class="col-12">
                                             <ul class="nav nav-pills nav-info mb-3" id="pills-infotab" role="tablist">
                                                 <li class="nav-item"><a class="nav-link active" id="update-data-tab" data-bs-toggle="pill" href="#update-data" role="tab" aria-controls="update-data" aria-selected="true" data-bs-original-title="" title=""><i class="icofont icofont-ui-home"></i>data</a></li>
-                                                <li class="nav-item"><a class="nav-link" id="update-country-translate-tab" data-bs-toggle="pill" href="#update-country-translate" role="tab" aria-controls="update-country-translate" aria-selected="false" data-bs-original-title="" title=""><i class="icofont icofont-contacts"></i>country translates</a></li>
-                                                <li class="nav-item"><a class="nav-link" id="update-currency-translate-tab" data-bs-toggle="pill" href="#update-currency-translate" role="tab" aria-controls="update-currency-translate" aria-selected="false" data-bs-original-title="" title=""><i class="icofont icofont-contacts"></i>currency translates</a></li>
+                                                <li class="nav-item"><a class="nav-link" id="update-translate-tab" data-bs-toggle="pill" href="#update-translate" role="tab" aria-controls="update-translate" aria-selected="false" data-bs-original-title="" title=""><i class="icofont icofont-contacts"></i>title translates</a></li>
                                             </ul>
                                             <div class="tab-content" id="pills-infotabContent">
 
                                                 <div class="tab-pane fade  active show" id="update-data" role="tabpanel" aria-labelledby="update-data-tab">
 
-                                                    <div class="col-12 mb-3">
-                                                        <label for="symbol">{{ __("attributes.country_symbol") }}</label>
-                                                        <input class="form-control" name="symbol" id="symbol" type="text" placeholder="ex: EG, US" />
+                                                    <div class="col-sm-12 mb-3">
+                                                        <label for="route">{{ __("attributes.route") }}</label>
+                                                        <input class="form-control" name="route" id="route" type="text" placeholder="" />
                                                     </div>
 
-                                                    <div class="col-12 mb-3">
-                                                        <label for="currency_symbol">{{ __("attributes.currency_symbol") }}</label>
-                                                        <input class="form-control" name="currency_symbol" id="currency_symbol" type="text" placeholder="ex: LE, RS" />
+                                                    <div class="col-sm-12 mb-3">
+                                                        <label for="model">{{ __("attributes.model") }}</label>
+                                                        <input class="form-control" name="model" id="model" type="text" placeholder="ex: User, Admin" />
                                                     </div>
 
-
-                                                    <div class="col-12 mb-3">
-                                                        <label for="phone_prefix">{{ __("attributes.phone_prefix") }}</label>
-                                                        <input class="form-control" name="phone_prefix" id="phone_prefix" type="text" placeholder="ex: +20" />
+                                                    <div class="col-sm-12 mb-3">
+                                                        <label for="menu_id">{{ __("attributes.menu_id") }}</label>
+                                                        <select class="col-sm-12" name="menu_id" id="menu_id"></select>
                                                     </div>
 
-                                                    <div class="col-12 mb-3">
-                                                        <label for="timezone">{{ __("attributes.timezone") }}</label>
-                                                        <input class="form-control" name="timezone" id="timezone" type="text" placeholder="ex: EET" />
+                                                    <div class="col-sm-12 mb-3 mt-3 actions-container">
+                                                        <div class="row justify-content-start align-items-center">
+                                                            <div class="col-auto"><label for="menu_id">{{ __("attributes.actions") }}</label></div>
+                                                            <div class="col-auto"><button type="button" class="btn btn-sm btn-primary add-action"><i class="fa fa-plus"></i></button></div>
+                                                        </div>
                                                     </div>
-
 
                                                     <div class="col-sm-12 mb-3 fileUploadBuilder">
-                                                        <label for="flag">{{ __("attributes.flag") }}</label>
+                                                        <label for="flag">{{ __("attributes.icon") }}</label>
                                                     </div>
 
                                                     <div class="col-sm-12 mb-3 media">
@@ -219,16 +221,11 @@
                                                             </label>
                                                         </div>
                                                     </div>
-
-
                                                 </div>
 
-                                                <div class="tab-pane fade" id="update-country-translate" role="tabpanel" aria-labelledby="update-country-translate-tab">
-                                                    <div class="row update-country-translates"></div>
-                                                </div>
 
-                                                <div class="tab-pane fade" id="update-currency-translate" role="tabpanel" aria-labelledby="update-currency-translate-tab">
-                                                    <div class="row update-currency-translates"></div>
+                                                <div class="tab-pane fade" id="update-translate" role="tabpanel" aria-labelledby="update-translate-tab">
+                                                    <div class="row update-translates"></div>
                                                 </div>
                                             </div>
                                         </div>
@@ -260,37 +257,36 @@
                                             <div class="col-12">
                                                 <ul class="nav nav-pills nav-info mb-3" id="pills-infotab" role="tablist">
                                                     <li class="nav-item"><a class="nav-link active" id="view-data-tab" data-bs-toggle="pill" href="#view-data" role="tab" aria-controls="view-data" aria-selected="true" data-bs-original-title="" title=""><i class="icofont icofont-ui-home"></i>data</a></li>
-                                                    <li class="nav-item"><a class="nav-link" id="view-country-translate-tab" data-bs-toggle="pill" href="#view-country-translate" role="tab" aria-controls="view-country-translate" aria-selected="false" data-bs-original-title="" title=""><i class="icofont icofont-contacts"></i>country translates</a></li>
-                                                    <li class="nav-item"><a class="nav-link" id="view-currency-translate-tab" data-bs-toggle="pill" href="#view-currency-translate" role="tab" aria-controls="view-currency-translate" aria-selected="false" data-bs-original-title="" title=""><i class="icofont icofont-contacts"></i>currency translates</a></li>
+                                                    <li class="nav-item"><a class="nav-link" id="view-translate-tab" data-bs-toggle="pill" href="#view-translate" role="tab" aria-controls="view-translate" aria-selected="false" data-bs-original-title="" title=""><i class="icofont icofont-contacts"></i>title translates</a></li>
                                                 </ul>
                                                 <div class="tab-content" id="pills-infotabContent">
 
                                                     <div class="tab-pane fade  active show" id="view-data" role="tabpanel" aria-labelledby="view-data-tab">
 
-                                                        <div class="col-12 mb-3">
-                                                            <label for="symbol">{{ __("attributes.country_symbol") }}</label>
-                                                            <input class="form-control" name="symbol" id="symbol" type="text" placeholder="ex: EG, US" />
+                                                        <div class="col-sm-12 mb-3">
+                                                            <label for="route">{{ __("attributes.route") }}</label>
+                                                            <input class="form-control" name="route" id="route" type="text" placeholder="" />
                                                         </div>
 
-                                                        <div class="col-12 mb-3">
-                                                            <label for="currency_symbol">{{ __("attributes.currency_symbol") }}</label>
-                                                            <input class="form-control" name="currency_symbol" id="currency_symbol" type="text" placeholder="ex: LE, RS" />
+                                                        <div class="col-sm-12 mb-3">
+                                                            <label for="model">{{ __("attributes.model") }}</label>
+                                                            <input class="form-control" name="model" id="model" type="text" placeholder="ex: User, Admin" />
                                                         </div>
 
-
-                                                        <div class="col-12 mb-3">
-                                                            <label for="phone_prefix">{{ __("attributes.phone_prefix") }}</label>
-                                                            <input class="form-control" name="phone_prefix" id="phone_prefix" type="text" placeholder="ex: +20" />
+                                                        <div class="col-sm-12 mb-3">
+                                                            <label for="menu_id">{{ __("attributes.menu_id") }}</label>
+                                                            <select class="col-sm-12" name="menu_id" id="menu_id"></select>
                                                         </div>
 
-                                                        <div class="col-12 mb-3">
-                                                            <label for="timezone">{{ __("attributes.timezone") }}</label>
-                                                            <input class="form-control" name="timezone" id="timezone" type="text" placeholder="ex: EET" />
+                                                        <div class="col-sm-12 mb-3 mt-3 actions-container">
+                                                            <div class="row justify-content-start align-items-center">
+                                                                <div class="col-auto"><label for="menu_id">{{ __("attributes.actions") }}</label></div>
+                                                                <div class="col-auto"><button type="button" class="btn btn-sm btn-primary add-action d-none"><i class="fa fa-plus"></i></button></div>
+                                                            </div>
                                                         </div>
-
 
                                                         <div class="col-sm-12 mb-3 fileUploadBuilder">
-                                                            <label for="flag">{{ __("attributes.flag") }}</label>
+                                                            <label for="flag">{{ __("attributes.icon") }}</label>
                                                         </div>
 
                                                         <div class="col-sm-12 mb-3 media">
@@ -301,16 +297,11 @@
                                                                 </label>
                                                             </div>
                                                         </div>
-
-
                                                     </div>
 
-                                                    <div class="tab-pane fade" id="view-country-translate" role="tabpanel" aria-labelledby="view-country-translate-tab">
-                                                        <div class="row view-country-translates"></div>
-                                                    </div>
 
-                                                    <div class="tab-pane fade" id="view-currency-translate" role="tabpanel" aria-labelledby="view-currency-translate-tab">
-                                                        <div class="row view-currency-translates"></div>
+                                                    <div class="tab-pane fade" id="view-translate" role="tabpanel" aria-labelledby="view-translate-tab">
+                                                        <div class="row view-translates"></div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -324,35 +315,35 @@
                 </div>
             </div>
 
-
         @endif
     </div>
 @endsection
 
 @section('script')
+    <script src="{{asset('assets/js/select2/select2.full.min.js')}}"></script>
     <script src="{{asset('assets/js/datatable/datatables/jquery.dataTables.min.js')}}"></script>
     <script>
 
-        let countryTranslates = "";
-        let currencyTranslates = "";
+        let routeMenus = "";
+        let titleTranslates = "";
         let pageData = @json(session('page_data'));
         let datatableUri = `${APP_URL}/${pageData.link}`;
         let datatableAuthToken = "{{session("admin_data")["jwtToken"]}}";
         let dataTableLocale =  "{{session("locale")}}";
         let datatableColumns = [
             {
-                "data": "flag.file",
+                "data": "icon.file",
                 "render": function(data) {
                     return data ? `<img src="${APP_URL}/uploads/${data}" style="height: 25px; width: auto;">` : '-';
                 }
             },
             { "data": "id" },
-            { "data": "symbol" },
-            { "data": "country.translate" },
-            { "data": "currency_symbol" },
-            { "data": "currency.translate" },
-            { "data": "phone_prefix" },
-            { "data": "timezone" },
+            { "data": "priority" },
+            { "data": "title.translate" },
+            { "data": "route" },
+            // { "data": "menu_title.translate" },
+            // { "data": "model" },
+            // { "data": "actions" },
             { "data": "ActiveEnum.translate" },
             { "data": "created_at.dateTime" },
             { "data": "created_by.name" },
@@ -370,8 +361,6 @@
                 "render": function (data) {
                     const dataString = JSON.stringify(data).replace(/"/g, '&quot;');
                     let actions = `<div class="row justify-content-start">`;
-
-                    //if(pageData.actions.update === 1 || (pageData.actions.update === 2 && "{{session("admin_data")["id"]}}" == data[pageData.specific_actions_belongs_to].id)){
                     if(pageData.actions.update === 1){
                         actions += `<div class="col-auto">
                                     <button class="btn btn-sm btn-warning" type="button" onclick="openModalUpdate(${dataString})"
@@ -381,8 +370,6 @@
                                     </button>
                                 </div>`;
                     }
-
-                    //if(pageData.actions.read === 1 || (pageData.actions.read === 2 && "{{session("admin_data")["id"]}}" == data[pageData.specific_actions_belongs_to].id)){
                     if(pageData.actions.read === 1 ){
                         actions += `<div class="col-auto">
                                     <button class="btn btn-sm btn-primary" type="button" onclick="openModalView(${dataString})"
@@ -404,26 +391,22 @@
             form[0].reset();
             form.find("[name]").removeClass("is-invalid");
             modal.find("[name=id]").val(data.id);
-            modal.find("[name=symbol]").val(data.symbol);
-            modal.find("[name=currency_symbol]").val(data.currency_symbol);
-            modal.find("[name=phone_prefix]").val(data.phone_prefix);
-            modal.find("[name=timezone]").val(data.timezone);
+            modal.find("[name=route]").val(data.route);
+            modal.find("[name=model]").val(data.model);
+            modal.find("[name=menu_id]").val(data.menu_id).trigger("change");
             modal.find("[name=ActiveEnum]").prop("checked", data.ActiveEnum.key === "active");
-            fileUploadBuilder($(modal).find(".fileUploadBuilder"), "flag", data.flag, false, "image/svg+xml");
-
-
-            modal.find(".update-country-translates").find("[data-locale]").each(function (){
+            fileUploadBuilder($(modal).find(".fileUploadBuilder"), "icon", data.icon, false, "image/svg+xml");
+            modal.find("[data-locale]").each(function (){
                 let locale = $(this).data("locale");
-                $(this).val(data.country.translates[locale] || '');
+                $(this).val(data.title.translates[locale] || '');
 
             });
-
-            modal.find(".update-currency-translates").find("[data-locale]").each(function (){
-                let locale = $(this).data("locale");
-                $(this).val(data.currency.translates[locale] || '');
-
-            });
-
+            modal.find(".action-container").remove();
+            for (const i in data.actions) {
+                let action = data.actions[i];
+                modal.find(".add-action").trigger("click");
+                modal.find(".actions-container").find(".action-container").last().find("input").val(action);
+            }
             modal.modal("show");
         }
 
@@ -431,26 +414,24 @@
             let modal = $(".view_modal");
             let form = modal.find("form");
             form[0].reset();
-            modal.find("[name=symbol]").val(data.symbol).prop("disabled", true);
-            modal.find("[name=currency_symbol]").val(data.currency_symbol).prop("disabled", true);
-            modal.find("[name=phone_prefix]").val(data.phone_prefix).prop("disabled", true);
-            modal.find("[name=timezone]").val(data.timezone).prop("disabled", true);
+            form.find("[name]").removeClass("is-invalid");
+            modal.find("[name=route]").val(data.route).prop("disabled", true);
+            modal.find("[name=model]").val(data.model).prop("disabled", true);
+            modal.find("[name=menu_id]").val(data.menu_id).trigger("change").prop("disabled", true);
             modal.find("[name=ActiveEnum]").prop("checked", data.ActiveEnum.key === "active").prop("disabled", true);
-            fileUploadBuilder($(modal).find(".fileUploadBuilder"), "flag", data.flag, false, "image/svg+xml");
+            fileUploadBuilder($(modal).find(".fileUploadBuilder"), "icon", data.icon, false, "image/svg+xml");
             $(modal).find(".fileUploadBuilder").find("button").remove();
-
-            modal.find(".view-country-translates").find("[data-locale]").each(function (){
+            modal.find("[data-locale]").each(function (){
                 let locale = $(this).data("locale");
-                $(this).val(data.country.translates[locale] || '').prop("disabled", true);
+                $(this).val(data.title.translates[locale] || '').prop("disabled", true);
 
             });
-
-            modal.find(".view-currency-translates").find("[data-locale]").each(function (){
-                let locale = $(this).data("locale");
-                $(this).val(data.currency.translates[locale] || '').prop("disabled", true);
-
-            });
-
+            modal.find(".action-container").remove();
+            for (const i in data.actions) {
+                let action = data.actions[i];
+                modal.find(".add-action").trigger("click");
+                modal.find(".actions-container").find(".action-container").last().find("input").val(action).prop("disabled", true);
+            }
             modal.modal("show");
         }
 
@@ -458,12 +439,13 @@
             let form = $(this).find("form");
             form[0].reset();
             form.find("[name]").removeClass("is-invalid");
-            fileUploadBuilder($(".create_modal").find(".fileUploadBuilder"), "flag", null, false, "image/svg+xml");
+            form.find("#menu_id").val("").trigger("change");
+            form.find(".action-container").remove();
+            fileUploadBuilder($(".create_modal").find(".fileUploadBuilder"), "icon", null, false, "image/svg+xml");
         });
 
         $(document).ready(function() {
-
-            //Get route menu and set data to dom object
+            //Get languages
             $.ajax({
                 url: APP_URL + "/api/admin/setting/language",
                 type: "GET",
@@ -477,26 +459,57 @@
                 success: function(response) {
                     let data = response.data;
                     for (const i in data) {
-                        countryTranslates += `<div class="col-12 mb-3">
+                        titleTranslates += `<div class="col-12 mb-3">
                                                     <label for="${data[i].locale}">${data[i].language.translate}</label>
-                                                    <input data-locale="${data[i].locale}" class="form-control" id="${data[i].locale}" type="text" name="country[${data[i].locale}]" value="">
-                                                </div>`;
-                        currencyTranslates += `<div class="col-12 mb-3">
-                                                    <label for="${data[i].locale}">${data[i].language.translate}</label>
-                                                    <input data-locale="${data[i].locale}" class="form-control" id="${data[i].locale}" type="text" name="currency[${data[i].locale}]" value="">
+                                                    <input data-locale="${data[i].locale}" class="form-control" id="${data[i].locale}" type="text" name="title[${data[i].locale}]" value="">
                                                 </div>`;
                     }
-
-                    $(".update_modal").find(".update-country-translates").append(countryTranslates);
-                    $(".update_modal").find(".update-currency-translates").append(currencyTranslates);
-                    $(".view_modal").find(".view-country-translates").append(countryTranslates);
-                    $(".view_modal").find(".view-currency-translates").append(currencyTranslates);
+                    $(".update_modal").find(".update-translates").append(titleTranslates);
+                    $(".view_modal").find(".view-translates").append(titleTranslates);
                 },
                 error: function(xhr, status, error) {
                     let title = "Some thing went wrong";
                     let message = xhr.responseText || "Unknown error";
                     notifyForm(title, message, "danger");
                 }
+            });
+
+            //Get route menu
+            $.ajax({
+                url: APP_URL + "/api/admin/setting/route-menu",
+                type: "GET",
+                data: null,
+                processData: false,
+                contentType: false,
+                headers: {
+                    'Authorization': 'Bearer ' + "{{ session("admin_data")["jwtToken"] }}",
+                    'locale': "{{ session("locale") }}",
+                },
+                success: function(response) {
+                    let data = response.data;
+                    for (const i in data) routeMenus += `<option value="${data[i].id}">${data[i].title.translate}</option>`;
+                    $(".create_modal").find("#menu_id").select2().append(routeMenus);
+                    $(".update_modal").find("#menu_id").select2().append(routeMenus);
+                    $(".view_modal").find("#menu_id").select2().append(routeMenus);
+                },
+                error: function(xhr, status, error) {
+                    let title = "Some thing went wrong";
+                    let message = xhr.responseText || "Unknown error";
+                    notifyForm(title, message, "danger");
+                }
+            });
+
+
+            $(".add-action").on("click", function () {
+                 let template = `<div class="row action-container mt-3">
+                                    <div class="col-9"><input class="form-control" type="text" name="actions[]" value=""></div>
+                                    <div class="col-3">
+                                        <button type="button" class="btn btn-sm btn-danger" onclick="$(this).closest('.action-container').remove()" style="height: 46px">
+                                            <i class="fa fa-trash"></i>
+                                        </button>
+                                    </div>
+                                </div>`;
+                $(this).closest(".actions-container").append(template);
             });
         });
 

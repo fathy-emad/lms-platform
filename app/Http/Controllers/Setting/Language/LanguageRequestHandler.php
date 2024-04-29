@@ -37,8 +37,4 @@ class LanguageRequestHandler extends RequestHandler
         $this->data["flag"] = UploadFile::uploadFile('public', $this->data["flag"], 'languages/flags', $model, "flag");
     }
 
-    public function handleActiveEnum(): void
-    {
-        $this->data["ActiveEnum"] = isset($this->data["ActiveEnum"]) ? ActiveEnum::Active->value :  ActiveEnum::NotActive->value;
-    }
 }

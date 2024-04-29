@@ -17,6 +17,11 @@ class RouteItem extends Model
         "ActiveEnum" => ActiveEnum::class
     ];
 
+    public function setModelAttribute($value): void
+    {
+        $this->attributes['model'] = ucfirst($value);
+    }
+
     public function menu(): BelongsTo
     {
         return $this->belongsTo(RouteMenu::class, 'menu_id');

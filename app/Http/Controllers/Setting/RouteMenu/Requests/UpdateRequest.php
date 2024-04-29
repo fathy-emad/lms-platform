@@ -17,7 +17,6 @@ class UpdateRequest extends ValidateRequest
             "title.*" => "nullable|string",
             "route" => "required|unique:route_menus,route," . $this->id,
             //"priority" => "nullable|integer",
-            "icon" => "nullable|array",
             "icon.key" => [
                 "nullable",
                 "integer",
@@ -27,7 +26,7 @@ class UpdateRequest extends ValidateRequest
             ],
             "icon.file" => "nullable|file|mimes:svg,xml",
             "icon.title" => "nullable|string",
-            "ActiveEnum" => "required|in:".implode(",", ActiveEnum::values()),
+            "ActiveEnum" => "sometimes |in:".implode(",", ActiveEnum::values()),
         ];
     }
 }

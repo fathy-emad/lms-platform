@@ -255,7 +255,7 @@
 
         let languageTranslates = "";
         let pageData = @json(session('page_data'));
-        let datatableUri = "{{ url("api")."/admin/setting/language"}}";
+        let datatableUri = `${APP_URL}/${pageData.link}`;
         let datatableAuthToken = "{{session("admin_data")["jwtToken"]}}";
         let dataTableLocale =  "{{session("locale")}}";
         let datatableColumns = [
@@ -322,14 +322,10 @@
             modal.find("[name=locale]").val(data.locale);
             modal.find("[name=ActiveEnum]").prop("checked", data.ActiveEnum.key === "active");
             fileUploadBuilder($(modal).find(".fileUploadBuilder"), "flag", data.flag, false, "image/svg+xml");
-
-
             modal.find("[data-locale]").each(function (){
                 let locale = $(this).data("locale");
-                $(this).val(data.language_translates[locale] || '');
-
+                $(this).val(data.language.translates[locale] || '');
             });
-
             modal.modal("show");
         }
 
@@ -343,9 +339,8 @@
             $(modal).find(".fileUploadBuilder").find("button").remove();
             modal.find("[data-locale]").each(function (){
                 let locale = $(this).data("locale");
-                $(this).val(data.language_translates[locale] || '').prop("disabled", true);
+                $(this).val(data.language.translates[locale] || '').prop("disabled", true);
             });
-
             modal.modal("show");
         }
 
@@ -355,7 +350,6 @@
             $(modal).find("[data-type=message]").html(`Are you sure you want to delete <strong>()</strong> permissions?`);
             modal.modal("show");
         }
-
 
         $('.create_modal').on('show.bs.modal', function (e) {
             let form = $(this).find("form");
