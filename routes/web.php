@@ -20,14 +20,28 @@ use Illuminate\Support\Facades\Session;
 
 //Language Change
 Route::get('lang/{locale}', function ($locale) {
-
-    if (! in_array($locale, ['en', 'ar'])) {
-        abort(400);
-    }
+    if (! in_array($locale, ['en', 'ar'])) abort(400);
     Session()->put('locale', $locale);
-    $locale = Session::get('locale');
     return redirect()->back();
 })->name('lang');
+
+//Create session after login
+Route::post("create/session", function(Request $request){
+    $admin_data = $request->all();
+    $expirationMinutes = (explode(" ", $admin_data["jwtTokenExpirationAfter"])[0] / 60) - 5;
+    $admin_data["jwtTokenExpirationAfter"] = Carbon::now()->addMinutes($expirationMinutes);
+    session(["admin_data" => $admin_data]);
+    Cookie::queue(session()->getName(), session()->getId(), $expirationMinutes);
+    return true;
+});
+
+//Destroy session after logout
+Route::post("destroy/session", function(){
+    session()->flush();
+    Cookie::queue(Cookie::forget(session()->getName()));
+    session()->regenerate();
+    return true;
+});
 
 
 //Admin routes
@@ -36,37 +50,12 @@ Route::prefix("admin")->name("admin.")->middleware("entity.locale")->group(funct
     //guest
     Route::middleware("entity.guest:admin")->group(function (){
 
-        Route::post("create/session", function(Request $request){
-            $admin_data = $request->all();
-            $expirationMinutes = (explode(" ", $admin_data["jwtTokenExpirationAfter"])[0] / 60) - 5;
-            $admin_data["jwtTokenExpirationAfter"] = Carbon::now()->addMinutes($expirationMinutes);
-            session(["admin_data" => $admin_data]);
-            Cookie::queue(session()->getName(), session()->getId(), $expirationMinutes);
-            return true;
-        });
-
         Route::view('auth/login', 'admin.auth.login')->name('auth.login');
     });
 
 
     //Auth
     Route::middleware("entity.auth:admin")->group(function (){
-
-        Route::post("addTo/session", function(Request $request){
-            Session()->put($request->all());
-            return true;
-        });
-
-        Route::post("destroy/session", function(){
-            // Clear the session data
-            session()->flush();
-
-            // Forget the session cookie by setting its expiration to the past
-            Cookie::queue(Cookie::forget(session()->getName()));
-            // Optionally, you can regenerate the session to ensure a new session ID is generated
-            session()->regenerate();
-            return true;
-        });
 
         Route::view('dashboard', 'admin.dashboard')->name('dashboard');
 
