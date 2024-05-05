@@ -4,6 +4,7 @@ namespace App\Http\Controllers\SettingEducation\Year\Requests;
 
 use App\Concretes\ValidateRequest;
 use App\Enums\ActiveEnum;
+use App\Enums\SystemConstantsEnum;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\Enum;
 
@@ -18,7 +19,7 @@ class UpdateRequest extends ValidateRequest
                 "required",
                 "integer",
                 Rule::exists('enumerations', 'id')->where(function ($query) {
-                    return $query->where('key', 'YearEnumTable');
+                    return $query->where('key', SystemConstantsEnum::YearEnumTable->value);
                 }),
                 Rule::unique('years')->where(function ($query) {
                     return $query->where([
@@ -27,7 +28,7 @@ class UpdateRequest extends ValidateRequest
                     ]);
                 })->ignore($this->id)
             ],
-            "ActiveEnum" => ["required", "string", new Enum(ActiveEnum::class)],
+            "ActiveEnum" => ["sometimes", "string", new Enum(ActiveEnum::class)],
         ];
     }
 }

@@ -45,28 +45,6 @@ Route::get('lang/{locale}', function ($locale) {
         session()->put("admin_data", array_merge($session_data, $data));
     }
 
-    if(session("page_data") !== null){
-        $url = 'http://localhost/lms-platform/public/api/admin/setting/route-item';
-        $queryParams = [
-            'id' => session("page_data")["id"]
-        ];
-        $headers = [
-            'locale' => $locale,
-            'Authorization' => 'Bearer ' . session("admin_data")["jwtToken"],
-            'Accept' => 'application/json',
-        ];
-
-        $response = Http::withHeaders($headers)->get($url, $queryParams);
-
-        if ($response->successful() && $response->json()["statusCode"] == 200 && $response->json()["success"]) {
-            $page_data = $response->json()["data"];
-            $session_page_data = session("page_data");
-            $session_page_data["route_title"] = $page_data["menu_title"]["translate"];
-            $session_page_data["title"] = $page_data["title"];
-            session()->put("page_data", $session_page_data);
-        }
-    }
-
     return redirect()->back();
 })->name('lang');
 
@@ -126,6 +104,7 @@ Route::prefix("admin")->name("admin.")->middleware("entity.locale")->group(funct
 
         Route::prefix("setting-education")->name("setting-education.")->group(function(){
             Route::view('stage', 'admin.setting-education.stage')->name("stage");
+            Route::view('year/{stage_id?}', 'admin.setting-education.year')->name("year");
         });
 
     });

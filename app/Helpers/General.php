@@ -14,3 +14,11 @@ if (!function_exists('generateToken')) {
         return $uniqueNumber;
     }
 }
+
+if (!function_exists('checkPermission')) {
+    function checkPermission(array $permissions): bool
+    {
+        dd($permissions);
+        return true;
+    }
+}

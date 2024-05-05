@@ -36,13 +36,7 @@
                                     </a>
                                     <ul class="sidebar-submenu" style="display:{{ $activeMenu ? "block" : "none" }}">
                                         @foreach($items as $item)
-                                            @php
-                                                $active = '';
-                                                $item["route_title"] = $route["title"]["translate"];
-                                                $item_data = json_encode($item);
-                                                if ("api/$request_path" === $item["link"]) $active = 'active';
-                                            @endphp
-                                            <li><a href="#" onclick="setPageDataToSession('{{$item_data}}')" class="{{$active}}"><i data-feather="settings"></i>{{ $item["title"]["translate"] }}</a></li>
+                                            <li><a href="{{url(str_replace("api/", "", $item["link"]))}}" class="{{"api/$request_path" === $item["link"] ? 'active' : ''}}"><i data-feather="settings"></i>{{ $item["title"]["translate"] }}</a></li>
                                         @endforeach
                                     </ul>
                                 </li>
@@ -54,29 +48,4 @@
 		</nav>
 	</div>
 </div>
-<script>
-    function setPageDataToSession(pageData) {
-        let url = "{{ url('') }}";
 
-        $.ajax({
-            url: "http://127.0.0.1:8000/admin/addTo/session",
-            type: "POST",
-            data: JSON.stringify({"page_data": JSON.parse(pageData)}),
-            processData: false,
-            contentType: "application/json",
-            headers: {
-                'X-CSRF-TOKEN': '{{ csrf_token() }}',
-            },
-            success: function(response) {
-                let uri = url + JSON.parse(pageData).link
-                uri = uri.replace(new RegExp('api', 'g'), '');
-                window.location = uri;
-            },
-            error: function(xhr, status, error) {
-                let title = "Some thing went wrong";
-                let message = xhr.responseText || "Unknown error";
-                notifyForm(title, message, "danger");
-            }
-        });
-    }
-</script>
