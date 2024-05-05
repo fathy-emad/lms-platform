@@ -124,6 +124,10 @@ Route::prefix("admin")->name("admin.")->middleware("entity.locale")->group(funct
             Route::view('permission', 'admin.employee.permission')->name("permission");
         });
 
+        Route::prefix("setting-education")->name("setting-education.")->group(function(){
+            Route::view('stage', 'admin.setting-education.stage')->name("stage");
+        });
+
     });
 
 });
