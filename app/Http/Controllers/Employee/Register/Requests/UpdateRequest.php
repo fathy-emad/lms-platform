@@ -23,7 +23,7 @@ class UpdateRequest extends ValidateRequest
             "AdminRoleEnum" => ["required", "string", new Enum(AdminRoleEnum::class)],
             "GenderEnum" => ["required", "string", new Enum(GenderEnum::class)],
             "AdminStatusEnum" =>["required", "string", new Enum(AdminStatusEnum::class)],
-            "blocked_reason" => "required_if:AdminStatusEnum," . AdminStatusEnum::Blocked->value,
+            "block_reason" => "required_if:AdminStatusEnum," . AdminStatusEnum::Blocked->value,
             "national_id" => "required|digits:14|unique:admins,national_id,".$this->id,
             "image.key" => [
                 "nullable",

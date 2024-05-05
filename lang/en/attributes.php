@@ -24,6 +24,17 @@ return [
     "icon" => "Icon",
     "title" => "Title",
     "route" => "Route",
-    "menu_id" => "Page menu",
-    "model" => "Model"
+    "menu_id" => "Route menu",
+    "model" => "Model",
+    "name" => "Name",
+    "image" => "Image",
+    "phone" => "Phone",
+    "email" => "Email",
+    "AdminRoleEnum" => "role",
+    "AdminStatusEnum" => "Status",
+    "GenderEnum" => "Gender",
+    "password" => "Password",
+    "password_confirmation" => "Password confirmation",
+    "national_id" => "National ID",
+    "blocked_reason" => "Blocked reason"
 ];

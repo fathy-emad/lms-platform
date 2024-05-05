@@ -25,5 +25,16 @@ return [
     "title" => "العنوان",
     "route" => "اللينك",
     "menu_id" => "قائمة الصفحة",
-    "model" => "المودل"
+    "model" => "المودل",
+    "name" => "الإسم",
+    "image" => "الصورة",
+    "phone" => "رقم الهاتف",
+    "email" => "البريد الإلكترونى",
+    "AdminRoleEnum" => "الدور",
+    "AdminStatusEnum" => "الحالة",
+    "GenderEnum" => "الجنس",
+    "password" => "كلمة المرور",
+    "password_confirmation" => "تأكيد كلمة المرور",
+    "national_id" => "رقم البطاقة",
+    "blocked_reason" => "سبب الحظر"
 ];

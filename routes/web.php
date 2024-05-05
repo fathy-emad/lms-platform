@@ -111,16 +111,17 @@ Route::prefix("admin")->name("admin.")->middleware("entity.locale")->group(funct
 
         Route::view('dashboard', 'admin.dashboard')->name('dashboard');
 
-        Route::prefix("employee")->name("employee.")->group(function(){
-            Route::view('permission', 'admin.employee.permission')->name("permission");
-        });
-
         Route::prefix("setting")->name("setting.")->group(function(){
             Route::view('language', 'admin.setting.language')->name("language");
             Route::view('country', 'admin.setting.country')->name("country");
             Route::view('enumeration', 'admin.setting.enumeration')->name("enumeration");
             Route::view('route-menu', 'admin.setting.route-menu')->name("route-menu");
             Route::view('route-item', 'admin.setting.route-item')->name("route-item");
+        });
+
+        Route::prefix("employee")->name("employee.")->group(function(){
+            Route::view('register', 'admin.employee.register')->name("register");
+            Route::view('permission', 'admin.employee.permission')->name("permission");
         });
 
     });

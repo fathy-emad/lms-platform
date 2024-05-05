@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers\Employee\Register\Requests;
 
-use App\Concretes\ValidateRequest;
-use App\Enums\AdminRoleEnum;
 use App\Enums\GenderEnum;
+use App\Enums\AdminRoleEnum;
+use App\Enums\AdminStatusEnum;
+use App\Concretes\ValidateRequest;
 use Illuminate\Validation\Rules\Enum;
 use Illuminate\Validation\Rules\Password;
 

@@ -23,6 +23,7 @@ class RegisterResource extends JsonResource
             "id" => $this->id,
             "name" => $this->name,
             "email" => $this->email,
+            "phonePrefix" => $this->phonePrefix,
             "phone" => $this->phone,
             "national_id" => $this->national_id,
             "country" => $this->country ?? null,
