@@ -31,12 +31,12 @@
                                     @endphp
                                     <a class="sidebar-link sidebar-title" href="#">
                                         <i data-feather="settings"></i>
-                                        <span class="lan-7">{{ $route["title"]["translate"] }}</span>
+                                        <span class="lan-7">{{ $route["title"]["translates"][app()->getLocale()] }}</span>
                                         <div class="according-menu"><i class="fa fa-angle-{{ $activeMenu ? "down" : "right" }}"></i></div>
                                     </a>
                                     <ul class="sidebar-submenu" style="display:{{ $activeMenu ? "block" : "none" }}">
                                         @foreach($items as $item)
-                                            <li><a href="{{url(str_replace("api/", "", $item["link"]))}}" class="{{"api/$request_path" === $item["link"] ? 'active' : ''}}"><i data-feather="settings"></i>{{ $item["title"]["translate"] }}</a></li>
+                                            <li><a href="{{url(str_replace("api/", "", $item["link"]))}}" class="{{"api/$request_path" === $item["link"] ? 'active' : ''}}"><i data-feather="settings"></i>{{ $item["title"]["translates"][app()->getLocale()] }}</a></li>
                                         @endforeach
                                     </ul>
                                 </li>

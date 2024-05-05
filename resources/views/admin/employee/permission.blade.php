@@ -1,5 +1,6 @@
-
 @extends('dashboard_layouts.simple.master')
+
+@section("phpScript") @php $pageData = checkPermission(request()->path(), session("admin_data")["permission"]["permissions"]) @endphp @endsection
 
 @section('title', 'Default')
 
@@ -21,222 +22,211 @@
 @endsection
 
 @section('breadcrumb-title')
-    <h3>{{ session("page_data")["title"]["translate"] }}</h3>
+    <h3>{{ $pageData["page"] }}</h3>
 @endsection
 
 @section('breadcrumb-items')
     <li class="breadcrumb-item">{{ __('lang.dashboard') }}</li>
-    <li class="breadcrumb-item">{{ session("page_data")["route_title"] }}</li>
-    <li class="breadcrumb-item active">{{ session("page_data")["title"]["translate"] }}</li>
+    <li class="breadcrumb-item">{{ $pageData["route"] }}</li>
+    <li class="breadcrumb-item active">{{ $pageData["page"] }}</li>
 @endsection
 
 @section('content')
     <div class="container-fluid">
-        @if(("api/" . request()->path()) !== session("page_data")["link"])
-            <div class="alert alert-danger" role="alert">
-                <h4 class="alert-heading">Well done!</h4>
-                <p>Aww yeah, you successfully read this important alert message.</p>
-                <hr>
-                <p class="mb-0">You are not auth to get here.</p>
-            </div>
-        @else
-            <div class="row">
-                <div class="col-sm-12">
-                    <div class="card">
-                        @if(session("page_data")["actions"]["create"])
-                            <div class="card-header">
-                                <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target=".create_modal"
-                                        data-bs-original-title="{{ __('lang.create') }} {{ session("page_data")["title"]["translate"] }}"
-                                        title="{{ __('lang.create') }} {{ session("page_data")["title"]["translate"] }}" fdprocessedid="pqwxqf">
-                                    {{ __('lang.create') }} {{ session("page_data")["title"]["translate"] }}
-                                </button>
-                            </div>
-                        @endif
-                        <div class="card-body">
-                            <div class="table-responsive">
-                                <table class="display datatables" id="data-table-ajax">
-                                    <thead>
-                                    <tr>
-                                        <th>#ID</th>
-                                        <th>Admin ID</th>
-                                        <th>name</th>
-                                        <th>Created at</th>
-                                        <th>Created by</th>
-                                        <th>Updated at</th>
-                                        <th>updated by</th>
-                                        <th>Actions</th>
-                                    </tr>
-                                    </thead>
-                                    <tfoot>
-                                    <tr>
-                                        <th>#ID</th>
-                                        <th>Admin ID</th>
-                                        <th>name</th>
-                                        <th>Created at</th>
-                                        <th>Created by</th>
-                                        <th>Updated at</th>
-                                        <th>updated by</th>
-                                        <th>Actions</th>
-                                    </tr>
-                                    </tfoot>
-                                </table>
-                            </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="card">
+                    @if($pageData["actions"]["create"])
+                        <div class="card-header">
+                            <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target=".create_modal"
+                                    data-bs-original-title="{{ __('lang.create') }} {{ $pageData["page"] }}"
+                                    title="{{ __('lang.create') }} {{ $pageData["page"]  }}">
+                                {{ __('lang.create') }} {{ $pageData["page"] }}
+                            </button>
+                        </div>
+                    @endif
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="display datatables" id="data-table-ajax">
+                                <thead>
+                                <tr>
+                                    <th>#ID</th>
+                                    <th>Admin ID</th>
+                                    <th>name</th>
+                                    <th>Created at</th>
+                                    <th>Created by</th>
+                                    <th>Updated at</th>
+                                    <th>updated by</th>
+                                    <th>Actions</th>
+                                </tr>
+                                </thead>
+                                <tfoot>
+                                <tr>
+                                    <th>#ID</th>
+                                    <th>Admin ID</th>
+                                    <th>name</th>
+                                    <th>Created at</th>
+                                    <th>Created by</th>
+                                    <th>Updated at</th>
+                                    <th>updated by</th>
+                                    <th>Actions</th>
+                                </tr>
+                                </tfoot>
+                            </table>
                         </div>
                     </div>
                 </div>
             </div>
+        </div>
 
-
-            <!-- Create modal -->
-            <div class="modal fade create_modal" aria-labelledby="myLargeModalLabel" style="display: none;" data-bs-backdrop="static" aria-hidden="true">
-                <div class="modal-dialog modal-lg">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h4 class="modal-title" id="myLargeModalLabel">{{ __('lang.create') }} {{ session("page_data")["title"]["translate"] }}</h4>
-                            <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close" data-bs-original-title="" title=""></button>
-                        </div>
-                        <div class="modal-body">
-                            <form novalidate="" class="theme-form needs-validation" id="form1" method="POST" authorization="{{session("admin_data")["jwtToken"]}}"
-                                  action="{{ url(session("page_data")["link"]) }}" locale="{{session("locale")}}" csrf="{{ csrf_token()}}">
-                                <div class="form-group">
-                                    <div class="row">
-
-                                        <div class="col-12 mb-3">
-                                            @php $admins = \App\Models\Admin::all(); @endphp
-                                            <div class="col-form-label">{{ __("attributes.admin") }}</div>
-                                            <select name="admin_id" class="col-sm-12" id="admin_id">
-                                                @foreach($admins as $admin)
-                                                    <option value="{{ $admin->id }}">{{ $admin->name }} ({{ $admin->phone }})</option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-
-                                        <div class="col-sm-12">
-                                            <div class="col-form-label">{{ __("attributes.select_permissions") }}</div>
-                                            <div class="megaoptions-border-space-sm">
-                                                <div class="row megaOptions"></div>
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                </div>
-                                <div class="form-group mb-0">
-                                    <button class="btn btn-primary btn-block" onclick="submitForm(this, $('#data-table-ajax'))" type="button">{{ __("lang.create") }}</button>
-                                </div>
-                            </form>
-                        </div>
+        <!-- Create modal -->
+        <div class="modal fade create_modal" aria-labelledby="myLargeModalLabel" style="display: none;" data-bs-backdrop="static" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="myLargeModalLabel">{{ __('lang.create') }} {{ $pageData["page"] }}</h4>
+                        <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close" data-bs-original-title="" title=""></button>
                     </div>
-                </div>
-            </div>
-            <div class="modal fade update_modal" aria-labelledby="myLargeModalLabel" style="display: none;" data-bs-backdrop="static" aria-hidden="true">
-                <div class="modal-dialog modal-lg">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h4 class="modal-title" id="myLargeModalLabel">{{ __('lang.update') }} {{ session("page_data")["title"]["translate"] }}</h4>
-                            <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close" data-bs-original-title="" title=""></button>
-                        </div>
-                        <div class="modal-body">
-                            <form novalidate="" class="theme-form needs-validation" id="form2" method="POST" authorization="{{session("admin_data")["jwtToken"]}}"
-                                  action="{{ url(session("page_data")["link"]) }}" locale="{{session("locale")}}" csrf="{{ csrf_token()}}">
-                                <input type="hidden" name="id" value="">
-                                <input type="hidden" name="_method" value="PUT">
-                                <div class="form-group">
-                                    <div class="row">
-
-                                        <div class="col-12 mb-3">
-                                            @php $admins = \App\Models\Admin::all(); @endphp
-                                            <div class="col-form-label">{{ __("attributes.admin") }}</div>
-                                            <select name="admin_id" class="col-sm-12" id="admin_id">
-                                                @foreach($admins as $admin)
-                                                    <option value="{{ $admin->id }}">{{ $admin->name }} ({{ $admin->phone }})</option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-
-                                        <div class="col-sm-12">
-                                            <div class="col-form-label">{{ __("attributes.select_permissions") }}</div>
-                                            <div class="megaoptions-border-space-sm">
-                                                <div class="row megaOptions"></div>
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                </div>
-                                <div class="form-group mb-0">
-                                    <button class="btn btn-primary btn-block" onclick="submitForm(this, $('#data-table-ajax'))" type="button">{{ __("lang.update") }}</button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="modal fade view_modal" aria-labelledby="myLargeModalLabel" style="display: none;" data-bs-backdrop="static" aria-hidden="true">
-                <div class="modal-dialog modal-lg">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h4 class="modal-title" id="myLargeModalLabel">{{ __('lang.view') }} {{ session("page_data")["title"]["translate"] }}</h4>
-                            <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close" data-bs-original-title="" title=""></button>
-                        </div>
-                        <div class="modal-body">
+                    <div class="modal-body">
+                        <form novalidate="" class="theme-form needs-validation" id="form1" method="POST" authorization="{{session("admin_data")["jwtToken"]}}"
+                              action="{{ url($pageData["link"]) }}" locale="{{session("locale")}}" csrf="{{ csrf_token()}}">
                             <div class="form-group">
-                                <form novalidate="" class="theme-form needs-validation">
-                                    <div class="row">
-                                        <div class="col-12 mb-3">
-                                            @php $admins = \App\Models\Admin::all(); @endphp
-                                            <div class="col-form-label">{{ __("attributes.admin") }}</div>
-                                            <select name="admin_id" class="col-sm-12" id="admin_id">
-                                                @foreach($admins as $admin)
-                                                    <option value="{{ $admin->id }}">{{ $admin->name }} ({{ $admin->phone }})</option>
-                                                @endforeach
-                                            </select>
-                                        </div>
+                                <div class="row">
 
-                                        <div class="col-sm-12">
-                                            <div class="col-form-label">{{ __("attributes.select_permissions") }}</div>
-                                            <div class="megaoptions-border-space-sm">
-                                                <div class="row megaOptions"></div>
-                                            </div>
-                                        </div>
-
+                                    <div class="col-12 mb-3">
+                                        @php $admins = \App\Models\Admin::all(); @endphp
+                                        <div class="col-form-label">{{ __("attributes.admin") }}</div>
+                                        <select name="admin_id" class="col-sm-12" id="admin_id">
+                                            @foreach($admins as $admin)
+                                                <option value="{{ $admin->id }}">{{ $admin->name }} ({{ $admin->phone }})</option>
+                                            @endforeach
+                                        </select>
                                     </div>
-                                </form>
+
+                                    <div class="col-sm-12">
+                                        <div class="col-form-label">{{ __("attributes.select_permissions") }}</div>
+                                        <div class="megaoptions-border-space-sm">
+                                            <div class="row megaOptions"></div>
+                                        </div>
+                                    </div>
+
+                                </div>
                             </div>
-                        </div>
+                            <div class="form-group mb-0">
+                                <button class="btn btn-primary btn-block" onclick="submitForm(this, $('#data-table-ajax'))" type="button">{{ __("lang.create") }}</button>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
-            <div class="modal fade delete_modal" aria-labelledby="myLargeModalLabel" style="display: none;" data-bs-backdrop="static" aria-hidden="true">
-                <div class="modal-dialog modal-lg">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h4 class="modal-title" id="myLargeModalLabel">{{ __('lang.delete') }} {{ session("page_data")["title"]["translate"] }}</h4>
-                            <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close" data-bs-original-title="" title=""></button>
-                        </div>
-                        <div class="modal-body">
-                            <form novalidate="" class="theme-form needs-validation" id="form3" method="POST" authorization="{{session("admin_data")["jwtToken"]}}"
-                                  action="{{ url(session("page_data")["link"]) }}" locale="{{session("locale")}}" csrf="{{ csrf_token()}}">
-                                <input type="hidden" name="id" value="">
-                                <input type="hidden" name="_method" value="DELETE">
-                                <div class="form-group">
-                                    <div class="row">
-                                        <div class="alert alert-danger" role="alert">
-                                            <h4 class="alert-heading">Well done!</h4>
-                                            <p>Aww yeah, you successfully read this important alert message.</p>
-                                            <hr>
-                                            <p data-type="message" class="mb-0">Are you sure you want to delete this record</p>
+        </div>
+        <div class="modal fade update_modal" aria-labelledby="myLargeModalLabel" style="display: none;" data-bs-backdrop="static" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="myLargeModalLabel">{{ __('lang.update') }} {{ $pageData["page"] }}</h4>
+                        <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close" data-bs-original-title="" title=""></button>
+                    </div>
+                    <div class="modal-body">
+                        <form novalidate="" class="theme-form needs-validation" id="form2" method="POST" authorization="{{session("admin_data")["jwtToken"]}}"
+                              action="{{ url($pageData["link"]) }}" locale="{{session("locale")}}" csrf="{{ csrf_token()}}">
+                            <input type="hidden" name="id" value="">
+                            <input type="hidden" name="_method" value="PUT">
+                            <div class="form-group">
+                                <div class="row">
+
+                                    <div class="col-12 mb-3">
+                                        @php $admins = \App\Models\Admin::all(); @endphp
+                                        <div class="col-form-label">{{ __("attributes.admin") }}</div>
+                                        <select name="admin_id" class="col-sm-12" id="admin_id">
+                                            @foreach($admins as $admin)
+                                                <option value="{{ $admin->id }}">{{ $admin->name }} ({{ $admin->phone }})</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+
+                                    <div class="col-sm-12">
+                                        <div class="col-form-label">{{ __("attributes.select_permissions") }}</div>
+                                        <div class="megaoptions-border-space-sm">
+                                            <div class="row megaOptions"></div>
                                         </div>
                                     </div>
+
                                 </div>
-                                <div class="form-group mb-0">
-                                    <button class="btn btn-danger btn-block" onclick="submitForm(this, $('#data-table-ajax'))" type="button">{{ __("lang.delete") }}</button>
+                            </div>
+                            <div class="form-group mb-0">
+                                <button class="btn btn-primary btn-block" onclick="submitForm(this, $('#data-table-ajax'))" type="button">{{ __("lang.update") }}</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade view_modal" aria-labelledby="myLargeModalLabel" style="display: none;" data-bs-backdrop="static" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="myLargeModalLabel">{{ __('lang.view') }} {{ $pageData["page"] }}</h4>
+                        <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close" data-bs-original-title="" title=""></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <form novalidate="" class="theme-form needs-validation">
+                                <div class="row">
+                                    <div class="col-12 mb-3">
+                                        @php $admins = \App\Models\Admin::all(); @endphp
+                                        <div class="col-form-label">{{ __("attributes.admin") }}</div>
+                                        <select name="admin_id" class="col-sm-12" id="admin_id">
+                                            @foreach($admins as $admin)
+                                                <option value="{{ $admin->id }}">{{ $admin->name }} ({{ $admin->phone }})</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+
+                                    <div class="col-sm-12">
+                                        <div class="col-form-label">{{ __("attributes.select_permissions") }}</div>
+                                        <div class="megaoptions-border-space-sm">
+                                            <div class="row megaOptions"></div>
+                                        </div>
+                                    </div>
+
                                 </div>
                             </form>
                         </div>
                     </div>
                 </div>
             </div>
-
-        @endif
+        </div>
+        <div class="modal fade delete_modal" aria-labelledby="myLargeModalLabel" style="display: none;" data-bs-backdrop="static" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="myLargeModalLabel">{{ __('lang.delete') }} {{ $pageData["page"]  }}</h4>
+                        <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close" data-bs-original-title="" title=""></button>
+                    </div>
+                    <div class="modal-body">
+                        <form novalidate="" class="theme-form needs-validation" id="form3" method="POST" authorization="{{session("admin_data")["jwtToken"]}}"
+                              action="{{ url($pageData["link"]) }}" locale="{{session("locale")}}" csrf="{{ csrf_token()}}">
+                            <input type="hidden" name="id" value="">
+                            <input type="hidden" name="_method" value="DELETE">
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="alert alert-danger" role="alert">
+                                        <h4 class="alert-heading">Well done!</h4>
+                                        <p>Aww yeah, you successfully read this important alert message.</p>
+                                        <hr>
+                                        <p data-type="message" class="mb-0">Are you sure you want to delete this record</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group mb-0">
+                                <button class="btn btn-danger btn-block" onclick="submitForm(this, $('#data-table-ajax'))" type="button">{{ __("lang.delete") }}</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 @endsection
 
@@ -245,7 +235,7 @@
     <script src="{{asset('assets/js/select2/select2.full.min.js')}}"></script>
     <script src="{{asset('assets/js/height-equal.js')}}"></script>
     <script>
-        let pageData = @json(session('page_data'));
+        let pageData = @json($pageData);
         let htmlPermissions = "";
         let datatableUri = "{{ url("api")."/admin/employee/permission"}}";
         let datatableAuthToken = "{{session("admin_data")["jwtToken"]}}";
@@ -253,7 +243,7 @@
         let datatableColumns = [
             { "data": "id" },
             { "data": "admin_id" },
-            { "data": "admin.name" },
+            { "data": "admin" },
             { "data": "created_at.dateTime" },
             { "data": "created_by.name" },
             { "data": "updated_at.dateTime" },
@@ -274,8 +264,8 @@
                     if(pageData.actions.update === 1){
                         actions += `<div class="col-auto">
                                     <button class="btn btn-sm btn-warning" type="button" onclick="openModalUpdate(${dataString})"
-                                            data-bs-original-title="{{ __('lang.update') }} {{ session("page_data")["title"]["translate"] }}"
-                                            title="{{ __('lang.update') }} {{ session("page_data")["title"]["translate"] }}" fdprocessedid="pqwxqf">
+                                            data-bs-original-title="{{ __('lang.update') }} {{ $pageData["page"] }}"
+                                            title="{{ __('lang.update') }} {{ $pageData["page"]  }}">
                                         <i class="fa fa-edit"></i></button>
                                     </button>
                                 </div>`;
@@ -284,8 +274,8 @@
                     if(pageData.actions.read === 1 ){
                         actions += `<div class="col-auto">
                                     <button class="btn btn-sm btn-primary" type="button" onclick="openModalView(${dataString})"
-                                            data-bs-original-title="{{ __('lang.view') }} {{ session("page_data")["title"]["translate"] }}"
-                                            title="{{ __('lang.view') }} {{ session("page_data")["title"]["translate"] }}" fdprocessedid="pqwxqf">
+                                            data-bs-original-title="{{ __('lang.view') }} {{ $pageData["page"]  }}"
+                                            title="{{ __('lang.view') }} {{ $pageData["page"]  }}">
                                         <i class="fa fa-eye"></i></button>
                                     </button>
                                 </div>`;
@@ -294,8 +284,8 @@
                     if(pageData.actions.delete === 1){
                         actions += `<div class="col-auto">
                                     <button class="btn btn-sm btn-danger" type="button" onclick="openModalDelete(${dataString})"
-                                            data-bs-original-title="{{ __('lang.delete') }} {{ session("page_data")["title"]["translate"] }}"
-                                            title="{{ __('lang.delete') }} {{ session("page_data")["title"]["translate"] }}" fdprocessedid="pqwxqf">
+                                            data-bs-original-title="{{ __('lang.delete') }} {{ $pageData["page"] }}"
+                                            title="{{ __('lang.delete') }} {{ $pageData["page"] }}">
                                         <i class="fa fa-trash"></i></button>
                                     </button>
                                 </div>`;
@@ -321,7 +311,6 @@
             let modal = $(".update_modal");
             let form = modal.find("form");
             form[0].reset();
-            $(modal).find('#admin_id').select2();
             $(modal).find('#admin_id').val(data.admin_id).trigger('change');
             $(modal).find(".megaOptions").empty();
             $(modal).find(".megaOptions").append(htmlPermissions);
@@ -345,7 +334,6 @@
         }
         function openModalView(data) {
             let modal = $(".view_modal");
-            $(modal).find('#admin_id').select2();
             $(modal).find('#admin_id').val(data.admin_id).trigger('change');
             $(modal).find(".megaOptions").empty();
             $(modal).find(".megaOptions").append(htmlPermissions);
@@ -377,7 +365,7 @@
         function openModalDelete(data) {
             let modal = $(".delete_modal");
             $(modal).find("[name=id]").val(data.id);
-            $(modal).find("[data-type=message]").html(`Are you sure you want to delete <strong>(${data.admin.name})</strong> permissions?`);
+            $(modal).find("[data-type=message]").html(`Are you sure you want to delete <strong>(${data.admin})</strong> permissions?`);
             modal.modal("show");
         }
 
@@ -385,7 +373,6 @@
         $('.create_modal').on('show.bs.modal', function (e) {
             let form = $(this).find("form");
             form[0].reset();
-            $(this).find('#admin_id').select2();
             $(this).find('#admin_id').val($(this).find('#admin_id option:first').val()).trigger('change');
             $(this).find(".megaOptions").append(htmlPermissions);
         });
@@ -393,6 +380,8 @@
         $('.create_modal').on('hidden.bs.modal', function (e) { $(this).find(".megaOptions").empty(); });
 
         $(document).ready(function() {
+
+            $("[name=admin_id]").each(function () { $(this).select2(); });
 
             //Get route menu and set data to dom object
             $.ajax({

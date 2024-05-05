@@ -40,7 +40,7 @@ class PermissionResource extends JsonResource
         return [
             "id" => $this->id,
             "admin_id" => $this->admin_id,
-            "admin" => $this->admin,
+            "admin" => $this->admin->name,
             "permissions" => $permissions,
             "created_by" => new AuthorResource($this->createdBy),
             "updated_by" => $this->updated_by ? new AuthorResource($this->updatedBy) : null,

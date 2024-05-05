@@ -26,25 +26,6 @@ Route::get('lang/{locale}', function ($locale) {
     }
     Session()->put('locale', $locale);
     $locale = Session::get('locale');
-
-    $url = 'http://localhost/lms-platform/public/api/admin/employee/register';
-    $queryParams = [
-        'id' => session("admin_data")["id"]
-    ];
-    $headers = [
-        'locale' => $locale,
-        'Authorization' => 'Bearer ' . session("admin_data")["jwtToken"],
-        'Accept' => 'application/json',
-    ];
-
-    $response = Http::withHeaders($headers)->get($url, $queryParams);
-
-    if ($response->successful() && $response->json()["statusCode"] == 200 && $response->json()["success"]) {
-        $session_data = session("admin_data");
-        $data = $response->json()["data"];
-        session()->put("admin_data", array_merge($session_data, $data));
-    }
-
     return redirect()->back();
 })->name('lang');
 

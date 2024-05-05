@@ -1,3 +1,4 @@
+@yield("phpScript")
 <!DOCTYPE html>
 <html @if(session("locale") == "ar") lang="ar" dir="rtl" @else lang="en" dir="ltr" @endif>
   <head>
