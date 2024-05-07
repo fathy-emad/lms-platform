@@ -43,6 +43,7 @@
                             <nav class="breadcrumb breadcrumb-icon">
                                 <span class="breadcrumb-item" data-bread="country">country</span>
                                 <span class="breadcrumb-item" data-bread="stage">stage</span>
+                                <span class="breadcrumb-item" data-bread="year">year</span>
                             </nav>
                         </div>
                     @endif
@@ -52,7 +53,7 @@
                                 <thead>
                                 <tr>
                                     <th>#ID</th>
-                                    <th>{{ __("attributes.year") }}</th>
+                                    <th>{{ __("attributes.subject") }}</th>
                                     <th>{{ __("attributes.ActiveEnum") }}</th>
                                     <th>{{ __("attributes.created_at") }}</th>
                                     <th>{{ __("attributes.created_by") }}</th>
@@ -64,7 +65,7 @@
                                 <tfoot>
                                 <tr>
                                     <th>#ID</th>
-                                    <th>{{ __("attributes.year") }}</th>
+                                    <th>{{ __("attributes.subject") }}</th>
                                     <th>{{ __("attributes.ActiveEnum") }}</th>
                                     <th>{{ __("attributes.created_at") }}</th>
                                     <th>{{ __("attributes.created_by") }}</th>
@@ -95,12 +96,12 @@
                                 <div class="row">
 
                                     <div class="col-12 mb-3">
-                                        <input type="hidden" name="stage_id" value="{{request("stage_id")}}">
+                                        <input type="hidden" name="year_id" value="{{request("year_id")}}">
                                     </div>
 
                                     <div class="col-12 mb-3">
-                                        <label for="YearEnumTable">{{ __("attributes.year") }}</label>
-                                        <select name="YearEnumTable" class="col-12" id="YearEnumTable"></select>
+                                        <label for="SubjectEnumTable">{{ __("attributes.subject") }}</label>
+                                        <select name="SubjectEnumTable" class="col-12" id="SubjectEnumTable"></select>
                                     </div>
 
                                     <div class="col-sm-12 mb-3 media">
@@ -138,12 +139,12 @@
                                 <div class="row">
 
                                     <div class="col-12 mb-3">
-                                        <input type="hidden" name="stage_id" value="{{request("stage_id")}}">
+                                        <input type="hidden" name="year_id" value="{{request("year_id")}}">
                                     </div>
 
                                     <div class="col-12 mb-3">
-                                        <label for="YearEnumTable">{{ __("attributes.year") }}</label>
-                                        <select name="YearEnumTable" class="col-12" id="YearEnumTable"></select>
+                                        <label for="SubjectEnumTable">{{ __("attributes.subject") }}</label>
+                                        <select name="SubjectEnumTable" class="col-12" id="SubjectEnumTable"></select>
                                     </div>
 
                                     <div class="col-sm-12 mb-3 media">
@@ -178,8 +179,8 @@
                                 <div class="row">
 
                                     <div class="col-12 mb-3">
-                                        <label for="YearEnumTable">{{ __("attributes.year") }}</label>
-                                        <select name="YearEnumTable" class="col-12" id="YearEnumTable"></select>
+                                        <label for="SubjectEnumTable">{{ __("attributes.subject") }}</label>
+                                        <select name="SubjectEnumTable" class="col-12" id="SubjectEnumTable"></select>
                                     </div>
 
                                     <div class="col-sm-12 mb-3 media">
@@ -205,9 +206,9 @@
 @section('script')
     <script src="{{asset('assets/js/datatable/datatables/jquery.dataTables.min.js')}}"></script>
     <script>
-        let htmlYearsEnum = "";
+        let htmlSubjectsEnum = "";
         let pageData = @json($pageData);
-        let datatableUri = `{{ url("api")."/admin/setting-education/year?where=stage_id:".request("stage_id")}}`;
+        let datatableUri = `{{ url("api")."/admin/setting-education/subject?where=year_id:".request("year_id")}}`;
         let datatableAuthToken = "{{session("admin_data")["jwtToken"]}}";
         let dataTableLocale =  "{{session("locale")}}";
         let datatableColumns = [
@@ -266,7 +267,7 @@
             let form = modal.find("form");
             form[0].reset();
             $(modal).find("[name=id]").val(data.id);
-            $(modal).find('#YearEnumTable').val(data.title.id);
+            $(modal).find('#SubjectEnumTable').val(data.title.id);
             modal.find("[name=ActiveEnum]").prop("checked", data.ActiveEnum.key === "active");
             modal.modal("show");
         }
@@ -275,7 +276,7 @@
             let modal = $(".view_modal");
             let form = modal.find("form");
             form[0].reset();
-            $(modal).find('#YearEnumTable').val(data.title.id).prop("disabled", true);
+            $(modal).find('#SubjectEnumTable').val(data.title.id).prop("disabled", true);
             modal.find("[name=ActiveEnum]").prop("checked", data.ActiveEnum.key === "active").prop("disabled", true);
             modal.modal("show");
         }
@@ -283,14 +284,14 @@
         $('.create_modal').on('show.bs.modal', function (e) {
             let form = $(this).find("form");
             form[0].reset();
-            $(this).find('#YearEnumTable').val($(this).find('#YearEnumTable option:first').val()).trigger('change');
+            $(this).find('#SubjectEnumTable').val($(this).find('#SubjectEnumTable option:first').val()).trigger('change');
         });
 
         $(document).ready(function() {
 
             //Get Stage
             $.ajax({
-                url: APP_URL + "/api/admin/setting-education/stage?id={{request("stage_id")}}",
+                url: APP_URL + "/api/admin/setting-education/year?id={{request("year_id")}}",
                 type: "GET",
                 data: null,
                 processData: false,
@@ -301,8 +302,9 @@
                 },
                 success: function(response) {
                     let data = response.data;
-                    $("[data-bread=country]").text(data.country.country.translate);
-                    $("[data-bread=stage]").text(data.title.value.translate);
+                    $("[data-bread=country]").text(data.stage.country.country.translate);
+                    $("[data-bread=stage]").text(data.stage.title.value.translate);
+                    $("[data-bread=year]").text(data.title.value.translate);
                 },
                 error: function(xhr, status, error) {
                     let title = "Some thing went wrong";
@@ -313,7 +315,7 @@
 
             //Get years
             $.ajax({
-                url: APP_URL + "/api/admin/setting/enumeration?where=key:{{\App\Enums\SystemConstantsEnum::YearEnumTable->value}}",
+                url: APP_URL + "/api/admin/setting/enumeration?where=key:{{\App\Enums\SystemConstantsEnum::SubjectEnumTable->value}}",
                 type: "GET",
                 data: null,
                 processData: false,
@@ -324,9 +326,9 @@
                 },
                 success: function(response) {
                     let data = response.data;
-                    for (const i in data) htmlYearsEnum += `<option value="${data[i].id}" ">${data[i].value.translate}</option>`;
-                    $(".create_modal, .update_modal, .view_modal").find("#YearEnumTable").each(function() {
-                        $(this).append(htmlYearsEnum);
+                    for (const i in data) htmlSubjectsEnum += `<option value="${data[i].id}" ">${data[i].value.translate}</option>`;
+                    $(".create_modal, .update_modal, .view_modal").find("#SubjectEnumTable").each(function() {
+                        $(this).append(htmlSubjectsEnum);
                     });
 
                 },

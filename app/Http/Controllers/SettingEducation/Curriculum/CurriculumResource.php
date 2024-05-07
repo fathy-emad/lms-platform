@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\SettingEducation\Curriculum;
 
+use App\Http\Controllers\Setting\Enumeration\EnumerationResource;
+use App\Http\Controllers\SettingEducation\Subject\SubjectResource;
 use App\Http\Resources\AuthorResource;
 use App\Http\Resources\DateTimeResource;
 use App\Http\Resources\TranslationResource;
@@ -20,8 +22,8 @@ class CurriculumResource extends JsonResource
     {
         return [
             "id"         => $this->id,
-            "subject"    => new TranslationResource($this->subject->subjectEnum->valueTranslate),
-            "curriculum" => new TranslationResource($this->curriculumEnum->valueTranslate),
+            "subject"    => new SubjectResource($this->subject),
+            "title"      => new EnumerationResource($this->curriculumEnum),
             "terms"      => $this->TermsEnum,
             "types"      => $this->TypesEnum,
             "ActiveEnum" =>  new TranslationResource($this->ActiveEnum, true),

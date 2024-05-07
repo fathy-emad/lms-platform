@@ -32,12 +32,12 @@ class Curriculum extends Model
 
     public function termsEnums(): BelongsToJson
     {
-        return $this->belongsToJson(Enumeration::class, 'termsEnumTable');
+        return $this->belongsToJson(Enumeration::class, 'TermsEnumTable');
     }
 
     public function typesEnums(): BelongsToJson
     {
-        return $this->belongsToJson(Enumeration::class, 'termsEnumTable');
+        return $this->belongsToJson(Enumeration::class, 'TypesEnumTable');
     }
 
     public function createdBy(): BelongsTo

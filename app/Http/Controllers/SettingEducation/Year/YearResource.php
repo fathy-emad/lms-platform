@@ -23,7 +23,7 @@ class YearResource extends JsonResource
         return [
             "id"         => $this->id,
             "stage"      => new StageResource($this->stage),
-            "year"       => new EnumerationResource($this->yearEnum),
+            "title"       => new EnumerationResource($this->yearEnum),
             "ActiveEnum" => new TranslationResource($this->ActiveEnum, true),
             "created_by" => new AuthorResource($this->createdBy),
             "updated_by" => $this->updated_by ? new AuthorResource($this->updatedBy) : null,

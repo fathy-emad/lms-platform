@@ -23,7 +23,7 @@ class StageResource extends JsonResource
         return [
             "id"            => $this->id,
             "country"       => new CountryResource($this->country),
-            "stage"         => new EnumerationResource($this->stageEnum),
+            "title"         => new EnumerationResource($this->stageEnum),
             "ActiveEnum"    => new TranslationResource($this->ActiveEnum, true),
             "created_by"    => new AuthorResource($this->createdBy),
             "updated_by"    => $this->updated_by ? new AuthorResource($this->updatedBy) : null,

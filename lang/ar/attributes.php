@@ -36,5 +36,7 @@ return [
     "password" => "كلمة المرور",
     "password_confirmation" => "تأكيد كلمة المرور",
     "national_id" => "رقم البطاقة",
-    "blocked_reason" => "سبب الحظر"
+    "blocked_reason" => "سبب الحظر",
+    "stage" => "المرحلة الدراسية",
+    "year" => "السنة الدراسية"
 ];

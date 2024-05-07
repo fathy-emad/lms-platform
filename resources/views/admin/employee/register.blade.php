@@ -1,5 +1,7 @@
 @extends('dashboard_layouts.simple.master')
 
+@section("phpScript") @php $pageData = checkPermission(request()->path(), session("admin_data")["permission"]["permissions"]) @endphp @endsection
+
 @section('title', 'Default')
 
 @section('css')
@@ -20,292 +22,283 @@
 @endsection
 
 @section('breadcrumb-title')
-    <h3>{{ session("page_data")["title"]["translate"] }}</h3>
+    <h3>{{ $pageData["page"] }}</h3>
 @endsection
 
 @section('breadcrumb-items')
     <li class="breadcrumb-item">{{ __('lang.dashboard') }}</li>
-    <li class="breadcrumb-item">{{ session("page_data")["route_title"] }}</li>
-    <li class="breadcrumb-item active">{{ session("page_data")["title"]["translate"] }}</li>
+    <li class="breadcrumb-item">{{ $pageData["route"] }}</li>
+    <li class="breadcrumb-item active">{{ $pageData["page"] }}</li>
 @endsection
 
 @section('content')
     <div class="container-fluid">
-        @if(("api/" . request()->path()) !== session("page_data")["link"])
-            <div class="alert alert-danger" role="alert">
-                <h4 class="alert-heading">Well done!</h4>
-                <p>Aww yeah, you successfully read this important alert message.</p>
-                <hr>
-                <p class="mb-0">You are not auth to get here.</p>
-            </div>
-        @else
-            <div class="row">
-                <div class="col-sm-12">
-                    <div class="card">
-                        @if(session("page_data")["actions"]["create"])
-                            <div class="card-header">
-                                <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target=".create_modal"
-                                        data-bs-original-title="{{ __('lang.create') }} {{ session("page_data")["title"]["translate"] }}"
-                                        title="{{ __('lang.create') }} {{ session("page_data")["title"]["translate"] }}" fdprocessedid="pqwxqf">
-                                    {{ __('lang.create') }} {{ session("page_data")["title"]["translate"] }}
-                                </button>
-                            </div>
-                        @endif
-                        <div class="card-body">
-                            <div class="table-responsive">
-                                <table class="display datatables" id="data-table-ajax">
-                                    <thead>
-                                    <tr>
-                                        <th>{{ __("attributes.image") }}</th>
-                                        <th>#ID</th>
-                                        <th>{{ __("attributes.name") }}</th>
-                                        <th>{{ __("attributes.phone") }}</th>
-                                        <th>{{ __("attributes.email") }}</th>
-                                        <th>{{ __("attributes.AdminRoleEnum") }}</th>
-                                        <th>{{ __("attributes.AdminStatusEnum") }}</th>
-                                        <th>{{ __("attributes.created_at") }}</th>
-                                        <th>{{ __("attributes.created_by") }}</th>
-                                        <th>{{ __("attributes.updated_at") }}</th>
-                                        <th>{{ __("attributes.updated_by") }}</th>
-                                        <th>{{ __("attributes.actions") }}</th>
-                                    </tr>
-                                    </thead>
-                                    <tfoot>
-                                    <tr>
-                                        <th>{{ __("attributes.image") }}</th>
-                                        <th>#ID</th>
-                                        <th>{{ __("attributes.name") }}</th>
-                                        <th>{{ __("attributes.phone") }}</th>
-                                        <th>{{ __("attributes.email") }}</th>
-                                        <th>{{ __("attributes.AdminRoleEnum") }}</th>
-                                        <th>{{ __("attributes.AdminStatusEnum") }}</th>
-                                        <th>{{ __("attributes.created_at") }}</th>
-                                        <th>{{ __("attributes.created_by") }}</th>
-                                        <th>{{ __("attributes.updated_at") }}</th>
-                                        <th>{{ __("attributes.updated_by") }}</th>
-                                        <th>{{ __("attributes.actions") }}</th>
-                                    </tr>
-                                    </tfoot>
-                                </table>
-                            </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="card">
+                    @if($pageData["actions"]["create"])
+                        <div class="card-header">
+                            <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target=".create_modal"
+                                    data-bs-original-title="{{ __('lang.create') }} {{ $pageData["page"] }}"
+                                    title="{{ __('lang.create') }} {{ $pageData["page"] }}">
+                                {{ __('lang.create') }} {{ $pageData["page"] }}
+                            </button>
+                        </div>
+                    @endif
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="display datatables" id="data-table-ajax">
+                                <thead>
+                                <tr>
+                                    <th>{{ __("attributes.image") }}</th>
+                                    <th>#ID</th>
+                                    <th>{{ __("attributes.name") }}</th>
+                                    <th>{{ __("attributes.phone") }}</th>
+                                    <th>{{ __("attributes.email") }}</th>
+                                    <th>{{ __("attributes.AdminRoleEnum") }}</th>
+                                    <th>{{ __("attributes.AdminStatusEnum") }}</th>
+                                    <th>{{ __("attributes.created_at") }}</th>
+                                    <th>{{ __("attributes.created_by") }}</th>
+                                    <th>{{ __("attributes.updated_at") }}</th>
+                                    <th>{{ __("attributes.updated_by") }}</th>
+                                    <th>{{ __("attributes.actions") }}</th>
+                                </tr>
+                                </thead>
+                                <tfoot>
+                                <tr>
+                                    <th>{{ __("attributes.image") }}</th>
+                                    <th>#ID</th>
+                                    <th>{{ __("attributes.name") }}</th>
+                                    <th>{{ __("attributes.phone") }}</th>
+                                    <th>{{ __("attributes.email") }}</th>
+                                    <th>{{ __("attributes.AdminRoleEnum") }}</th>
+                                    <th>{{ __("attributes.AdminStatusEnum") }}</th>
+                                    <th>{{ __("attributes.created_at") }}</th>
+                                    <th>{{ __("attributes.created_by") }}</th>
+                                    <th>{{ __("attributes.updated_at") }}</th>
+                                    <th>{{ __("attributes.updated_by") }}</th>
+                                    <th>{{ __("attributes.actions") }}</th>
+                                </tr>
+                                </tfoot>
+                            </table>
                         </div>
                     </div>
                 </div>
             </div>
+        </div>
 
-            <!-- Create modal -->
-            <div class="modal fade create_modal" aria-labelledby="myLargeModalLabel" style="display: none;" data-bs-backdrop="static" aria-hidden="true">
-                <div class="modal-dialog modal-lg">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h4 class="modal-title" id="myLargeModalLabel">{{ __('lang.create') }} {{ session("page_data")["title"]["translate"] }}</h4>
-                            <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close" data-bs-original-title="" title=""></button>
-                        </div>
-                        <div class="modal-body">
-                            <form novalidate="" class="theme-form needs-validation" id="form1" method="POST" authorization="{{session("admin_data")["jwtToken"]}}"
-                                  action="{{ url(session("page_data")["link"]) }}" locale="{{session("locale")}}" csrf="{{ csrf_token()}}">
-                                <div class="form-group">
-                                    <div class="row">
-
-                                        <div class="col-12 mb-3">
-                                            <label for="name">{{ __("attributes.name") }}</label>
-                                            <input class="form-control" name="name" id="name" type="text" placeholder="ex: fathy, ahmed" />
-                                        </div>
-
-                                        <div class="col-12 mb-3 input-group-square">
-                                            <label for="phone">{{ __("attributes.phone") }}</label>
-                                            <div class="input-group">
-                                                <div class="input-group-prepend">
-                                                    <span class="input-group-text"><select  name="country_id" class="col-sm-12" id="country_id"></select></span>
-                                                </div>
-                                                <input class="form-control" name="phone" id="phone" type="number" placeholder="ex: 114xxxxxxxxxx">
-                                            </div>
-                                        </div>
-
-                                        <div class="col-12 mb-3">
-                                            <label for="email">{{ __("attributes.email") }}</label>
-                                            <input class="form-control" name="email" id="email" type="email" placeholder="ex: example@ex.com" />
-                                        </div>
-
-                                        <div class="col-12 mb-3">
-                                            <label for="national_id">{{ __("attributes.national_id") }}</label>
-                                            <input class="form-control" name="national_id" id="national_id" type="number" placeholder="ex: 294***********" />
-                                        </div>
-
-                                        <div class="col-12 mb-3">
-                                            <label for="AdminRoleEnum">{{ __("attributes.AdminRoleEnum") }}</label>
-                                            <select name="AdminRoleEnum" class="col-12" id="AdminRoleEnum"></select>
-                                        </div>
-
-                                        <div class="col-12 mb-3">
-                                            <label for="GenderEnum">{{ __("attributes.GenderEnum") }}</label>
-                                            <select name="GenderEnum" class="col-12" id="GenderEnum"></select>
-                                        </div>
-
-                                        <div class="col-12 mb-3">
-                                            <label for="password">{{ __("attributes.password") }}</label>
-                                            <input class="form-control" name="password" id="password" type="text" placeholder="" />
-                                        </div>
-
-                                        <div class="col-12 mb-3">
-                                            <label for="password_confirmation">{{ __("attributes.password_confirmation") }}</label>
-                                            <input class="form-control" name="password_confirmation" id="password_confirmation" type="text" placeholder="" />
-                                        </div>
-
-                                        <div class="col-sm-12 mb-3 fileUploadBuilder">
-                                            <label for="flag">{{ __("attributes.image") }}</label>
-                                        </div>
-
-                                    </div>
-                                </div>
-                                <div class="form-group mb-0">
-                                    <button class="btn btn-primary btn-block" onclick="submitForm(this, $('#data-table-ajax'))" type="button">{{ __("lang.create") }}</button>
-                                </div>
-                            </form>
-                        </div>
+        <!-- Create modal -->
+        <div class="modal fade create_modal" aria-labelledby="myLargeModalLabel" style="display: none;" data-bs-backdrop="static" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="myLargeModalLabel">{{ __('lang.create') }} {{ $pageData["page"] }}</h4>
+                        <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close" data-bs-original-title="" title=""></button>
                     </div>
-                </div>
-            </div>
-            <div class="modal fade update_modal" aria-labelledby="myLargeModalLabel" style="display: none;" data-bs-backdrop="static" aria-hidden="true">
-                <div class="modal-dialog modal-lg">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h4 class="modal-title" id="myLargeModalLabel">{{ __('lang.update') }} {{ session("page_data")["title"]["translate"] }}</h4>
-                            <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close" data-bs-original-title="" title=""></button>
-                        </div>
-                        <div class="modal-body">
-                            <form novalidate="" class="theme-form needs-validation" id="form2" method="POST" authorization="{{session("admin_data")["jwtToken"]}}"
-                                  action="{{ url(session("page_data")["link"]) }}" locale="{{session("locale")}}" csrf="{{ csrf_token()}}">
-                                <input type="hidden" name="id" value="">
-                                <input type="hidden" name="_method" value="PUT">
-                                <div class="form-group">
-                                    <div class="row">
-                                        <div class="col-12 mb-3">
-                                            <label for="name">{{ __("attributes.name") }}</label>
-                                            <input class="form-control" name="name" id="name" type="text" placeholder="ex: fathy, ahmed" />
-                                        </div>
-
-                                        <div class="col-12 mb-3 input-group-square">
-                                            <label for="phone">{{ __("attributes.phone") }}</label>
-                                            <div class="input-group">
-                                                <div class="input-group-prepend">
-                                                    <span class="input-group-text"><select  name="country_id" class="col-sm-12" id="country_id"></select></span>
-                                                </div>
-                                                <input class="form-control" name="phone" id="phone" type="number" placeholder="ex: 114xxxxxxxxxx">
-                                            </div>
-                                        </div>
-
-                                        <div class="col-12 mb-3">
-                                            <label for="email">{{ __("attributes.email") }}</label>
-                                            <input class="form-control" name="email" id="email" type="email" placeholder="ex: example@ex.com" />
-                                        </div>
-
-                                        <div class="col-12 mb-3">
-                                            <label for="national_id">{{ __("attributes.national_id") }}</label>
-                                            <input class="form-control" name="national_id" id="national_id" type="number" placeholder="ex: 294***********" />
-                                        </div>
-
-                                        <div class="col-12 mb-3">
-                                            <label for="AdminStatusEnum">{{ __("attributes.AdminStatusEnum") }}</label>
-                                            <select name="AdminStatusEnum" class="col-12" id="AdminStatusEnum"></select>
-                                        </div>
-
-                                        <div class="col-12 mb-3 blocked_reason">
-                                            <label for="blocked_reason">{{ __("attributes.blocked_reason") }}</label>
-                                            <textarea class="form-control" name="block_reason" id="blocked_reason"></textarea>
-                                        </div>
-
-                                        <div class="col-12 mb-3">
-                                            <label for="AdminRoleEnum">{{ __("attributes.AdminRoleEnum") }}</label>
-                                            <select name="AdminRoleEnum" class="col-12" id="AdminRoleEnum"></select>
-                                        </div>
-
-                                        <div class="col-12 mb-3">
-                                            <label for="GenderEnum">{{ __("attributes.GenderEnum") }}</label>
-                                            <select name="GenderEnum" class="col-12" id="GenderEnum"></select>
-                                        </div>
-
-                                        <div class="col-sm-12 mb-3 fileUploadBuilder">
-                                            <label for="flag">{{ __("attributes.image") }}</label>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-group mb-0">
-                                    <button class="btn btn-primary btn-block" onclick="submitForm(this, $('#data-table-ajax'))" type="button">{{ __("lang.update") }}</button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="modal fade view_modal" aria-labelledby="myLargeModalLabel" style="display: none;" data-bs-backdrop="static" aria-hidden="true">
-                <div class="modal-dialog modal-lg">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h4 class="modal-title" id="myLargeModalLabel">{{ __('lang.view') }} {{ session("page_data")["title"]["translate"] }}</h4>
-                            <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close" data-bs-original-title="" title=""></button>
-                        </div>
-                        <div class="modal-body">
+                    <div class="modal-body">
+                        <form novalidate="" class="theme-form needs-validation" id="form1" method="POST" authorization="{{session("admin_data")["jwtToken"]}}"
+                              action="{{ url($pageData["link"]) }}" locale="{{session("locale")}}" csrf="{{ csrf_token()}}">
                             <div class="form-group">
-                                <form novalidate="" class="theme-form needs-validation">
-                                    <div class="row">
-                                        <div class="col-12 mb-3">
-                                            <label for="name">{{ __("attributes.name") }}</label>
-                                            <input class="form-control" name="name" id="name" type="text" placeholder="ex: fathy, ahmed" />
-                                        </div>
+                                <div class="row">
 
-                                        <div class="col-12 mb-3 input-group-square">
-                                            <label for="phone">{{ __("attributes.phone") }}</label>
-                                            <div class="input-group">
-                                                <div class="input-group-prepend">
-                                                    <span class="input-group-text"><select  name="country_id" class="col-sm-12" id="country_id"></select></span>
-                                                </div>
-                                                <input class="form-control" name="phone" id="phone" type="number" placeholder="ex: 114xxxxxxxxxx">
-                                            </div>
-                                        </div>
-
-                                        <div class="col-12 mb-3">
-                                            <label for="email">{{ __("attributes.email") }}</label>
-                                            <input class="form-control" name="email" id="email" type="email" placeholder="ex: example@ex.com" />
-                                        </div>
-
-                                        <div class="col-12 mb-3">
-                                            <label for="national_id">{{ __("attributes.national_id") }}</label>
-                                            <input class="form-control" name="national_id" id="national_id" type="number" placeholder="ex: 294***********" />
-                                        </div>
-
-                                        <div class="col-12 mb-3">
-                                            <label for="AdminStatusEnum">{{ __("attributes.AdminStatusEnum") }}</label>
-                                            <select name="AdminStatusEnum" class="col-12" id="AdminStatusEnum"></select>
-                                        </div>
-
-                                        <div class="col-12 mb-3 blocked_reason">
-                                            <label for="blocked_reason">{{ __("attributes.blocked_reason") }}</label>
-                                            <textarea class="form-control" name="block_reason" id="blocked_reason"></textarea>
-                                        </div>
-
-                                        <div class="col-12 mb-3">
-                                            <label for="AdminRoleEnum">{{ __("attributes.AdminRoleEnum") }}</label>
-                                            <select name="AdminRoleEnum" class="col-12" id="AdminRoleEnum"></select>
-                                        </div>
-
-                                        <div class="col-12 mb-3">
-                                            <label for="GenderEnum">{{ __("attributes.GenderEnum") }}</label>
-                                            <select name="GenderEnum" class="col-12" id="GenderEnum"></select>
-                                        </div>
-
-                                        <div class="col-sm-12 mb-3 fileUploadBuilder">
-                                            <label for="flag">{{ __("attributes.image") }}</label>
-                                        </div>
-
+                                    <div class="col-12 mb-3">
+                                        <label for="name">{{ __("attributes.name") }}</label>
+                                        <input class="form-control" name="name" id="name" type="text" placeholder="ex: fathy, ahmed" />
                                     </div>
-                                </form>
+
+                                    <div class="col-12 mb-3 input-group-square">
+                                        <label for="phone">{{ __("attributes.phone") }}</label>
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text"><select  name="country_id" class="col-sm-12" id="country_id"></select></span>
+                                            </div>
+                                            <input class="form-control" name="phone" id="phone" type="number" placeholder="ex: 114xxxxxxxxxx">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-12 mb-3">
+                                        <label for="email">{{ __("attributes.email") }}</label>
+                                        <input class="form-control" name="email" id="email" type="email" placeholder="ex: example@ex.com" />
+                                    </div>
+
+                                    <div class="col-12 mb-3">
+                                        <label for="national_id">{{ __("attributes.national_id") }}</label>
+                                        <input class="form-control" name="national_id" id="national_id" type="number" placeholder="ex: 294***********" />
+                                    </div>
+
+                                    <div class="col-12 mb-3">
+                                        <label for="AdminRoleEnum">{{ __("attributes.AdminRoleEnum") }}</label>
+                                        <select name="AdminRoleEnum" class="col-12" id="AdminRoleEnum"></select>
+                                    </div>
+
+                                    <div class="col-12 mb-3">
+                                        <label for="GenderEnum">{{ __("attributes.GenderEnum") }}</label>
+                                        <select name="GenderEnum" class="col-12" id="GenderEnum"></select>
+                                    </div>
+
+                                    <div class="col-12 mb-3">
+                                        <label for="password">{{ __("attributes.password") }}</label>
+                                        <input class="form-control" name="password" id="password" type="text" placeholder="" />
+                                    </div>
+
+                                    <div class="col-12 mb-3">
+                                        <label for="password_confirmation">{{ __("attributes.password_confirmation") }}</label>
+                                        <input class="form-control" name="password_confirmation" id="password_confirmation" type="text" placeholder="" />
+                                    </div>
+
+                                    <div class="col-sm-12 mb-3 fileUploadBuilder">
+                                        <label for="flag">{{ __("attributes.image") }}</label>
+                                    </div>
+
+                                </div>
                             </div>
+                            <div class="form-group mb-0">
+                                <button class="btn btn-primary btn-block" onclick="submitForm(this, $('#data-table-ajax'))" type="button">{{ __("lang.create") }}</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade update_modal" aria-labelledby="myLargeModalLabel" style="display: none;" data-bs-backdrop="static" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="myLargeModalLabel">{{ __('lang.update') }} {{ $pageData["page"] }}</h4>
+                        <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close" data-bs-original-title="" title=""></button>
+                    </div>
+                    <div class="modal-body">
+                        <form novalidate="" class="theme-form needs-validation" id="form2" method="POST" authorization="{{session("admin_data")["jwtToken"]}}"
+                              action="{{ url($pageData["link"]) }}" locale="{{session("locale")}}" csrf="{{ csrf_token()}}">
+                            <input type="hidden" name="id" value="">
+                            <input type="hidden" name="_method" value="PUT">
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-12 mb-3">
+                                        <label for="name">{{ __("attributes.name") }}</label>
+                                        <input class="form-control" name="name" id="name" type="text" placeholder="ex: fathy, ahmed" />
+                                    </div>
+
+                                    <div class="col-12 mb-3 input-group-square">
+                                        <label for="phone">{{ __("attributes.phone") }}</label>
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text"><select  name="country_id" class="col-sm-12" id="country_id"></select></span>
+                                            </div>
+                                            <input class="form-control" name="phone" id="phone" type="number" placeholder="ex: 114xxxxxxxxxx">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-12 mb-3">
+                                        <label for="email">{{ __("attributes.email") }}</label>
+                                        <input class="form-control" name="email" id="email" type="email" placeholder="ex: example@ex.com" />
+                                    </div>
+
+                                    <div class="col-12 mb-3">
+                                        <label for="national_id">{{ __("attributes.national_id") }}</label>
+                                        <input class="form-control" name="national_id" id="national_id" type="number" placeholder="ex: 294***********" />
+                                    </div>
+
+                                    <div class="col-12 mb-3">
+                                        <label for="AdminStatusEnum">{{ __("attributes.AdminStatusEnum") }}</label>
+                                        <select name="AdminStatusEnum" class="col-12" id="AdminStatusEnum"></select>
+                                    </div>
+
+                                    <div class="col-12 mb-3 blocked_reason">
+                                        <label for="blocked_reason">{{ __("attributes.blocked_reason") }}</label>
+                                        <textarea class="form-control" name="block_reason" id="blocked_reason"></textarea>
+                                    </div>
+
+                                    <div class="col-12 mb-3">
+                                        <label for="AdminRoleEnum">{{ __("attributes.AdminRoleEnum") }}</label>
+                                        <select name="AdminRoleEnum" class="col-12" id="AdminRoleEnum"></select>
+                                    </div>
+
+                                    <div class="col-12 mb-3">
+                                        <label for="GenderEnum">{{ __("attributes.GenderEnum") }}</label>
+                                        <select name="GenderEnum" class="col-12" id="GenderEnum"></select>
+                                    </div>
+
+                                    <div class="col-sm-12 mb-3 fileUploadBuilder">
+                                        <label for="flag">{{ __("attributes.image") }}</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group mb-0">
+                                <button class="btn btn-primary btn-block" onclick="submitForm(this, $('#data-table-ajax'))" type="button">{{ __("lang.update") }}</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade view_modal" aria-labelledby="myLargeModalLabel" style="display: none;" data-bs-backdrop="static" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="myLargeModalLabel">{{ __('lang.view') }} {{ $pageData["page"] }}</h4>
+                        <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close" data-bs-original-title="" title=""></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <form novalidate="" class="theme-form needs-validation">
+                                <div class="row">
+                                    <div class="col-12 mb-3">
+                                        <label for="name">{{ __("attributes.name") }}</label>
+                                        <input class="form-control" name="name" id="name" type="text" placeholder="ex: fathy, ahmed" />
+                                    </div>
+
+                                    <div class="col-12 mb-3 input-group-square">
+                                        <label for="phone">{{ __("attributes.phone") }}</label>
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text"><select  name="country_id" class="col-sm-12" id="country_id"></select></span>
+                                            </div>
+                                            <input class="form-control" name="phone" id="phone" type="number" placeholder="ex: 114xxxxxxxxxx">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-12 mb-3">
+                                        <label for="email">{{ __("attributes.email") }}</label>
+                                        <input class="form-control" name="email" id="email" type="email" placeholder="ex: example@ex.com" />
+                                    </div>
+
+                                    <div class="col-12 mb-3">
+                                        <label for="national_id">{{ __("attributes.national_id") }}</label>
+                                        <input class="form-control" name="national_id" id="national_id" type="number" placeholder="ex: 294***********" />
+                                    </div>
+
+                                    <div class="col-12 mb-3">
+                                        <label for="AdminStatusEnum">{{ __("attributes.AdminStatusEnum") }}</label>
+                                        <select name="AdminStatusEnum" class="col-12" id="AdminStatusEnum"></select>
+                                    </div>
+
+                                    <div class="col-12 mb-3 blocked_reason">
+                                        <label for="blocked_reason">{{ __("attributes.blocked_reason") }}</label>
+                                        <textarea class="form-control" name="block_reason" id="blocked_reason"></textarea>
+                                    </div>
+
+                                    <div class="col-12 mb-3">
+                                        <label for="AdminRoleEnum">{{ __("attributes.AdminRoleEnum") }}</label>
+                                        <select name="AdminRoleEnum" class="col-12" id="AdminRoleEnum"></select>
+                                    </div>
+
+                                    <div class="col-12 mb-3">
+                                        <label for="GenderEnum">{{ __("attributes.GenderEnum") }}</label>
+                                        <select name="GenderEnum" class="col-12" id="GenderEnum"></select>
+                                    </div>
+
+                                    <div class="col-sm-12 mb-3 fileUploadBuilder">
+                                        <label for="flag">{{ __("attributes.image") }}</label>
+                                    </div>
+
+                                </div>
+                            </form>
                         </div>
                     </div>
                 </div>
             </div>
-        @endif
+        </div>
     </div>
 @endsection
 
@@ -318,8 +311,8 @@
         let htmlAdminStatus = "";
         let htmlAdminRoles = "";
         let htmlGenders = "";
-        let pageData = @json(session('page_data'));
-        let datatableUri = "{{ url("api")."/admin/employee/register"}}";
+        let pageData = @json($pageData);
+        let datatableUri = APP_URL+"/"+pageData.link;
         let datatableAuthToken = "{{session("admin_data")["jwtToken"]}}";
         let dataTableLocale =  "{{session("locale")}}";
         let datatableColumns = [
@@ -360,9 +353,9 @@
                     if(pageData.actions.update === 1){
                         actions += `<div class="col-auto">
                                     <button class="btn btn-sm btn-warning" type="button" onclick="openModalUpdate(${dataString})"
-                                            data-bs-original-title="{{ __('lang.update') }} {{ session("page_data")["title"]["translate"] }}"
-                                            title="{{ __('lang.update') }} {{ session("page_data")["title"]["translate"] }}">
-                                        <i class="fa fa-edit"></i></button>
+                                            data-bs-original-title="{{ __('lang.update') }} {{ $pageData["page"] }}"
+                                            title="{{ __('lang.update') }} {{ $pageData["page"] }}">
+                                        <i class="fa fa-edit"></i>
                                     </button>
                                 </div>`;
                     }
@@ -370,9 +363,9 @@
                     if(pageData.actions.read === 1 ){
                         actions += `<div class="col-auto">
                                     <button class="btn btn-sm btn-primary" type="button" onclick="openModalView(${dataString})"
-                                            data-bs-original-title="{{ __('lang.view') }} {{ session("page_data")["title"]["translate"] }}"
-                                            title="{{ __('lang.view') }} {{ session("page_data")["title"]["translate"] }}">
-                                        <i class="fa fa-eye"></i></button>
+                                            data-bs-original-title="{{ __('lang.view') }} {{ $pageData["page"] }}"
+                                            title="{{ __('lang.view') }} {{ $pageData["page"] }}">
+                                        <i class="fa fa-eye"></i>
                                     </button>
                                 </div>`;
                     }

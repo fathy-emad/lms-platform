@@ -15,28 +15,28 @@
 						<div class="mobile-back text-end"><span>Back</span><i class="fa fa-angle-right ps-2" aria-hidden="true"></i></div>
 					</li>
                     @if(isset(session("admin_data")["permission"]))
-                        @foreach(session("admin_data")["permission"]["permissions"] as $route)
-                            @php $items = $route["items"] @endphp
-
-{{--                                <li class="sidebar-main-title">--}}
-{{--                                    <div>--}}
-{{--                                        <h6 class="lan-1">{{ $route["title"]["translate"] }}</h6>--}}
-{{--                                        <p class="lan-2">{{ trans('lang.Dashboards,widgets & layout.') }}</p>--}}
-{{--                                    </div>--}}
-{{--                                </li>--}}
+                    @php
+                        $request_path = request()->path();
+                        $pattern = "/api\/admin\/([\w\-]+)\/([\w\-]+)/";
+                        preg_match_all($pattern, "api/".$request_path, $matches);
+                        $api = $matches[0][0];
+                    @endphp
+                    @foreach(session("admin_data")["permission"]["permissions"] as $route)
+                            @php
+                                $items = $route["items"];
+                                $activeMenu = in_array($api, array_column($items, "link"));
+                            @endphp
                                 <li class="sidebar-list">
-                                    @php
-                                        $request_path = request()->path();
-                                        $activeMenu = in_array("api/".$request_path, array_column($items, "link"));
-                                    @endphp
-                                    <a class="sidebar-link sidebar-title" href="#">
+                                    <a class="sidebar-link sidebar-title {{ $activeMenu ? "active" : "" }}" href="#">
                                         <i data-feather="settings"></i>
                                         <span class="lan-7">{{ $route["title"]["translates"][app()->getLocale()] }}</span>
                                         <div class="according-menu"><i class="fa fa-angle-{{ $activeMenu ? "down" : "right" }}"></i></div>
                                     </a>
                                     <ul class="sidebar-submenu" style="display:{{ $activeMenu ? "block" : "none" }}">
                                         @foreach($items as $item)
-                                            <li><a href="{{url(str_replace("api/", "", $item["link"]))}}" class="{{"api/$request_path" === $item["link"] ? 'active' : ''}}"><i data-feather="settings"></i>{{ $item["title"]["translates"][app()->getLocale()] }}</a></li>
+                                            @if(explode("/", $item["link"])[2] != "setting-education" || explode("/", $item["link"])[3] == "stage")
+                                                <li><a href="{{url(str_replace("api/", "", $item["link"]))}}" class="{{$api == $item["link"] ? 'active' : ''}}"><i data-feather="settings"></i>{{ $item["title"]["translates"][app()->getLocale()] }}</a></li>
+                                            @endif
                                         @endforeach
                                     </ul>
                                 </li>

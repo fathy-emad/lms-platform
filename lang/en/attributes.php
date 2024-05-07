@@ -36,5 +36,7 @@ return [
     "password" => "Password",
     "password_confirmation" => "Password confirmation",
     "national_id" => "National ID",
-    "blocked_reason" => "Blocked reason"
+    "blocked_reason" => "Blocked reason",
+    "stage" => "Stage",
+    "year" => "Year"
 ];

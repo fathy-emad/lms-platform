@@ -1,5 +1,7 @@
 @extends('dashboard_layouts.simple.master')
 
+@section("phpScript") @php $pageData = checkPermission(request()->path(), session("admin_data")["permission"]["permissions"]) @endphp @endsection
+
 @section('title', 'Default')
 
 @section('css')
@@ -12,34 +14,26 @@
 @endsection
 
 @section('breadcrumb-title')
-    <h3>{{ session("page_data")["title"]["translate"] }}</h3>
+    <h3>{{ $pageData["page"] }}</h3>
 @endsection
 
 @section('breadcrumb-items')
     <li class="breadcrumb-item">{{ __('lang.dashboard') }}</li>
-    <li class="breadcrumb-item">{{ session("page_data")["route_title"] }}</li>
-    <li class="breadcrumb-item active">{{ session("page_data")["title"]["translate"] }}</li>
+    <li class="breadcrumb-item">{{ $pageData["route"] }}</li>
+    <li class="breadcrumb-item active">{{ $pageData["page"] }}</li>
 @endsection
 
 @section('content')
     <div class="container-fluid">
-        @if(("api/" . request()->path()) !== session("page_data")["link"])
-            <div class="alert alert-danger" role="alert">
-                <h4 class="alert-heading">Well done!</h4>
-                <p>Aww yeah, you successfully read this important alert message.</p>
-                <hr>
-                <p class="mb-0">You are not auth to get here.</p>
-            </div>
-        @else
             <div class="row">
                 <div class="col-sm-12">
                     <div class="card">
-                        @if(session("page_data")["actions"]["create"])
+                        @if($pageData["actions"]["create"])
                             <div class="card-header">
                                 <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target=".create_modal"
-                                        data-bs-original-title="{{ __('lang.create') }} {{ session("page_data")["title"]["translate"] }}"
-                                        title="{{ __('lang.create') }} {{ session("page_data")["title"]["translate"] }}" fdprocessedid="pqwxqf">
-                                    {{ __('lang.create') }} {{ session("page_data")["title"]["translate"] }}
+                                        data-bs-original-title="{{ __('lang.create') }} {{ $pageData["page"] }}"
+                                        title="{{ __('lang.create') }} {{ $pageData["page"] }}">
+                                    {{ __('lang.create') }} {{ $pageData["page"] }}
                                 </button>
                             </div>
                         @endif
@@ -95,12 +89,12 @@
                 <div class="modal-dialog modal-lg">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h4 class="modal-title" id="myLargeModalLabel">{{ __('lang.create') }} {{ session("page_data")["title"]["translate"] }}</h4>
+                            <h4 class="modal-title" id="myLargeModalLabel">{{ __('lang.create') }} {{ $pageData["page"] }}</h4>
                             <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close" data-bs-original-title="" title=""></button>
                         </div>
                         <div class="modal-body">
                             <form novalidate="" class="theme-form needs-validation" id="form1" method="POST" authorization="{{session("admin_data")["jwtToken"]}}"
-                                  action="{{ url(session("page_data")["link"]) }}" locale="{{session("locale")}}" csrf="{{ csrf_token()}}">
+                                  action="{{ url($pageData["link"]) }}" locale="{{session("locale")}}" csrf="{{ csrf_token()}}">
                                 <div class="form-group">
                                     <div class="row">
 
@@ -164,12 +158,12 @@
                 <div class="modal-dialog modal-lg">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h4 class="modal-title" id="myLargeModalLabel">{{ __('lang.update') }} {{ session("page_data")["title"]["translate"] }}</h4>
+                            <h4 class="modal-title" id="myLargeModalLabel">{{ __('lang.update') }} {{ $pageData["page"] }}</h4>
                             <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close" data-bs-original-title="" title=""></button>
                         </div>
                         <div class="modal-body">
                             <form novalidate="" class="theme-form needs-validation" id="form2" method="POST" authorization="{{session("admin_data")["jwtToken"]}}"
-                                  action="{{ url(session("page_data")["link"]) }}" locale="{{session("locale")}}" csrf="{{ csrf_token()}}">
+                                  action="{{ url($pageData["link"]) }}" locale="{{session("locale")}}" csrf="{{ csrf_token()}}">
                                 <input type="hidden" name="id" value="">
                                 <input type="hidden" name="_method" value="PUT">
                                 <div class="form-group">
@@ -248,7 +242,7 @@
                 <div class="modal-dialog modal-lg">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h4 class="modal-title" id="myLargeModalLabel">{{ __('lang.view') }} {{ session("page_data")["title"]["translate"] }}</h4>
+                            <h4 class="modal-title" id="myLargeModalLabel">{{ __('lang.view') }} {{ $pageData["page"] }}</h4>
                             <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close" data-bs-original-title="" title=""></button>
                         </div>
                         <div class="modal-body">
@@ -335,7 +329,7 @@
 
         let countryTranslates = "";
         let currencyTranslates = "";
-        let pageData = @json(session('page_data'));
+        let pageData = @json($pageData);
         let datatableUri = `${APP_URL}/${pageData.link}`;
         let datatableAuthToken = "{{session("admin_data")["jwtToken"]}}";
         let dataTableLocale =  "{{session("locale")}}";
@@ -375,9 +369,9 @@
                     if(pageData.actions.update === 1){
                         actions += `<div class="col-auto">
                                     <button class="btn btn-sm btn-warning" type="button" onclick="openModalUpdate(${dataString})"
-                                            data-bs-original-title="{{ __('lang.update') }} {{ session("page_data")["title"]["translate"] }}"
-                                            title="{{ __('lang.update') }} {{ session("page_data")["title"]["translate"] }}" fdprocessedid="pqwxqf">
-                                        <i class="fa fa-edit"></i></button>
+                                            data-bs-original-title="{{ __('lang.update') }} {{ $pageData["page"] }}"
+                                            title="{{ __('lang.update') }} {{ $pageData["page"] }}">
+                                        <i class="fa fa-edit"></i>
                                     </button>
                                 </div>`;
                     }
@@ -386,9 +380,9 @@
                     if(pageData.actions.read === 1 ){
                         actions += `<div class="col-auto">
                                     <button class="btn btn-sm btn-primary" type="button" onclick="openModalView(${dataString})"
-                                            data-bs-original-title="{{ __('lang.view') }} {{ session("page_data")["title"]["translate"] }}"
-                                            title="{{ __('lang.view') }} {{ session("page_data")["title"]["translate"] }}" fdprocessedid="pqwxqf">
-                                        <i class="fa fa-eye"></i></button>
+                                            data-bs-original-title="{{ __('lang.view') }} {{ $pageData["page"] }}"
+                                            title="{{ __('lang.view') }} {{ $pageData["page"] }}">
+                                        <i class="fa fa-eye"></i>
                                     </button>
                                 </div>`;
                     }

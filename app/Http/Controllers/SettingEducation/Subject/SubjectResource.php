@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers\SettingEducation\Subject;
 
+use Illuminate\Http\Request;
 use App\Http\Resources\AuthorResource;
 use App\Http\Resources\DateTimeResource;
 use App\Http\Resources\TranslationResource;
-use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use App\Http\Controllers\Setting\Enumeration\EnumerationResource;
+use App\Http\Controllers\SettingEducation\Year\YearResource;
 
 class SubjectResource extends JsonResource
 {
@@ -20,8 +22,8 @@ class SubjectResource extends JsonResource
     {
         return [
             "id"         => $this->id,
-            "year"       => new TranslationResource($this->year->yearEnum->valueTranslate),
-            "subject"    => new TranslationResource($this->SubjectEnum->valueTranslate),
+            "year"       => new YearResource($this->year),
+            "title"      => new EnumerationResource($this->subjectEnum),
             "ActiveEnum" => new TranslationResource($this->ActiveEnum, true),
             "created_by" => new AuthorResource($this->createdBy),
             "updated_by" => $this->updated_by ? new AuthorResource($this->updatedBy) : null,

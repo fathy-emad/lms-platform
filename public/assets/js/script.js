@@ -386,7 +386,7 @@ function submitForm(submit, datatable = null)
             if (response.success && action.split("/")[action.split("/").length - 1] === "login") {
                 let data = JSON.stringify(response.data);
                 $.ajax({
-                    url: APP_URL + "/admin/create/session",
+                    url: APP_URL + "/create/session",
                     type: "POST",
                     processData: false,
                     data: data,
@@ -414,7 +414,7 @@ function submitForm(submit, datatable = null)
             }
             else if(response.success && action.split("/")[action.split("/").length - 1] === "logout"){
                 $.ajax({
-                    url: APP_URL + "/admin/destroy/session",
+                    url: APP_URL + "/destroy/session",
                     type: "POST",
                     processData: false,
                     //data: data,

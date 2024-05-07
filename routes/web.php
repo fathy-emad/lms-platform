@@ -74,7 +74,9 @@ Route::prefix("admin")->name("admin.")->middleware("entity.locale")->group(funct
 
         Route::prefix("setting-education")->name("setting-education.")->group(function(){
             Route::view('stage', 'admin.setting-education.stage')->name("stage");
-            Route::view('year/{stage_id?}', 'admin.setting-education.year')->name("year");
+            Route::view('year/{stage_id}', 'admin.setting-education.year')->name("year");
+            Route::view('subject/{year_id}', 'admin.setting-education.subject')->name("subject");
+            Route::view('curriculum/{subject_id}', 'admin.setting-education.curriculum')->name("curriculum");
         });
 
     });
