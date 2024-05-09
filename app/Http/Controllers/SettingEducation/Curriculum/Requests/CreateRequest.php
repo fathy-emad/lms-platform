@@ -4,6 +4,7 @@ namespace App\Http\Controllers\SettingEducation\Curriculum\Requests;
 
 use App\Concretes\ValidateRequest;
 use App\Enums\ActiveEnum;
+use App\Enums\MonthsEnum;
 use App\Enums\SystemConstantsEnum;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\Enum;
@@ -37,6 +38,8 @@ class CreateRequest extends ValidateRequest
                 Rule::exists('enumerations', 'id')->where(function ($query) {
                     return $query->where('key', SystemConstantsEnum::TypeEnumTable->value);
                 }),
+            "curriculumFrom" => ["required", "int", new Enum(MonthsEnum::class)],
+            "curriculumTo" => ["required", "int", new Enum(MonthsEnum::class)],
             "ActiveEnum" => ["sometimes", "string", new Enum(ActiveEnum::class)],
         ];
     }

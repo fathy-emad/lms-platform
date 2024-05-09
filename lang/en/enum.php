@@ -40,4 +40,19 @@ return [
         "NamePrefixEnumTable" => "Name prefixes"
     ],
 
+    "MonthsEnum" => [
+        "Jan" => "JANUARY",
+        "Feb" => "FEBRUARY",
+        "Mar" => "MARCH",
+        "Apr" => "APRIL",
+        "May" => "MAY",
+        "Jun" => "JUNE",
+        "Jul" => "JULY",
+        "Aug" => "AUGUST",
+        "Sep" => "SEPTEMBER",
+        "Oct" => "OCTOBER",
+        "Nov" => "NOVEMBER",
+        "Dec" => "DECEMBER",
+    ],
+
 ];

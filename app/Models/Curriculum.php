@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\ActiveEnum;
+use App\Enums\MonthsEnum;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -14,8 +15,10 @@ class Curriculum extends Model
     use HasFactory, HasJsonRelationships;
     protected $guarded = [];
     protected $casts = [
-        "termsEnumTable" => "array",
-        "typesEnumTable" => "array",
+        "TermsEnumTable" => "array",
+        "TypesEnumTable" => "array",
+        "curriculumFrom" => MonthsEnum::class,
+        "curriculumTo" => MonthsEnum::class,
         "ActiveEnum" => ActiveEnum::class,
         "priority" => "integer"
     ];

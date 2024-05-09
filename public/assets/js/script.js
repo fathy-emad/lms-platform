@@ -571,7 +571,7 @@ $(document).ready(function() {
     if ($("#data-table-ajax").length){
 
         $('#data-table-ajax').DataTable({
-            "processing": true,
+            "processing": false,
             //"serverSide": true,
             "ajax": {
                 "url": datatableUri,

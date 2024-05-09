@@ -25,159 +25,241 @@
 
 @section('content')
     <div class="container-fluid">
-            <div class="row">
-                <div class="col-sm-12">
-                    <div class="card">
-                        @if($pageData["actions"]["create"])
-                            <div class="card-header">
-                                <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target=".create_modal"
-                                        data-bs-original-title="{{ __('lang.create') }} {{ $pageData["page"] }}"
-                                        title="{{ __('lang.create') }} {{ $pageData["page"] }}">
-                                    {{ __('lang.create') }} {{ $pageData["page"] }}
-                                </button>
-                            </div>
-                        @endif
-                        <div class="card-body">
-                            <div class="table-responsive">
-                                <table class="display datatables" id="data-table-ajax">
-                                    <thead>
-                                    <tr>
-                                        <th>{{ __("attributes.flag") }}</th>
-                                        <th>#ID</th>
-                                        <th>{{ __("attributes.country_symbol") }}</th>
-                                        <th>{{ __("attributes.country") }}</th>
-                                        <th>{{ __("attributes.currency") }}</th>
-                                        <th>{{ __("attributes.currency_symbol") }}</th>
-                                        <th>{{ __("attributes.phone_prefix") }}</th>
-                                        <th>{{ __("attributes.timezone") }}</th>
-                                        <th>{{ __("attributes.ActiveEnum") }}</th>
-                                        <th>{{ __("attributes.created_at") }}</th>
-                                        <th>{{ __("attributes.created_by") }}</th>
-                                        <th>{{ __("attributes.updated_at") }}</th>
-                                        <th>{{ __("attributes.updated_by") }}</th>
-                                        <th>{{ __("attributes.actions") }}</th>
-                                    </tr>
-                                    </thead>
-                                    <tfoot>
-                                    <tr>
-                                        <th>{{ __("attributes.flag") }}</th>
-                                        <th>#ID</th>
-                                        <th>{{ __("attributes.country_symbol") }}</th>
-                                        <th>{{ __("attributes.country") }}</th>
-                                        <th>{{ __("attributes.currency") }}</th>
-                                        <th>{{ __("attributes.currency_symbol") }}</th>
-                                        <th>{{ __("attributes.phone_prefix") }}</th>
-                                        <th>{{ __("attributes.timezone") }}</th>
-                                        <th>{{ __("attributes.ActiveEnum") }}</th>
-                                        <th>{{ __("attributes.created_at") }}</th>
-                                        <th>{{ __("attributes.created_by") }}</th>
-                                        <th>{{ __("attributes.updated_at") }}</th>
-                                        <th>{{ __("attributes.updated_by") }}</th>
-                                        <th>{{ __("attributes.actions") }}</th>
-                                    </tr>
-                                    </tfoot>
-                                </table>
-                            </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="card">
+                    @if($pageData["actions"]["create"])
+                        <div class="card-header">
+                            <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target=".create_modal"
+                                    data-bs-original-title="{{ __('lang.create') }} {{ $pageData["page"] }}"
+                                    title="{{ __('lang.create') }} {{ $pageData["page"] }}">
+                                {{ __('lang.create') }} {{ $pageData["page"] }}
+                            </button>
+                        </div>
+                    @endif
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="display datatables" id="data-table-ajax">
+                                <thead>
+                                <tr>
+                                    <th>{{ __("attributes.flag") }}</th>
+                                    <th>#ID</th>
+                                    <th>{{ __("attributes.country_symbol") }}</th>
+                                    <th>{{ __("attributes.country") }}</th>
+                                    <th>{{ __("attributes.currency") }}</th>
+                                    <th>{{ __("attributes.currency_symbol") }}</th>
+                                    <th>{{ __("attributes.phone_prefix") }}</th>
+                                    <th>{{ __("attributes.timezone") }}</th>
+                                    <th>{{ __("attributes.ActiveEnum") }}</th>
+                                    <th>{{ __("attributes.created_at") }}</th>
+                                    <th>{{ __("attributes.created_by") }}</th>
+                                    <th>{{ __("attributes.updated_at") }}</th>
+                                    <th>{{ __("attributes.updated_by") }}</th>
+                                    <th>{{ __("attributes.actions") }}</th>
+                                </tr>
+                                </thead>
+                                <tfoot>
+                                <tr>
+                                    <th>{{ __("attributes.flag") }}</th>
+                                    <th>#ID</th>
+                                    <th>{{ __("attributes.country_symbol") }}</th>
+                                    <th>{{ __("attributes.country") }}</th>
+                                    <th>{{ __("attributes.currency") }}</th>
+                                    <th>{{ __("attributes.currency_symbol") }}</th>
+                                    <th>{{ __("attributes.phone_prefix") }}</th>
+                                    <th>{{ __("attributes.timezone") }}</th>
+                                    <th>{{ __("attributes.ActiveEnum") }}</th>
+                                    <th>{{ __("attributes.created_at") }}</th>
+                                    <th>{{ __("attributes.created_by") }}</th>
+                                    <th>{{ __("attributes.updated_at") }}</th>
+                                    <th>{{ __("attributes.updated_by") }}</th>
+                                    <th>{{ __("attributes.actions") }}</th>
+                                </tr>
+                                </tfoot>
+                            </table>
                         </div>
                     </div>
                 </div>
             </div>
+        </div>
 
 
-            <!-- Create modal -->
-            <div class="modal fade create_modal" aria-labelledby="myLargeModalLabel" style="display: none;" data-bs-backdrop="static" aria-hidden="true">
-                <div class="modal-dialog modal-lg">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h4 class="modal-title" id="myLargeModalLabel">{{ __('lang.create') }} {{ $pageData["page"] }}</h4>
-                            <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close" data-bs-original-title="" title=""></button>
-                        </div>
-                        <div class="modal-body">
-                            <form novalidate="" class="theme-form needs-validation" id="form1" method="POST" authorization="{{session("admin_data")["jwtToken"]}}"
-                                  action="{{ url($pageData["link"]) }}" locale="{{session("locale")}}" csrf="{{ csrf_token()}}">
-                                <div class="form-group">
-                                    <div class="row">
+        <!-- Create modal -->
+        <div class="modal fade create_modal" aria-labelledby="myLargeModalLabel" style="display: none;" data-bs-backdrop="static" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="myLargeModalLabel">{{ __('lang.create') }} {{ $pageData["page"] }}</h4>
+                        <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close" data-bs-original-title="" title=""></button>
+                    </div>
+                    <div class="modal-body">
+                        <form novalidate="" class="theme-form needs-validation" id="form1" method="POST" authorization="{{session("admin_data")["jwtToken"]}}"
+                              action="{{ url($pageData["link"]) }}" locale="{{session("locale")}}" csrf="{{ csrf_token()}}">
+                            <div class="form-group">
+                                <div class="row">
 
-                                        <div class="col-12 mb-3">
-                                            <label for="symbol">{{ __("attributes.country_symbol") }}</label>
-                                            <input class="form-control" name="symbol" id="symbol" type="text" placeholder="ex: EG, US" />
+                                    <div class="col-12 mb-3">
+                                        <label for="symbol">{{ __("attributes.country_symbol") }}</label>
+                                        <input class="form-control" name="symbol" id="symbol" type="text" placeholder="ex: EG, US" />
+                                    </div>
+
+                                    <div class="col-12 mb-3">
+                                        <label for="country">{{ __("attributes.country") }}</label>
+                                        <input class="form-control" name="country" id="country" type="text" placeholder="ex: Egypt, Saudi Arabia" />
+                                    </div>
+
+                                    <div class="col-12 mb-3">
+                                        <label for="currency_symbol">{{ __("attributes.currency_symbol") }}</label>
+                                        <input class="form-control" name="currency_symbol" id="currency_symbol" type="text" placeholder="ex: LE, RS" />
+                                    </div>
+
+                                    <div class="col-12 mb-3">
+                                        <label for="currency">{{ __("attributes.currency") }}</label>
+                                        <input class="form-control" name="currency" id="currency" type="text" placeholder="ex: Egypt Pound, Saudi Arabia Riyal" />
+                                    </div>
+
+
+                                    <div class="col-12 mb-3">
+                                        <label for="phone_prefix">{{ __("attributes.phone_prefix") }}</label>
+                                        <input class="form-control" name="phone_prefix" id="phone_prefix" type="text" placeholder="ex: +20" />
+                                    </div>
+
+                                    <div class="col-12 mb-3">
+                                        <label for="timezone">{{ __("attributes.timezone") }}</label>
+                                        <input class="form-control" name="timezone" id="timezone" type="text" placeholder="ex: EET" />
+                                    </div>
+
+
+                                    <div class="col-sm-12 mb-3 fileUploadBuilder">
+                                        <label for="flag">{{ __("attributes.flag") }}</label>
+                                    </div>
+
+                                    <div class="col-sm-12 mb-3 media">
+                                        <label class="col-form-label m-r-10">{{ __("attributes.ActiveEnum") }}</label>
+                                        <div class="media-body icon-state">
+                                            <label class="switch">
+                                                <input type="checkbox" name="ActiveEnum" value="{{\App\Enums\ActiveEnum::Active->value}}"><span class="switch-state"></span>
+                                            </label>
                                         </div>
+                                    </div>
 
-                                        <div class="col-12 mb-3">
-                                            <label for="country">{{ __("attributes.country") }}</label>
-                                            <input class="form-control" name="country" id="country" type="text" placeholder="ex: Egypt, Saudi Arabia" />
-                                        </div>
+                                </div>
+                            </div>
+                            <div class="form-group mb-0">
+                                <button class="btn btn-primary btn-block" onclick="submitForm(this, $('#data-table-ajax'))" type="button">{{ __("lang.create") }}</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Update modal -->
+        <div class="modal fade update_modal" aria-labelledby="myLargeModalLabel" style="display: none;" data-bs-backdrop="static" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="myLargeModalLabel">{{ __('lang.update') }} {{ $pageData["page"] }}</h4>
+                        <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close" data-bs-original-title="" title=""></button>
+                    </div>
+                    <div class="modal-body">
+                        <form novalidate="" class="theme-form needs-validation" id="form2" method="POST" authorization="{{session("admin_data")["jwtToken"]}}"
+                              action="{{ url($pageData["link"]) }}" locale="{{session("locale")}}" csrf="{{ csrf_token()}}">
+                            <input type="hidden" name="id" value="">
+                            <input type="hidden" name="_method" value="PUT">
+                            <div class="form-group">
+                                <div class="row">
 
-                                        <div class="col-12 mb-3">
-                                            <label for="currency_symbol">{{ __("attributes.currency_symbol") }}</label>
-                                            <input class="form-control" name="currency_symbol" id="currency_symbol" type="text" placeholder="ex: LE, RS" />
-                                        </div>
+                                    <div class="col-12">
+                                        <ul class="nav nav-pills nav-info mb-3" id="pills-infotab" role="tablist">
+                                            <li class="nav-item"><a class="nav-link active" id="update-data-tab" data-bs-toggle="pill" href="#update-data" role="tab" aria-controls="update-data" aria-selected="true" data-bs-original-title="" title=""><i class="icofont icofont-ui-home"></i>data</a></li>
+                                            <li class="nav-item"><a class="nav-link" id="update-country-translate-tab" data-bs-toggle="pill" href="#update-country-translate" role="tab" aria-controls="update-country-translate" aria-selected="false" data-bs-original-title="" title=""><i class="icofont icofont-contacts"></i>country translates</a></li>
+                                            <li class="nav-item"><a class="nav-link" id="update-currency-translate-tab" data-bs-toggle="pill" href="#update-currency-translate" role="tab" aria-controls="update-currency-translate" aria-selected="false" data-bs-original-title="" title=""><i class="icofont icofont-contacts"></i>currency translates</a></li>
+                                        </ul>
+                                        <div class="tab-content" id="pills-infotabContent">
 
-                                        <div class="col-12 mb-3">
-                                            <label for="currency">{{ __("attributes.currency") }}</label>
-                                            <input class="form-control" name="currency" id="currency" type="text" placeholder="ex: Egypt Pound, Saudi Arabia Riyal" />
-                                        </div>
+                                            <div class="tab-pane fade  active show" id="update-data" role="tabpanel" aria-labelledby="update-data-tab">
+
+                                                <div class="col-12 mb-3">
+                                                    <label for="symbol">{{ __("attributes.country_symbol") }}</label>
+                                                    <input class="form-control" name="symbol" id="symbol" type="text" placeholder="ex: EG, US" />
+                                                </div>
+
+                                                <div class="col-12 mb-3">
+                                                    <label for="currency_symbol">{{ __("attributes.currency_symbol") }}</label>
+                                                    <input class="form-control" name="currency_symbol" id="currency_symbol" type="text" placeholder="ex: LE, RS" />
+                                                </div>
 
 
-                                        <div class="col-12 mb-3">
-                                            <label for="phone_prefix">{{ __("attributes.phone_prefix") }}</label>
-                                            <input class="form-control" name="phone_prefix" id="phone_prefix" type="text" placeholder="ex: +20" />
-                                        </div>
+                                                <div class="col-12 mb-3">
+                                                    <label for="phone_prefix">{{ __("attributes.phone_prefix") }}</label>
+                                                    <input class="form-control" name="phone_prefix" id="phone_prefix" type="text" placeholder="ex: +20" />
+                                                </div>
 
-                                        <div class="col-12 mb-3">
-                                            <label for="timezone">{{ __("attributes.timezone") }}</label>
-                                            <input class="form-control" name="timezone" id="timezone" type="text" placeholder="ex: EET" />
-                                        </div>
+                                                <div class="col-12 mb-3">
+                                                    <label for="timezone">{{ __("attributes.timezone") }}</label>
+                                                    <input class="form-control" name="timezone" id="timezone" type="text" placeholder="ex: EET" />
+                                                </div>
 
 
-                                        <div class="col-sm-12 mb-3 fileUploadBuilder">
-                                            <label for="flag">{{ __("attributes.flag") }}</label>
-                                        </div>
+                                                <div class="col-sm-12 mb-3 fileUploadBuilder">
+                                                    <label for="flag">{{ __("attributes.flag") }}</label>
+                                                </div>
 
-                                        <div class="col-sm-12 mb-3 media">
-                                            <label class="col-form-label m-r-10">{{ __("attributes.ActiveEnum") }}</label>
-                                            <div class="media-body icon-state">
-                                                <label class="switch">
-                                                    <input type="checkbox" name="ActiveEnum" value="{{\App\Enums\ActiveEnum::Active->value}}"><span class="switch-state"></span>
-                                                </label>
+                                                <div class="col-sm-12 mb-3 media">
+                                                    <label class="col-form-label m-r-10">{{ __("attributes.ActiveEnum") }}</label>
+                                                    <div class="media-body icon-state">
+                                                        <label class="switch">
+                                                            <input type="checkbox" name="ActiveEnum" value="{{\App\Enums\ActiveEnum::Active->value}}"><span class="switch-state"></span>
+                                                        </label>
+                                                    </div>
+                                                </div>
+
+
+                                            </div>
+
+                                            <div class="tab-pane fade" id="update-country-translate" role="tabpanel" aria-labelledby="update-country-translate-tab">
+                                                <div class="row update-country-translates"></div>
+                                            </div>
+
+                                            <div class="tab-pane fade" id="update-currency-translate" role="tabpanel" aria-labelledby="update-currency-translate-tab">
+                                                <div class="row update-currency-translates"></div>
                                             </div>
                                         </div>
-
                                     </div>
+
                                 </div>
-                                <div class="form-group mb-0">
-                                    <button class="btn btn-primary btn-block" onclick="submitForm(this, $('#data-table-ajax'))" type="button">{{ __("lang.create") }}</button>
-                                </div>
-                            </form>
-                        </div>
+                            </div>
+                            <div class="form-group mb-0">
+                                <button class="btn btn-primary btn-block" onclick="submitForm(this, $('#data-table-ajax'))" type="button">{{ __("lang.update") }}</button>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
-            <!-- Update modal -->
-            <div class="modal fade update_modal" aria-labelledby="myLargeModalLabel" style="display: none;" data-bs-backdrop="static" aria-hidden="true">
-                <div class="modal-dialog modal-lg">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h4 class="modal-title" id="myLargeModalLabel">{{ __('lang.update') }} {{ $pageData["page"] }}</h4>
-                            <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close" data-bs-original-title="" title=""></button>
-                        </div>
-                        <div class="modal-body">
-                            <form novalidate="" class="theme-form needs-validation" id="form2" method="POST" authorization="{{session("admin_data")["jwtToken"]}}"
-                                  action="{{ url($pageData["link"]) }}" locale="{{session("locale")}}" csrf="{{ csrf_token()}}">
-                                <input type="hidden" name="id" value="">
-                                <input type="hidden" name="_method" value="PUT">
+        </div>
+        <!-- View modal -->
+        <div class="modal fade view_modal" aria-labelledby="myLargeModalLabel" style="display: none;" data-bs-backdrop="static" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="myLargeModalLabel">{{ __('lang.view') }} {{ $pageData["page"] }}</h4>
+                        <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close" data-bs-original-title="" title=""></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <form novalidate="" class="theme-form needs-validation">
                                 <div class="form-group">
                                     <div class="row">
 
                                         <div class="col-12">
                                             <ul class="nav nav-pills nav-info mb-3" id="pills-infotab" role="tablist">
-                                                <li class="nav-item"><a class="nav-link active" id="update-data-tab" data-bs-toggle="pill" href="#update-data" role="tab" aria-controls="update-data" aria-selected="true" data-bs-original-title="" title=""><i class="icofont icofont-ui-home"></i>data</a></li>
-                                                <li class="nav-item"><a class="nav-link" id="update-country-translate-tab" data-bs-toggle="pill" href="#update-country-translate" role="tab" aria-controls="update-country-translate" aria-selected="false" data-bs-original-title="" title=""><i class="icofont icofont-contacts"></i>country translates</a></li>
-                                                <li class="nav-item"><a class="nav-link" id="update-currency-translate-tab" data-bs-toggle="pill" href="#update-currency-translate" role="tab" aria-controls="update-currency-translate" aria-selected="false" data-bs-original-title="" title=""><i class="icofont icofont-contacts"></i>currency translates</a></li>
+                                                <li class="nav-item"><a class="nav-link active" id="view-data-tab" data-bs-toggle="pill" href="#view-data" role="tab" aria-controls="view-data" aria-selected="true" data-bs-original-title="" title=""><i class="icofont icofont-ui-home"></i>data</a></li>
+                                                <li class="nav-item"><a class="nav-link" id="view-country-translate-tab" data-bs-toggle="pill" href="#view-country-translate" role="tab" aria-controls="view-country-translate" aria-selected="false" data-bs-original-title="" title=""><i class="icofont icofont-contacts"></i>country translates</a></li>
+                                                <li class="nav-item"><a class="nav-link" id="view-currency-translate-tab" data-bs-toggle="pill" href="#view-currency-translate" role="tab" aria-controls="view-currency-translate" aria-selected="false" data-bs-original-title="" title=""><i class="icofont icofont-contacts"></i>currency translates</a></li>
                                             </ul>
                                             <div class="tab-content" id="pills-infotabContent">
 
-                                                <div class="tab-pane fade  active show" id="update-data" role="tabpanel" aria-labelledby="update-data-tab">
+                                                <div class="tab-pane fade  active show" id="view-data" role="tabpanel" aria-labelledby="view-data-tab">
 
                                                     <div class="col-12 mb-3">
                                                         <label for="symbol">{{ __("attributes.country_symbol") }}</label>
@@ -217,109 +299,24 @@
 
                                                 </div>
 
-                                                <div class="tab-pane fade" id="update-country-translate" role="tabpanel" aria-labelledby="update-country-translate-tab">
-                                                    <div class="row update-country-translates"></div>
+                                                <div class="tab-pane fade" id="view-country-translate" role="tabpanel" aria-labelledby="view-country-translate-tab">
+                                                    <div class="row view-country-translates"></div>
                                                 </div>
 
-                                                <div class="tab-pane fade" id="update-currency-translate" role="tabpanel" aria-labelledby="update-currency-translate-tab">
-                                                    <div class="row update-currency-translates"></div>
+                                                <div class="tab-pane fade" id="view-currency-translate" role="tabpanel" aria-labelledby="view-currency-translate-tab">
+                                                    <div class="row view-currency-translates"></div>
                                                 </div>
                                             </div>
                                         </div>
 
                                     </div>
-                                </div>
-                                <div class="form-group mb-0">
-                                    <button class="btn btn-primary btn-block" onclick="submitForm(this, $('#data-table-ajax'))" type="button">{{ __("lang.update") }}</button>
                                 </div>
                             </form>
                         </div>
                     </div>
                 </div>
             </div>
-            <!-- View modal -->
-            <div class="modal fade view_modal" aria-labelledby="myLargeModalLabel" style="display: none;" data-bs-backdrop="static" aria-hidden="true">
-                <div class="modal-dialog modal-lg">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h4 class="modal-title" id="myLargeModalLabel">{{ __('lang.view') }} {{ $pageData["page"] }}</h4>
-                            <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close" data-bs-original-title="" title=""></button>
-                        </div>
-                        <div class="modal-body">
-                            <div class="form-group">
-                                <form novalidate="" class="theme-form needs-validation">
-                                    <div class="form-group">
-                                        <div class="row">
-
-                                            <div class="col-12">
-                                                <ul class="nav nav-pills nav-info mb-3" id="pills-infotab" role="tablist">
-                                                    <li class="nav-item"><a class="nav-link active" id="view-data-tab" data-bs-toggle="pill" href="#view-data" role="tab" aria-controls="view-data" aria-selected="true" data-bs-original-title="" title=""><i class="icofont icofont-ui-home"></i>data</a></li>
-                                                    <li class="nav-item"><a class="nav-link" id="view-country-translate-tab" data-bs-toggle="pill" href="#view-country-translate" role="tab" aria-controls="view-country-translate" aria-selected="false" data-bs-original-title="" title=""><i class="icofont icofont-contacts"></i>country translates</a></li>
-                                                    <li class="nav-item"><a class="nav-link" id="view-currency-translate-tab" data-bs-toggle="pill" href="#view-currency-translate" role="tab" aria-controls="view-currency-translate" aria-selected="false" data-bs-original-title="" title=""><i class="icofont icofont-contacts"></i>currency translates</a></li>
-                                                </ul>
-                                                <div class="tab-content" id="pills-infotabContent">
-
-                                                    <div class="tab-pane fade  active show" id="view-data" role="tabpanel" aria-labelledby="view-data-tab">
-
-                                                        <div class="col-12 mb-3">
-                                                            <label for="symbol">{{ __("attributes.country_symbol") }}</label>
-                                                            <input class="form-control" name="symbol" id="symbol" type="text" placeholder="ex: EG, US" />
-                                                        </div>
-
-                                                        <div class="col-12 mb-3">
-                                                            <label for="currency_symbol">{{ __("attributes.currency_symbol") }}</label>
-                                                            <input class="form-control" name="currency_symbol" id="currency_symbol" type="text" placeholder="ex: LE, RS" />
-                                                        </div>
-
-
-                                                        <div class="col-12 mb-3">
-                                                            <label for="phone_prefix">{{ __("attributes.phone_prefix") }}</label>
-                                                            <input class="form-control" name="phone_prefix" id="phone_prefix" type="text" placeholder="ex: +20" />
-                                                        </div>
-
-                                                        <div class="col-12 mb-3">
-                                                            <label for="timezone">{{ __("attributes.timezone") }}</label>
-                                                            <input class="form-control" name="timezone" id="timezone" type="text" placeholder="ex: EET" />
-                                                        </div>
-
-
-                                                        <div class="col-sm-12 mb-3 fileUploadBuilder">
-                                                            <label for="flag">{{ __("attributes.flag") }}</label>
-                                                        </div>
-
-                                                        <div class="col-sm-12 mb-3 media">
-                                                            <label class="col-form-label m-r-10">{{ __("attributes.ActiveEnum") }}</label>
-                                                            <div class="media-body icon-state">
-                                                                <label class="switch">
-                                                                    <input type="checkbox" name="ActiveEnum" value="{{\App\Enums\ActiveEnum::Active->value}}"><span class="switch-state"></span>
-                                                                </label>
-                                                            </div>
-                                                        </div>
-
-
-                                                    </div>
-
-                                                    <div class="tab-pane fade" id="view-country-translate" role="tabpanel" aria-labelledby="view-country-translate-tab">
-                                                        <div class="row view-country-translates"></div>
-                                                    </div>
-
-                                                    <div class="tab-pane fade" id="view-currency-translate" role="tabpanel" aria-labelledby="view-currency-translate-tab">
-                                                        <div class="row view-currency-translates"></div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-
-        @endif
+        </div>
     </div>
 @endsection
 

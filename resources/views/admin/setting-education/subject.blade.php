@@ -10,7 +10,9 @@
 
 @section('style')
     <link rel="stylesheet" type="text/css" href="{{asset('assets/css/vendors/datatables.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{asset('assets/css/vendors/select2.css')}}">
     <style>
+        .select2-dropdown { z-index: 10000 !important; }
         /* CSS to set mouse pointer to none for disabled elements */
         [disabled] {
             pointer-events: none;
@@ -41,9 +43,9 @@
                                 {{ __('lang.create') }} {{ $pageData["page"]}}
                             </button>
                             <nav class="breadcrumb breadcrumb-icon">
-                                <span class="breadcrumb-item" data-bread="country">country</span>
-                                <span class="breadcrumb-item" data-bread="stage">stage</span>
-                                <span class="breadcrumb-item" data-bread="year">year</span>
+                                <a class="breadcrumb-item" href="" data-bread="country">country</a>
+                                <a class="breadcrumb-item" href="" data-bread="stage">stage</a>
+                                <a class="breadcrumb-item" href="" data-bread="year">year</a>
                             </nav>
                         </div>
                     @endif
@@ -205,6 +207,8 @@
 
 @section('script')
     <script src="{{asset('assets/js/datatable/datatables/jquery.dataTables.min.js')}}"></script>
+    <script src="{{asset('assets/js/select2/select2.full.min.js')}}"></script>
+
     <script>
         let htmlSubjectsEnum = "";
         let pageData = @json($pageData);
@@ -252,7 +256,7 @@
                     }
 
                     actions += `<div class="col-auto">
-                                    <a class="btn btn-sm btn-success" type="button" href="{{url("/admin/setting-education/subject")}}/${data.id}">
+                                    <a class="btn btn-sm btn-success" type="button" href="{{url("/admin/setting-education/curriculum")}}/${data.id}">
                                         <i class="fa fa-home"></i>
                                     </a>
                                 </div>`;
@@ -267,7 +271,7 @@
             let form = modal.find("form");
             form[0].reset();
             $(modal).find("[name=id]").val(data.id);
-            $(modal).find('#SubjectEnumTable').val(data.title.id);
+            $(modal).find('#SubjectEnumTable').val(data.title.id).trigger("change");
             modal.find("[name=ActiveEnum]").prop("checked", data.ActiveEnum.key === "active");
             modal.modal("show");
         }
@@ -276,7 +280,7 @@
             let modal = $(".view_modal");
             let form = modal.find("form");
             form[0].reset();
-            $(modal).find('#SubjectEnumTable').val(data.title.id).prop("disabled", true);
+            $(modal).find('#SubjectEnumTable').val(data.title.id).trigger("change").prop("disabled", true);
             modal.find("[name=ActiveEnum]").prop("checked", data.ActiveEnum.key === "active").prop("disabled", true);
             modal.modal("show");
         }
@@ -289,7 +293,7 @@
 
         $(document).ready(function() {
 
-            //Get Stage
+            //Get year
             $.ajax({
                 url: APP_URL + "/api/admin/setting-education/year?id={{request("year_id")}}",
                 type: "GET",
@@ -302,9 +306,9 @@
                 },
                 success: function(response) {
                     let data = response.data;
-                    $("[data-bread=country]").text(data.stage.country.country.translate);
-                    $("[data-bread=stage]").text(data.stage.title.value.translate);
-                    $("[data-bread=year]").text(data.title.value.translate);
+                    $("[data-bread=country]").text(data.stage.country.country.translate).attr("href", APP_URL + "/" + "admin/setting-education/stage");
+                    $("[data-bread=stage]").text(data.stage.title.value.translate).attr("href", APP_URL + "/" + "admin/setting-education/stage");
+                    $("[data-bread=year]").text(data.title.value.translate).attr("href", APP_URL + "/" + "admin/setting-education/year/" + data.id);
                 },
                 error: function(xhr, status, error) {
                     let title = "Some thing went wrong";
@@ -313,7 +317,7 @@
                 }
             });
 
-            //Get years
+            //Get subjects
             $.ajax({
                 url: APP_URL + "/api/admin/setting/enumeration?where=key:{{\App\Enums\SystemConstantsEnum::SubjectEnumTable->value}}",
                 type: "GET",
@@ -328,7 +332,7 @@
                     let data = response.data;
                     for (const i in data) htmlSubjectsEnum += `<option value="${data[i].id}" ">${data[i].value.translate}</option>`;
                     $(".create_modal, .update_modal, .view_modal").find("#SubjectEnumTable").each(function() {
-                        $(this).append(htmlSubjectsEnum);
+                        $(this).select2().append(htmlSubjectsEnum);
                     });
 
                 },

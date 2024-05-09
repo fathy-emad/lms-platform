@@ -17,7 +17,6 @@
         [disabled] {
             pointer-events: none;
         }
-
     </style>
 @endsection
 

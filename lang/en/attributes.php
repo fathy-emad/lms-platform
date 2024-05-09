@@ -38,5 +38,11 @@ return [
     "national_id" => "National ID",
     "blocked_reason" => "Blocked reason",
     "stage" => "Stage",
-    "year" => "Year"
+    "year" => "Year",
+    "terms" => "Terms",
+    "types" => "Education Types",
+    "curriculum" => "Curriculum",
+    "period" => "Period",
+    "from" => "From",
+    "to" => "To"
 ];

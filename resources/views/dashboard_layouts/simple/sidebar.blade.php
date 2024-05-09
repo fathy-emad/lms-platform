@@ -19,7 +19,7 @@
                         $request_path = request()->path();
                         $pattern = "/api\/admin\/([\w\-]+)\/([\w\-]+)/";
                         preg_match_all($pattern, "api/".$request_path, $matches);
-                        $api = $matches[0][0];
+                        $api = $matches[0][0] ?? "dashboard";
                     @endphp
                     @foreach(session("admin_data")["permission"]["permissions"] as $route)
                             @php

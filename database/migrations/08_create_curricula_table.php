@@ -1,6 +1,7 @@
 <?php
 
 use App\Enums\ActiveEnum;
+use App\Enums\MonthsEnum;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -16,10 +17,11 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger("subject_id");
             $table->unsignedBigInteger("CurriculumEnumTable");
-            $table->json("TermsEnumTable"); //ex:first terms or second term or both
-            $table->json("TypesEnumTable"); //ex:general, languages, azhar
+            $table->json("TermsEnumTable");
+            $table->json("TypesEnumTable");
             $table->enum('ActiveEnum', ActiveEnum::values())->default(ActiveEnum::Active->value);
-            $table->json('period'); //start { day, month } end { day, month }
+            $table->enum('from', MonthsEnum::values())->default(MonthsEnum::Aug->value);
+            $table->enum('to', MonthsEnum::values())->default(MonthsEnum::Jul->value);
             $table->integer('priority');
 
             $table->unsignedBigInteger('created_by');
