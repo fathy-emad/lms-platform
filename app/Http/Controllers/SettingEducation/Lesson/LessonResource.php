@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\SettingEducation\Lesson;
 
+use App\Http\Controllers\Setting\Enumeration\EnumerationResource;
+use App\Http\Controllers\SettingEducation\Chapter\ChapterResource;
 use App\Http\Resources\AuthorResource;
 use App\Http\Resources\DateTimeResource;
 use App\Http\Resources\TranslationResource;
@@ -20,8 +22,8 @@ class LessonResource extends JsonResource
     {
         return [
             "id"         => $this->id,
-            "chapter" => new TranslationResource($this->chapter->chapterEnum->valueTranslate),
-            "lesson"     => new TranslationResource($this->lessonEnum->valueTranslate),
+            "chapter"    => new ChapterResource($this->chapter->chapter),
+            "title"      => new EnumerationResource($this->lessonEnum),
             "ActiveEnum" => new TranslationResource($this->ActiveEnum, true),
             "priority"   => $this->priority,
             "created_by" => new AuthorResource($this->createdBy),

@@ -28,7 +28,7 @@ Route::get('lang/{locale}', function ($locale) {
 //Create session after login
 Route::post("create/session", function(Request $request){
     $admin_data = $request->all();
-    $expirationMinutes = (explode(" ", $admin_data["jwtTokenExpirationAfter"])[0] / 60) - 5;
+    $expirationMinutes = explode(" ", $admin_data["jwtTokenExpirationAfter"])[0] / 60;
     $admin_data["jwtTokenExpirationAfter"] = Carbon::now()->addMinutes($expirationMinutes);
     session(["admin_data" => $admin_data]);
     Cookie::queue(session()->getName(), session()->getId(), $expirationMinutes);
@@ -43,7 +43,6 @@ Route::post("destroy/session", function(){
     return true;
 });
 
-
 //Admin routes
 Route::prefix("admin")->name("admin.")->middleware("entity.locale")->group(function (){
 
@@ -53,7 +52,6 @@ Route::prefix("admin")->name("admin.")->middleware("entity.locale")->group(funct
         Route::view('auth/login', 'admin.auth.login')->name('auth.login');
     });
 
-
     //Auth
     Route::middleware("entity.auth:admin")->group(function (){
 
@@ -62,7 +60,6 @@ Route::prefix("admin")->name("admin.")->middleware("entity.locale")->group(funct
         Route::prefix("setting")->name("setting.")->group(function(){
             Route::view('language', 'admin.setting.language')->name("language");
             Route::view('country', 'admin.setting.country')->name("country");
-            Route::view('enumeration', 'admin.setting.enumeration')->name("enumeration");
             Route::view('route-menu', 'admin.setting.route-menu')->name("route-menu");
             Route::view('route-item', 'admin.setting.route-item')->name("route-item");
         });
@@ -77,6 +74,9 @@ Route::prefix("admin")->name("admin.")->middleware("entity.locale")->group(funct
             Route::view('year/{stage_id}', 'admin.setting-education.year')->name("year");
             Route::view('subject/{year_id}', 'admin.setting-education.subject')->name("subject");
             Route::view('curriculum/{subject_id}', 'admin.setting-education.curriculum')->name("curriculum");
+            Route::view('branch/{curriculum_id}', 'admin.setting-education.branch')->name("branch");
+            Route::view('chapter/{branch_id}', 'admin.setting-education.chapter')->name("chapter");
+            Route::view('lesson/{chapter_id}', 'admin.setting-education.lesson')->name("lesson");
         });
 
     });

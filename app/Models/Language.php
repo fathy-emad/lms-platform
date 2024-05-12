@@ -31,13 +31,4 @@ class Language extends Model
         return $this->belongsTo(Country::class, 'country_id');
     }
 
-    public function createdBy(): BelongsTo
-    {
-        return $this->belongsTo(Admin::class, 'created_by');
-    }
-
-    public function updatedBy(): BelongsTo
-    {
-        return $this->belongsTo(Admin::class, 'updated_by');
-    }
 }

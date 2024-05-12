@@ -16,7 +16,7 @@ return new class extends Migration
             $table->id();
 
             $table->unsignedBigInteger('chapter_id');
-            $table->unsignedBigInteger('LessonEnumTable');
+            $table->unsignedBigInteger('lesson');
             $table->enum('ActiveEnum', ActiveEnum::values())->default(ActiveEnum::Active->value);
             $table->unsignedInteger('priority');
             $table->unsignedBigInteger('created_by');
@@ -24,13 +24,13 @@ return new class extends Migration
 
             $table->foreign("chapter_id")
                 ->references("id")
-                ->on("branches")
+                ->on("chapters")
                 ->restrictOnDelete()
                 ->cascadeOnUpdate();
 
-            $table->foreign("LessonEnumTable")
+            $table->foreign("lesson")
                 ->references("id")
-                ->on("enumerations")
+                ->on("translates")
                 ->restrictOnDelete()
                 ->cascadeOnUpdate();
 

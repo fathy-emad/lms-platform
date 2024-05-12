@@ -52,9 +52,7 @@
                                     <th>{{ __("attributes.timezone") }}</th>
                                     <th>{{ __("attributes.ActiveEnum") }}</th>
                                     <th>{{ __("attributes.created_at") }}</th>
-                                    <th>{{ __("attributes.created_by") }}</th>
                                     <th>{{ __("attributes.updated_at") }}</th>
-                                    <th>{{ __("attributes.updated_by") }}</th>
                                     <th>{{ __("attributes.actions") }}</th>
                                 </tr>
                                 </thead>
@@ -70,9 +68,7 @@
                                     <th>{{ __("attributes.timezone") }}</th>
                                     <th>{{ __("attributes.ActiveEnum") }}</th>
                                     <th>{{ __("attributes.created_at") }}</th>
-                                    <th>{{ __("attributes.created_by") }}</th>
                                     <th>{{ __("attributes.updated_at") }}</th>
-                                    <th>{{ __("attributes.updated_by") }}</th>
                                     <th>{{ __("attributes.actions") }}</th>
                                 </tr>
                                 </tfoot>
@@ -346,14 +342,7 @@
             { "data": "timezone" },
             { "data": "ActiveEnum.translate" },
             { "data": "created_at.dateTime" },
-            { "data": "created_by.name" },
             { "data": "updated_at.dateTime" },
-            { "data": "updated_by.name",
-                render:function (data) {
-                    if (data) return data;
-                    return "-";
-                }
-            },
             {
                 "data": null,
                 "orderable": false,

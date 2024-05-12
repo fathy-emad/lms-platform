@@ -14,9 +14,9 @@ class Stage extends Model
         "ActiveEnum" => ActiveEnum::class
     ];
 
-    public function stageEnum(): BelongsTo
+    public function stageTranslate(): BelongsTo
     {
-        return $this->belongsTo(Enumeration::class, 'StageEnumTable');
+        return $this->belongsTo(Translate::class, 'title');
     }
 
     public function country(): BelongsTo

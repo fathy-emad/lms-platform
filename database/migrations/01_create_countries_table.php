@@ -22,8 +22,6 @@ return new class extends Migration
             $table->string("symbol")->unique();
             $table->json('flag')->nullable();
             $table->enum('ActiveEnum', ActiveEnum::values())->default(ActiveEnum::Active->value);
-            $table->unsignedBigInteger('created_by')->nullable();
-            $table->unsignedBigInteger('updated_by')->nullable();
 
             $table->foreign("country")
                 ->references("id")
@@ -34,18 +32,6 @@ return new class extends Migration
             $table->foreign("currency")
                 ->references("id")
                 ->on("translates")
-                ->restrictOnDelete()
-                ->cascadeOnUpdate();
-
-            $table->foreign("created_by")
-                ->references("id")
-                ->on("admins")
-                ->restrictOnDelete()
-                ->cascadeOnUpdate();
-
-            $table->foreign("updated_by")
-                ->references("id")
-                ->on("admins")
                 ->restrictOnDelete()
                 ->cascadeOnUpdate();
 

@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Setting\Language;
 
 use UploadFile;
 use Translation;
-use App\Enums\ActiveEnum;
 use App\Concretes\RequestHandler;
 
 class LanguageRequestHandler extends RequestHandler
@@ -14,7 +13,6 @@ class LanguageRequestHandler extends RequestHandler
         $this->translateLanguage(null);
         $this->uploadFlag();
         $this->handleActiveEnum();
-        $this->bindCreatedBy();
         return $this;
     }
 
@@ -23,7 +21,6 @@ class LanguageRequestHandler extends RequestHandler
         $this->translateLanguage($model->language);
         $this->uploadFlag($model);
         $this->handleActiveEnum();
-        $this->bindUpdatedBy();
         return $this;
     }
 

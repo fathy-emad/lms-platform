@@ -16,7 +16,6 @@ class RouteMenuRequestHandler extends RequestHandler
         $this->translateTitle(null);
         $this->handleActiveEnum();
         $this->setPriority();
-        $this->bindCreatedBy();
         return $this;
     }
 
@@ -25,7 +24,6 @@ class RouteMenuRequestHandler extends RequestHandler
         $this->uploadIcon($model);
         $this->translateTitle($model->title);
         $this->handleActiveEnum();
-        $this->bindUpdatedBy();
         return $this;
     }
 

@@ -12,17 +12,21 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('route_menus', function (Blueprint $table) {
+        Schema::create('stages', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger("title");
-            $table->string("route")->unique();
-            $table->json("icon")->nullable();
+            $table->unsignedBigInteger('country_id');
+            $table->unsignedBigInteger('stage');
             $table->enum('ActiveEnum', ActiveEnum::values())->default(ActiveEnum::Active->value);
-            $table->unsignedInteger("priority")->nullable();
-            $table->unsignedBigInteger('created_by')->nullable();
+            $table->unsignedBigInteger('created_by');
             $table->unsignedBigInteger('updated_by')->nullable();
 
-            $table->foreign("title")
+            $table->foreign("country_id")
+            ->references("id")
+            ->on("countries")
+            ->restrictOnDelete()
+            ->cascadeOnUpdate();
+
+            $table->foreign("stage")
                 ->references("id")
                 ->on("translates")
                 ->restrictOnDelete()
@@ -49,6 +53,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('route_menus');
+        Schema::dropIfExists('stages');
     }
 };

@@ -23,7 +23,6 @@ class DatabaseSeeder extends Seeder
              'GenderEnum' => 'male',
              'AdminStatusEnum' => 'active',
              'password' => Hash::make('P@ssw0rd'),
-             'country_id' => 1,
          ]);
     }
 }

@@ -12,14 +12,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('languages', function (Blueprint $table) {
+        Schema::create('route_menus', function (Blueprint $table) {
             $table->id();
-            $table->string('locale')->unique();
-            $table->unsignedBigInteger('language');
-            $table->json('flag');
+            $table->unsignedBigInteger("title");
+            $table->string("route")->unique();
+            $table->json("icon")->nullable();
             $table->enum('ActiveEnum', ActiveEnum::values())->default(ActiveEnum::Active->value);
+            $table->unsignedInteger("priority")->nullable();
 
-            $table->foreign("language")
+            $table->foreign("title")
                 ->references("id")
                 ->on("translates")
                 ->restrictOnDelete()
@@ -34,6 +35,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('languages');
+        Schema::dropIfExists('route_menus');
     }
 };

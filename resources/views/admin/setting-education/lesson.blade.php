@@ -37,11 +37,20 @@
                 <div class="card">
                     @if($pageData["actions"]["create"])
                         <div class="card-header">
-                            <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target=".create_modal"
-                                    data-bs-original-title="{{ __('lang.create') }} {{ $pageData["page"] }}"
+                            <button class="btn btn-primary mb-3" type="button" data-bs-toggle="modal" data-bs-target=".create_modal"
+                                    data-bs-original-title="{{ __('lang.create') }} {{ $pageData["page"]}}"
                                     title="{{ __('lang.create') }} {{ $pageData["page"] }}">
-                                {{ __('lang.create') }} {{ $pageData["page"] }}
+                                {{ __('lang.create') }} {{ $pageData["page"]}}
                             </button>
+                            <nav class="breadcrumb breadcrumb-icon">
+                                <a class="breadcrumb-item" href="" data-bread="country">country</a>
+                                <a class="breadcrumb-item" href="" data-bread="stage">stage</a>
+                                <a class="breadcrumb-item" href="" data-bread="year">year</a>
+                                <a class="breadcrumb-item" href="" data-bread="subject">subject</a>
+                                <a class="breadcrumb-item" href="" data-bread="curriculum">curriculum</a>
+                                <a class="breadcrumb-item" href="" data-bread="branch">branch</a>
+                                <a class="breadcrumb-item" href="" data-bread="chapter">chapter</a>
+                            </nav>
                         </div>
                     @endif
                     <div class="card-body">
@@ -50,9 +59,8 @@
                                 <thead>
                                 <tr>
                                     <th>#ID</th>
-                                    <th>{{ __("attributes.priority") }}</th>
-                                    <th>{{ __("attributes.key") }}</th>
-                                    <th>{{ __("attributes.value") }}</th>
+                                    <th>{{ __("attributes.lesson") }}</th>
+                                    <th>{{ __("attributes.ActiveEnum") }}</th>
                                     <th>{{ __("attributes.created_at") }}</th>
                                     <th>{{ __("attributes.created_by") }}</th>
                                     <th>{{ __("attributes.updated_at") }}</th>
@@ -63,9 +71,8 @@
                                 <tfoot>
                                 <tr>
                                     <th>#ID</th>
-                                    <th>{{ __("attributes.priority") }}</th>
-                                    <th>{{ __("attributes.key") }}</th>
-                                    <th>{{ __("attributes.value") }}</th>
+                                    <th>{{ __("attributes.lesson") }}</th>
+                                    <th>{{ __("attributes.ActiveEnum") }}</th>
                                     <th>{{ __("attributes.created_at") }}</th>
                                     <th>{{ __("attributes.created_by") }}</th>
                                     <th>{{ __("attributes.updated_at") }}</th>
@@ -79,7 +86,6 @@
                 </div>
             </div>
         </div>
-
 
         <!-- Create modal -->
         <div class="modal fade create_modal" aria-labelledby="myLargeModalLabel" style="display: none;" data-bs-backdrop="static" aria-hidden="true">
@@ -95,13 +101,22 @@
                             <div class="form-group">
                                 <div class="row">
 
-                                    <div class="col-12 mb-3" data-type="key">
-                                        <label for="key">{{ __("attributes.key") }}</label>
+                                    <div class="col-12 mb-3">
+                                        <input type="hidden" name="chapter_id" value="{{request("chapter_id")}}">
                                     </div>
 
                                     <div class="col-12 mb-3">
-                                        <label for="value">{{ __("attributes.value") }}</label>
-                                        <input class="form-control" name="value" id="value" type="text" placeholder="" />
+                                        <label for="LessonEnumTable">{{ __("attributes.lesson") }}</label>
+                                        <select name="LessonEnumTable" class="col-12" id="LessonEnumTable"></select>
+                                    </div>
+
+                                    <div class="col-sm-12 mb-3 media">
+                                        <label class="col-form-label m-r-10">{{ __("attributes.ActiveEnum") }}</label>
+                                        <div class="media-body icon-state">
+                                            <label class="switch">
+                                                <input type="checkbox" name="ActiveEnum" value="{{\App\Enums\ActiveEnum::Active->value}}"><span class="switch-state"></span>
+                                            </label>
+                                        </div>
                                     </div>
 
                                 </div>
@@ -114,7 +129,6 @@
                 </div>
             </div>
         </div>
-        <!-- Update modal -->
         <div class="modal fade update_modal" aria-labelledby="myLargeModalLabel" style="display: none;" data-bs-backdrop="static" aria-hidden="true">
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
@@ -130,25 +144,21 @@
                             <div class="form-group">
                                 <div class="row">
 
-                                    <div class="col-12">
-                                        <ul class="nav nav-pills nav-info mb-3" id="pills-infotab" role="tablist">
-                                            <li class="nav-item"><a class="nav-link active" id="update-data-tab" data-bs-toggle="pill" href="#update-data" role="tab" aria-controls="update-data" aria-selected="true" data-bs-original-title="" title=""><i class="icofont icofont-ui-home"></i>data</a></li>
-                                            <li class="nav-item"><a class="nav-link" id="update-value-translate-tab" data-bs-toggle="pill" href="#update-value-translate" role="tab" aria-controls="update-value-translate" aria-selected="false" data-bs-original-title="" title=""><i class="icofont icofont-contacts"></i>value translates</a></li>
-                                        </ul>
-                                        <div class="tab-content" id="pills-infotabContent">
+                                    <div class="col-12 mb-3">
+                                        <input type="hidden" name="chapter_id" value="{{request("chapter_id")}}">
+                                    </div>
 
-                                            <div class="tab-pane fade active show" id="update-data" role="tabpanel" aria-labelledby="update-data-tab">
+                                    <div class="col-12 mb-3">
+                                        <label for="LessonEnumTable">{{ __("attributes.lesson") }}</label>
+                                        <select name="LessonEnumTable" class="col-12" id="LessonEnumTable"></select>
+                                    </div>
 
-                                                <div class="col-12 mb-3" data-type="key">
-                                                    <label for="key">{{ __("attributes.key") }}</label>
-                                                </div>
-
-                                            </div>
-
-                                            <div class="tab-pane fade" id="update-value-translate" role="tabpanel" aria-labelledby="update-country-translate-tab">
-                                                <div class="row update-value-translates"></div>
-                                            </div>
-
+                                    <div class="col-sm-12 mb-3 media">
+                                        <label class="col-form-label m-r-10">{{ __("attributes.ActiveEnum") }}</label>
+                                        <div class="media-body icon-state">
+                                            <label class="switch">
+                                                <input type="checkbox" name="ActiveEnum" value="{{\App\Enums\ActiveEnum::Active->value}}"><span class="switch-state"></span>
+                                            </label>
                                         </div>
                                     </div>
 
@@ -162,7 +172,6 @@
                 </div>
             </div>
         </div>
-        <!-- View modal -->
         <div class="modal fade view_modal" aria-labelledby="myLargeModalLabel" style="display: none;" data-bs-backdrop="static" aria-hidden="true">
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
@@ -173,33 +182,31 @@
                     <div class="modal-body">
                         <div class="form-group">
                             <form novalidate="" class="theme-form needs-validation">
-                                <div class="form-group">
-                                    <div class="row">
+                                <div class="row">
 
-                                        <div class="col-12">
-                                            <ul class="nav nav-pills nav-info mb-3" id="pills-infotab" role="tablist">
-                                                <li class="nav-item"><a class="nav-link active" id="view-data-tab" data-bs-toggle="pill" href="#view-data" role="tab" aria-controls="view-data" aria-selected="true" data-bs-original-title="" title=""><i class="icofont icofont-ui-home"></i>data</a></li>
-                                                <li class="nav-item"><a class="nav-link" id="view-value-translate-tab" data-bs-toggle="pill" href="#view-value-translate" role="tab" aria-controls="view-value-translate" aria-selected="false" data-bs-original-title="" title=""><i class="icofont icofont-contacts"></i>value translates</a></li>
-                                            </ul>
-                                            <div class="tab-content" id="pills-infotabContent">
-
-                                                <div class="tab-pane fade  active show" id="view-data" role="tabpanel" aria-labelledby="update-data-tab">
-
-                                                    <div class="col-12 mb-3" data-type="key">
-                                                        <label for="key">{{ __("attributes.key") }}</label>
-                                                    </div>
-
-
-                                                </div>
-
-                                                <div class="tab-pane fade" id="view-value-translate" role="tabpanel" aria-labelledby="update-country-translate-tab">
-                                                    <div class="row view-value-translates"></div>
-                                                </div>
-
-                                            </div>
-                                        </div>
-
+                                    <div class="col-12 mb-3">
+                                        <label for="LessonEnumTable">{{ __("attributes.lesson") }}</label>
+                                        <select name="LessonEnumTable" class="col-12" id="LessonEnumTable"></select>
                                     </div>
+
+                                    <div class="col-sm-12 mb-3 media">
+                                        <label class="col-form-label m-r-10">{{ __("attributes.ActiveEnum") }}</label>
+                                        <div class="media-body icon-state">
+                                            <label class="switch">
+                                                <input type="checkbox" name="ActiveEnum" value="{{\App\Enums\ActiveEnum::Active->value}}"><span class="switch-state"></span>
+                                            </label>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-12 mb-3 media">
+                                        <label class="col-form-label m-r-10">{{ __("attributes.ActiveEnum") }}</label>
+                                        <div class="media-body icon-state">
+                                            <label class="switch">
+                                                <input type="checkbox" name="ActiveEnum" value="{{\App\Enums\ActiveEnum::Active->value}}"><span class="switch-state"></span>
+                                            </label>
+                                        </div>
+                                    </div>
+
                                 </div>
                             </form>
                         </div>
@@ -207,26 +214,24 @@
                 </div>
             </div>
         </div>
+
     </div>
 @endsection
 
 @section('script')
     <script src="{{asset('assets/js/datatable/datatables/jquery.dataTables.min.js')}}"></script>
     <script src="{{asset('assets/js/select2/select2.full.min.js')}}"></script>
-    <script src="{{asset('assets/js/height-equal.js')}}"></script>
-    <script>
 
-        let valueTranslates = "";
-        let selectKey = "";
+    <script>
+        let htmlLessonsEnum = "";
         let pageData = @json($pageData);
-        let datatableUri = `${APP_URL}/${pageData.link}`;
+        let datatableUri = `{{ url("api")."/admin/setting-education/lesson?where=chapter_id:".request("chapter_id")}}`;
         let datatableAuthToken = "{{session("admin_data")["jwtToken"]}}";
         let dataTableLocale =  "{{session("locale")}}";
         let datatableColumns = [
             { "data": "id" },
-            { "data": "priority" },
-            { "data": "key" },
-            { "data": "value.translate" },
+            { "data": "title.value.translate" },
+            { "data": "ActiveEnum.translate" },
             { "data": "created_at.dateTime" },
             { "data": "created_by.name" },
             { "data": "updated_at.dateTime" },
@@ -241,26 +246,20 @@
                 "orderable": false,
                 "searchable": false,
                 "render": function (data) {
+
                     const dataString = JSON.stringify(data).replace(/"/g, '&quot;');
                     let actions = `<div class="row justify-content-start">`;
+
                     if(pageData.actions.update === 1){
                         actions += `<div class="col-auto">
                                     <button class="btn btn-sm btn-warning" type="button" onclick="openModalUpdate(${dataString})"
                                             data-bs-original-title="{{ __('lang.update') }} {{ $pageData["page"] }}"
                                             title="{{ __('lang.update') }} {{ $pageData["page"] }}">
-                                        <i class="fa fa-edit"></i></button>
+                                        <i class="fa fa-edit"></i>
                                     </button>
                                 </div>`;
                     }
-                    if(pageData.actions.read === 1 ){
-                        actions += `<div class="col-auto">
-                                    <button class="btn btn-sm btn-primary" type="button" onclick="openModalView(${dataString})"
-                                            data-bs-original-title="{{ __('lang.view') }} {{ $pageData["page"] }}"
-                                            title="{{ __('lang.view') }} {{ $pageData["page"] }}">
-                                        <i class="fa fa-eye"></i></button>
-                                    </button>
-                                </div>`;
-                    }
+
                     actions += `</div>`;
                     return actions;
                 }
@@ -271,13 +270,9 @@
             let modal = $(".update_modal");
             let form = modal.find("form");
             form[0].reset();
-            form.find("[name]").removeClass("is-invalid");
-            modal.find("[name=id]").val(data.id);
-            modal.find("[name=key]").val(data.key);
-            modal.find(".update-value-translates").find("[data-locale]").each(function (){
-                let locale = $(this).data("locale");
-                $(this).val(data.value.translates[locale] || '');
-            });
+            $(modal).find("[name=id]").val(data.id);
+            $(modal).find('#LessonEnumTable').val(data.title.id).trigger("change");
+            modal.find("[name=ActiveEnum]").prop("checked", data.ActiveEnum.key === "active");
             modal.modal("show");
         }
 
@@ -285,25 +280,22 @@
             let modal = $(".view_modal");
             let form = modal.find("form");
             form[0].reset();
-            modal.find("[name=key]").val(data.key).prop("disabled", true);
-            modal.find(".view-value-translates").find("[data-locale]").each(function (){
-                let locale = $(this).data("locale");
-                $(this).val(data.value.translates[locale] || '').prop("disabled", true);
-            });
+            $(modal).find('#LessonEnumTable').val(data.title.id).trigger("change").prop("disabled", true);
+            modal.find("[name=ActiveEnum]").prop("checked", data.ActiveEnum.key === "active").prop("disabled", true);
             modal.modal("show");
         }
 
         $('.create_modal').on('show.bs.modal', function (e) {
             let form = $(this).find("form");
             form[0].reset();
-            form.find("[name]").removeClass("is-invalid");
+            $(this).find('#LessonEnumTable').val($(this).find('#ChapterEnumTable option:first').val()).trigger('change');
         });
 
         $(document).ready(function() {
 
-            //Get languages
+            //Get chapter
             $.ajax({
-                url: APP_URL + "/api/admin/setting/language",
+                url: APP_URL + "/api/admin/setting-education/chapter?id={{request("chapter_id")}}",
                 type: "GET",
                 data: null,
                 processData: false,
@@ -314,16 +306,13 @@
                 },
                 success: function(response) {
                     let data = response.data;
-                    for (const i in data) {
-                        valueTranslates += `<div class="col-12 mb-3">
-                                                    <label for="${data[i].locale}">${data[i].language.translate}</label>
-                                                    <input data-locale="${data[i].locale}" class="form-control" id="${data[i].locale}" type="text" name="value[${data[i].locale}]" value="">
-                                                </div>`;
-                    }
-
-                    $(".update_modal").find(".update-value-translates").append(valueTranslates);
-                    $(".view_modal").find(".view-value-translates").append(valueTranslates);
-
+                    $("[data-bread=country]").text(data.branch.curriculum.subject.year.stage.country.country.translate).attr("href", APP_URL + "/" + "admin/setting-education/stage");
+                    $("[data-bread=stage]").text(data.branch.curriculum.subject.year.stage.title.value.translate).attr("href", APP_URL + "/" + "admin/setting-education/stage");
+                    $("[data-bread=year]").text(data.branch.curriculum.subject.year.title.value.translate).attr("href", APP_URL + "/" + "admin/setting-education/year/" + data.branch.curriculum.subject.year.stage.id);
+                    $("[data-bread=subject]").text(data.branch.curriculum.subject.title.value.translate).attr("href", APP_URL + "/" + "admin/setting-education/subject/" + data.branch.curriculum.subject.year.id);
+                    $("[data-bread=curriculum]").text(data.branch.curriculum.title.value.translate).attr("href", APP_URL + "/" + "admin/setting-education/curriculum/" + data.branch.curriculum.subject.id);
+                    $("[data-bread=branch]").text(data.branch.title.value.translate).attr("href", APP_URL + "/" + "admin/setting-education/branch/" + data.branch.curriculum.id);
+                    $("[data-bread=chapter]").text(data.title.value.translate).attr("href", APP_URL + "/" + "admin/setting-education/chapter/" + data.branch.id);
                 },
                 error: function(xhr, status, error) {
                     let title = "Some thing went wrong";
@@ -332,25 +321,24 @@
                 }
             });
 
-            //Get system Constants
+            //Get lessons
             $.ajax({
-                url: APP_URL + "/api/web-services/enums/system-constants",
+                url: APP_URL + "/api/admin/setting/enumeration?where=key:{{\App\Enums\SystemConstantsEnum::LessonEnumTable->value}}",
                 type: "GET",
                 data: null,
                 processData: false,
                 contentType: false,
                 headers: {
-                    //'Authorization': 'Bearer ' + "{{ session("admin_data")["jwtToken"] }}",
+                    'Authorization': 'Bearer ' + "{{ session("admin_data")["jwtToken"] }}",
                     'locale': "{{ session("locale") }}",
                 },
                 success: function(response) {
                     let data = response.data;
-                    selectKey += `<select name="key" class="col-12 mb-3">`;
-                    for (const i in data) { selectKey += `<option value="${data[i].key}">${data[i].translate}</option>`; }
-                    selectKey += `</select>`;
-                    $(".create_modal").find("[data-type=key]").append(selectKey);
-                    $(".update_modal").find("[data-type=key]").append(selectKey);
-                    $(".view_modal").find("[data-type=key]").append(selectKey);
+                    for (const i in data) htmlLessonsEnum += `<option value="${data[i].id}" ">${data[i].value.translate}</option>`;
+                    $(".create_modal, .update_modal, .view_modal").find("#LessonEnumTable").each(function() {
+                        $(this).select2().append(htmlLessonsEnum);
+                    });
+
                 },
                 error: function(xhr, status, error) {
                     let title = "Some thing went wrong";

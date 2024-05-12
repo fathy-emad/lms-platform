@@ -46,12 +46,6 @@ class EnumsController extends Controller
         return ApiResponse::sendSuccess($translations, "record read successfully", null);
     }
 
-    public function systemConstants(): JsonResponse
-    {
-        $translations = collect(SystemConstantsEnum::cases())->map(fn($case) => new TranslationResource($case, true));
-        return ApiResponse::sendSuccess($translations, "record read successfully", null);
-    }
-
     public function months(): JsonResponse
     {
         $translations = collect(MonthsEnum::cases())->map(fn($case) => new TranslationResource($case, true));

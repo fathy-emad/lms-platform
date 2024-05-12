@@ -11,18 +11,20 @@ class LessonRequestHandler extends RequestHandler
     {
         $this->setPriority();
         $this->bindCreatedBy();
+        $this->handleActiveEnum();
         return $this;
     }
 
     public function handleUpdate(): static
     {
         $this->bindUpdatedBy();
+        $this->handleActiveEnum();
         return $this;
     }
 
     public function setPriority(): void
     {
-        $enumerationModel = Chapter::where('chapter_id', $this->data["chapter_id"])->orderBy('priority', 'desc')->first();
+        $enumerationModel = Chapter::where('id', $this->data["chapter_id"])->orderBy('priority', 'desc')->first();
 
         if ($enumerationModel) $this->data["priority"] = $enumerationModel->priority + 1;
         else $this->data["priority"] = 1;

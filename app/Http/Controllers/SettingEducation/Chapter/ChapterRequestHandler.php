@@ -11,12 +11,14 @@ class ChapterRequestHandler extends RequestHandler
     {
         $this->setPriority();
         $this->bindCreatedBy();
+        $this->handleActiveEnum();
         return $this;
     }
 
     public function handleUpdate(): static
     {
         $this->bindUpdatedBy();
+        $this->handleActiveEnum();
         return $this;
     }
 

@@ -51,13 +51,6 @@ Route::middleware(['apiAuth:admin', 'apiPermission'])->group(function (){
     });
 
     //Branch
-    Route::controller(BranchController::class)->group(function (){
-        Route::get('branch', 'read');
-        Route::post('branch', 'create');
-        Route::put('branch', 'update');
-    });
-
-    //Branch
     Route::controller(ChapterController::class)->group(function (){
         Route::get('chapter', 'read');
         Route::post('chapter', 'create');

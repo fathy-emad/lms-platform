@@ -357,7 +357,7 @@
                                     <button class="btn btn-sm btn-warning" type="button" onclick="openModalUpdate(${dataString})"
                                             data-bs-original-title="{{ __('lang.update') }} {{ $pageData["page"] }}"
                                             title="{{ __('lang.update') }} {{ $pageData["page"] }}">
-                                        <i class="fa fa-edit"></i></button>
+                                        <i class="fa fa-edit"></i>
                                     </button>
                                 </div>`;
                     }
@@ -367,13 +367,13 @@
                                     <button class="btn btn-sm btn-primary" type="button" onclick="openModalView(${dataString})"
                                             data-bs-original-title="{{ __('lang.view') }} {{ $pageData["page"] }}"
                                             title="{{ __('lang.view') }} {{ $pageData["page"] }}">
-                                        <i class="fa fa-eye"></i></button>
+                                        <i class="fa fa-eye"></i>
                                     </button>
                                 </div>`;
                     }
 
                     actions += `<div class="col-auto">
-                                    <a class="btn btn-sm btn-success" type="button" href="{{url("/admin/setting-education/curriculum")}}/${data.id}">
+                                    <a class="btn btn-sm btn-success" type="button" href="{{url("/admin/setting-education/branch")}}/${data.id}">
                                         <i class="fa fa-home"></i>
                                     </a>
                                 </div>`;
@@ -438,8 +438,8 @@
                     let data = response.data;
                     $("[data-bread=country]").text(data.year.stage.country.country.translate).attr("href", APP_URL + "/" + "admin/setting-education/stage");
                     $("[data-bread=stage]").text(data.year.stage.title.value.translate).attr("href", APP_URL + "/" + "admin/setting-education/stage");
-                    $("[data-bread=year]").text(data.year.title.value.translate).attr("href", APP_URL + "/" + "admin/setting-education/year/" + data.year.id);
-                    $("[data-bread=subject]").text(data.title.value.translate).attr("href", APP_URL + "/" + "admin/setting-education/subject/" + data.id);
+                    $("[data-bread=year]").text(data.year.title.value.translate).attr("href", APP_URL + "/" + "admin/setting-education/year/" + data.year.stage.id);
+                    $("[data-bread=subject]").text(data.title.value.translate).attr("href", APP_URL + "/" + "admin/setting-education/subject/" + data.year.id);
                 },
                 error: function(xhr, status, error) {
                     let title = "Some thing went wrong";

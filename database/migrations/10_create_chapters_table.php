@@ -15,22 +15,22 @@ return new class extends Migration
         Schema::create('chapters', function (Blueprint $table) {
             $table->id();
 
-            $table->unsignedBigInteger('branch_id');
-            $table->unsignedBigInteger('ChapterEnumTable');
+            $table->unsignedBigInteger('curriculum_id');
+            $table->unsignedBigInteger('chapter');
             $table->enum('ActiveEnum', ActiveEnum::values())->default(ActiveEnum::Active->value);
             $table->unsignedInteger('priority');
             $table->unsignedBigInteger('created_by');
             $table->unsignedBigInteger('updated_by')->nullable();
 
-            $table->foreign("branch_id")
+            $table->foreign("curriculum_id")
                 ->references("id")
-                ->on("branches")
+                ->on("curricula")
                 ->restrictOnDelete()
                 ->cascadeOnUpdate();
 
-            $table->foreign("ChapterEnumTable")
+            $table->foreign("chapter")
                 ->references("id")
-                ->on("enumerations")
+                ->on("translates")
                 ->restrictOnDelete()
                 ->cascadeOnUpdate();
 

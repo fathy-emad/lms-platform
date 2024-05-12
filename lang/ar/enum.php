@@ -27,19 +27,6 @@ return [
         "Blocked" => "محجوب"
     ],
 
-    "SystemConstantsEnum" => [
-        "StageEnumTable" => "المراحل التعليمية",
-        "SubjectEnumTable" => "المواد الدراسية",
-        "YearEnumTable" => "السنين التعليمية",
-        "CurriculumEnumTable" => "المناهج الدراسية",
-        "BranchEnumTable" => "فروع المواد",
-        "ChapterEnumTable" => "الفصول الدراسية",
-        "LessonEnumTable" => "الدروس",
-        "TermEnumTable" => "الترمات",
-        "TypeEnumTable" => "انواع التعليم",
-        "NamePrefixEnumTable" => "بادئة الاسماء"
-    ],
-
     "MonthsEnum" => [
         "Jan" => "يناير",
         "Feb" => "فبراير",

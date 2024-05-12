@@ -308,7 +308,7 @@
                     let data = response.data;
                     $("[data-bread=country]").text(data.stage.country.country.translate).attr("href", APP_URL + "/" + "admin/setting-education/stage");
                     $("[data-bread=stage]").text(data.stage.title.value.translate).attr("href", APP_URL + "/" + "admin/setting-education/stage");
-                    $("[data-bread=year]").text(data.title.value.translate).attr("href", APP_URL + "/" + "admin/setting-education/year/" + data.id);
+                    $("[data-bread=year]").text(data.title.value.translate).attr("href", APP_URL + "/" + "admin/setting-education/year/" + data.stage.id);
                 },
                 error: function(xhr, status, error) {
                     let title = "Some thing went wrong";

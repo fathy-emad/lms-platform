@@ -34,14 +34,6 @@ Route::middleware(['apiAuth:admin', 'apiPermission'])->group(function (){
         Route::put('country', 'update');
     });
 
-
-    //Enumeration
-    Route::controller(EnumerationController::class)->group(function (){
-        Route::get('enumeration', 'read');
-        Route::post('enumeration', 'create');
-        Route::put('enumeration', 'update');
-    });
-
     //Route Menu
     Route::controller(RouteMenuController::class)->group(function (){
         Route::get('route-menu', 'read');
@@ -56,30 +48,4 @@ Route::middleware(['apiAuth:admin', 'apiPermission'])->group(function (){
         Route::put('route-item', 'update');
     });
 
-    Route::get("test", function (){
-        $routes = Route::getRoutes();
-
-        foreach ($routes as $route) {
-            // Get the HTTP methods the route responds to
-            $methods = implode(', ', $route->methods());
-
-            // Get the URI
-            $uri = $route->uri();
-
-            // Get the action name
-            $action = $route->getActionName();
-
-            // Optionally, split the controller and method if specifically needed
-            // Skip if the route does not have an associated controller action (e.g., closures)
-            if (str_contains($action, '@')) {
-                list($controller, $method) = explode('@', $action);
-            } else {
-                $controller = 'Closure';
-                $method = '';
-            }
-
-            // Output or store the route information
-            echo "Method: $methods, URI: $uri, Action: $action, Controller: $controller, Method: $method" . ">>>>>>>>>>>>>>>" . PHP_EOL;
-        }
-    });
 });

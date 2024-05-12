@@ -12,26 +12,22 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('route_items', function (Blueprint $table) {
+        Schema::create('years', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger("menu_id");
-            $table->unsignedBigInteger("title");
-            $table->string("model");
-            $table->string("route");
-            $table->json("actions");
-            $table->json("icon")->nullable();
+
+            $table->unsignedBigInteger('stage_id');
+            $table->unsignedBigInteger('year');
             $table->enum('ActiveEnum', ActiveEnum::values())->default(ActiveEnum::Active->value);
-            $table->unsignedInteger("priority")->nullable();
-            $table->unsignedBigInteger('created_by')->nullable();
+            $table->unsignedBigInteger('created_by');
             $table->unsignedBigInteger('updated_by')->nullable();
 
-            $table->foreign("menu_id")
+            $table->foreign("stage_id")
                 ->references("id")
-                ->on("route_menus")
+                ->on("stages")
                 ->restrictOnDelete()
                 ->cascadeOnUpdate();
 
-            $table->foreign("title")
+            $table->foreign("year")
                 ->references("id")
                 ->on("translates")
                 ->restrictOnDelete()
@@ -58,6 +54,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('route_items');
+        Schema::dropIfExists('years');
     }
 };

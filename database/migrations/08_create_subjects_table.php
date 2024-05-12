@@ -1,6 +1,6 @@
 <?php
 
-use App\Enums\SystemConstantsEnum;
+use App\Enums\ActiveEnum;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -12,16 +12,23 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('enumerations', function (Blueprint $table) {
+        Schema::create('subjects', function (Blueprint $table) {
             $table->id();
 
-            $table->enum('key', SystemConstantsEnum::values());
-            $table->unsignedBigInteger("value");
-            $table->integer("priority");
+            $table->unsignedBigInteger('year_id');
+            $table->unsignedBigInteger('subject');
+            $table->json('icon')->nullable();
+            $table->enum('ActiveEnum', ActiveEnum::values())->default(ActiveEnum::Active->value);
             $table->unsignedBigInteger('created_by');
             $table->unsignedBigInteger('updated_by')->nullable();
 
-            $table->foreign("value")
+            $table->foreign("year_id")
+                ->references("id")
+                ->on("years")
+                ->restrictOnDelete()
+                ->cascadeOnUpdate();
+
+            $table->foreign("subject")
                 ->references("id")
                 ->on("translates")
                 ->restrictOnDelete()
@@ -48,6 +55,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('enumerations');
+        Schema::dropIfExists('subjects');
     }
 };

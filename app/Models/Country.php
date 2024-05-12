@@ -34,13 +34,4 @@ class Country extends Model
         return $this->belongsTo(Translate::class, 'currency');
     }
 
-    public function createdBy(): BelongsTo
-    {
-        return $this->belongsTo(Admin::class, 'created_by');
-    }
-
-    public function updatedBy(): BelongsTo
-    {
-        return $this->belongsTo(Admin::class, 'updated_by');
-    }
 }

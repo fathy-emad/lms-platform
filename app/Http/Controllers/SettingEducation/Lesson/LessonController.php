@@ -19,6 +19,7 @@ class LessonController extends Controller
 
     public function create(CreateRequest $request): JsonResponse
     {
+
         $data = $this->requestHandler->set($request->validated())->handleCreate()->get();
         return parent::create_model($data);
     }

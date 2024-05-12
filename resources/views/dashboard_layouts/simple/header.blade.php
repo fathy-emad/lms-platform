@@ -341,7 +341,7 @@
         <li class="profile-nav onhover-dropdown p-0 me-0">
           <div class="media profile-media">
               @php
-                  $file = session("admin_data")["image"]["file"];
+                  $file = session("admin_data")["image"]["file"] ?? null;
                   $image = asset(isset($file) ? "uploads/$file" : "assets/images/dashboard/profile.jpg");
               @endphp
             <img class="b-r-10 account-image"

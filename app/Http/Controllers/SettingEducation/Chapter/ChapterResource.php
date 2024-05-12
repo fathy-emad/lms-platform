@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers\SettingEducation\Chapter;
 
+use App\Http\Controllers\Setting\Enumeration\EnumerationResource;
+use Illuminate\Http\Request;
 use App\Http\Resources\AuthorResource;
 use App\Http\Resources\DateTimeResource;
 use App\Http\Resources\TranslationResource;
-use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use App\Http\Controllers\SettingEducation\Branch\BranchResource;
 
 class ChapterResource extends JsonResource
 {
@@ -20,8 +22,8 @@ class ChapterResource extends JsonResource
     {
         return [
             "id"         => $this->id,
-            "branch" => new TranslationResource($this->branch->branchEnum->valueTranslate),
-            "chapter"     => new TranslationResource($this->chapterEnum->valueTranslate),
+            "branch"     => new BranchResource($this->branch),
+            "title"      => new EnumerationResource($this->chapterEnum),
             "ActiveEnum" => new TranslationResource($this->ActiveEnum, true),
             "priority"   => $this->priority,
             "created_by" => new AuthorResource($this->createdBy),

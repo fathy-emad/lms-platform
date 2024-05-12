@@ -14,19 +14,7 @@ class CreateRequest extends ValidateRequest
     {
         return [
             "country_id" => "required|integer|exists:countries,id",
-            "StageEnumTable" => [
-                "required",
-                "integer",
-                Rule::exists('enumerations', 'id')->where(function ($query) {
-                    return $query->where('key', SystemConstantsEnum::StageEnumTable->value);
-                }),
-                Rule::unique('stages')->where(function ($query) {
-                    return $query->where([
-                        'StageEnumTable' => $this->StageEnumTable,
-                        'country_id' => $this->country_id
-                    ]);
-                })
-            ],
+            "stage" => "required|string|min:2",
             "ActiveEnum" => ["sometimes", "string", new Enum(ActiveEnum::class)],
         ];
     }

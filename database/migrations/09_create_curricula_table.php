@@ -1,6 +1,7 @@
 <?php
 
 use App\Enums\ActiveEnum;
+use App\Enums\MonthsEnum;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -12,25 +13,28 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('branches', function (Blueprint $table) {
+        Schema::create('curricula', function (Blueprint $table) {
             $table->id();
-
-            $table->unsignedBigInteger('curriculum_id');
-            $table->unsignedBigInteger('BranchEnumTable');
+            $table->unsignedBigInteger("subject_id");
+            $table->unsignedBigInteger("curriculum");
+            $table->json("TermsEnumTable");
+            $table->json("TypesEnumTable");
             $table->enum('ActiveEnum', ActiveEnum::values())->default(ActiveEnum::Active->value);
-            $table->unsignedInteger('priority');
+            $table->enum('from', MonthsEnum::values())->default(MonthsEnum::Aug->value);
+            $table->enum('to', MonthsEnum::values())->default(MonthsEnum::Jul->value);
+            $table->integer('priority');
             $table->unsignedBigInteger('created_by');
             $table->unsignedBigInteger('updated_by')->nullable();
 
-            $table->foreign("curriculum_id")
+            $table->foreign("subject_id")
                 ->references("id")
-                ->on("curricula")
+                ->on("subjects")
                 ->restrictOnDelete()
                 ->cascadeOnUpdate();
 
-            $table->foreign("BranchEnumTable")
+            $table->foreign("curriculum")
                 ->references("id")
-                ->on("enumerations")
+                ->on("translates")
                 ->restrictOnDelete()
                 ->cascadeOnUpdate();
 
@@ -46,6 +50,7 @@ return new class extends Migration
                 ->restrictOnDelete()
                 ->cascadeOnUpdate();
 
+
             $table->timestamps();
         });
     }
@@ -55,6 +60,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('branches');
+        Schema::dropIfExists('curricula');
     }
 };

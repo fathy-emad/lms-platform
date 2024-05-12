@@ -16,7 +16,6 @@ class CountryRequestHandler extends RequestHandler
         $this->translateCountry(null);
         $this->translateCurrency(null);
         $this->handleActiveEnum();
-        $this->bindCreatedBy();
         return $this;
     }
 
@@ -26,7 +25,6 @@ class CountryRequestHandler extends RequestHandler
         $this->translateCountry($model->country);
         $this->translateCurrency($model->currency);
         $this->handleActiveEnum();
-        $this->bindUpdatedBy();
         return $this;
     }
 

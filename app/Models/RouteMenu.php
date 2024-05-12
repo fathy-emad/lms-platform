@@ -34,13 +34,4 @@ class RouteMenu extends Model
         return $this->belongsTo(Translate::class, 'title');
     }
 
-    public function createdBy(): BelongsTo
-    {
-        return $this->belongsTo(Admin::class, 'created_by');
-    }
-
-    public function updatedBy(): BelongsTo
-    {
-        return $this->belongsTo(Admin::class, 'updated_by');
-    }
 }
