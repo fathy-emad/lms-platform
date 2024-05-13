@@ -8,7 +8,6 @@ use App\Http\Resources\DateTimeResource;
 use App\Http\Resources\TranslationResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 use App\Http\Controllers\Setting\Country\CountryResource;
-use App\Http\Controllers\Setting\Enumeration\EnumerationResource;
 
 class StageResource extends JsonResource
 {
@@ -23,7 +22,7 @@ class StageResource extends JsonResource
         return [
             "id"            => $this->id,
             "country"       => new CountryResource($this->country),
-            "stage"         => new TranslationResource($this->stageTraslate),
+            "stage"         => new TranslationResource($this->stageTranslate),
             "ActiveEnum"    => new TranslationResource($this->ActiveEnum, true),
             "created_by"    => new AuthorResource($this->createdBy),
             "updated_by"    => $this->updated_by ? new AuthorResource($this->updatedBy) : null,

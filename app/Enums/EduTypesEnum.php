@@ -2,7 +2,14 @@
 
 namespace App\Enums;
 
-enum EduTypesEnum
-{
+use App\Traits\EnumTrait;
 
+enum EduTypesEnum: string
+{
+    use EnumTrait;
+
+    case General = "general";
+    case Languages = "languages";
+    case IG = "ig";
+    case Azhar = "azhar";
 }

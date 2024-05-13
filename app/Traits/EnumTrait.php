@@ -14,4 +14,15 @@ trait EnumTrait
         return array_map(fn($case) => $case->value, self::cases());
     }
 
+    public function translates(): array
+    {
+        $translations = [];
+        $locales = ['en', "ar"];
+        $className = class_basename(static::class);
+        foreach ($locales as $locale) {
+            $translations[$locale] = __('enum.' . $className . '.' . $this->name, [], $locale);
+        }
+
+        return $translations;
+    }
 }

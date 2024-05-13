@@ -6,9 +6,10 @@ use ApiResponse;
 use App\Enums\ActiveEnum;
 use App\Enums\AdminRoleEnum;
 use App\Enums\AdminStatusEnum;
+use App\Enums\EduTermsEnum;
+use App\Enums\EduTypesEnum;
 use App\Enums\GenderEnum;
 use App\Enums\MonthsEnum;
-use App\Enums\SystemConstantsEnum;
 use App\Enums\TeacherStatusEnum;
 use App\Http\Resources\TranslationResource;
 use Illuminate\Http\JsonResponse;
@@ -49,6 +50,18 @@ class EnumsController extends Controller
     public function months(): JsonResponse
     {
         $translations = collect(MonthsEnum::cases())->map(fn($case) => new TranslationResource($case, true));
+        return ApiResponse::sendSuccess($translations, "record read successfully", null);
+    }
+
+    public function EduTerms(): JsonResponse
+    {
+        $translations = collect(EduTermsEnum::cases())->map(fn($case) => new TranslationResource($case, true));
+        return ApiResponse::sendSuccess($translations, "record read successfully", null);
+    }
+
+    public function EduTypes(): JsonResponse
+    {
+        $translations = collect(EduTypesEnum::cases())->map(fn($case) => new TranslationResource($case, true));
         return ApiResponse::sendSuccess($translations, "record read successfully", null);
     }
 }

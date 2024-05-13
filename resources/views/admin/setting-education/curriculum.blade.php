@@ -114,18 +114,18 @@
                                     </div>
 
                                     <div class="col-12 mb-3">
-                                        <label for="CurriculumEnumTable">{{ __("attributes.curriculum") }}</label>
-                                        <select name="CurriculumEnumTable" class="col-12" id="CurriculumEnumTable"></select>
+                                        <label for="curriculum">{{ __("attributes.curriculum") }}</label>
+                                        <input type="text" name="curriculum" class="form-control" id="curriculum">
                                     </div>
 
                                     <div class="col-12 mb-3">
-                                        <label for="TypesEnumTable">{{ __("attributes.types") }}</label>
-                                        <select name="TypesEnumTable[]" class="col-12" id="TypesEnumTable" multiple></select>
+                                        <label for="EduTypesEnums">{{ __("attributes.types") }}</label>
+                                        <select name="EduTypesEnums[]" class="col-12" id="EduTypesEnums" multiple></select>
                                     </div>
 
                                     <div class="col-12 mb-3">
-                                        <label for="TermsEnumTable">{{ __("attributes.terms") }}</label>
-                                        <select name="TermsEnumTable[]" class="col-12" id="TermsEnumTable" multiple></select>
+                                        <label for="EduTermsEnums">{{ __("attributes.terms") }}</label>
+                                        <select name="EduTermsEnums[]" class="col-12" id="EduTermsEnums" multiple></select>
                                     </div>
 
                                     <div class="col-12 mb-3">
@@ -133,11 +133,11 @@
                                         <div class="row">
                                             <div class="col-6">
                                                 <label for="from">{{ __("attributes.from") }}</label>
-                                                <select name="curriculumFrom" id="from"></select>
+                                                <select name="from" id="from"></select>
                                             </div>
                                             <div class="col-6">
                                                 <label for="to">{{ __("attributes.to") }}</label>
-                                                <select name="curriculumTo" id="to"></select>
+                                                <select name="to" id="to"></select>
                                             </div>
                                         </div>
                                     </div>
@@ -161,6 +161,8 @@
                 </div>
             </div>
         </div>
+
+        <!-- Update modal -->
         <div class="modal fade update_modal" aria-labelledby="myLargeModalLabel" style="display: none;" data-bs-backdrop="static" aria-hidden="true">
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
@@ -175,49 +177,57 @@
                             <input type="hidden" name="_method" value="PUT">
                             <div class="form-group">
                                 <div class="row">
+                                    <div class="col-12">
+                                        <ul class="nav nav-pills nav-info mb-3" id="pills-infotab" role="tablist">
+                                            <li class="nav-item"><a class="nav-link active" id="update-data-tab" data-bs-toggle="pill" href="#update-data" role="tab" aria-controls="update-data" aria-selected="true" data-bs-original-title="" title=""><i class="icofont icofont-ui-home"></i>data</a></li>
+                                            <li class="nav-item"><a class="nav-link" id="update-translate-tab" data-bs-toggle="pill" href="#update-translate" role="tab" aria-controls="update-translate" aria-selected="false" data-bs-original-title="" title=""><i class="icofont icofont-contacts"></i>stage translates</a></li>
+                                        </ul>
+                                        <div class="tab-content" id="pills-infotabContent">
 
-                                    <div class="col-12 mb-3">
-                                        <input type="hidden" name="subject_id" value="{{request("subject_id")}}">
-                                    </div>
+                                            <div class="tab-pane fade  active show" id="update-data" role="tabpanel" aria-labelledby="update-data-tab">
 
-                                    <div class="col-12 mb-3">
-                                        <label for="CurriculumEnumTable">{{ __("attributes.curriculum") }}</label>
-                                        <select name="CurriculumEnumTable" class="col-12" id="CurriculumEnumTable"></select>
-                                    </div>
+                                                <div class="col-12 mb-3">
+                                                    <input type="hidden" name="subject_id" value="{{request("subject_id")}}">
+                                                </div>
 
-                                    <div class="col-12 mb-3">
-                                        <label for="TypesEnumTable">{{ __("attributes.types") }}</label>
-                                        <select name="TypesEnumTable[]" class="col-12" id="TypesEnumTable" multiple></select>
-                                    </div>
+                                                <div class="col-12 mb-3">
+                                                    <label for="EduTypesEnums">{{ __("attributes.types") }}</label>
+                                                    <select name="EduTypesEnums[]" class="col-12" id="EduTypesEnums" multiple></select>
+                                                </div>
 
-                                    <div class="col-12 mb-3">
-                                        <label for="TermsEnumTable">{{ __("attributes.terms") }}</label>
-                                        <select name="TermsEnumTable[]" class="col-12" id="TermsEnumTable" multiple></select>
-                                    </div>
+                                                <div class="col-12 mb-3">
+                                                    <label for="EduTermsEnums">{{ __("attributes.terms") }}</label>
+                                                    <select name="EduTermsEnums[]" class="col-12" id="EduTermsEnums" multiple></select>
+                                                </div>
 
-                                    <div class="col-12 mb-3">
-                                        <label for="period">{{ __("attributes.period") }}</label>
-                                        <div class="row">
-                                            <div class="col-6">
-                                                <label for="from">{{ __("attributes.from") }}</label>
-                                                <select name="curriculumFrom" id="from"></select>
+                                                <div class="col-12 mb-3">
+                                                    <label for="period">{{ __("attributes.period") }}</label>
+                                                    <div class="row">
+                                                        <div class="col-6">
+                                                            <label for="from">{{ __("attributes.from") }}</label>
+                                                            <select name="from" id="from"></select>
+                                                        </div>
+                                                        <div class="col-6">
+                                                            <label for="to">{{ __("attributes.to") }}</label>
+                                                            <select name="to" id="to"></select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-sm-12 mb-3 media">
+                                                    <label class="col-form-label m-r-10">{{ __("attributes.ActiveEnum") }}</label>
+                                                    <div class="media-body icon-state">
+                                                        <label class="switch">
+                                                            <input type="checkbox" name="ActiveEnum" value="{{\App\Enums\ActiveEnum::Active->value}}"><span class="switch-state"></span>
+                                                        </label>
+                                                    </div>
+                                                </div>
                                             </div>
-                                            <div class="col-6">
-                                                <label for="to">{{ __("attributes.to") }}</label>
-                                                <select name="curriculumTo" id="to"></select>
+                                            <div class="tab-pane fade" id="update-translate" role="tabpanel" aria-labelledby="update-translate-tab">
+                                                <div class="row update-translates"></div>
                                             </div>
                                         </div>
                                     </div>
-
-                                    <div class="col-sm-12 mb-3 media">
-                                        <label class="col-form-label m-r-10">{{ __("attributes.ActiveEnum") }}</label>
-                                        <div class="media-body icon-state">
-                                            <label class="switch">
-                                                <input type="checkbox" name="ActiveEnum" value="{{\App\Enums\ActiveEnum::Active->value}}"><span class="switch-state"></span>
-                                            </label>
-                                        </div>
-                                    </div>
-
                                 </div>
                             </div>
                             <div class="form-group mb-0">
@@ -228,68 +238,6 @@
                 </div>
             </div>
         </div>
-        <div class="modal fade view_modal" aria-labelledby="myLargeModalLabel" style="display: none;" data-bs-backdrop="static" aria-hidden="true">
-            <div class="modal-dialog modal-lg">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h4 class="modal-title" id="myLargeModalLabel">{{ __('lang.view') }} {{ $pageData["page"] }}</h4>
-                        <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close" data-bs-original-title="" title=""></button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="form-group">
-                            <form novalidate="" class="theme-form needs-validation">
-                                <div class="row">
-
-                                    <div class="col-12 mb-3">
-                                        <input type="hidden" name="subject_id" value="{{request("subject_id")}}">
-                                    </div>
-
-                                    <div class="col-12 mb-3">
-                                        <label for="CurriculumEnumTable">{{ __("attributes.curriculum") }}</label>
-                                        <select name="CurriculumEnumTable" class="col-12" id="CurriculumEnumTable"></select>
-                                    </div>
-
-                                    <div class="col-12 mb-3">
-                                        <label for="TypesEnumTable">{{ __("attributes.types") }}</label>
-                                        <select name="TypesEnumTable[]" class="col-12" id="TypesEnumTable" multiple></select>
-                                    </div>
-
-                                    <div class="col-12 mb-3">
-                                        <label for="TermsEnumTable">{{ __("attributes.terms") }}</label>
-                                        <select name="TermsEnumTable[]" class="col-12" id="TermsEnumTable" multiple></select>
-                                    </div>
-
-                                    <div class="col-12 mb-3">
-                                        <label for="period">{{ __("attributes.period") }}</label>
-                                        <div class="row">
-                                            <div class="col-6">
-                                                <label for="from">{{ __("attributes.from") }}</label>
-                                                <select name="curriculumFrom" id="from"></select>
-                                            </div>
-                                            <div class="col-6">
-                                                <label for="to">{{ __("attributes.to") }}</label>
-                                                <select name="curriculumTo" id="to"></select>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-sm-12 mb-3 media">
-                                        <label class="col-form-label m-r-10">{{ __("attributes.ActiveEnum") }}</label>
-                                        <div class="media-body icon-state">
-                                            <label class="switch">
-                                                <input type="checkbox" name="ActiveEnum" value="{{\App\Enums\ActiveEnum::Active->value}}"><span class="switch-state"></span>
-                                            </label>
-                                        </div>
-                                    </div>
-
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
     </div>
 @endsection
 
@@ -309,30 +257,30 @@
         let dataTableLocale =  "{{session("locale")}}";
         let datatableColumns = [
             { "data": "id" },
-            { "data": "title.value.translate" },
-            { "data": "types",
+            { "data": "curriculum.translate" },
+            { "data": "EduTypesEnums",
                 render:function (data) {
                     let $return = "";
-                    for (const i in data)  $return += data[i].value.translate + (i + 1 < data.length ? ', ' : '');
+                    for (const i in data)  $return += data[i].translate + (i + 1 < data.length ? ', ' : '');
                     return $return
                 }
             },
-            { "data": "terms",
+            { "data": "EduTermsEnums",
                 render:function (data) {
                     let $return = "";
-                    for (const i in data)  $return += data[i].value.translate + (i + 1 < data.length ? ', ' : '');
+                    for (const i in data)  $return += data[i].translate + (i + 1 < data.length ? ', ' : '');
                     return $return
                 }
             },
-            { "data": "curriculumFrom.translate",
+            { "data": "from.translate",
                 render: function (data){
                     return data + ` (${now.getFullYear()})`;
                 }
             },
             { "data": null,
                 render: function (data) {
-                    if(data.curriculumTo.key <= data.curriculumFrom.key) return data.curriculumTo.translate +  ` (${now.getFullYear() + 1})`;
-                    return data.curriculumTo.translate +  ` (${now.getFullYear()})`;
+                    if(data.to.key <= data.from.key) return data.to.translate +  ` (${now.getFullYear() + 1})`;
+                    return data.to.translate +  ` (${now.getFullYear()})`;
                 }
             },
             { "data": "ActiveEnum.translate"},
@@ -362,16 +310,6 @@
                                 </div>`;
                     }
 
-                    if(pageData.actions.read === 1 ){
-                        actions += `<div class="col-auto">
-                                    <button class="btn btn-sm btn-primary" type="button" onclick="openModalView(${dataString})"
-                                            data-bs-original-title="{{ __('lang.view') }} {{ $pageData["page"] }}"
-                                            title="{{ __('lang.view') }} {{ $pageData["page"] }}">
-                                        <i class="fa fa-eye"></i>
-                                    </button>
-                                </div>`;
-                    }
-
                     actions += `<div class="col-auto">
                                     <a class="btn btn-sm btn-success" type="button" href="{{url("/admin/setting-education/branch")}}/${data.id}">
                                         <i class="fa fa-home"></i>
@@ -384,39 +322,28 @@
         ];
 
         function openModalUpdate(data) {
-            console.log(data);
             let modal = $(".update_modal");
             let form = modal.find("form");
             form[0].reset();
             $(modal).find("[name=id]").val(data.id);
-            $(modal).find('#CurriculumEnumTable').val(data.title.id).trigger('change');
-            $(modal).find('#TypesEnumTable').val(data.types.map(item => String(item.id))).trigger('change');
-            $(modal).find('#TermsEnumTable').val(data.terms.map(item => String(item.id))).trigger('change');
-            $(modal).find('#from').val(data.curriculumFrom.key).trigger('change');
-            $(modal).find('#to').val(data.curriculumTo.key).trigger('change');
+            $(modal).find('#EduTypesEnums').val(data.EduTypesEnums.map(item => String(item.key))).trigger('change');
+            $(modal).find('#EduTermsEnums').val(data.EduTermsEnums.map(item => String(item.key))).trigger('change');
+            $(modal).find('#from').val(data.from.key).trigger('change');
+            $(modal).find('#to').val(data.to.key).trigger('change');
             modal.find("[name=ActiveEnum]").prop("checked", data.ActiveEnum.key === "active");
-            modal.modal("show");
-        }
-
-        function openModalView(data) {
-            let modal = $(".view_modal");
-            let form = modal.find("form");
-            form[0].reset();
-            $(modal).find('#CurriculumEnumTable').val(data.title.id).trigger('change').prop("disabled", true);
-            $(modal).find('#TypesEnumTable').val(data.types.map(item => String(item.id))).trigger('change').prop("disabled", true);
-            $(modal).find('#TermsEnumTable').val(data.terms.map(item => String(item.id))).trigger('change').prop("disabled", true);
-            $(modal).find('#from').val(data.curriculumFrom.key).trigger('change').prop("disabled", true);
-            $(modal).find('#to').val(data.curriculumTo.key).trigger('change').prop("disabled", true);
-            modal.find("[name=ActiveEnum]").prop("checked", data.ActiveEnum.key === "active").prop("disabled", true);
+            modal.find("[data-locale]").each(function (){
+                let locale = $(this).data("locale");
+                $(this).val(data.curriculum.translates[locale] || '');
+            });
             modal.modal("show");
         }
 
         $('.create_modal').on('show.bs.modal', function (e) {
             let form = $(this).find("form");
             form[0].reset();
-            $(this).find('#CurriculumEnumTable').val($(this).find('#CurriculumEnumTable option:first').val()).trigger('change');
-            $(this).find('#TypesEnumTable').val('').trigger('change');
-            $(this).find('#TermsEnumTable').val('').trigger('change');
+            $(this).find('#curriculum').val('');
+            $(this).find('#EduTermsEnums').val('').trigger('change');
+            $(this).find('#EduTypesEnums').val('').trigger('change');
             $(this).find('#from').val($(this).find('#from option:first').val()).trigger('change');
             $(this).find('#to').val($(this).find('#to option:first').val()).trigger('change');
         });
@@ -437,9 +364,9 @@
                 success: function(response) {
                     let data = response.data;
                     $("[data-bread=country]").text(data.year.stage.country.country.translate).attr("href", APP_URL + "/" + "admin/setting-education/stage");
-                    $("[data-bread=stage]").text(data.year.stage.title.value.translate).attr("href", APP_URL + "/" + "admin/setting-education/stage");
-                    $("[data-bread=year]").text(data.year.title.value.translate).attr("href", APP_URL + "/" + "admin/setting-education/year/" + data.year.stage.id);
-                    $("[data-bread=subject]").text(data.title.value.translate).attr("href", APP_URL + "/" + "admin/setting-education/subject/" + data.year.id);
+                    $("[data-bread=stage]").text(data.year.stage.stage.translate).attr("href", APP_URL + "/" + "admin/setting-education/stage");
+                    $("[data-bread=year]").text(data.year.year.translate).attr("href", APP_URL + "/" + "admin/setting-education/year/" + data.year.stage.id);
+                    $("[data-bread=subject]").text(data.subject.translate).attr("href", APP_URL + "/" + "admin/setting-education/subject/" + data.year.id);
                 },
                 error: function(xhr, status, error) {
                     let title = "Some thing went wrong";
@@ -448,9 +375,11 @@
                 }
             });
 
-            //Get curricula
+
+
+            //get edu terms enums
             $.ajax({
-                url: APP_URL + "/api/admin/setting/enumeration?where=key:{{\App\Enums\SystemConstantsEnum::CurriculumEnumTable->value}}",
+                url: APP_URL + "/api/web-services/enums/edu-terms",
                 type: "GET",
                 data: null,
                 processData: false,
@@ -461,34 +390,8 @@
                 },
                 success: function(response) {
                     let data = response.data;
-                    for (const i in data) htmlCurriculaEnums += `<option value="${data[i].id}" ">${data[i].value.translate}</option>`;
-                    $(".create_modal, .update_modal, .view_modal").find("#CurriculumEnumTable").each(function() {
-                        $(this).select2().append(htmlCurriculaEnums);
-                    });
-
-                },
-                error: function(xhr, status, error) {
-                    let title = "Some thing went wrong";
-                    let message = xhr.responseText || "Unknown error";
-                    notifyForm(title, message, "danger");
-                }
-            });
-
-            //Get terms
-            $.ajax({
-                url: APP_URL + "/api/admin/setting/enumeration?where=key:{{\App\Enums\SystemConstantsEnum::TermEnumTable->value}}",
-                type: "GET",
-                data: null,
-                processData: false,
-                contentType: false,
-                headers: {
-                    'Authorization': 'Bearer ' + "{{ session("admin_data")["jwtToken"] }}",
-                    'locale': "{{ session("locale") }}",
-                },
-                success: function(response) {
-                    let data = response.data;
-                    for (const i in data) htmlTermsEnums += `<option value="${data[i].id}" ">${data[i].value.translate}</option>`;
-                    $(".create_modal, .update_modal, .view_modal").find("#TermsEnumTable").each(function() {
+                    for (const i in data) htmlTermsEnums += `<option value="${data[i].key}" ">${data[i].translate}</option>`;
+                    $(".create_modal, .update_modal").find("#EduTermsEnums").each(function() {
                         $(this).select2().append(htmlTermsEnums);
                     });
 
@@ -500,9 +403,10 @@
                 }
             });
 
-            //Get types
+
+            //get edu types enums
             $.ajax({
-                url: APP_URL + "/api/admin/setting/enumeration?where=key:{{\App\Enums\SystemConstantsEnum::TypeEnumTable->value}}",
+                url: APP_URL + "/api/web-services/enums/edu-types",
                 type: "GET",
                 data: null,
                 processData: false,
@@ -513,11 +417,10 @@
                 },
                 success: function(response) {
                     let data = response.data;
-                    for (const i in data) htmlTypesEnums += `<option value="${data[i].id}" ">${data[i].value.translate}</option>`;
-                    $(".create_modal, .update_modal, .view_modal").find("#TypesEnumTable").each(function() {
+                    for (const i in data) htmlTypesEnums += `<option value="${data[i].key}" ">${data[i].translate}</option>`;
+                    $(".create_modal, .update_modal").find("#EduTypesEnums").each(function() {
                         $(this).select2().append(htmlTypesEnums);
                     });
-
                 },
                 error: function(xhr, status, error) {
                     let title = "Some thing went wrong";
@@ -540,11 +443,40 @@
                 success: function(response) {
                     let data = response.data;
                     for (const i in data) htmlMonthsEnums += `<option value="${data[i].key}" ">${data[i].translate}</option>`;
-                    $(".create_modal, .update_modal, .view_modal").each(function() {
+                    $(".create_modal, .update_modal").each(function() {
                         $(this).find("#from").select2().append(htmlMonthsEnums);
                         $(this).find("#to").select2().append(htmlMonthsEnums);
                     });
 
+                },
+                error: function(xhr, status, error) {
+                    let title = "Some thing went wrong";
+                    let message = xhr.responseText || "Unknown error";
+                    notifyForm(title, message, "danger");
+                }
+            });
+
+
+            //Get languages
+            $.ajax({
+                url: APP_URL + "/api/admin/setting/language",
+                type: "GET",
+                data: null,
+                processData: false,
+                contentType: false,
+                headers: {
+                    'Authorization': 'Bearer ' + "{{ session("admin_data")["jwtToken"] }}",
+                    'locale': "{{ session("locale") }}",
+                },
+                success: function(response) {
+                    let data = response.data;
+                    for (const i in data) {
+                        htmlCurriculaEnums += `<div class="col-12 mb-3">
+                                                    <label for="${data[i].locale}">${data[i].language.translate}</label>
+                                                    <input data-locale="${data[i].locale}" class="form-control" id="${data[i].locale}" type="text" name="curriculum[${data[i].locale}]" value="">
+                                                </div>`;
+                    }
+                    $(".update_modal").find(".update-translates").append(htmlCurriculaEnums);
                 },
                 error: function(xhr, status, error) {
                     let title = "Some thing went wrong";

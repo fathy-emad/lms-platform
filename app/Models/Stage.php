@@ -5,7 +5,6 @@ namespace App\Models;
 use App\Enums\ActiveEnum;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-//use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Stage extends Model
 {
@@ -16,7 +15,7 @@ class Stage extends Model
 
     public function stageTranslate(): BelongsTo
     {
-        return $this->belongsTo(Translate::class, 'title');
+        return $this->belongsTo(Translate::class, 'stage');
     }
 
     public function country(): BelongsTo

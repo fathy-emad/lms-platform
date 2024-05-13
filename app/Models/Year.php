@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use App\Enums\ActiveEnum;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
@@ -19,9 +18,9 @@ class Year extends Model
         return $this->belongsTo(Stage::class, 'stage_id');
     }
 
-    public function yearEnum(): BelongsTo
+    public function yearTranslate(): BelongsTo
     {
-        return $this->belongsTo(Enumeration::class, 'YearEnumTable');
+        return $this->belongsTo(Translate::class, 'year');
     }
 
     public function createdBy(): BelongsTo

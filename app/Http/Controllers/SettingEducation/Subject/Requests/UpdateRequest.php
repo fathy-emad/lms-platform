@@ -15,19 +15,9 @@ class UpdateRequest extends ValidateRequest
         return [
             "id" => "required|integer|exists:subjects,id",
             "year_id" => "required|integer|exists:years,id",
-            "SubjectEnumTable" => [
-                "required",
-                "integer",
-                Rule::exists('enumerations', 'id')->where(function ($query) {
-                    return $query->where('key', SystemConstantsEnum::SubjectEnumTable->value);
-                }),
-                Rule::unique('subjects')->where(function ($query) {
-                    return $query->where([
-                        'SubjectEnumTable' => $this->SubjectEnumTable,
-                        'year_id' => $this->year_id
-                    ]);
-                })->ignore($this->id)
-            ],
+            "subject" => "required|array|min:1",
+            "subject.ar" => "required|string|regex:/^[\x{0600}-\x{06FF}\s]+$/u",
+            "subject.*" => "nullable|string",
             "ActiveEnum" => ["sometimes", "string", new Enum(ActiveEnum::class)],
         ];
     }

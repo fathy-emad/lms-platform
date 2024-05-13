@@ -443,7 +443,7 @@
 
         $(document).ready(function() {
 
-            //Get route menu and set data to dom object
+            //Get languages
             $.ajax({
                 url: APP_URL + "/api/admin/setting/language",
                 type: "GET",

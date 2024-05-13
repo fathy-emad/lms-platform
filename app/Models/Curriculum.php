@@ -2,23 +2,22 @@
 
 namespace App\Models;
 
-use App\Enums\ActiveEnum;
 use App\Enums\MonthsEnum;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Enums\ActiveEnum;
+use App\Enums\EduTermsEnum;
+use App\Enums\EduTypesEnum;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Staudenmeir\EloquentJsonRelations\HasJsonRelationships;
-use Staudenmeir\EloquentJsonRelations\Relations\BelongsToJson;
+use Illuminate\Database\Eloquent\Casts\AsEnumCollection;
 
 class Curriculum extends Model
 {
-    use HasFactory, HasJsonRelationships;
     protected $guarded = [];
     protected $casts = [
-        "TermsEnumTable" => "array",
-        "TypesEnumTable" => "array",
-        "curriculumFrom" => MonthsEnum::class,
-        "curriculumTo" => MonthsEnum::class,
+        "EduTermsEnums" => AsEnumCollection::class.':'.EduTermsEnum::class,
+        "EduTypesEnums" => AsEnumCollection::class.':'.EduTypesEnum::class,
+        "from" => MonthsEnum::class,
+        "to" => MonthsEnum::class,
         "ActiveEnum" => ActiveEnum::class,
         "priority" => "integer"
     ];
@@ -28,19 +27,9 @@ class Curriculum extends Model
         return $this->belongsTo(Subject::class, 'subject_id');
     }
 
-    public function curriculumEnum(): BelongsTo
+    public function curriculumTranslate(): BelongsTo
     {
-        return $this->belongsTo(Enumeration::class, 'CurriculumEnumTable');
-    }
-
-    public function termsEnums(): BelongsToJson
-    {
-        return $this->belongsToJson(Enumeration::class, 'TermsEnumTable');
-    }
-
-    public function typesEnums(): BelongsToJson
-    {
-        return $this->belongsToJson(Enumeration::class, 'TypesEnumTable');
+        return $this->belongsTo(Translate::class, 'curriculum');
     }
 
     public function createdBy(): BelongsTo

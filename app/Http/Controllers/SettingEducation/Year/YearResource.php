@@ -8,7 +8,6 @@ use App\Http\Resources\DateTimeResource;
 use App\Http\Resources\TranslationResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 use App\Http\Controllers\SettingEducation\Stage\StageResource;
-use App\Http\Controllers\Setting\Enumeration\EnumerationResource;
 
 class YearResource extends JsonResource
 {
@@ -23,7 +22,7 @@ class YearResource extends JsonResource
         return [
             "id"         => $this->id,
             "stage"      => new StageResource($this->stage),
-            "title"       => new EnumerationResource($this->yearEnum),
+            "year"       => new TranslationResource($this->yearTranslate),
             "ActiveEnum" => new TranslationResource($this->ActiveEnum, true),
             "created_by" => new AuthorResource($this->createdBy),
             "updated_by" => $this->updated_by ? new AuthorResource($this->updatedBy) : null,

@@ -15,19 +15,9 @@ class UpdateRequest extends ValidateRequest
         return [
             "id" => "required|integer|exists:years,id",
             "stage_id" => "required|integer|exists:stages,id",
-            "YearEnumTable" => [
-                "required",
-                "integer",
-                Rule::exists('enumerations', 'id')->where(function ($query) {
-                    return $query->where('key', SystemConstantsEnum::YearEnumTable->value);
-                }),
-                Rule::unique('years')->where(function ($query) {
-                    return $query->where([
-                        'YearEnumTable' => $this->YearEnumTable,
-                        'stage_id' => $this->stage_id
-                    ]);
-                })->ignore($this->id)
-            ],
+            "year" => "required|array|min:1",
+            "year.ar" => "required|string|regex:/^[\x{0600}-\x{06FF}\s]+$/u",
+            "year.*" => "nullable|string",
             "ActiveEnum" => ["sometimes", "string", new Enum(ActiveEnum::class)],
         ];
     }

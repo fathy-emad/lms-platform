@@ -3,8 +3,6 @@
 namespace App\Models;
 
 use App\Enums\ActiveEnum;
-use App\Enums\SubjectEnum;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
@@ -20,9 +18,9 @@ class Subject extends Model
         return $this->belongsTo(Year::class, 'year_id');
     }
 
-    public function subjectEnum(): BelongsTo
+    public function subjectTranslate(): BelongsTo
     {
-        return $this->belongsTo(Enumeration::class, 'SubjectEnumTable');
+        return $this->belongsTo(Translate::class, 'subject');
     }
 
     public function createdBy(): BelongsTo

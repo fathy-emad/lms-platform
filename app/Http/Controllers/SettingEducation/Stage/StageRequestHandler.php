@@ -9,9 +9,9 @@ class StageRequestHandler extends RequestHandler
 {
     public function handleCreate(): static
     {
-        $this->translateLanguage(null);
         $this->bindCreatedBy();
         $this->handleActiveEnum();
+        $this->translateStage(null);
         return $this;
     }
 
@@ -19,14 +19,13 @@ class StageRequestHandler extends RequestHandler
     {
         $this->bindUpdatedBy();
         $this->handleActiveEnum();
-        $this->translateLanguage($model->stage);
+        $this->translateStage($model->stage);
         return $this;
     }
 
 
-    public function translateLanguage(?int $id): void
+    public function translateStage(?int $id): void
     {
         $this->data["stage"] = Translation::translate('stage', 'stages', $this->data["stage"], $id);
     }
-
 }

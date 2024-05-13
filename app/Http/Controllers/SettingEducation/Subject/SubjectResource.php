@@ -23,7 +23,7 @@ class SubjectResource extends JsonResource
         return [
             "id"         => $this->id,
             "year"       => new YearResource($this->year),
-            "title"      => new EnumerationResource($this->subjectEnum),
+            "subject"    => new TranslationResource($this->subjectTranslate),
             "ActiveEnum" => new TranslationResource($this->ActiveEnum, true),
             "created_by" => new AuthorResource($this->createdBy),
             "updated_by" => $this->updated_by ? new AuthorResource($this->updatedBy) : null,

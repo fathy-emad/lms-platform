@@ -42,4 +42,20 @@ return [
         "Dec" => "DECEMBER",
     ],
 
+    "EduTermsEnum" => [
+        "FirstTerm" => "First Term",
+        "SecondTerms" => "Second Term",
+        "Scientific" => "Scientific",
+        "Literary" => "Literary",
+        "ScientificScience" => "Scientific Science",
+        "ScientificMathematics" => "Scientific Mathematics"
+    ],
+
+    "EduTypesEnum" => [
+        "General" => "General",
+        "Languages" => "Languages",
+        "IG" => "IG",
+        "Azhar" => "Azhar",
+    ],
+
 ];

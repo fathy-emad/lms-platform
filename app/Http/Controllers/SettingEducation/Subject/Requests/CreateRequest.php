@@ -14,19 +14,7 @@ class CreateRequest extends ValidateRequest
     {
         return [
             "year_id" => "required|integer|exists:years,id",
-            "SubjectEnumTable" => [
-                "required",
-                "integer",
-                Rule::exists('enumerations', 'id')->where(function ($query) {
-                    return $query->where('key', SystemConstantsEnum::SubjectEnumTable->value);
-                }),
-                Rule::unique('subjects')->where(function ($query) {
-                    return $query->where([
-                        'SubjectEnumTable' => $this->SubjectEnumTable,
-                        'year_id' => $this->year_id
-                    ]);
-                })
-            ],
+            "subject" => "required|string|min:2",
             "ActiveEnum" => ["sometimes", "string", new Enum(ActiveEnum::class)],
         ];
     }

@@ -28,7 +28,8 @@ class TranslationResource extends JsonResource
         {
             return [
                 "key" => $this->value,
-                "translate" => $this->title()
+                "translate" => $this->title(),
+                "translates" => $this->translates()
             ];
         }
 

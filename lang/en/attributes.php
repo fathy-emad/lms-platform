@@ -44,5 +44,6 @@ return [
     "curriculum" => "Curriculum",
     "period" => "Period",
     "from" => "From",
-    "to" => "To"
+    "to" => "To",
+    "subject" => "Subject"
 ];

@@ -41,4 +41,20 @@ return [
         "Nov" => "نوفمبر",
         "Dec" => "ديسمبر",
     ],
+
+    "EduTermsEnum" => [
+        "FirstTerm" => "الترم الأول",
+        "SecondTerms" => "الترم الثانى",
+        "Scientific" => "علمى",
+        "Literary" => "أدبى",
+        "ScientificScience" => "علمى علوم",
+        "ScientificMathematics" => "علمى رياضة"
+    ],
+
+    "EduTypesEnum" => [
+        "General" => "عام",
+        "Languages" => "لغات",
+        "IG" => "IG",
+        "Azhar" => "أزهرى",
+    ],
 ];
