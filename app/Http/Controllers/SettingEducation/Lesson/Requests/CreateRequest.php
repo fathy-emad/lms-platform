@@ -14,19 +14,7 @@ class CreateRequest extends ValidateRequest
     {
         return [
             "chapter_id" => "required|integer|exists:chapters,id",
-            "LessonEnumTable" => [
-                "required",
-                "integer",
-                Rule::exists('enumerations', 'id')->where(function ($query) {
-                    return $query->where('key', SystemConstantsEnum::LessonEnumTable->value);
-                }),
-                Rule::unique('lessons')->where(function ($query) {
-                    return $query->where([
-                        'LessonEnumTable' => $this->LessonEnumTable,
-                        'chapter_id' => $this->chapter_id
-                    ]);
-                })
-            ],
+            "lesson" => ["required","string", "min:2"],
             "ActiveEnum" => ["sometimes", "string", new Enum(ActiveEnum::class)],
         ];
     }

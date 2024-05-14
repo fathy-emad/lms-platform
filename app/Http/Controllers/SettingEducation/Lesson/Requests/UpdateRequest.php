@@ -15,19 +15,9 @@ class UpdateRequest extends ValidateRequest
         return [
             "id" => "required|integer|exists:lessons,id",
             "chapter_id" => "required|integer|exists:chapters,id",
-            "LessonEnumTable" => [
-                "required",
-                "integer",
-                Rule::exists('enumerations', 'id')->where(function ($query) {
-                    return $query->where('key', SystemConstantsEnum::LessonEnumTable->value);
-                }),
-                Rule::unique('chapters')->where(function ($query) {
-                    return $query->where([
-                        'LessonEnumTable' => $this->LessonEnumTable,
-                        'chapter_id' => $this->chapter_id
-                    ]);
-                })->ignore($this->id)
-            ],
+            "lesson" => "required|array|min:1",
+            "lesson.ar" => "required|string|regex:/^[\x{0600}-\x{06FF}\s]+$/u",
+            "lesson.*" => "nullable|string",
             "ActiveEnum" => ["sometimes", "string", new Enum(ActiveEnum::class)],
         ];
     }

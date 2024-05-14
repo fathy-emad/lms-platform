@@ -22,12 +22,12 @@ class LessonResource extends JsonResource
     {
         return [
             "id"         => $this->id,
-            "chapter"    => new ChapterResource($this->chapter->chapter),
-            "title"      => new EnumerationResource($this->lessonEnum),
+            "chapter"    => new ChapterResource($this->chapter),
+            "lesson"     => new TranslationResource($this->lessonTranslate),
             "ActiveEnum" => new TranslationResource($this->ActiveEnum, true),
             "priority"   => $this->priority,
             "created_by" => new AuthorResource($this->createdBy),
-            "updated_by" => $this->updated_by ? new AuthorResource($this->updatedBy) : null,
+            "updated_by" => $this->when($this->updatedBy, new AuthorResource($this->updatedBy), null),
             "created_at" => new DateTimeResource($this->created_at),
             "updated_at" => new DateTimeResource($this->updated_at)
         ];

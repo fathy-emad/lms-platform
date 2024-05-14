@@ -311,7 +311,7 @@
                     }
 
                     actions += `<div class="col-auto">
-                                    <a class="btn btn-sm btn-success" type="button" href="{{url("/admin/setting-education/branch")}}/${data.id}">
+                                    <a class="btn btn-sm btn-success" type="button" href="{{url("/admin/setting-education/chapter")}}/${data.id}">
                                         <i class="fa fa-home"></i>
                                     </a>
                                 </div>`;

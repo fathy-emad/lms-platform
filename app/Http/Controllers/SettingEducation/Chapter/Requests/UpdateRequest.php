@@ -14,20 +14,10 @@ class UpdateRequest extends ValidateRequest
     {
         return [
             "id" => "required|integer|exists:chapters,id",
-            "branch_id" => "required|integer|exists:branches,id",
-            "ChapterEnumTable" => [
-                "required",
-                "integer",
-                Rule::exists('enumerations', 'id')->where(function ($query) {
-                    return $query->where('key',  SystemConstantsEnum::ChapterEnumTable->value);
-                }),
-                Rule::unique('chapters')->where(function ($query) {
-                    return $query->where([
-                        'ChapterEnumTable' => $this->ChapterEnumTable,
-                        'branch_id' => $this->branch_id
-                    ]);
-                })->ignore($this->id)
-            ],
+            "curriculum_id" => "required|integer|exists:curricula,id",
+            "chapter" => "required|array|min:1",
+            "chapter.ar" => "required|string|regex:/^[\x{0600}-\x{06FF}\s]+$/u",
+            "chapter.*" => "nullable|string",
             "ActiveEnum" => ["sometimes", "string", new Enum(ActiveEnum::class)],
         ];
     }

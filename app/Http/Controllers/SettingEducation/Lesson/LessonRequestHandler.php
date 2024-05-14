@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers\SettingEducation\Lesson;
 
+use Translation;
+use App\Models\Lesson;
 use App\Concretes\RequestHandler;
-use App\Models\Chapter;
 
 class LessonRequestHandler extends RequestHandler
 {
@@ -12,21 +13,28 @@ class LessonRequestHandler extends RequestHandler
         $this->setPriority();
         $this->bindCreatedBy();
         $this->handleActiveEnum();
+        $this->translateLesson(null);
         return $this;
     }
 
-    public function handleUpdate(): static
+    public function handleUpdate($model): static
     {
         $this->bindUpdatedBy();
         $this->handleActiveEnum();
+        $this->translateLesson($model->lesson);
         return $this;
     }
 
     public function setPriority(): void
     {
-        $enumerationModel = Chapter::where('id', $this->data["chapter_id"])->orderBy('priority', 'desc')->first();
+        $enumerationModel = Lesson::where('id', $this->data["chapter_id"])->orderBy('priority', 'desc')->first();
 
         if ($enumerationModel) $this->data["priority"] = $enumerationModel->priority + 1;
         else $this->data["priority"] = 1;
+    }
+
+    public function translateLesson(?int $id): void
+    {
+        $this->data["lesson"] = Translation::translate('lesson', 'lessons', $this->data["lesson"], $id);
     }
 }

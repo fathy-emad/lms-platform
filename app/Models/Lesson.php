@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use App\Enums\ActiveEnum;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
@@ -19,9 +18,9 @@ class Lesson extends Model
         return $this->belongsTo(Chapter::class, 'chapter_id');
     }
 
-    public function lessonEnum(): BelongsTo
+    public function lessonTranslate(): BelongsTo
     {
-        return $this->belongsTo(Enumeration::class, 'LessonEnumTable');
+        return $this->belongsTo(Translate::class, 'lesson');
     }
 
     public function createdBy(): BelongsTo

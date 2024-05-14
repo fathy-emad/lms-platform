@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use App\Enums\ActiveEnum;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
@@ -14,14 +13,14 @@ class Chapter extends Model
         "ActiveEnum" => ActiveEnum::class
     ];
 
-    public function branch(): BelongsTo
+    public function curriculum(): BelongsTo
     {
-        return $this->belongsTo(Branch::class, 'branch_id');
+        return $this->belongsTo(Curriculum::class, 'curriculum_id');
     }
 
-    public function chapterEnum(): BelongsTo
+    public function chapterTranslate(): BelongsTo
     {
-        return $this->belongsTo(Enumeration::class, 'ChapterEnumTable');
+        return $this->belongsTo(Translate::class, 'chapter');
     }
 
     public function createdBy(): BelongsTo

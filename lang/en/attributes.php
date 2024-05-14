@@ -45,5 +45,7 @@ return [
     "period" => "Period",
     "from" => "From",
     "to" => "To",
-    "subject" => "Subject"
+    "subject" => "Subject",
+    "chapter" => "Chapter",
+    "lesson" => "Lesson"
 ];

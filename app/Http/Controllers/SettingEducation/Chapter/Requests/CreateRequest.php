@@ -13,20 +13,8 @@ class CreateRequest extends ValidateRequest
     public function rules(): array
     {
         return [
-            "branch_id" => "required|integer|exists:branches,id",
-            "ChapterEnumTable" => [
-                "required",
-                "integer",
-                Rule::exists('enumerations', 'id')->where(function ($query) {
-                    return $query->where('key', SystemConstantsEnum::ChapterEnumTable->value);
-                }),
-                Rule::unique('chapters')->where(function ($query) {
-                    return $query->where([
-                        'ChapterEnumTable' => $this->ChapterEnumTable,
-                        'branch_id' => $this->branch_id
-                    ]);
-                })
-            ],
+            "curriculum_id" => "required|integer|exists:curricula,id",
+            "chapter" => ["required","string", "min:2"],
             "ActiveEnum" => ["sometimes", "string", new Enum(ActiveEnum::class)],
         ];
     }

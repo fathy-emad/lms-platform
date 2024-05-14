@@ -45,5 +45,7 @@ return [
     "period" => "الفترة",
     "from" => "من",
     "to" => "إلى",
-    "subject" => "المادة"
+    "subject" => "المادة",
+    "chapter" => "الفصل",
+    "lesson" => "الدرس"
 ];
