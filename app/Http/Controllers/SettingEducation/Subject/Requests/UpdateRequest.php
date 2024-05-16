@@ -15,9 +15,7 @@ class UpdateRequest extends ValidateRequest
         return [
             "id" => "required|integer|exists:subjects,id",
             "year_id" => "required|integer|exists:years,id",
-            "subject" => "required|array|min:1",
-            "subject.ar" => "required|string|regex:/^[\x{0600}-\x{06FF}\s]+$/u",
-            "subject.*" => "nullable|string",
+            "edu_subject_id" => "required|integer|exists:edu_subjects,id",
             "ActiveEnum" => ["sometimes", "string", new Enum(ActiveEnum::class)],
         ];
     }

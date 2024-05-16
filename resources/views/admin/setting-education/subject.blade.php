@@ -102,8 +102,8 @@
                                     </div>
 
                                     <div class="col-12 mb-3">
-                                        <label for="subject">{{ __("attributes.subject") }}</label>
-                                        <input type="text" name="subject" class="form-control" id="subject" />
+                                        <label for="edu_subject_id">{{ __("attributes.subject") }}</label>
+                                        <select type="text" name="edu_subject_id" class="form-control" id="edu_subject_id"></select>
                                     </div>
 
                                     <div class="col-sm-12 mb-3 media">
@@ -142,30 +142,20 @@
                             <div class="form-group">
                                 <div class="row">
 
-                                    <div class="col-12">
-                                        <ul class="nav nav-pills nav-info mb-3" id="pills-infotab" role="tablist">
-                                            <li class="nav-item"><a class="nav-link active" id="update-data-tab" data-bs-toggle="pill" href="#update-data" role="tab" aria-controls="update-data" aria-selected="true" data-bs-original-title="" title=""><i class="icofont icofont-ui-home"></i>data</a></li>
-                                            <li class="nav-item"><a class="nav-link" id="update-translate-tab" data-bs-toggle="pill" href="#update-translate" role="tab" aria-controls="update-translate" aria-selected="false" data-bs-original-title="" title=""><i class="icofont icofont-contacts"></i>stage translates</a></li>
-                                        </ul>
-                                        <div class="tab-content" id="pills-infotabContent">
+                                    <div class="col-12 mb-3">
+                                        <input type="hidden" name="year_id" value="{{request("year_id")}}">
+                                    </div>
 
-                                            <div class="tab-pane fade  active show" id="update-data" role="tabpanel" aria-labelledby="update-data-tab">
-                                                <div class="col-12 mb-3">
-                                                    <input type="hidden" name="year_id" value="{{request("year_id")}}">
-                                                </div>
+                                    <div class="col-12 mb-3">
+                                        <label for="edu_subject_id">{{ __("attributes.subject") }}</label>
+                                        <select type="text" name="edu_subject_id" class="form-control" id="edu_subject_id"></select>                                    </div>
 
-                                                <div class="col-sm-12 mb-3 media">
-                                                    <label class="col-form-label m-r-10">{{ __("attributes.ActiveEnum") }}</label>
-                                                    <div class="media-body icon-state">
-                                                        <label class="switch">
-                                                            <input type="checkbox" name="ActiveEnum" value="{{\App\Enums\ActiveEnum::Active->value}}"><span class="switch-state"></span>
-                                                        </label>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="tab-pane fade" id="update-translate" role="tabpanel" aria-labelledby="update-translate-tab">
-                                                <div class="row update-translates"></div>
-                                            </div>
+                                    <div class="col-sm-12 mb-3 media">
+                                        <label class="col-form-label m-r-10">{{ __("attributes.ActiveEnum") }}</label>
+                                        <div class="media-body icon-state">
+                                            <label class="switch">
+                                                <input type="checkbox" name="ActiveEnum" value="{{\App\Enums\ActiveEnum::Active->value}}"><span class="switch-state"></span>
+                                            </label>
                                         </div>
                                     </div>
 
@@ -187,7 +177,7 @@
     <script src="{{asset('assets/js/select2/select2.full.min.js')}}"></script>
 
     <script>
-        let subjectTranslates = "";
+        let htmlSubjects = "";
         let pageData = @json($pageData);
         let datatableUri = `{{ url("api")."/admin/setting-education/subject?where=year_id:".request("year_id")}}`;
         let datatableAuthToken = "{{session("admin_data")["jwtToken"]}}";
@@ -239,17 +229,14 @@
             form[0].reset();
             $(modal).find("[name=id]").val(data.id);
             modal.find("[name=ActiveEnum]").prop("checked", data.ActiveEnum.key === "active");
-            modal.find("[data-locale]").each(function (){
-                let locale = $(this).data("locale");
-                $(this).val(data.subject.translates[locale] || '');
-            });
+            $(modal).find('#edu_subject_id').val(data.edu_subject_id).trigger("change");
             modal.modal("show");
         }
 
         $('.create_modal').on('show.bs.modal', function (e) {
             let form = $(this).find("form");
             form[0].reset();
-            $(this).find('#subject').val('');
+            $(this).find('#edu_subject_id').val($(this).find('#edu_subject_id option:first').val()).trigger("change");
         });
 
         $(document).ready(function() {
@@ -278,9 +265,9 @@
                 }
             });
 
-            //Get languages
+            //Get edu subjets
             $.ajax({
-                url: APP_URL + "/api/admin/setting/language",
+                url: APP_URL + "/api/admin/setting/edu-subject",
                 type: "GET",
                 data: null,
                 processData: false,
@@ -291,13 +278,11 @@
                 },
                 success: function(response) {
                     let data = response.data;
-                    for (const i in data) {
-                        subjectTranslates += `<div class="col-12 mb-3">
-                                                    <label for="${data[i].locale}">${data[i].language.translate}</label>
-                                                    <input data-locale="${data[i].locale}" class="form-control" id="${data[i].locale}" type="text" name="subject[${data[i].locale}]" value="">
-                                                </div>`;
-                    }
-                    $(".update_modal").find(".update-translates").append(subjectTranslates);
+                    for (const i in data) htmlSubjects += `<option value="${data[i].id}" ">${data[i].subject.translate}</option>`;
+                    $(".create_modal, .update_modal").each(function() {
+                        $(this).find("#edu_subject_id").select2().append(htmlSubjects);
+                    });
+
                 },
                 error: function(xhr, status, error) {
                     let title = "Some thing went wrong";

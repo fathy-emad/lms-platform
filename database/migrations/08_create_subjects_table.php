@@ -16,7 +16,7 @@ return new class extends Migration
             $table->id();
 
             $table->unsignedBigInteger('year_id');
-            $table->unsignedBigInteger('subject');
+            $table->unsignedBigInteger('edu_subject_id');
             $table->json('icon')->nullable();
             $table->enum('ActiveEnum', ActiveEnum::values())->default(ActiveEnum::Active->value);
             $table->unsignedBigInteger('created_by');
@@ -28,9 +28,9 @@ return new class extends Migration
                 ->restrictOnDelete()
                 ->cascadeOnUpdate();
 
-            $table->foreign("subject")
+            $table->foreign("edu_subject_id")
                 ->references("id")
-                ->on("translates")
+                ->on("edu_subjects")
                 ->restrictOnDelete()
                 ->cascadeOnUpdate();
 

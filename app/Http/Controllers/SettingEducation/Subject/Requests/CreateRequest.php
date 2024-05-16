@@ -14,7 +14,7 @@ class CreateRequest extends ValidateRequest
     {
         return [
             "year_id" => "required|integer|exists:years,id",
-            "subject" => "required|string|min:2",
+            "edu_subject_id" => "required|integer|exists:edu_subjects,id",
             "ActiveEnum" => ["sometimes", "string", new Enum(ActiveEnum::class)],
         ];
     }

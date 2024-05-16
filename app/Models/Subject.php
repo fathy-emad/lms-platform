@@ -18,9 +18,9 @@ class Subject extends Model
         return $this->belongsTo(Year::class, 'year_id');
     }
 
-    public function subjectTranslate(): BelongsTo
+    public function subject(): BelongsTo
     {
-        return $this->belongsTo(Translate::class, 'subject');
+        return $this->belongsTo(EduSubject::class, 'edu_subject_id');
     }
 
     public function createdBy(): BelongsTo
