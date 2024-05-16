@@ -152,6 +152,7 @@
                 </div>
             </div>
         </div>
+
         <!-- Update modal -->
         <div class="modal fade update_modal" aria-labelledby="myLargeModalLabel" style="display: none;" data-bs-backdrop="static" aria-hidden="true">
             <div class="modal-dialog modal-lg">

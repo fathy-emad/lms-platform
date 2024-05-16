@@ -60,6 +60,7 @@ Route::prefix("admin")->name("admin.")->middleware("entity.locale")->group(funct
         Route::prefix("setting")->name("setting.")->group(function(){
             Route::view('language', 'admin.setting.language')->name("language");
             Route::view('country', 'admin.setting.country')->name("country");
+            Route::view('edu-subject', 'admin.setting.edu-subject')->name("edu-subject");
             Route::view('route-menu', 'admin.setting.route-menu')->name("route-menu");
             Route::view('route-item', 'admin.setting.route-item')->name("route-item");
         });
