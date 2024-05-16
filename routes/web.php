@@ -79,6 +79,10 @@ Route::prefix("admin")->name("admin.")->middleware("entity.locale")->group(funct
             Route::view('lesson/{chapter_id}', 'admin.setting-education.lesson')->name("lesson");
         });
 
+        Route::prefix("teacher")->name("teacher.")->group(function(){
+            Route::view('register', 'admin.teacher.register')->name("register");
+        });
+
     });
 
 });

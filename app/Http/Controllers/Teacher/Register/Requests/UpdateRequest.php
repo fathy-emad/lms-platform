@@ -4,10 +4,13 @@ namespace App\Http\Controllers\Teacher\Register\Requests;
 
 use App\Concretes\ValidateRequest;
 use App\Enums\ActiveEnum;
+use App\Enums\GenderEnum;
+use App\Enums\NamePrefixEnum;
 use App\Enums\TeacherStatusEnum;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\Enum;
 use Illuminate\Validation\Rules\Password;
+use Illuminate\Validation\Validator;
 
 class UpdateRequest extends ValidateRequest
 {
@@ -15,28 +18,34 @@ class UpdateRequest extends ValidateRequest
     {
         return [
             "id" => "required|integer|exists:teachers,id",
-            "NamePrefixEnumTable" => [
-                "required", "integer",
-                Rule::exists('enumerations', 'id')->where(function ($query){
-                    return $query->where('key', 'NamePrefixEnumTable');
+            "prefix" => ["required", "string", new Enum(NamePrefixEnum::class)],
+            "name" => "required|string|regex:/^[a-zA-Z0-9 .,?!\'’\"-]+$/u",
+            "phone" => "required|digits:10|unique:teachers,phone," . $this->id,
+            "email" => "required|email|unique:teachers,email," . $this->id,
+            "national_id" => "nullable|digits:14|unique:admins,national_id," . $this->id,
+            "GenderEnum" => ["required", "string", new Enum(GenderEnum::class)],
+            "TeacherStatusEnum" => ["required", "string", new Enum(TeacherStatusEnum::class)],
+            "block_reason" => "required_if:TeacherStatusEnum," . TeacherStatusEnum::Blocked->value,
+            "country_id" => "required|exists:countries,id",
+            "stage_id" => "required|exists:stages,id",
+            "edu_subject_id" => "required|exists:edu_subjects,id",
+            "image" => "nullable|array",
+            "image.key" => [
+                "nullable",
+                "integer",
+                Rule::exists("teachers", "image->key")->where(function ($query){
+                    return $query->where("id", $this->id);
                 })
             ],
-            "name" => "required|string|regex:/^[a-zA-Z0-9 .,?!\'’\"-]+$/u",
-            "phone" => "required|digits:10|unique:admins,phone,".$this->id,
-            "email" => "required|email|unique:admins,email,".$this->id,
-            "GenderEnum" => ["required", "string", new Enum(ActiveEnum::class)],
-            "TeacherStatusEnum" =>["required", "string", new Enum(TeacherStatusEnum::class)],
-            "blocked_reason" => "required_if:TeacherStatusEnum," . TeacherStatusEnum::Blocked->value,
-            "image" => "nullable|image",
-            "contract" => "nullable|file|mimes:pdf",
-            "country_id" => "required|exists:countries,id",
-            "password" => ["nullable", "confirmed", Password::min(8)->letters()->mixedCase()->numbers()->symbols()],
-            "password_confirmation" => "required_with:password",
-            "SubjectsEnumTable" => "required|array",
-            "SubjectsEnumTable.*" =>
-                Rule::exists('enumerations', 'id')->where(function ($query) {
-                    return $query->where('key', 'SubjectsEnumTable');
-                }),
+            "image.file" => "nullable|file|mimes:svg,xml",
+            "image.title" => "nullable|string",
         ];
+    }
+
+    public function withValidator(Validator $validator): void
+    {
+        $validator->sometimes('image.file', 'required|file|mimes:svg,xml', function ($input) {
+            return empty($input->image['key']);
+        });
     }
 }

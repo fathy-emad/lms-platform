@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Teacher\Register;
 
-use App\Concretes\RequestHandler;
-use Illuminate\Support\Arr;
-use Illuminate\Support\Facades\Hash;
 use UploadFile;
+use Illuminate\Support\Arr;
+use App\Concretes\RequestHandler;
+use Illuminate\Support\Facades\Hash;
 
 class RegisterRequestHandler extends RequestHandler
 {
@@ -18,11 +18,10 @@ class RegisterRequestHandler extends RequestHandler
         return $this;
     }
 
-    public function handleUpdate(): static
+    public function handleUpdate($model): static
     {
-        $this->uploadImage();
+        $this->uploadImage($model);
         $this->uploadContract();
-        $this->hashPasswordIfExists();
         $this->bindUpdatedBy();
         return $this;
     }
@@ -33,25 +32,11 @@ class RegisterRequestHandler extends RequestHandler
         $this->data = Arr::except($this->data, 'password_confirmation');
     }
 
-    public function hashPasswordIfExists(): void
-    {
-        if (isset($this->data["password"]))
-        {
-            $this->hashPassword();
-        }
-
-        else
-        {
-            $this->data = Arr::except($this->data, 'password');
-            $this->data = Arr::except($this->data, 'password_confirmation');
-        }
-    }
-
-    public function uploadImage(): void
+    public function uploadImage($model = null): void
     {
         if (isset($this->data["image"]))
         {
-            $this->data["image"] = UploadFile::upload('public', $this->data["image"], 'teachers/images');
+            $this->data["image"] = UploadFile::uploadFile('public', $this->data["image"], 'teachers/images', $model, 'image');
         }
     }
 

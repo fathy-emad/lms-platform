@@ -10,10 +10,12 @@ use App\Enums\EduTermsEnum;
 use App\Enums\EduTypesEnum;
 use App\Enums\GenderEnum;
 use App\Enums\MonthsEnum;
+use App\Enums\NamePrefixEnum;
 use App\Enums\TeacherStatusEnum;
 use App\Http\Resources\TranslationResource;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
+use PhpParser\Node\Name;
 
 class EnumsController extends Controller
 {
@@ -62,6 +64,12 @@ class EnumsController extends Controller
     public function EduTypes(): JsonResponse
     {
         $translations = collect(EduTypesEnum::cases())->map(fn($case) => new TranslationResource($case, true));
+        return ApiResponse::sendSuccess($translations, "record read successfully", null);
+    }
+
+    public function NamePrefix(): JsonResponse
+    {
+        $translations = NamePrefixEnum::values();
         return ApiResponse::sendSuccess($translations, "record read successfully", null);
     }
 }

@@ -23,12 +23,11 @@ class CreateRequest extends ValidateRequest
             "password" => ["required", "confirmed", Password::min(8)->letters()->mixedCase()->numbers()->symbols()],
             "password_confirmation" => "required",
             "GenderEnum" => ["required", "string", new Enum(GenderEnum::class)],
-            "TeacherStatusEnum" => ["required", "string", new Enum(TeacherStatusEnum::class)],
             "image.file" => "required|image",
             "image.title" => "nullable|string",
             "country_id" => "required|exists:countries,id",
             "stage_id" => "required|exists:stages,id",
-            "subject_id" => "required|exists:subjects,id",
+            "edu_subject_id" => "required|exists:edu_subjects,id",
         ];
     }
 }

@@ -36,7 +36,7 @@ return new class extends Migration
             $table->string('verifyToken')->nullable();
 
             $table->unsignedBigInteger('stage_id')->nullable();
-            $table->unsignedBigInteger('subject_id')->nullable();
+            $table->unsignedBigInteger('edu_subject_id')->nullable();
             $table->unsignedBigInteger('country_id')->nullable();
             $table->unsignedBigInteger('created_by')->nullable();
             $table->unsignedBigInteger('updated_by')->nullable();
@@ -53,9 +53,9 @@ return new class extends Migration
                 ->restrictOnDelete()
                 ->cascadeOnUpdate();
 
-            $table->foreign("subject_id")
+            $table->foreign("edu_subject_id")
                 ->references("id")
-                ->on("subjects")
+                ->on("edu_subjects")
                 ->restrictOnDelete()
                 ->cascadeOnUpdate();
 

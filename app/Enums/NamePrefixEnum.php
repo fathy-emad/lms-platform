@@ -13,7 +13,7 @@ enum NamePrefixEnum: string
 
     case Mrs = 'Mrs';
 
-    case Ms = 'Ms =';
+    case Ms = 'Ms';
     case Miss = 'Miss';
 
     case Dr = 'Dr';

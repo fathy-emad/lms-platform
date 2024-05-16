@@ -42,16 +42,6 @@ class Admin extends Authenticatable implements JWTSubject
         return "";
     }
 
-    public function getPrefixAttribute(): string
-    {
-        if ($this->country)
-        {
-            return $this->country->phone_prefix;
-        }
-
-        return "";
-    }
-
     public function country(): BelongsTo
     {
         return $this->belongsTo(Country::class, 'country_id');

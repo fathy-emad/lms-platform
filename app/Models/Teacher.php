@@ -3,10 +3,11 @@
 namespace App\Models;
 
 use App\Enums\GenderEnum;
+use App\Enums\NamePrefixEnum;
 use App\Enums\TeacherStatusEnum;
+use Tymon\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Tymon\JWTAuth\Contracts\JWTSubject;
 
 class Teacher extends Authenticatable implements JWTSubject
 {
@@ -21,6 +22,7 @@ class Teacher extends Authenticatable implements JWTSubject
     protected $casts = [
         "GenderEnum" => GenderEnum::class,
         "TeacherStatusEnum" => TeacherStatusEnum::class,
+        "prefix" => NamePrefixEnum::class,
         "online" => "boolean",
         "image" => "array",
         "contract" => "array",
@@ -30,23 +32,15 @@ class Teacher extends Authenticatable implements JWTSubject
         'password' => 'hashed',
     ];
 
-    public function setNamePrefixEnumTableAttribute($value): string
+    public function getNameAttribute($value): string
     {
         return ucfirst(strtolower($value));
     }
 
-    public function getPhoneAttribute($value): string
+    public function getPhonePrefixAttribute(): string
     {
-        if ($this->country) return "(" . $this->country->phone_prefix . ") " . $value;
-
-        return $value;
-    }
-
-    public function getNameAttribute($value): string
-    {
-        if ($this->namePrefixEnum) return $this->namePrefixEnum->valueTranslate[app()->getLocale()] . "." . $value;
-
-        return $value;
+        if ($this->country) return $this->country->phone_prefix;
+        return "";
     }
 
     public function country(): BelongsTo
@@ -54,9 +48,14 @@ class Teacher extends Authenticatable implements JWTSubject
         return $this->belongsTo(Country::class, 'country_id');
     }
 
-    public function namePrefixEnum(): BelongsTo
+    public function stage(): BelongsTo
     {
-        return $this->belongsTo(Enumeration::class, 'NamePrefixEnumTable');
+        return $this->belongsTo(Stage::class, 'stage_id');
+    }
+
+    public function subject(): BelongsTo
+    {
+        return $this->belongsTo(EduSubject::class, 'edu_subject_id');
     }
 
     public function createdBy(): BelongsTo
