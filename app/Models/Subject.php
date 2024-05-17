@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Enums\ActiveEnum;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Subject extends Model
 {
@@ -21,6 +22,11 @@ class Subject extends Model
     public function subject(): BelongsTo
     {
         return $this->belongsTo(EduSubject::class, 'edu_subject_id');
+    }
+
+    public function curricula(): HasMany
+    {
+        return $this->hasMany(Curriculum::class, 'subject_id');
     }
 
     public function createdBy(): BelongsTo

@@ -9,6 +9,7 @@ use App\Enums\EduTypesEnum;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Casts\AsEnumCollection;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Curriculum extends Model
 {
@@ -30,6 +31,11 @@ class Curriculum extends Model
     public function curriculumTranslate(): BelongsTo
     {
         return $this->belongsTo(Translate::class, 'curriculum');
+    }
+
+    public function courses(): HasMany
+    {
+        return $this->hasMany(Course::class, "curriculum_id");
     }
 
     public function createdBy(): BelongsTo

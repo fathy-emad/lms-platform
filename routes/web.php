@@ -83,6 +83,11 @@ Route::prefix("admin")->name("admin.")->middleware("entity.locale")->group(funct
             Route::view('register', 'admin.teacher.register')->name("register");
         });
 
+        Route::prefix("course")->name("course.")->group(function(){
+            Route::view('register', 'admin.course.teacher')->name("teachers");
+            Route::view('register/{teacher_id}', 'admin.course.register')->name("register");
+        });
+
     });
 
 });

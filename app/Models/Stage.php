@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Enums\ActiveEnum;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 
 class Stage extends Model
 {
@@ -21,6 +22,11 @@ class Stage extends Model
     public function country(): BelongsTo
     {
         return $this->belongsTo(Country::class, 'country_id');
+    }
+
+    public function subjects(): HasManyThrough
+    {
+        return $this->hasManyThrough(Subject::class,Year::class,"stage_id","year_id","id","id");
     }
 
     public function createdBy(): BelongsTo

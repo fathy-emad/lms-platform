@@ -47,5 +47,10 @@ return [
     "to" => "To",
     "subject" => "Subject",
     "chapter" => "Chapter",
-    "lesson" => "Lesson"
+    "lesson" => "Lesson",
+    "cost" => "Cost",
+    "percentage" => "Percentage",
+    "TeacherStatusEnum" => "Teacher Status",
+    "course" => "Course",
+    "teacher" => "Teacher"
 ];

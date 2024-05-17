@@ -47,5 +47,10 @@ return [
     "to" => "إلى",
     "subject" => "المادة",
     "chapter" => "الفصل",
-    "lesson" => "الدرس"
+    "lesson" => "الدرس",
+    "cost" => "السعر",
+    "percentage" => "النسبة",
+    "TeacherStatusEnum" => "حالة المدرس",
+    "course" => "الكورس",
+    "teacher" => "المدرس",
 ];

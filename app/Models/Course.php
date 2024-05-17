@@ -11,10 +11,17 @@ class Course extends Model
     protected $guarded = [];
 
     protected $casts = [
-        "costs" => "array",
-        "costs.*" => "float",
+        "cost" => "array",
+        "percentage" => "float",
         "ActiveEnum" => ActiveEnum::class
     ];
+
+    public function getCostAttribute($value)
+    {
+        $costArray = json_decode($value, true);
+        foreach ($costArray as &$item)  $item = (float) $item;
+        return $costArray;
+    }
 
     public function curriculum(): BelongsTo
     {

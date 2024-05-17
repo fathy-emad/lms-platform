@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Course\Register\Requests;
 
 use App\Enums\ActiveEnum;
 use App\Concretes\ValidateRequest;
+use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\Enum;
 
 class CreateRequest extends ValidateRequest
@@ -11,14 +12,21 @@ class CreateRequest extends ValidateRequest
     public function rules(): array
     {
         return [
-            "curriculum_id" => "required|integer|exists:curricula,id",
             "teacher_id" => "required|integer|exists:teachers,id",
-            "costs" => "required|array",
-            "costs.course" => "required|integer",
-            "costs.branch" => "required|integer",
-            "costs.chapter" => "required|integer",
-            "costs.lesson" => "required|integer",
-            "ActiveEnum" => ["required", "string", new Enum(ActiveEnum::class)],
+            "curriculum_id" => [
+                "required",
+                "integer",
+                "exists:curricula,id",
+                Rule::unique("courses", "curriculum_id")->where(function ($query){
+                    return $query->where("teacher_id", $this->teacher_id);
+                })
+            ],
+            "cost" => "required|array",
+            "cost.course" => "required|numeric",
+            "cost.chapter" => "required|numeric",
+            "cost.lesson" => "required|numeric",
+            "percentage" => "required|numeric",
+            "ActiveEnum" => ["sometimes", "string", new Enum(ActiveEnum::class)],
         ];
     }
 }
