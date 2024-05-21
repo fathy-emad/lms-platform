@@ -57,4 +57,10 @@ return [
         "IG" => "IG",
         "Azhar" => "أزهرى",
     ],
+
+    "FreeEnum" => [
+        "Free" => "Free",
+        "NotFree" => "Not Free"
+    ],
+
 ];

@@ -58,4 +58,9 @@ return [
         "Azhar" => "Azhar",
     ],
 
+    "FreeEnum" => [
+        "Free" => "مجانى",
+        "NotFree" => "غير مجانى"
+    ],
+
 ];
