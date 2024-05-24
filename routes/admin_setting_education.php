@@ -1,12 +1,13 @@
 <?php
 
-use App\Http\Controllers\SettingEducation\Branch\BranchController;
 use App\Http\Controllers\SettingEducation\Chapter\ChapterController;
 use App\Http\Controllers\SettingEducation\Curriculum\CurriculumController;
+use App\Http\Controllers\SettingEducation\EduSubject\EduSubjectController;
 use App\Http\Controllers\SettingEducation\Lesson\LessonController;
 use App\Http\Controllers\SettingEducation\Stage\StageController;
 use App\Http\Controllers\SettingEducation\Subject\SubjectController;
 use App\Http\Controllers\SettingEducation\Year\YearController;
+use App\Http\Controllers\Teacher\BankQuestion\BankQuestionController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -21,6 +22,13 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::middleware(['apiAuth:admin', 'apiPermission'])->group(function (){
+
+    //Edu Subjects
+    Route::controller(EduSubjectController::class)->group(function (){
+        Route::get('edu-subject', 'read');
+        Route::post('edu-subject', 'create');
+        Route::put('edu-subject', 'update');
+    });
 
     //Stage
     Route::controller(StageController::class)->group(function (){
@@ -62,5 +70,13 @@ Route::middleware(['apiAuth:admin', 'apiPermission'])->group(function (){
         Route::get('lesson', 'read');
         Route::post('lesson', 'create');
         Route::put('lesson', 'update');
+    });
+
+    //Bank Questions
+    Route::controller(BankQuestionController::class)->group(function (){
+        Route::get('bank-question', 'read');
+        Route::post('bank-question', 'create');
+        Route::put('bank-question', 'update');
+        Route::delete('bank-question', 'delete');
     });
 });

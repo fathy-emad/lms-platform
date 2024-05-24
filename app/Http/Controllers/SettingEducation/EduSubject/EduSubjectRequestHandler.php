@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Http\Controllers\Setting\EduSubject;
+namespace App\Http\Controllers\SettingEducation\EduSubject;
 
-use Translation;
 use App\Concretes\RequestHandler;
+use Translation;
 
 class EduSubjectRequestHandler extends RequestHandler
 {

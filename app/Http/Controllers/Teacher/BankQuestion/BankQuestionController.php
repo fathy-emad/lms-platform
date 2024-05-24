@@ -1,21 +1,20 @@
 <?php
 
-namespace App\Http\Controllers\Setting\EduSubject;
+namespace App\Http\Controllers\Teacher\BankQuestion;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
-use App\Http\Repositories\EduSubjectRepository;
-use App\Http\Controllers\Setting\EduSubject\Requests\{CreateRequest};
-use App\Http\Controllers\Setting\EduSubject\Requests\UpdateRequest;
+use App\Http\Repositories\BankQuestionRepository;
+use App\Http\Controllers\Teacher\BankQuestion\Requests\CreateRequest;
+use App\Http\Controllers\Teacher\BankQuestion\Requests\UpdateRequest;
 
-
-class EduSubjectController extends Controller
+class BankQuestionController extends Controller
 {
     public function __construct(
-        protected EduSubjectRepository $repository,
-        protected EduSubjectRequestHandler $requestHandler,
-        protected string $resource = EduSubjectResource::class,
+        protected BankQuestionRepository $repository,
+        protected BankQuestionRequestHandler $requestHandler,
+        protected string $resource = BankQuestionResource::class,
     ){}
 
     public function create(CreateRequest $request): JsonResponse
@@ -34,5 +33,10 @@ class EduSubjectController extends Controller
         $model = $this->repository->getById($request->id);
         $data = $this->requestHandler->set($request->validated())->handleUpdate($model)->get();
         return parent::update_model($request->id, $data);
+    }
+
+    public function delete(Request $request): JsonResponse
+    {
+        return parent::delete_model($request->id);
     }
 }

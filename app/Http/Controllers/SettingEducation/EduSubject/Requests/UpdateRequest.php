@@ -1,11 +1,8 @@
 <?php
 
-namespace App\Http\Controllers\Setting\EduSubject\Requests;
+namespace App\Http\Controllers\SettingEducation\EduSubject\Requests;
 
 use App\Concretes\ValidateRequest;
-use App\Enums\ActiveEnum;
-use Illuminate\Validation\Rule;
-use Illuminate\Validation\Validator;
 
 class UpdateRequest extends ValidateRequest
 {

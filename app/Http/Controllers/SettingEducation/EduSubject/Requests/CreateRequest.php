@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Setting\EduSubject\Requests;
+namespace App\Http\Controllers\SettingEducation\EduSubject\Requests;
 
 use App\Concretes\ValidateRequest;
 

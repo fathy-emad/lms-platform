@@ -1,12 +1,10 @@
 <?php
 
-use App\Http\Controllers\Setting\Country\CountryController;
-use App\Http\Controllers\Setting\EduSubject\EduSubjectController;
-use App\Http\Controllers\Setting\Enumeration\EnumerationController;
-use App\Http\Controllers\Setting\Language\LanguageController;
-use App\Http\Controllers\Setting\RouteMenu\RouteMenuController;
-use App\Http\Controllers\Setting\RouteItem\RouteItemController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Setting\Country\CountryController;
+use App\Http\Controllers\Setting\Language\LanguageController;
+use App\Http\Controllers\Setting\RouteItem\RouteItemController;
+use App\Http\Controllers\Setting\RouteMenu\RouteMenuController;
 
 /*
 |--------------------------------------------------------------------------
@@ -33,13 +31,6 @@ Route::middleware(['apiAuth:admin', 'apiPermission'])->group(function (){
         Route::get('country', 'read');
         Route::post('country', 'create');
         Route::put('country', 'update');
-    });
-
-    //Edu Subjects
-    Route::controller(EduSubjectController::class)->group(function (){
-        Route::get('edu-subject', 'read');
-        Route::post('edu-subject', 'create');
-        Route::put('edu-subject', 'update');
     });
 
 

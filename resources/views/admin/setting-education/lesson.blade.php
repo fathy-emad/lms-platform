@@ -225,6 +225,11 @@
                                     </button>
                                 </div>`;
                     }
+                    actions += `<div class="col-auto">
+                                    <a class="btn btn-sm btn-success" type="button" href="{{url("/admin/setting-education/bank-question")}}/${data.id}">
+                                        <i class="fa fa-home"></i> Bank Questions
+                                    </a>
+                                </div>`;
                     actions += `</div>`;
                     return actions;
                 }

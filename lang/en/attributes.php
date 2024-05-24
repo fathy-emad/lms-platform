@@ -52,5 +52,8 @@ return [
     "percentage" => "Percentage",
     "TeacherStatusEnum" => "Teacher Status",
     "course" => "Course",
-    "teacher" => "Teacher"
+    "teacher" => "Teacher",
+    "question" => 'Question',
+    "answers" => 'Answers',
+    "images" => 'Images'
 ];

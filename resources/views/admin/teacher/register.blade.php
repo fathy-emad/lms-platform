@@ -536,7 +536,7 @@
 
             //Get edu subjects
             $.ajax({
-                url: APP_URL + "/api/admin/setting/edu-subject",
+                url: APP_URL + "/api/admin/setting-education/edu-subject",
                 type: "GET",
                 data: null,
                 processData: false,

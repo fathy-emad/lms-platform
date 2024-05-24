@@ -1,6 +1,7 @@
 <?php
 
 
+use App\Http\Controllers\Teacher\BankQuestion\BankQuestionController;
 use App\Http\Controllers\Teacher\Register\RegisterController;
 use Illuminate\Support\Facades\Route;
 
@@ -22,6 +23,14 @@ Route::middleware(['apiAuth:admin', 'apiPermission'])->group(function (){
         Route::get('register', 'read');
         Route::post('register', 'create');
         Route::put('register', 'update');
+    });
+
+    //Bank Questions
+    Route::controller(BankQuestionController::class)->group(function (){
+        Route::get('bank-question', 'read');
+        Route::post('bank-question', 'create');
+        Route::put('bank-question', 'update');
+        Route::delete('bank-question', 'delete');
     });
 
 });

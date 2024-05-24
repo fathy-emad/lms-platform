@@ -58,7 +58,7 @@ class UploadFileService
             foreach ($filesData AS $file){
                 if (isset($file["file"])) $return[] = $this->createFile($file, $path, $driver);
             }
-            $return = array_values($return);
+            $return = array_values($return ?? []) ?: null;
         }
 
         return $return;

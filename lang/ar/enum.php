@@ -63,4 +63,9 @@ return [
         "NotFree" => "Not Free"
     ],
 
+
+    "QuestionTypeEnum" => [
+        "Choose" => "Single Choose"
+    ],
+
 ];

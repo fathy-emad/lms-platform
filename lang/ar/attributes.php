@@ -53,4 +53,7 @@ return [
     "TeacherStatusEnum" => "حالة المدرس",
     "course" => "الكورس",
     "teacher" => "المدرس",
+    "question" => 'السؤال',
+    "answers" => 'الإجابات',
+    "images" => 'الصور'
 ];

@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Controllers\Setting\EduSubject;
+namespace App\Http\Controllers\SettingEducation\EduSubject;
 
-use Illuminate\Http\Request;
 use App\Http\Resources\AuthorResource;
 use App\Http\Resources\DateTimeResource;
 use App\Http\Resources\TranslationResource;
+use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class EduSubjectResource extends JsonResource

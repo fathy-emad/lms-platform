@@ -63,4 +63,8 @@ return [
         "NotFree" => "غير مجانى"
     ],
 
+    "QuestionTypeEnum" => [
+        "Choose" => "إختر من متعدد"
+    ],
+
 ];

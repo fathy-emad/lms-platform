@@ -22,4 +22,5 @@ Route::middleware(['apiAuth:admin', 'apiPermission'])->group(function (){
         Route::post('register', 'create');
         Route::put('register', 'update');
     });
+
 });

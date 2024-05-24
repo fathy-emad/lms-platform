@@ -2,10 +2,9 @@
 
 namespace App\Http\Controllers\SettingEducation\Subject\Requests;
 
-use App\Concretes\ValidateRequest;
 use App\Enums\ActiveEnum;
-use App\Enums\SystemConstantsEnum;
 use Illuminate\Validation\Rule;
+use App\Concretes\ValidateRequest;
 use Illuminate\Validation\Rules\Enum;
 
 class CreateRequest extends ValidateRequest
@@ -14,7 +13,14 @@ class CreateRequest extends ValidateRequest
     {
         return [
             "year_id" => "required|integer|exists:years,id",
-            "edu_subject_id" => "required|integer|exists:edu_subjects,id",
+            "edu_subject_id" => [
+                "required",
+                "integer",
+                "exists:edu_subjects,id",
+                Rule::unique('subjects', 'edu_subject_id')->where(function ($query){
+                   return $query->where('year_id', $this->year_id);
+                })
+            ],
             "ActiveEnum" => ["sometimes", "string", new Enum(ActiveEnum::class)],
         ];
     }

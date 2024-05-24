@@ -214,7 +214,7 @@
 
                     actions += `<div class="col-auto">
                                     <a class="btn btn-sm btn-success" type="button" href="{{url("/admin/setting-education/curriculum")}}/${data.id}">
-                                        <i class="fa fa-home"></i>
+                                        <i class="fa fa-home"></i> Curriculum
                                     </a>
                                 </div>`;
                     actions += `</div>`;
@@ -267,7 +267,7 @@
 
             //Get edu subjets
             $.ajax({
-                url: APP_URL + "/api/admin/setting/edu-subject",
+                url: APP_URL + "/api/admin/setting-education/edu-subject",
                 type: "GET",
                 data: null,
                 processData: false,

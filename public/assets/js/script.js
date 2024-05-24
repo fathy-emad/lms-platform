@@ -561,6 +561,94 @@ function fileUploadBuilder(element, name, value, title, accept) {
     });
 }
 
+
+function filesUploadBuilder(element, name, values, title, accept) {
+    $(element).find("[data-file=container]").remove();
+    let template = `<div class="border border-2 rounded-3 p-2 row mb-2 justify-content-around align-items-center" data-file="container">
+                                <div class="col-1"><img data-file="preview" class="border border-1 round-badge-primary" src="${APP_URL + '/assets/images/no-image.jpg'}" alt="no-image" width="75" height="60"></div>
+                                <div class="col-1">
+                                    <input type="hidden" data-file="key" value="">
+                                    <input type="file"  data-file="file" accept="${accept}" style="display: none">
+                                    <button type="button" data-file="upload" class="btn btn-lg btn-success" style="height: 60px !important;" onclick="$(this).prev().click()" title="upload file"><i class="fa fa-cloud-upload"></i></button>
+                                </div>
+                                <div class="col-6 title-container">
+                                    <div class="input-group-square">
+                                        <div class="input-group" style="height: 60px !important;">
+                                            <div class="input-group-prepend"><span class="input-group-text" style="height: 100% !important;">title</span></div>
+                                            <input class="form-control" type="text" data-file="title" placeholder="title image" value="">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-1">
+                                    <button type="button" data-file="reset" class="btn btn-lg btn-primary" style="height: 60px !important;" title="reset file"><i class="fa fa-refresh"></i></button>
+                                </div>
+                                <div class="col-1">
+                                    <button type="button" data-file="add" class="btn btn-lg btn-success" style="height: 60px !important;" title="add file"><i class="fa fa-plus"></i></button>
+                                </div>
+                                <div class="col-1">
+                                    <button type="button" data-file="remove" class="btn btn-lg btn-danger" style="height: 60px !important;" title="delete file"><i class="fa fa-trash"></i></button>
+                                </div>
+                            </div>`;
+
+
+    if (values && values.length){
+        for (const i in values) {
+            add(values[i]);
+        }
+    } else {
+        add();
+    }
+
+
+    function add(value= null){
+        let clone = $(template).clone(true);
+        if (!title) $(clone).find(".title-container").hide();
+        if (value){
+            $(clone).find('[data-file=key]').val(value.key);
+            $(clone).find('[data-file=title]').val(value.title);
+            $(clone).find('[data-file=preview]').attr('src', APP_URL+'/uploads/'+value.file);
+        }
+        $(clone).find('[data-file=add]').on('click', function (){ add() });
+        $(clone).find('[data-file=reset]').on('click', function (){ reset(clone) });
+        $(clone).find('[data-file=remove]').on('click', function (){ remove(clone) });
+        $(clone).find('[data-file=file]').on('change', function (e){ change(e, clone) });
+        element.append(clone);
+        arrange(value);
+    }
+
+    function change(event, clone){
+        let file = event.target.files[0];
+        let reader = new FileReader();
+        reader.onload = function(e) {
+            $(clone).find("[data-file=preview]").attr('src', e.target.result); // Set the src of the img tag
+        };
+        reader.readAsDataURL(file);
+        $(clone).find("[data-file=key]").val('');
+    }
+
+    function reset(clone){
+        $(clone).find("[data-file=key]").val('');
+        $(clone).find("[data-file=file]").val('');
+        $(clone).find("[data-file=preview]").attr('src', `${APP_URL}/assets/images/no-image.jpg`);
+    }
+
+    function remove(clone) {
+        $(clone).remove();
+        arrange();
+    }
+
+    function arrange(){
+        let counter = 0;
+        $(element).find("[data-file=container]").each(function (){
+            $(this).find('[data-file=key]').attr('name', `${name}[${counter}][key]`);
+            $(this).find('[data-file=file]').attr('name', `${name}[${counter}][file]`);
+            $(this).find('[data-file=title]').attr('name', `${name}[${counter}][title]`);
+            counter++;
+        });
+    }
+
+}
+
 $(document).ready(function() {
 
     $('.loader-wrapper').fadeOut('slow', function() {
