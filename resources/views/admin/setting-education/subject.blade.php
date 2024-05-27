@@ -35,20 +35,20 @@
         <div class="row">
             <div class="col-sm-12">
                 <div class="card">
-                    @if($pageData["actions"]["create"])
-                        <div class="card-header">
+                    <div class="card-header">
+                        @if($pageData["actions"]["create"])
                             <button class="btn btn-primary mb-3" type="button" data-bs-toggle="modal" data-bs-target=".create_modal"
                                     data-bs-original-title="{{ __('lang.create') }} {{ $pageData["page"]}}"
                                     title="{{ __('lang.create') }} {{ $pageData["page"] }}">
                                 {{ __('lang.create') }} {{ $pageData["page"]}}
                             </button>
-                            <nav class="breadcrumb breadcrumb-icon">
-                                <a class="breadcrumb-item" href="" data-bread="country">country</a>
-                                <a class="breadcrumb-item" href="" data-bread="stage">stage</a>
-                                <a class="breadcrumb-item" href="" data-bread="year">year</a>
-                            </nav>
-                        </div>
-                    @endif
+                        @endif
+                        <nav class="breadcrumb breadcrumb-icon">
+                            <a class="breadcrumb-item" href="" data-bread="country">({{ __("attributes.country") }})</a>
+                            <a class="breadcrumb-item" href="" data-bread="stage">({{ __("attributes.stage") }})</a>
+                            <a class="breadcrumb-item" href="" data-bread="year">({{ __("attributes.year") }})</a>
+                        </nav>
+                    </div>
                     <div class="card-body">
                         <div class="table-responsive">
                             <table class="display datatables" id="data-table-ajax">
@@ -199,7 +199,7 @@
                 "data": null,
                 "orderable": false,
                 "searchable": false,
-                "render": function (data) {
+                "render": function (data, type, row, meta) {
                     const dataString = JSON.stringify(data).replace(/"/g, '&quot;');
                     let actions = `<div class="row justify-content-start">`;
                     if(pageData.actions.update === 1){
@@ -218,6 +218,13 @@
                                     </a>
                                 </div>`;
                     actions += `</div>`;
+
+                    if(meta.row === 0){
+                        $("[data-bread=country]").text("({{ __("attributes.country") }}) " + data.year.stage.country.country.translate).attr("href", APP_URL + "/" + "admin/setting-education/stage");
+                        $("[data-bread=stage]").text("({{ __("attributes.stage") }}) " + data.year.stage.stage.translate).attr("href", APP_URL + "/" + "admin/setting-education/stage");
+                        $("[data-bread=year]").text("({{ __("attributes.year") }}) " + data.year.year.translate).attr("href", APP_URL + "/" + "admin/setting-education/year/" + data.year.stage.id);
+                    }
+
                     return actions;
                 }
             }
@@ -240,30 +247,6 @@
         });
 
         $(document).ready(function() {
-
-            //Get year
-            $.ajax({
-                url: APP_URL + "/api/admin/setting-education/year?id={{request("year_id")}}",
-                type: "GET",
-                data: null,
-                processData: false,
-                contentType: false,
-                headers: {
-                    'Authorization': 'Bearer ' + "{{ session("admin_data")["jwtToken"] }}",
-                    'locale': "{{ session("locale") }}",
-                },
-                success: function(response) {
-                    let data = response.data;
-                    $("[data-bread=country]").text(data.stage.country.country.translate).attr("href", APP_URL + "/" + "admin/setting-education/stage");
-                    $("[data-bread=stage]").text(data.stage.stage.translate).attr("href", APP_URL + "/" + "admin/setting-education/stage");
-                    $("[data-bread=year]").text(data.year.translate).attr("href", APP_URL + "/" + "admin/setting-education/year/" + data.stage.id);
-                },
-                error: function(xhr, status, error) {
-                    let title = "Some thing went wrong";
-                    let message = xhr.responseText || "Unknown error";
-                    notifyForm(title, message, "danger");
-                }
-            });
 
             //Get edu subjets
             $.ajax({

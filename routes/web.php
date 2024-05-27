@@ -82,6 +82,11 @@ Route::prefix("admin")->name("admin.")->middleware("entity.locale")->group(funct
 
         Route::prefix("teacher")->name("teacher.")->group(function(){
             Route::view('register', 'admin.teacher.register')->name("register");
+            Route::view('bank-question', 'admin.teacher.bank-question-teacher')->name("bank-question-teacher");
+            Route::view('bank-question/{teacher_id}', 'admin.teacher.bank-question-course')->name("bank-question-course");
+            Route::view('bank-question/{teacher_id}/{curriculum_id}', 'admin.teacher.bank-question-chapter')->name("bank-question-chapter");
+            Route::view('bank-question/{teacher_id}/{curriculum_id}/{chapter_id}', 'admin.teacher.bank-question-lesson')->name("bank-question-lesson");
+            Route::view('bank-question/{teacher_id}/{curriculum_id}/{chapter_id}/{lesson_id}', 'admin.teacher.bank-question')->name("bank-question");
         });
 
         Route::prefix("course")->name("course.")->group(function(){

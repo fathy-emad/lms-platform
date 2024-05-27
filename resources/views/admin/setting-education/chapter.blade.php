@@ -35,22 +35,22 @@
         <div class="row">
             <div class="col-sm-12">
                 <div class="card">
-                    @if($pageData["actions"]["create"])
-                        <div class="card-header">
+                    <div class="card-header">
+                        @if($pageData["actions"]["create"])
                             <button class="btn btn-primary mb-3" type="button" data-bs-toggle="modal" data-bs-target=".create_modal"
                                     data-bs-original-title="{{ __('lang.create') }} {{ $pageData["page"]}}"
                                     title="{{ __('lang.create') }} {{ $pageData["page"] }}">
                                 {{ __('lang.create') }} {{ $pageData["page"]}}
                             </button>
-                            <nav class="breadcrumb breadcrumb-icon">
-                                <a class="breadcrumb-item" href="" data-bread="country">country</a>
-                                <a class="breadcrumb-item" href="" data-bread="stage">stage</a>
-                                <a class="breadcrumb-item" href="" data-bread="year">year</a>
-                                <a class="breadcrumb-item" href="" data-bread="subject">subject</a>
-                                <a class="breadcrumb-item" href="" data-bread="curriculum">curriculum</a>
-                            </nav>
-                        </div>
-                    @endif
+                        @endif
+                        <nav class="breadcrumb breadcrumb-icon">
+                            <a class="breadcrumb-item" href="" data-bread="country">({{ __("attributes.country") }})</a>
+                            <a class="breadcrumb-item" href="" data-bread="stage">({{ __("attributes.stage") }})</a>
+                            <a class="breadcrumb-item" href="" data-bread="year">({{ __("attributes.year") }})</a>
+                            <a class="breadcrumb-item" href="" data-bread="subject">({{ __("attributes.subject") }})</a>
+                            <a class="breadcrumb-item" href="" data-bread="curriculum">({{ __("attributes.curriculum") }})</a>
+                        </nav>
+                    </div>
                     <div class="card-body">
                         <div class="table-responsive">
                             <table class="display datatables" id="data-table-ajax">
@@ -212,7 +212,7 @@
                 "data": null,
                 "orderable": false,
                 "searchable": false,
-                "render": function (data) {
+                "render": function (data, type, row, meta) {
                     const dataString = JSON.stringify(data).replace(/"/g, '&quot;');
                     let actions = `<div class="row justify-content-start">`;
                     if(pageData.actions.update === 1){
@@ -231,6 +231,13 @@
                                     </a>
                                 </div>`;
                     actions += `</div>`;
+                    if(meta.row === 0){
+                        $("[data-bread=country]").text("({{ __("attributes.country") }}) " + data.curriculum.subject.year.stage.country.country.translate).attr("href", APP_URL + "/" + "admin/setting-education/stage");
+                        $("[data-bread=stage]").text("({{ __("attributes.stage") }}) " + data.curriculum.subject.year.stage.stage.translate).attr("href", APP_URL + "/" + "admin/setting-education/stage");
+                        $("[data-bread=year]").text("({{ __("attributes.year") }}) " + data.curriculum.subject.year.year.translate).attr("href", APP_URL + "/" + "admin/setting-education/year/" + data.curriculum.subject.year.stage.id);
+                        $("[data-bread=subject]").text("({{ __("attributes.subject") }}) " + data.curriculum.subject.subject.translate).attr("href", APP_URL + "/" + "admin/setting-education/subject/" + data.curriculum.subject.year.id);
+                        $("[data-bread=curriculum]").text("({{ __("attributes.curriculum") }}) " + data.curriculum.curriculum.translate).attr("href", APP_URL + "/" + "admin/setting-education/curriculum/" + data.curriculum.subject.id);
+                    }
                     return actions;
                 }
             }
@@ -256,32 +263,6 @@
         });
 
         $(document).ready(function() {
-
-            //Get year
-            $.ajax({
-                url: APP_URL + "/api/admin/setting-education/curriculum?id={{request("curriculum_id")}}",
-                type: "GET",
-                data: null,
-                processData: false,
-                contentType: false,
-                headers: {
-                    'Authorization': 'Bearer ' + "{{ session("admin_data")["jwtToken"] }}",
-                    'locale': "{{ session("locale") }}",
-                },
-                success: function(response) {
-                    let data = response.data;
-                    $("[data-bread=country]").text(data.subject.year.stage.country.country.translate).attr("href", APP_URL + "/" + "admin/setting-education/stage");
-                    $("[data-bread=stage]").text(data.subject.year.stage.stage.translate).attr("href", APP_URL + "/" + "admin/setting-education/stage");
-                    $("[data-bread=year]").text(data.subject.year.year.translate).attr("href", APP_URL + "/" + "admin/setting-education/year/" + data.subject.year.stage.id);
-                    $("[data-bread=subject]").text(data.subject.subject.translate).attr("href", APP_URL + "/" + "admin/setting-education/subject/" + data.subject.year.id);
-                    $("[data-bread=curriculum]").text(data.curriculum.translate).attr("href", APP_URL + "/" + "admin/setting-education/curriculum/" + data.subject.id);
-                },
-                error: function(xhr, status, error) {
-                    let title = "Some thing went wrong";
-                    let message = xhr.responseText || "Unknown error";
-                    notifyForm(title, message, "danger");
-                }
-            });
 
             //Get languages
             $.ajax({

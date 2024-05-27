@@ -23,8 +23,8 @@ class BankQuestionResource extends JsonResource
     {
         return [
             "id" => $this->id,
-            "teacher_id" => $this->teacher_id,
-            "lesson_id" => $this->lesson_id,
+            "teacher" => new RegisterResource($this->teacher),
+            "lesson" => new LessonResource($this->lesson),
             "question" => $this->question,
             "answers" => $this->answers,
             "correctAnswer" => $this->correctAnswer,

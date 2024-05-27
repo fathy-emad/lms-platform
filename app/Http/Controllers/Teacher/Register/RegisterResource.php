@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Teacher\Register;
 
 use App\Http\Controllers\SettingEducation\Curriculum\CurriculumResource;
+use App\Http\Controllers\SettingEducation\EduSubject\EduSubjectResource;
+use App\Http\Controllers\SettingEducation\Stage\StageResource;
 use App\Http\Resources\AuthorResource;
 use App\Http\Resources\DateTimeResource;
 use App\Http\Resources\TranslationResource;
@@ -33,8 +35,8 @@ class RegisterResource extends JsonResource
             "online" => $this->online,
             "image" => $this->image,
             "contract" => $this->contract,
-            "stage" => $this->stage,
-            "subject" => $this->subject,
+            "stage" => new StageResource($this->stage),
+            "subject" => new EduSubjectResource($this->subject),
             "curricula" => CurriculumResource::collection($this->available_curricula()),
             "email_verified_at" => $this->when($this->email_verified_at, new DateTimeResource($this->email_verified_at), null),
             "created_by" => new AuthorResource($this->createdBy),

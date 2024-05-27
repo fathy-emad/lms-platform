@@ -10,12 +10,6 @@
 
 @section('style')
     <link rel="stylesheet" type="text/css" href="{{asset('assets/css/vendors/datatables.css')}}">
-    <style>
-        /* CSS to set mouse pointer to none for disabled elements */
-        [disabled] {
-            pointer-events: none;
-        }
-    </style>
 @endsection
 
 @section('breadcrumb-title')
@@ -33,32 +27,29 @@
         <div class="row">
             <div class="col-sm-12">
                 <div class="card">
-                    <div class="card-header">
-                        @if($pageData["actions"]["create"])
+
+                    @if($pageData["actions"]["create"])
+                        <div class="card-header">
                             <button class="btn btn-primary mb-3" type="button" data-bs-toggle="modal" data-bs-target=".create_modal"
                                     data-bs-original-title="{{ __('lang.create') }} {{ $pageData["page"]}}"
                                     title="{{ __('lang.create') }} {{ $pageData["page"] }}">
                                 {{ __('lang.create') }} {{ $pageData["page"]}}
                             </button>
-                        @endif
-                        <nav class="breadcrumb breadcrumb-icon">
-                            <a class="breadcrumb-item" href="" data-bread="country">({{ __("attributes.country") }})</a>
-                            <a class="breadcrumb-item" href="" data-bread="stage">({{ __("attributes.stage") }})</a>
-                            <a class="breadcrumb-item" href="" data-bread="year">({{ __("attributes.year") }})</a>
-                            <a class="breadcrumb-item" href="" data-bread="subject">({{ __("attributes.subject") }})</a>
-                            <a class="breadcrumb-item" href="" data-bread="curriculum">({{ __("attributes.curriculum") }})</a>
-                            <a class="breadcrumb-item" href="" data-bread="chapter">({{ __("attributes.chapter") }})</a>
-                            <a class="breadcrumb-item" href="" data-bread="lesson">({{ __("attributes.lesson") }})</a>
-                        </nav>
-                    </div>
+                            <nav class="breadcrumb breadcrumb-icon">
+                                <a class="breadcrumb-item" href="" data-bread="teacher">teacher</a>
+                                <a class="breadcrumb-item" href="" data-bread="curriculum">curriculum</a>
+                                <a class="breadcrumb-item" href="" data-bread="chapter">chapter</a>
+                                <a class="breadcrumb-item" href="" data-bread="lesson">lesson</a>
+                            </nav>
+                        </div>
+                    @endif
                     <div class="card-body">
                         <div class="table-responsive">
                             <table class="display datatables" id="data-table-ajax">
                                 <thead>
                                 <tr>
                                     <th>#ID</th>
-                                    <th>{{ __("attributes.question") }}</th>
-                                    <th>{{ __("attributes.ActiveEnum") }}</th>
+                                    <th width="300">{{ __("attributes.question") }}</th>
                                     <th>{{ __("attributes.created_at") }}</th>
                                     <th>{{ __("attributes.updated_at") }}</th>
                                     <th>{{ __("attributes.actions") }}</th>
@@ -67,8 +58,7 @@
                                 <tfoot>
                                 <tr>
                                     <th>#ID</th>
-                                    <th>{{ __("attributes.question") }}</th>
-                                    <th>{{ __("attributes.ActiveEnum") }}</th>
+                                    <th width="300">{{ __("attributes.question") }}</th>
                                     <th>{{ __("attributes.created_at") }}</th>
                                     <th>{{ __("attributes.updated_at") }}</th>
                                     <th>{{ __("attributes.actions") }}</th>
@@ -96,6 +86,7 @@
                                 <div class="row">
 
                                     <div class="col-12 mb-3">
+                                        <input type="hidden" name="teacher_id" value="{{request("teacher_id")}}">
                                         <input type="hidden" name="lesson_id" value="{{request("lesson_id")}}">
                                         <input type="hidden" name="QuestionTypeEnum" value="{{ \App\Enums\QuestionTypeEnum::Choose->value }}">
                                     </div>
@@ -212,6 +203,7 @@
                                 <div class="row">
 
                                     <div class="col-12 mb-3">
+                                        <input type="hidden" name="teacher_id" value="{{request("teacher_id")}}">
                                         <input type="hidden" name="lesson_id" value="{{request("lesson_id")}}">
                                         <input type="hidden" name="QuestionTypeEnum" value="{{ \App\Enums\QuestionTypeEnum::Choose->value }}">
                                     </div>
@@ -422,23 +414,21 @@
 
 @section('script')
     <script src="{{asset('assets/js/datatable/datatables/jquery.dataTables.min.js')}}"></script>
-
     <script>
         let pageData = @json($pageData);
-        let datatableUri = `{{ url("api")."/admin/teacher/bank-question?where=lesson_id:".request("lesson_id")}}`;
+        let datatableUri = `{{ url("api")."/admin/setting-education/bank-question?where=teacher_id:" . request("teacher_id") . ",lesson_id:" . request('chapter_id') .",ActiveEnum:".\App\Enums\ActiveEnum::Active->value}}`;
         let datatableAuthToken = "{{session("admin_data")["jwtToken"]}}";
         let dataTableLocale =  "{{session("locale")}}";
         let datatableColumns = [
             { "data": "id" },
             { "data": "question" },
-            { "data": "ActiveEnum.translate"},
-            { "data": "created_at.dateTime"},
+            { "data": "created_at.dateTime" },
             { "data": "updated_at.dateTime" },
             {
                 "data": null,
                 "orderable": false,
                 "searchable": false,
-                "render": function (data, type, row, meta) {
+                "render": function (data) {
                     const dataString = JSON.stringify(data).replace(/"/g, '&quot;');
                     let actions = `<div class="row justify-content-start">`;
                     if(pageData.actions.update === 1){
@@ -460,19 +450,21 @@
                                 </div>`;
                     }
                     actions += `</div>`;
-                    if(meta.row === 0){
-                        $("[data-bread=country]").text("({{ __("attributes.country") }}) " + data.lesson.chapter.curriculum.subject.year.stage.country.country.translate).attr("href", APP_URL + "/" + "admin/setting-education/stage");
-                        $("[data-bread=stage]").text("({{ __("attributes.stage") }}) " + data.lesson.chapter.curriculum.subject.year.stage.stage.translate).attr("href", APP_URL + "/" + "admin/setting-education/stage");
-                        $("[data-bread=year]").text("({{ __("attributes.year") }}) " + data.lesson.chapter.curriculum.subject.year.year.translate).attr("href", APP_URL + "/" + "admin/setting-education/year/" + data.lesson.chapter.curriculum.subject.year.stage.id);
-                        $("[data-bread=subject]").text("({{ __("attributes.subject") }}) " + data.lesson.chapter.curriculum.subject.subject.translate).attr("href", APP_URL + "/" + "admin/setting-education/subject/" + data.lesson.chapter.curriculum.subject.year.id);
-                        $("[data-bread=curriculum]").text("({{ __("attributes.curriculum") }}) " + data.lesson.chapter.curriculum.curriculum.translate).attr("href", APP_URL + "/" + "admin/setting-education/curriculum/" + data.lesson.chapter.curriculum.subject.id);
-                        $("[data-bread=chapter]").text("({{ __("attributes.chapter") }}) " + data.lesson.chapter.chapter.translate).attr("href", APP_URL + "/" + "admin/setting-education/chapter/" + data.lesson.chapter.curriculum.id);
-                        $("[data-bread=lesson]").text("({{ __("attributes.lesson") }}) " + data.lesson.lesson.translate).attr("href", APP_URL + "/" + "admin/setting-education/lesson/" + data.lesson.chapter.id);
-                    }
+                    $("[data-bread=curriculum]").text(data.lesson.chapter.curriculum.curriculum.translate).attr("href", APP_URL + "/" + "admin/teacher/bank-question/{{request("teacher_id")}}");
+                    $("[data-bread=chapter]").text(data.lesson.chapter.chapter.translate).attr("href", APP_URL + "/" + "admin/teacher/bank-question/{{request("teacher_id")."/".request("curriculum_id")}}");
+                    $("[data-bread=lesson]").text(data.lesson.lesson.translate).attr("href", APP_URL + "/" + "admin/teacher/bank-question/{{request("teacher_id")."/".request("curriculum_id")."/".request("chapter_id")}}");
                     return actions;
                 }
             }
         ];
+
+        $('.create_modal').on('show.bs.modal', function (e) {
+            let form = $(this).find("form");
+            form[0].reset();
+            $(this).find("[name=correctAnswer]").val('');
+            filesUploadBuilder($(".create_modal").find(".filesUploadBuilder"), "images", null, false, "image/*");
+
+        });
 
         function openModalUpdate(data) {
             let modal = $(".update_modal");
@@ -494,7 +486,6 @@
             modal.find("[name=ActiveEnum]").prop("checked", data.ActiveEnum.key === "active");
             modal.modal("show");
         }
-
 
         function openModalView(data) {
             let modal = $(".view_modal");
@@ -519,21 +510,35 @@
             modal.modal("show");
         }
 
-        $('.create_modal').on('show.bs.modal', function (e) {
-            let form = $(this).find("form");
-            form[0].reset();
-            $(this).find("[name=correctAnswer]").val('');
-            filesUploadBuilder($(".create_modal").find(".filesUploadBuilder"), "images", null, false, "image/*");
-
-        });
-
         $(document).ready(function() {
+
+            //Get subject
+            $.ajax({
+                url: APP_URL + "/api/admin/teacher/register?id={{request("teacher_id")}}",
+                type: "GET",
+                data: null,
+                processData: false,
+                contentType: false,
+                headers: {
+                    'Authorization': 'Bearer ' + "{{ session("admin_data")["jwtToken"] }}",
+                    'locale': "{{ session("locale") }}",
+                },
+                success: function(response) {
+                    let data = response.data;
+                    $("[data-bread=teacher]").text(data.name).attr("href", APP_URL + "/" + "admin/teacher/bank-question");
+                },
+                error: function(xhr, status, error) {
+                    let title = "Some thing went wrong";
+                    let message = xhr.responseText || "Unknown error";
+                    notifyForm(title, message, "danger");
+                }
+            });
 
             $("[name='answers[]']").each(function () {
                 $(this).on("input", function(){
                     $(this).closest('.card').find("[name=correctAnswer]").val($(this).val());
                 });
-            })
+            });
         });
 
     </script>
