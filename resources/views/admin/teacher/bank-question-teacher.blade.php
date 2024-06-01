@@ -105,7 +105,7 @@
                 "render": function (data) {
                     let actions = `<div class="row justify-content-start">`;
                     actions += `<div class="col-auto">
-                                    <a class="btn btn-sm btn-success" type="button" href="{{url("/admin/teacher/bank-question")}}/${data.id}">
+                                    <a class="btn btn-sm btn-success" type="button" href="{{url("/admin/teacher/bank-question")}}/${data.name}/${data.id}">
                                         <i class="fa fa-home"></i> Courses
                                     </a>
                                 </div>`;

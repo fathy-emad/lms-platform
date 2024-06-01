@@ -27,31 +27,34 @@
         <div class="row">
             <div class="col-sm-12">
                 <div class="card">
-                    <div class="card-header">
-                        <nav class="breadcrumb breadcrumb-icon">
-                            <a class="breadcrumb-item" href="{{url("admin/teacher/bank-question/")}}" data-bread="teacher">({{ __("attributes.teacher") }}) {{ request("teacher") }}</a>
-                        </nav>
-                    </div>
                     <div class="card-body">
                         <div class="table-responsive">
                             <table class="display datatables" id="data-table-ajax">
                                 <thead>
                                 <tr>
+                                    <th>{{ __("attributes.image") }}</th>
                                     <th>#ID</th>
-                                    <th>{{ __("attributes.year") }}</th>
-                                    <th>{{ __("attributes.course") }}</th>
+                                    <th>{{ __("attributes.name") }}</th>
+                                    <th>{{ __("attributes.stage") }}</th>
+                                    <th>{{ __("attributes.subject") }}</th>
                                     <th>{{ __("attributes.created_at") }}</th>
+                                    <th>{{ __("attributes.created_by") }}</th>
                                     <th>{{ __("attributes.updated_at") }}</th>
+                                    <th>{{ __("attributes.updated_by") }}</th>
                                     <th>{{ __("attributes.actions") }}</th>
                                 </tr>
                                 </thead>
                                 <tfoot>
                                 <tr>
+                                    <th>{{ __("attributes.image") }}</th>
                                     <th>#ID</th>
-                                    <th>{{ __("attributes.year") }}</th>
-                                    <th>{{ __("attributes.course") }}</th>
+                                    <th>{{ __("attributes.name") }}</th>
+                                    <th>{{ __("attributes.stage") }}</th>
+                                    <th>{{ __("attributes.subject") }}</th>
                                     <th>{{ __("attributes.created_at") }}</th>
+                                    <th>{{ __("attributes.created_by") }}</th>
                                     <th>{{ __("attributes.updated_at") }}</th>
+                                    <th>{{ __("attributes.updated_by") }}</th>
                                     <th>{{ __("attributes.actions") }}</th>
                                 </tr>
                                 </tfoot>
@@ -68,25 +71,42 @@
     <script src="{{asset('assets/js/datatable/datatables/jquery.dataTables.min.js')}}"></script>
     <script>
         let pageData = @json($pageData);
-        let datatableUri = `{{ url("api")."/admin/course/register?where=teacher_id:".request("teacher_id").",ActiveEnum:".\App\Enums\ActiveEnum::Active->value}}`;
+        let datatableUri = APP_URL+"/api/admin/teacher/register?where=TeacherStatusEnum:" + "{{\App\Enums\TeacherStatusEnum::Active->value}}";
         let datatableAuthToken = "{{session("admin_data")["jwtToken"]}}";
         let dataTableLocale =  "{{session("locale")}}";
         let datatableColumns = [
+            {
+                "data": "image.file",
+                "render": function(data) {
+                    return data ? `<img src="${APP_URL}/uploads/${data}" style="height: 25px; width: auto;">` : '-';
+                }
+            },
             { "data": "id" },
-            { "data": "curriculum.subject.year.year.translate" },
-            { "data": "curriculum.curriculum.translate" },
-            { "data": "created_at.dateTime" },
+            { "data": null,
+                render: function (data){
+                    return data.prefix + "/ " + data.name;
+                }
+            },
+            { "data": "stage.stage.translate" },
+            { "data": "subject.subject.translate" },
+            { "data": "created_at.dateTime"},
+            { "data": "created_by.name"},
             { "data": "updated_at.dateTime" },
+            { "data": "updated_by.name",
+                render:function (data) {
+                    if (data) return data;
+                    return "-";
+                }
+            },
             {
                 "data": null,
                 "orderable": false,
                 "searchable": false,
-                "render": function (data, type, row, meta) {
-                    console.log(data);
+                "render": function (data) {
                     let actions = `<div class="row justify-content-start">`;
                     actions += `<div class="col-auto">
-                                    <a class="btn btn-sm btn-success" type="button" href="{{url("/admin/teacher/bank-question/".request("teacher")."/" . request("teacher_id"))}}/${data.curriculum.id}">
-                                        <i class="fa fa-home"></i> Chapters
+                                    <a class="btn btn-sm btn-success" type="button" href="{{url("/admin/course/material")}}/${data.name}/${data.id}">
+                                        <i class="fa fa-home"></i> Courses
                                     </a>
                                 </div>`;
                     actions += `</div>`;
@@ -94,6 +114,5 @@
                 }
             }
         ];
-
     </script>
 @endsection

@@ -70,7 +70,8 @@
         'delete' => 'Delete',
         'view' => 'View',
         'translate' => 'Translates',
-        'goTo' => 'Go to'
+        'goTo' => 'Go to',
+        'save' => 'Save'
 
 	];
 ?>

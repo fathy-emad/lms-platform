@@ -29,9 +29,9 @@
                 <div class="card">
                     <div class="card-header">
                         <nav class="breadcrumb breadcrumb-icon">
-                            <a class="breadcrumb-item" href="" data-bread="teacher">teacher</a>
-                            <a class="breadcrumb-item" href="" data-bread="curriculum">curriculum</a>
-                            <a class="breadcrumb-item" href="" data-bread="chapter">chapter</a>
+                            <a class="breadcrumb-item" href="{{url("admin/teacher/bank-question/")}}" data-bread="teacher">({{ __("attributes.teacher") }}) {{ request("teacher") }}</a>
+                            <a class="breadcrumb-item" href="" data-bread="curriculum">({{ __("attributes.curriculum") }})</a>
+                            <a class="breadcrumb-item" href="" data-bread="chapter">({{ __("attributes.chapter") }})</a>
                         </nav>
                     </div>
                     <div class="card-body">
@@ -80,45 +80,22 @@
                 "data": null,
                 "orderable": false,
                 "searchable": false,
-                "render": function (data) {
+                "render": function (data, type, row, meta) {
                     let actions = `<div class="row justify-content-start">`;
                     actions += `<div class="col-auto">
-                                    <a class="btn btn-sm btn-success" type="button" href="{{url("/admin/teacher/bank-question/" . request("teacher_id") ."/".request("curriculum_id")."/".request("chapter_id"))}}/${data.id}">
+                                    <a class="btn btn-sm btn-success" type="button" href="{{url("/admin/teacher/bank-question/".request("teacher")."/" . request("teacher_id") ."/".request("curriculum_id")."/".request("chapter_id"))}}/${data.id}">
                                         <i class="fa fa-home"></i> Questions
                                     </a>
                                 </div>`;
                     actions += `</div>`;
-                    $("[data-bread=curriculum]").text(data.chapter.curriculum.curriculum.translate).attr("href", APP_URL + "/" + "admin/teacher/bank-question/{{request("teacher_id")}}");
-                    $("[data-bread=chapter]").text(data.chapter.chapter.translate).attr("href", APP_URL + "/" + "admin/teacher/bank-question/{{request("teacher_id")."/".request("curriculum_id")}}");
+                    if(meta.row === 0){
+                        $("[data-bread=curriculum]").text("({{ __("attributes.curriculum") }}) " + data.chapter.curriculum.curriculum.translate).attr("href", APP_URL + "/" + "admin/teacher/bank-question/{{request("teacher")}}/{{request("teacher_id")}}");
+                        $("[data-bread=chapter]").text("({{ __("attributes.chapter") }}) " + data.chapter.chapter.translate).attr("href", APP_URL + "/" + "admin/teacher/bank-question/{{request("teacher")}}/{{request("teacher_id")."/".request("curriculum_id")}}");
+                    }
                     return actions;
                 }
             }
         ];
-
-        $(document).ready(function() {
-
-            //Get subject
-            $.ajax({
-                url: APP_URL + "/api/admin/teacher/register?id={{request("teacher_id")}}",
-                type: "GET",
-                data: null,
-                processData: false,
-                contentType: false,
-                headers: {
-                    'Authorization': 'Bearer ' + "{{ session("admin_data")["jwtToken"] }}",
-                    'locale': "{{ session("locale") }}",
-                },
-                success: function(response) {
-                    let data = response.data;
-                    $("[data-bread=teacher]").text(data.name).attr("href", APP_URL + "/" + "admin/teacher/bank-question");
-                },
-                error: function(xhr, status, error) {
-                    let title = "Some thing went wrong";
-                    let message = xhr.responseText || "Unknown error";
-                    notifyForm(title, message, "danger");
-                }
-            });
-        });
 
     </script>
 @endsection

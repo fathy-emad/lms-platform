@@ -81,6 +81,22 @@ class Repository implements RepositoryInterface
         return $this;
     }
 
+    public function orWhere($attributes): static
+    {
+
+        if ($attributes){
+            $attributes = explode(",", $attributes);
+            $this->query = $this->query->orWhere(function ($query) use($attributes) {
+                foreach ($attributes as $attribute) {
+                    list($key, $value) = explode(':', $attribute);
+                    $query->where($key, $value);
+                }
+            });
+        }
+        return $this;
+    }
+
+
     public function orderBy($attributes): static
     {
 

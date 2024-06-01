@@ -44,6 +44,7 @@ class UploadFileService
                     $this->deleteFile($driver, $oldFileData["file"]);
 
                 } else {
+                    $oldFileData["title"] = array_column($filesData, "title", "key")[$oldFileData["key"]];
                     $return[] = $oldFileData;
                 }
             }

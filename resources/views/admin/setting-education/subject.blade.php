@@ -248,7 +248,7 @@
 
         $(document).ready(function() {
 
-            //Get edu subjets
+            //Get edu subjects
             $.ajax({
                 url: APP_URL + "/api/admin/setting-education/edu-subject",
                 type: "GET",

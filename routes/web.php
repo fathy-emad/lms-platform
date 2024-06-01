@@ -83,15 +83,19 @@ Route::prefix("admin")->name("admin.")->middleware("entity.locale")->group(funct
         Route::prefix("teacher")->name("teacher.")->group(function(){
             Route::view('register', 'admin.teacher.register')->name("register");
             Route::view('bank-question', 'admin.teacher.bank-question-teacher')->name("bank-question-teacher");
-            Route::view('bank-question/{teacher_id}', 'admin.teacher.bank-question-course')->name("bank-question-course");
-            Route::view('bank-question/{teacher_id}/{curriculum_id}', 'admin.teacher.bank-question-chapter')->name("bank-question-chapter");
-            Route::view('bank-question/{teacher_id}/{curriculum_id}/{chapter_id}', 'admin.teacher.bank-question-lesson')->name("bank-question-lesson");
-            Route::view('bank-question/{teacher_id}/{curriculum_id}/{chapter_id}/{lesson_id}', 'admin.teacher.bank-question')->name("bank-question");
+            Route::view('bank-question/{teacher}/{teacher_id}', 'admin.teacher.bank-question-course')->name("bank-question-course");
+            Route::view('bank-question/{teacher}/{teacher_id}/{curriculum_id}', 'admin.teacher.bank-question-chapter')->name("bank-question-chapter");
+            Route::view('bank-question/{teacher}/{teacher_id}/{curriculum_id}/{chapter_id}', 'admin.teacher.bank-question-lesson')->name("bank-question-lesson");
+            Route::view('bank-question/{teacher}/{teacher_id}/{curriculum_id}/{chapter_id}/{lesson_id}', 'admin.teacher.bank-question')->name("bank-question");
         });
 
         Route::prefix("course")->name("course.")->group(function(){
             Route::view('register', 'admin.course.teacher')->name("teachers");
             Route::view('register/{teacher_id}', 'admin.course.register')->name("register");
+            Route::view('material', 'admin.course.material-teacher')->name("material-course");
+            Route::view('material/{teacher}/{teacher_id}', 'admin.course.material-course')->name("material-course");
+            Route::view('material/{teacher}/{teacher_id}/{course_id}/{curriculum_id}', 'admin.course.material-chapter')->name("material-chapter");
+            Route::view('material/{teacher}/{teacher_id}/{course_id}/{curriculum_id}/{chapter_id}', 'admin.course.material')->name("material");
         });
 
     });

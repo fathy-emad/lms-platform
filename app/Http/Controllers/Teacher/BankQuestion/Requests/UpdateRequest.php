@@ -18,6 +18,7 @@ class UpdateRequest extends ValidateRequest
     public function rules(): array
     {
         return [
+            'id' => 'required|integer|exists:bank_questions,id',
             'teacher_id' => 'nullable|integer|exists:teachers,id',
             'lesson_id' => 'required|integer|exists:lessons,id',
             'question' => 'required|string|min:2',

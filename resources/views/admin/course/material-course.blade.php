@@ -29,7 +29,7 @@
                 <div class="card">
                     <div class="card-header">
                         <nav class="breadcrumb breadcrumb-icon">
-                            <a class="breadcrumb-item" href="{{url("admin/teacher/bank-question/")}}" data-bread="teacher">({{ __("attributes.teacher") }}) {{ request("teacher") }}</a>
+                            <a class="breadcrumb-item" href="{{url("admin/course/material/")}}" data-bread="teacher">({{ __("attributes.teacher") }}) {{ request("teacher") }}</a>
                         </nav>
                     </div>
                     <div class="card-body">
@@ -81,11 +81,12 @@
                 "data": null,
                 "orderable": false,
                 "searchable": false,
-                "render": function (data, type, row, meta) {
+                "render": function (data) {
                     console.log(data);
                     let actions = `<div class="row justify-content-start">`;
                     actions += `<div class="col-auto">
-                                    <a class="btn btn-sm btn-success" type="button" href="{{url("/admin/teacher/bank-question/".request("teacher")."/" . request("teacher_id"))}}/${data.curriculum.id}">
+                                    <a class="btn btn-sm btn-success" type="button"
+                                     href="{{url("/admin/course/material/".request("teacher")."/" . request("teacher_id"))}}/${data.id}/${data.curriculum.id}">
                                         <i class="fa fa-home"></i> Chapters
                                     </a>
                                 </div>`;

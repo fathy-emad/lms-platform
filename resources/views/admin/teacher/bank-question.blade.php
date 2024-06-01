@@ -36,10 +36,10 @@
                                 {{ __('lang.create') }} {{ $pageData["page"]}}
                             </button>
                             <nav class="breadcrumb breadcrumb-icon">
-                                <a class="breadcrumb-item" href="" data-bread="teacher">teacher</a>
-                                <a class="breadcrumb-item" href="" data-bread="curriculum">curriculum</a>
-                                <a class="breadcrumb-item" href="" data-bread="chapter">chapter</a>
-                                <a class="breadcrumb-item" href="" data-bread="lesson">lesson</a>
+                                <a class="breadcrumb-item" href="{{url("admin/teacher/bank-question/")}}" data-bread="teacher">({{ __("attributes.teacher") }}) {{ request("teacher") }}</a>
+                                <a class="breadcrumb-item" href="" data-bread="curriculum">({{ __("attributes.curriculum") }})</a>
+                                <a class="breadcrumb-item" href="" data-bread="chapter">({{ __("attributes.chapter") }})</a>
+                                <a class="breadcrumb-item" href="" data-bread="lesson">({{ __("attributes.lesson") }})</a>
                             </nav>
                         </div>
                     @endif
@@ -416,7 +416,7 @@
     <script src="{{asset('assets/js/datatable/datatables/jquery.dataTables.min.js')}}"></script>
     <script>
         let pageData = @json($pageData);
-        let datatableUri = `{{ url("api")."/admin/setting-education/bank-question?where=teacher_id:" . request("teacher_id") . ",lesson_id:" . request('chapter_id') .",ActiveEnum:".\App\Enums\ActiveEnum::Active->value}}`;
+        let datatableUri = `{{ url("api")."/admin/setting-education/bank-question?where=teacher_id:" . request("teacher_id") . ",lesson_id:" . request('lesson_id')}}`;
         let datatableAuthToken = "{{session("admin_data")["jwtToken"]}}";
         let dataTableLocale =  "{{session("locale")}}";
         let datatableColumns = [
@@ -428,7 +428,7 @@
                 "data": null,
                 "orderable": false,
                 "searchable": false,
-                "render": function (data) {
+                "render": function (data, type, row, meta) {
                     const dataString = JSON.stringify(data).replace(/"/g, '&quot;');
                     let actions = `<div class="row justify-content-start">`;
                     if(pageData.actions.update === 1){
@@ -450,9 +450,11 @@
                                 </div>`;
                     }
                     actions += `</div>`;
-                    $("[data-bread=curriculum]").text(data.lesson.chapter.curriculum.curriculum.translate).attr("href", APP_URL + "/" + "admin/teacher/bank-question/{{request("teacher_id")}}");
-                    $("[data-bread=chapter]").text(data.lesson.chapter.chapter.translate).attr("href", APP_URL + "/" + "admin/teacher/bank-question/{{request("teacher_id")."/".request("curriculum_id")}}");
-                    $("[data-bread=lesson]").text(data.lesson.lesson.translate).attr("href", APP_URL + "/" + "admin/teacher/bank-question/{{request("teacher_id")."/".request("curriculum_id")."/".request("chapter_id")}}");
+                    if (meta.row === 0){
+                        $("[data-bread=curriculum]").text("({{ __("attributes.curriculum") }}) " + data.lesson.chapter.curriculum.curriculum.translate).attr("href", APP_URL + "/" + "admin/teacher/bank-question/{{request("teacher")}}/{{request("teacher_id")}}");
+                        $("[data-bread=chapter]").text("({{ __("attributes.chapter") }}) " + data.lesson.chapter.chapter.translate).attr("href", APP_URL + "/" + "admin/teacher/bank-question/{{request("teacher")}}/{{request("teacher_id")."/".request("curriculum_id")}}");
+                        $("[data-bread=lesson]").text("({{ __("attributes.lesson") }}) " + data.lesson.lesson.translate).attr("href", APP_URL + "/" + "admin/teacher/bank-question/{{request("teacher")}}/{{request("teacher_id")."/".request("curriculum_id")."/".request("chapter_id")}}");
+                    }
                     return actions;
                 }
             }
@@ -462,7 +464,7 @@
             let form = $(this).find("form");
             form[0].reset();
             $(this).find("[name=correctAnswer]").val('');
-            filesUploadBuilder($(".create_modal").find(".filesUploadBuilder"), "images", null, false, "image/*");
+            filesUploadBuilder($(".create_modal").find(".filesUploadBuilder"), "images", null, true, "image/*");
 
         });
 
@@ -482,7 +484,7 @@
                     $(this).prop("checked", true);
                 }
             });
-            filesUploadBuilder(modal.find(".filesUploadBuilder"), "images", data.images, false, "image/*");
+            filesUploadBuilder(modal.find(".filesUploadBuilder"), "images", data.images, true, "image/*");
             modal.find("[name=ActiveEnum]").prop("checked", data.ActiveEnum.key === "active");
             modal.modal("show");
         }
@@ -504,35 +506,13 @@
                     $(this).prop("checked", true);
                 }
             });
-            filesUploadBuilder(modal.find(".filesUploadBuilder"), "images", data.images, false, "image/*");
+            filesUploadBuilder(modal.find(".filesUploadBuilder"), "images", data.images, true, "image/*");
             $(modal).find(".filesUploadBuilder").find("button").remove();
             modal.find("[name=ActiveEnum]").prop("checked", data.ActiveEnum.key === "active").prop("disabled", true);
             modal.modal("show");
         }
 
         $(document).ready(function() {
-
-            //Get subject
-            $.ajax({
-                url: APP_URL + "/api/admin/teacher/register?id={{request("teacher_id")}}",
-                type: "GET",
-                data: null,
-                processData: false,
-                contentType: false,
-                headers: {
-                    'Authorization': 'Bearer ' + "{{ session("admin_data")["jwtToken"] }}",
-                    'locale': "{{ session("locale") }}",
-                },
-                success: function(response) {
-                    let data = response.data;
-                    $("[data-bread=teacher]").text(data.name).attr("href", APP_URL + "/" + "admin/teacher/bank-question");
-                },
-                error: function(xhr, status, error) {
-                    let title = "Some thing went wrong";
-                    let message = xhr.responseText || "Unknown error";
-                    notifyForm(title, message, "danger");
-                }
-            });
 
             $("[name='answers[]']").each(function () {
                 $(this).on("input", function(){

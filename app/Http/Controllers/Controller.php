@@ -33,6 +33,7 @@ class Controller extends BaseController
         } elseif ($request->has("per_page") && $request->has("page")){
             $data = $this->repository
                 ->where($request->where)
+                ->orWhere($request->orWhere)
                 ->orderBy($request->orderBy)
                 ->paginate($request);
 
@@ -42,6 +43,7 @@ class Controller extends BaseController
         } else {
             $data = $this->repository
                 ->where($request->where)
+                ->orWhere($request->orWhere)
                 ->orderBy($request->orderBy)
                 ->skip($request->skip)
                 ->take($request->take)

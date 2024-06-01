@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('course_materials', function (Blueprint $table) {
+        Schema::create('materials', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger("course_id");
             $table->unsignedBigInteger('lesson_id');
@@ -21,11 +21,9 @@ return new class extends Migration
             $table->string('video')->nullable();
             $table->json('images')->nullable();
             $table->json('files')->nullable();
-            $table->json('assignments')->nullable();
+            $table->json('assignment')->nullable();
             $table->enum('ActiveEnum', ActiveEnum::values())->default(ActiveEnum::Active->value);
             $table->enum('FreeEnum', FreeEnum::values())->default(FreeEnum::NotFree->value);
-            $table->unsignedBigInteger('created_by');
-            $table->unsignedBigInteger('updated_by')->nullable();
 
             $table->foreign("course_id")
                 ->references("id")
@@ -45,18 +43,6 @@ return new class extends Migration
                 ->restrictOnDelete()
                 ->cascadeOnUpdate();
 
-            $table->foreign("created_by")
-                ->references("id")
-                ->on("admins")
-                ->restrictOnDelete()
-                ->cascadeOnUpdate();
-
-            $table->foreign("updated_by")
-                ->references("id")
-                ->on("admins")
-                ->restrictOnDelete()
-                ->cascadeOnUpdate();
-
             $table->timestamps();
         });
     }
@@ -66,6 +52,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('course_materials');
+        Schema::dropIfExists('materials');
     }
 };
