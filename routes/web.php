@@ -13,10 +13,7 @@
 
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Cookie;
-use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Session;
 
 //Language Change
 Route::get('lang/{locale}', function ($locale) {
@@ -31,14 +28,12 @@ Route::post("create/session", function(Request $request){
     $expirationMinutes = explode(" ", $admin_data["jwtTokenExpirationAfter"])[0] / 60;
     $admin_data["jwtTokenExpirationAfter"] = Carbon::now()->addMinutes($expirationMinutes);
     session(["admin_data" => $admin_data]);
-    Cookie::queue(session()->getName(), session()->getId(), $expirationMinutes);
     return true;
 });
 
 //Destroy session after logout
 Route::post("destroy/session", function(){
     session()->flush();
-    Cookie::queue(Cookie::forget(session()->getName()));
     session()->regenerate();
     return true;
 });
@@ -61,7 +56,7 @@ Route::prefix("admin")->name("admin.")->middleware("entity.locale")->group(funct
             Route::view('language', 'admin.setting.language')->name("language");
             Route::view('country', 'admin.setting.country')->name("country");
             Route::view('route-menu', 'admin.setting.route-menu')->name("route-menu");
-            Route::view('route-item', 'admin.setting.route-item')->name("route-item");
+            Route::view('route-item/{menu_title}/{menu_id}', 'admin.setting.route-item')->name("route-item");
         });
 
         Route::prefix("employee")->name("employee.")->group(function(){

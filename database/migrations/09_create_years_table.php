@@ -12,21 +12,23 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('stages', function (Blueprint $table) {
+        Schema::create('years', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('country_id');
-            $table->unsignedBigInteger('stage');
+
+            $table->unsignedBigInteger('stage_id');
+            $table->unsignedBigInteger('year');
             $table->enum('ActiveEnum', ActiveEnum::values())->default(ActiveEnum::Active->value);
+            $table->integer('priority');
             $table->unsignedBigInteger('created_by');
             $table->unsignedBigInteger('updated_by')->nullable();
 
-            $table->foreign("country_id")
-            ->references("id")
-            ->on("countries")
-            ->restrictOnDelete()
-            ->cascadeOnUpdate();
+            $table->foreign("stage_id")
+                ->references("id")
+                ->on("stages")
+                ->restrictOnDelete()
+                ->cascadeOnUpdate();
 
-            $table->foreign("stage")
+            $table->foreign("year")
                 ->references("id")
                 ->on("translates")
                 ->restrictOnDelete()
@@ -53,6 +55,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('stages');
+        Schema::dropIfExists('years');
     }
 };

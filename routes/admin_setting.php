@@ -39,6 +39,7 @@ Route::middleware(['apiAuth:admin', 'apiPermission'])->group(function (){
         Route::get('route-menu', 'read');
         Route::post('route-menu', 'create');
         Route::put('route-menu', 'update');
+        Route::post('route-menu/reorder', 'reorder');
     });
 
     //Route Items
@@ -46,6 +47,7 @@ Route::middleware(['apiAuth:admin', 'apiPermission'])->group(function (){
         Route::get('route-item', 'read');
         Route::post('route-item', 'create');
         Route::put('route-item', 'update');
+        Route::post('route-item/reorder', 'reorder');
     });
 
 });

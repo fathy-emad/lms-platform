@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Setting\RouteItem;
 
+use Illuminate\Http\JsonResponse;
 use UploadFile;
 use Translation;
 use App\Models\RouteItem;
@@ -26,6 +27,11 @@ class RouteItemRequestHandler extends RequestHandler
         return $this;
     }
 
+    public function handleReorder($model): JsonResponse
+    {
+        return $this->reorder($model);
+    }
+
     public function translateTitle(?int $id): void
     {
         $this->data["title"] = Translation::translate('title', 'route_items', $this->data["title"], $id);
@@ -38,16 +44,7 @@ class RouteItemRequestHandler extends RequestHandler
 
     public function setPriority(): void
     {
-
-        $model = RouteItem::orderBy('priority', 'desc')->first();
-
-        if ($model){
-            $this->data["priority"] = $model->priority + 1;
-        }
-
-        else
-        {
-            $this->data["priority"] = 1;
-        }
+        $model = RouteItem::where("menu_id", $this->data["menu_id"])->orderBy('priority', 'desc')->first();
+        $this->data["priority"] = ($model->priority ?? 0) + 1;
     }
 }

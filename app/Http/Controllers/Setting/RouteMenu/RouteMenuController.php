@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Setting\RouteMenu;
 
 use App\Http\Controllers\Controller;
-use App\Http\Controllers\Setting\RouteMenu\Requests\{CreateRequest, UpdateRequest};
+use App\Http\Controllers\Setting\RouteMenu\Requests\{CreateRequest, ReorderRequest, UpdateRequest};
 use App\Http\Repositories\RouteMenuRepository;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -32,5 +32,11 @@ class RouteMenuController extends Controller
         $model = $this->repository->getById($request->id);
         $data = $this->requestHandler->set($request->validated())->handleUpdate($model)->get();
         return parent::update_model($request->id, $data);
+    }
+
+    public function reorder(ReorderRequest $request): JsonResponse
+    {
+        $model = $this->repository;
+        return $this->requestHandler->set($request->validated())->handleReorder($model);
     }
 }

@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Session;
 use Symfony\Component\HttpFoundation\Response;
+use Tymon\JWTAuth\Facades\JWTAuth;
 
 class EnsureEntityIsAuthenticated
 {
@@ -20,14 +21,13 @@ class EnsureEntityIsAuthenticated
 
         $redirect = match ($entity) {
             'admin' => 'admin.auth.login',
-            default => 'login', // Adjust this default as necessary
+            default => 'login',
         };
 
-        $adminData = session($entity."_data", null);
-        if (!$adminData) {
+        $adminData = session($entity."_data");
+        if (!JWTAuth::setToken($adminData["jwtToken"])->authenticate()) {
             Session::flush();
-            $cookie = Cookie::forget('laravel_session');
-            return redirect()->route($redirect)->withCookie($cookie);
+            return redirect()->route($redirect);
         }
 
         return $next($request);

@@ -10,6 +10,8 @@
 
 @section('style')
     <link rel="stylesheet" type="text/css" href="{{asset('assets/css/vendors/datatables.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{asset('assets/css/vendors/datatable-extension.css')}}">
+
     <style>
         /* CSS to set mouse pointer to none for disabled elements */
         [disabled] {
@@ -52,6 +54,7 @@
                                 <thead>
                                 <tr>
                                     <th>#ID</th>
+                                    <th>{{ __("attributes.priority") }}</th>
                                     <th>{{ __("attributes.year") }}</th>
                                     <th>{{ __("attributes.ActiveEnum") }}</th>
                                     <th>{{ __("attributes.created_at") }}</th>
@@ -64,6 +67,7 @@
                                 <tfoot>
                                 <tr>
                                     <th>#ID</th>
+                                    <th>{{ __("attributes.priority") }}</th>
                                     <th>{{ __("attributes.year") }}</th>
                                     <th>{{ __("attributes.ActiveEnum") }}</th>
                                     <th>{{ __("attributes.created_at") }}</th>
@@ -181,14 +185,17 @@
 
 @section('script')
     <script src="{{asset('assets/js/datatable/datatables/jquery.dataTables.min.js')}}"></script>
+    <script src="{{asset('assets/js/datatable/datatable-extension/dataTables.rowReorder.min.js')}}"></script>
     <script>
         let yearTranslates = "";
         let pageData = @json($pageData);
-        let datatableUri = `{{ url("api")."/admin/setting-education/year?where=stage_id:".request("stage_id")}}`;
+        let datatableUri = `${APP_URL}/${pageData.link}?where=stage_id:{{request("stage_id")}}&orderBy=priority:asc`;
         let datatableAuthToken = "{{session("admin_data")["jwtToken"]}}";
         let dataTableLocale =  "{{session("locale")}}";
+        let dataTableReorder = {"selector": "td:nth-child(2)", "uri": `${APP_URL}/${pageData.link}/reorder`};
         let datatableColumns = [
             { "data": "id" },
+            { "data": "priority" },
             { "data": "year.translate" },
             { "data": "ActiveEnum.translate"},
             { "data": "created_at.dateTime"},

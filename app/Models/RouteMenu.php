@@ -26,7 +26,7 @@ class RouteMenu extends Model
 
     public function activeItems(): HasMany
     {
-        return $this->items()->where("ActiveEnum", "active");
+        return $this->items()->where("ActiveEnum", "active")->orderBy("priority", "asc");
     }
 
     public function titleTranslate(): BelongsTo

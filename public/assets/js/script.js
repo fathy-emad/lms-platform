@@ -428,7 +428,7 @@ function submitForm(submit, datatable = null)
                         let message = "You will redirect to login";
                         notifyForm(title, message, "success", function () {
                             window.location = "http://127.0.0.1:8000/admin/auth/login";
-                        }, 0, 2000);
+                        }, 0, 1000);
 
                     },
                     error: function(xhr) {
@@ -448,7 +448,7 @@ function submitForm(submit, datatable = null)
                 form.closest(".modal").find(".btn-close").click();
                 let title = response.message;
                 let message = "";
-                notifyForm(title, message, "success",null, 0, 5000);
+                notifyForm(title, message, "success",null, 0, 3000);
             }
         },
         error: function(xhr, status, error) {
@@ -658,7 +658,7 @@ $(document).ready(function() {
     //init datatable if found
     if ($("#data-table-ajax").length){
 
-        $('#data-table-ajax').DataTable({
+        let table = $('#data-table-ajax').DataTable({
             "processing": false,
             //"serverSide": true,
             "ajax": {
@@ -673,8 +673,57 @@ $(document).ready(function() {
                 }
             },
             "columns": datatableColumns,
+            "rowReorder": {
+                selector: dataTableReorder ? dataTableReorder.selector : '0',
+            }
         });
 
+        if (dataTableReorder){
+            table.on('row-reorder', function (e, details, changes) {
+
+                if (details.length) {
+                    let reorderMapping = details.map(detail => ({
+                        id: table.row(detail.node).data().id,
+                        priority: detail.newPosition + 1 // Calculate new priority
+                    }));
+                    // AJAX call to server to update priorities
+                    $.ajax({
+                        url: dataTableReorder.uri,
+                        type: 'POST',
+                        contentType: 'application/json',
+                        data: JSON.stringify({reorder: reorderMapping}),
+                        headers: {
+                            'Authorization': 'Bearer ' + datatableAuthToken,
+                            'locale': dataTableLocale,
+                        },
+                        success: function(response) {
+                            notifyForm("reorder", response.message, "success",null, 0, 5000);
+                            table.ajax.reload(null, false); // Reload the DataTable to reflect changes
+                        },
+                        error: function(xhr) {
+                            if(xhr.status === 422 && xhr.responseJSON.success === false ) {
+                                let response = xhr.responseJSON;
+                                let errors = response.errors;
+                                message = "<ul>";
+                                for (let key in errors) {
+                                    if (errors.hasOwnProperty(key)) {
+                                        message += `<li>${errors[key]}</li>`;
+                                    }
+                                }
+                                message += "</ul>";
+                                title = response.message;
+
+                            } else {
+                                title = "Some thing went wrong";
+                                message = xhr.responseText || "Unknown error";
+                            }
+
+                            notifyForm(title, message, "danger");
+                        }
+                    });
+                }
+            });
+        }
     }
 
 });

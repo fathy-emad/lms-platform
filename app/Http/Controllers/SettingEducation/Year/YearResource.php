@@ -24,6 +24,7 @@ class YearResource extends JsonResource
             "stage"      => new StageResource($this->stage),
             "year"       => new TranslationResource($this->yearTranslate),
             "ActiveEnum" => new TranslationResource($this->ActiveEnum, true),
+            "priority"   => $this->priority,
             "created_by" => new AuthorResource($this->createdBy),
             "updated_by" => $this->updated_by ? new AuthorResource($this->updatedBy) : null,
             "created_at" => new DateTimeResource($this->created_at),

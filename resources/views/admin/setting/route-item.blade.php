@@ -10,9 +10,9 @@
 
 @section('style')
     <link rel="stylesheet" type="text/css" href="{{asset('assets/css/vendors/datatables.css')}}">
-    <link rel="stylesheet" type="text/css" href="{{asset('assets/css/vendors/select2.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{asset('assets/css/vendors/datatable-extension.css')}}">
+
     <style>
-        .select2-dropdown { z-index: 10000 !important; }
         /* CSS to set mouse pointer to none for disabled elements */
         [disabled] {
             pointer-events: none;
@@ -36,15 +36,18 @@
         <div class="row">
             <div class="col-sm-12">
                 <div class="card">
-                    @if($pageData["actions"]["create"])
-                        <div class="card-header">
+                    <div class="card-header">
+                        @if($pageData["actions"]["create"])
                             <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target=".create_modal"
                                     data-bs-original-title="{{ __('lang.create') }} {{ $pageData["page"] }}"
                                     title="{{ __('lang.create') }} {{ $pageData["page"] }}">
                                 {{ __('lang.create') }} {{ $pageData["page"] }}
                             </button>
-                        </div>
-                    @endif
+                        @endif
+                        <nav class="breadcrumb breadcrumb-icon mt-3">
+                            <a class="breadcrumb-item" href="{{url("admin/setting/route-menu/")}}" data-bread="">(List) {{ request("menu_title") }}</a>
+                        </nav>
+                    </div>
                     <div class="card-body">
                         <div class="table-responsive">
                             <table class="display datatables" id="data-table-ajax">
@@ -55,9 +58,6 @@
                                     <th>{{ __("attributes.priority") }}</th>
                                     <th>{{ __("attributes.title") }}</th>
                                     <th>{{ __("attributes.route") }}</th>
-{{--                                        <th>{{ __("attributes.menu_id") }}</th>--}}
-{{--                                        <th>{{ __("attributes.model") }}</th>--}}
-{{--                                        <th>{{ __("attributes.actions") }}</th>--}}
                                     <th>{{ __("attributes.ActiveEnum") }}</th>
                                     <th>{{ __("attributes.created_at") }}</th>
                                     <th>{{ __("attributes.updated_at") }}</th>
@@ -71,9 +71,6 @@
                                     <th>{{ __("attributes.priority") }}</th>
                                     <th>{{ __("attributes.title") }}</th>
                                     <th>{{ __("attributes.route") }}</th>
-{{--                                        <th>{{ __("attributes.menu_id") }}</th>--}}
-{{--                                        <th>{{ __("attributes.model") }}</th>--}}
-{{--                                        <th>{{ __("attributes.actions") }}</th>--}}
                                     <th>{{ __("attributes.ActiveEnum") }}</th>
                                     <th>{{ __("attributes.created_at") }}</th>
                                     <th>{{ __("attributes.updated_at") }}</th>
@@ -103,6 +100,10 @@
                                 <div class="row">
 
                                     <div class="col-12 mb-3">
+                                        <input class="form-control" name="menu_id" id="title" type="hidden" value="{{ request('menu_id') }}" />
+                                    </div>
+
+                                    <div class="col-12 mb-3">
                                         <label for="title">{{ __("attributes.title") }}</label>
                                         <input class="form-control" name="title" id="title" type="text" placeholder="" />
                                     </div>
@@ -115,11 +116,6 @@
                                     <div class="col-sm-12 mb-3">
                                         <label for="model">{{ __("attributes.model") }}</label>
                                         <input class="form-control" name="model" id="model" type="text" placeholder="ex: User, Admin" />
-                                    </div>
-
-                                    <div class="col-sm-12 mb-3">
-                                        <label for="menu_id">{{ __("attributes.menu_id") }}</label>
-                                        <select class="col-sm-12" name="menu_id" id="menu_id"></select>
                                     </div>
 
                                     <div class="col-sm-12 mb-3 mt-3 actions-container">
@@ -165,6 +161,7 @@
                         <form novalidate="" class="theme-form needs-validation" id="form2" method="POST" authorization="{{session("admin_data")["jwtToken"]}}"
                               action="{{ url($pageData["link"]) }}" locale="{{session("locale")}}" csrf="{{ csrf_token()}}">
                             <input type="hidden" name="id" value="">
+                            <input class="form-control" name="menu_id" id="title" type="hidden" value="{{ request('menu_id') }}" />
                             <input type="hidden" name="_method" value="PUT">
                             <div class="form-group">
                                 <div class="row">
@@ -186,11 +183,6 @@
                                                 <div class="col-sm-12 mb-3">
                                                     <label for="model">{{ __("attributes.model") }}</label>
                                                     <input class="form-control" name="model" id="model" type="text" placeholder="ex: User, Admin" />
-                                                </div>
-
-                                                <div class="col-sm-12 mb-3">
-                                                    <label for="menu_id">{{ __("attributes.menu_id") }}</label>
-                                                    <select class="col-sm-12" name="menu_id" id="menu_id"></select>
                                                 </div>
 
                                                 <div class="col-sm-12 mb-3 mt-3 actions-container">
@@ -264,11 +256,6 @@
                                                         <input class="form-control" name="model" id="model" type="text" placeholder="ex: User, Admin" />
                                                     </div>
 
-                                                    <div class="col-sm-12 mb-3">
-                                                        <label for="menu_id">{{ __("attributes.menu_id") }}</label>
-                                                        <select class="col-sm-12" name="menu_id" id="menu_id"></select>
-                                                    </div>
-
                                                     <div class="col-sm-12 mb-3 mt-3 actions-container">
                                                         <div class="row justify-content-start align-items-center">
                                                             <div class="col-auto"><label for="menu_id">{{ __("attributes.actions") }}</label></div>
@@ -311,14 +298,17 @@
 @section('script')
     <script src="{{asset('assets/js/select2/select2.full.min.js')}}"></script>
     <script src="{{asset('assets/js/datatable/datatables/jquery.dataTables.min.js')}}"></script>
+    <script src="{{asset('assets/js/datatable/datatable-extension/dataTables.rowReorder.min.js')}}"></script>
+
     <script>
 
         let routeMenus = "";
         let titleTranslates = "";
         let pageData = @json($pageData);
-        let datatableUri = `${APP_URL}/${pageData.link}`;
+        let datatableUri = `${APP_URL}/${pageData.link}?where=menu_id:{{request("menu_id")}}&orderBy=priority:asc`;
         let datatableAuthToken = "{{session("admin_data")["jwtToken"]}}";
         let dataTableLocale =  "{{session("locale")}}";
+        let dataTableReorder = {"selector": "td:nth-child(3)", "uri": `${APP_URL}/${pageData.link}/reorder`};
         let datatableColumns = [
             {
                 "data": "icon.file",
@@ -372,7 +362,6 @@
             modal.find("[name=id]").val(data.id);
             modal.find("[name=route]").val(data.route);
             modal.find("[name=model]").val(data.model);
-            modal.find("[name=menu_id]").val(data.menu_id).trigger("change");
             modal.find("[name=ActiveEnum]").prop("checked", data.ActiveEnum.key === "active");
             fileUploadBuilder($(modal).find(".fileUploadBuilder"), "icon", data.icon, false, "image/svg+xml");
             modal.find("[data-locale]").each(function (){
@@ -396,7 +385,6 @@
             form.find("[name]").removeClass("is-invalid");
             modal.find("[name=route]").val(data.route).prop("disabled", true);
             modal.find("[name=model]").val(data.model).prop("disabled", true);
-            modal.find("[name=menu_id]").val(data.menu_id).trigger("change").prop("disabled", true);
             modal.find("[name=ActiveEnum]").prop("checked", data.ActiveEnum.key === "active").prop("disabled", true);
             fileUploadBuilder($(modal).find(".fileUploadBuilder"), "icon", data.icon, false, "image/svg+xml");
             $(modal).find(".fileUploadBuilder").find("button").remove();
@@ -418,7 +406,6 @@
             let form = $(this).find("form");
             form[0].reset();
             form.find("[name]").removeClass("is-invalid");
-            form.find("#menu_id").val("").trigger("change");
             form.find(".action-container").remove();
             fileUploadBuilder($(".create_modal").find(".fileUploadBuilder"), "icon", null, false, "image/svg+xml");
         });
@@ -452,32 +439,6 @@
                     notifyForm(title, message, "danger");
                 }
             });
-
-            //Get route menu
-            $.ajax({
-                url: APP_URL + "/api/admin/setting/route-menu",
-                type: "GET",
-                data: null,
-                processData: false,
-                contentType: false,
-                headers: {
-                    'Authorization': 'Bearer ' + "{{ session("admin_data")["jwtToken"] }}",
-                    'locale': "{{ session("locale") }}",
-                },
-                success: function(response) {
-                    let data = response.data;
-                    for (const i in data) routeMenus += `<option value="${data[i].id}">${data[i].title.translate}</option>`;
-                    $(".create_modal").find("#menu_id").select2().append(routeMenus);
-                    $(".update_modal").find("#menu_id").select2().append(routeMenus);
-                    $(".view_modal").find("#menu_id").select2().append(routeMenus);
-                },
-                error: function(xhr, status, error) {
-                    let title = "Some thing went wrong";
-                    let message = xhr.responseText || "Unknown error";
-                    notifyForm(title, message, "danger");
-                }
-            });
-
 
             $(".add-action").on("click", function () {
                  let template = `<div class="row action-container mt-3">

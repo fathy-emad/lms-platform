@@ -3,8 +3,7 @@
 namespace App\Http\Controllers\SettingEducation\Stage;
 
 use App\Http\Controllers\Controller;
-use App\Http\Controllers\SettingEducation\Stage\Requests\{CreateRequest};
-use App\Http\Controllers\SettingEducation\Stage\Requests\UpdateRequest;
+use App\Http\Controllers\SettingEducation\Stage\Requests\{CreateRequest, UpdateRequest, ReorderRequest};
 use App\Http\Repositories\StageRepository;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -34,4 +33,11 @@ class StageController extends Controller
         $data = $this->requestHandler->set($request->validated())->handleUpdate($model)->get();
         return parent::update_model($request->id, $data);
     }
+
+    public function reorder(ReorderRequest $request): JsonResponse
+    {
+        $model = $this->repository;
+        return $this->requestHandler->set($request->validated())->handleReorder($model);
+    }
+
 }

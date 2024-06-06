@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\SettingEducation\Year;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\SettingEducation\Year\Requests\ReorderRequest;
 use App\Http\Controllers\SettingEducation\Year\Requests\{CreateRequest};
 use App\Http\Controllers\SettingEducation\Year\Requests\UpdateRequest;
 use App\Http\Repositories\YearRepository;
@@ -33,5 +34,11 @@ class YearController extends Controller
         $model = $this->repository->getById($request->id);
         $data = $this->requestHandler->set($request->validated())->handleUpdate($model)->get();
         return parent::update_model($request->id, $data);
+    }
+
+    public function reorder(ReorderRequest $request): JsonResponse
+    {
+        $model = $this->repository;
+        return $this->requestHandler->set($request->validated())->handleReorder($model);
     }
 }

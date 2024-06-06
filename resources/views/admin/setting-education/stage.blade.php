@@ -10,6 +10,8 @@
 
 @section('style')
     <link rel="stylesheet" type="text/css" href="{{asset('assets/css/vendors/datatables.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{asset('assets/css/vendors/datatable-extension.css')}}">
+
     <style>
         /* CSS to set mouse pointer to none for disabled elements */
         [disabled] {
@@ -49,6 +51,7 @@
                                 <thead>
                                 <tr>
                                     <th>#ID</th>
+                                    <th>{{ __("attributes.priority") }}</th>
                                     <th>{{ __("attributes.country") }}</th>
                                     <th>{{ __("attributes.stage") }}</th>
                                     <th>{{ __("attributes.ActiveEnum") }}</th>
@@ -62,6 +65,7 @@
                                 <tfoot>
                                 <tr>
                                     <th>#ID</th>
+                                    <th>{{ __("attributes.priority") }}</th>
                                     <th>{{ __("attributes.country") }}</th>
                                     <th>{{ __("attributes.stage") }}</th>
                                     <th>{{ __("attributes.ActiveEnum") }}</th>
@@ -183,14 +187,18 @@
 
 @section('script')
     <script src="{{asset('assets/js/datatable/datatables/jquery.dataTables.min.js')}}"></script>
+    <script src="{{asset('assets/js/datatable/datatable-extension/dataTables.rowReorder.min.js')}}"></script>
+
     <script>
         let htmlCountries = "";
         let stageTranslates = "";
         let pageData = @json($pageData);
-        let datatableUri = "{{ url("api")."/admin/setting-education/stage"}}";
+        let datatableUri = "{{ url("api")."/admin/setting-education/stage?orderBy=priority:asc"}}";
         let datatableAuthToken = "{{session("admin_data")["jwtToken"]}}";
         let dataTableLocale =  "{{session("locale")}}";
+        let dataTableReorder = {"selector": "td:nth-child(2)", "uri": `${APP_URL}/${pageData.link}/reorder`};
         let datatableColumns = [
+            { "data": "priority" },
             { "data": "id" },
             { "data": "country.country.translate" },
             { "data": "stage.translate" },

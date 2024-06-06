@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\Setting\RouteMenu;
 
-use App\Concretes\RequestHandler;
-use App\Enums\ActiveEnum;
-use App\Models\RouteMenu;
-use Translation;
 use UploadFile;
+use Translation;
+use App\Models\RouteMenu;
+use App\Concretes\RequestHandler;
+use Illuminate\Http\JsonResponse;
 
 class RouteMenuRequestHandler extends RequestHandler
 {
@@ -25,6 +25,11 @@ class RouteMenuRequestHandler extends RequestHandler
         $this->translateTitle($model->title);
         $this->handleActiveEnum();
         return $this;
+    }
+
+    public function handleReorder($model): JsonResponse
+    {
+        return $this->reorder($model);
     }
 
     public function translateTitle(?int $id): void

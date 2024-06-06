@@ -35,6 +35,7 @@ Route::middleware(['apiAuth:admin', 'apiPermission'])->group(function (){
         Route::get('stage', 'read');
         Route::post('stage', 'create');
         Route::put('stage', 'update');
+        Route::post('stage/reorder', 'reorder');
     });
 
     //Year
@@ -42,6 +43,7 @@ Route::middleware(['apiAuth:admin', 'apiPermission'])->group(function (){
         Route::get('year', 'read');
         Route::post('year', 'create');
         Route::put('year', 'update');
+        Route::post('year/reorder', 'reorder');
     });
 
     //Subject

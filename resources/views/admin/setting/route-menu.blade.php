@@ -10,6 +10,7 @@
 
 @section('style')
     <link rel="stylesheet" type="text/css" href="{{asset('assets/css/vendors/datatables.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{asset('assets/css/vendors/datatable-extension.css')}}">
     <style>[disabled] {  pointer-events: none; }</style>
 @endsection
 
@@ -240,13 +241,15 @@
 
 @section('script')
     <script src="{{asset('assets/js/datatable/datatables/jquery.dataTables.min.js')}}"></script>
+    <script src="{{asset('assets/js/datatable/datatable-extension/dataTables.rowReorder.min.js')}}"></script>
     <script>
 
         let titleTranslates = "";
         let pageData = @json($pageData);
-        let datatableUri = `${APP_URL}/${pageData.link}`;
+        let datatableUri = `${APP_URL}/${pageData.link}?orderBy=priority:asc`;
         let datatableAuthToken = "{{session("admin_data")["jwtToken"]}}";
         let dataTableLocale =  "{{session("locale")}}";
+        let dataTableReorder = {"selector": "td:nth-child(3)", "uri": `${APP_URL}/${pageData.link}/reorder`};
         let datatableColumns = [
             {
                 "data": "icon.file",
@@ -286,6 +289,11 @@
                                     </button>
                                 </div>`;
                     }
+                    actions += `<div class="col-auto">
+                                    <a class="btn btn-sm btn-success" type="button" href="{{url("/admin/setting/route-item")}}/${data.title.translate}/${data.id}">
+                                        <i class="fa fa-home"></i> Pages
+                                    </a>
+                                </div>`;
                     actions += `</div>`;
                     return actions;
                 }

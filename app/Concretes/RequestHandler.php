@@ -2,6 +2,7 @@
 
 namespace App\Concretes;
 
+use ApiResponse;
 use App\Enums\ActiveEnum;
 use App\Interfaces\RequestHandlerInterface;
 
@@ -33,5 +34,14 @@ class RequestHandler implements RequestHandlerInterface
     public function handleActiveEnum(): void
     {
         $this->data["ActiveEnum"] = isset($this->data["ActiveEnum"]) ? ActiveEnum::Active->value :  ActiveEnum::NotActive->value;
+    }
+
+
+    public function reorder($model)
+    {
+        foreach ($this->data["reorder"] as $arrange)
+            $model->update($arrange["id"], ["priority" => $arrange["priority"]]);
+
+        return ApiResponse::sendSuccess([], "records Reorder successfully", null);
     }
 }

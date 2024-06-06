@@ -240,6 +240,7 @@
         let datatableUri = "{{ url("api")."/admin/employee/permission"}}";
         let datatableAuthToken = "{{session("admin_data")["jwtToken"]}}";
         let dataTableLocale =  "{{session("locale")}}";
+        let dataTableReorder = null;
         let datatableColumns = [
             { "data": "id" },
             { "data": "admin_id" },
@@ -385,7 +386,7 @@
 
             //Get route menu and set data to dom object
             $.ajax({
-                url: APP_URL + "/api/admin/setting/route-menu?where=ActiveEnum:active",
+                url: APP_URL + "/api/admin/setting/route-menu?where=ActiveEnum:active&orderBy=priority:asc",
                 type: "GET",
                 data: null,
                 processData: false,
