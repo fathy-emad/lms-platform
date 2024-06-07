@@ -3,25 +3,33 @@
 namespace App\Http\Controllers\AuthStudent;
 
 use ApiResponse;
-use App\Http\Controllers\AuthAdmin\Requests\{
+use App\Http\Controllers\AuthStudent\Requests\RegisterRequest;
+use App\Http\Controllers\AuthStudent\Requests\{
     ChangePasswordRequest,
     LoginRequest,
     NewPasswordRequest,
     ResetPasswordRequest,
     VerifyTokenRequest
 };
-use App\Http\Controllers\AuthAdmin\Resources\LoginResource;
-use App\Http\Controllers\AuthAdmin\Resources\LogoutResource;
+use App\Http\Controllers\AuthStudent\Resources\LoginResource;
+use App\Http\Controllers\AuthStudent\Resources\LogoutResource;
 use App\Http\Controllers\Controller;
-use App\Http\Repositories\AdminRepository;
+use App\Http\Repositories\StudentRepository;
 use Illuminate\Http\JsonResponse;
 
 class AuthController extends Controller
 {
     public function __construct(
-        protected AdminRepository $repository,
-        protected AuthRequestHandler $requestHandler
+        protected StudentRepository $repository,
+        protected AuthRequestHandler $requestHandler,
+        protected $resource = AuthResource::class,
     ){}
+
+    public function register(RegisterRequest $request): JsonResponse
+    {
+        $data = $this->requestHandler->set($request->validated())->handleRegister()->get();
+        return parent::create_model($data);
+    }
 
     public function login(LoginRequest $request): JsonResponse
     {

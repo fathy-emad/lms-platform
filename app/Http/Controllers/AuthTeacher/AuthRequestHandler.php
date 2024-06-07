@@ -6,6 +6,7 @@ use App\Concretes\RequestHandler;
 use App\Enums\TeacherStatusEnum;
 use App\Models\Teacher;
 use Illuminate\Support\Facades\Auth;
+use Tymon\JWTAuth\Facades\JWTAuth;
 
 
 class AuthRequestHandler extends RequestHandler
@@ -24,6 +25,14 @@ class AuthRequestHandler extends RequestHandler
         return $this;
     }
 
+
+
+
+
+
+
+
+
     public function attempt(): void
     {
         if (!$token = Auth::guard("teacher")->attempt($this->data))
@@ -38,7 +47,6 @@ class AuthRequestHandler extends RequestHandler
             $this->data["token"] = $token;
         }
     }
-
     public function checkStatus(): void
     {
         if (isset($this->data["token"]) && auth('teacher')->user()->TeacherStatusEnum->value != TeacherStatusEnum::Active->value)
@@ -47,7 +55,6 @@ class AuthRequestHandler extends RequestHandler
             $this->data["message"] = "you are not Active Teacher";
         }
     }
-
     public function addJwtTokenToModel():void
     {
         if ($this->data["token"])
@@ -57,11 +64,13 @@ class AuthRequestHandler extends RequestHandler
             $this->data["data"] = $model;
         }
     }
-
     public function terminateJwtTokenFromModel(): void
     {
         $model = Teacher::find(auth('teacher')->user()->id);
-        $model->update(["jwtToken" => null]);
+        $model->update(["jwtToken" => null, "online" => 0]);
+        JWTAuth::invalidate(JWTAuth::getToken());
+        auth('teacher')->logout();
         $this->data["data"] = $model;
     }
+
 }

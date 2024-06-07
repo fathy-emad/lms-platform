@@ -24,14 +24,14 @@ class VerifyJwtTokenAndGuard
      */
     public function handle(Request $request, Closure $next, $guard): Response
     {
-
         try {
+            $auth = JWTAuth::parseToken();
             // Authenticate user based on token and set guard
-            if (!JWTAuth::parseToken()->authenticate()) {
+            if (!$auth->authenticate()) {
                 return ApiResponse::sendError(["You are not authenticated, please login"], "Authentication error", null);
             }
 
-            if (JWTAuth::parseToken()->getPayload()->get('guard') !== $guard) {
+            if ($auth->getPayload()->get('guard') !== $guard) {
                 return ApiResponse::sendError(["You are not Authorized to be here, please login"], "Authorization error", null);
             }
         } catch (JWTException $e) {

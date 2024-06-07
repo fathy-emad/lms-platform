@@ -9,7 +9,8 @@ class LoginRequest extends ValidateRequest
     public function rules(): array
     {
         return [
-            "email" => "required|email",
+            "phone" => "nullable|required_without:email|digits:10",
+            "email" => "nullable|required_without:phone|email",
             "password" => "required"
         ];
     }

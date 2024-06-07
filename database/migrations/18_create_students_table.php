@@ -17,10 +17,11 @@ return new class extends Migration
             $table->string('name');
             $table->string('phone')->unique();
             $table->string('email')->unique();
-            $table->timestamp("born")->nullable();
+            $table->date("born")->nullable();
             $table->enum('GenderEnum', GenderEnum::values())->default(GenderEnum::Male->value);
             $table->json('image')->nullable();
             $table->json('address')->nullable();
+            $table->string("school")->nullable();
             $table->boolean('online')->default(false);
 
             $table->string('password');
@@ -28,14 +29,13 @@ return new class extends Migration
             $table->string('verifyToken')->nullable();
 
             $table->unsignedBigInteger('country_id')->nullable();
-
             $table->foreign("country_id")
                 ->references("id")
                 ->on("countries")
                 ->restrictOnDelete()
                 ->cascadeOnUpdate();
 
-            $table->timestamp('email_verified_at')->nullable();
+            $table->timestamp('phone_verified_at')->nullable();
             $table->timestamps();
         });
     }

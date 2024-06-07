@@ -2,27 +2,32 @@
 
 namespace App\Http\Controllers\AuthStudent;
 
+use UploadFile;
 use App\Models\Admin;
+use App\Models\Student;
+use Illuminate\Support\Arr;
 use App\Concretes\RequestHandler;
-use App\Enums\AdminStatusEnum;
+use Tymon\JWTAuth\Facades\JWTAuth;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Tymon\JWTAuth\Facades\JWTAuth;
 
 class AuthRequestHandler extends RequestHandler
 {
+    public function handleRegister(): static
+    {
+        $this->uploadImage();
+        $this->hashPassword();
+        return $this;
+    }
     public function handleLogin(): static
     {
         $this->attempt();
-        $this->checkStatus();
         $this->addJwtTokenToModel();
         return $this;
     }
     public function handleLogout(): static
     {
-        $model = Admin::find(auth('admin')->user()->id);
-        $model->update(["jwtToken" => null]);
-        $this->data["data"] = $model;
+        $this->terminateJwtTokenFromModel();
         return $this;
     }
     public function handleChangePassword(): static
@@ -43,7 +48,7 @@ class AuthRequestHandler extends RequestHandler
     public function handleVerifyToken():static
     {
         $hashToken = Hash::make($this->data["verifyToken"]);
-        $model = Admin::where("email", $this->data["email"])->update(["verifyToken" => $hashToken]);
+        $model = Student::where("phone", $this->data["phone"])->update(["verifyToken" => $hashToken]);
         if ($model){
             $this->data["success"] = true;
             $this->data["verifyToken"] = $hashToken;
@@ -67,12 +72,39 @@ class AuthRequestHandler extends RequestHandler
         $this->data["data"] = $model;
         return $this;
     }
+    public function addJwtTokenToModel(): void
+    {
+        if ($this->data["token"])
+        {
+            $model = Student::find(auth('student')->user()->id);
+            $model->update(["jwtToken" => $this->data["token"], "online" => 1]);
+            $this->data["data"] = $model;
+        }
+    }
+    public function hashPassword(): void
+    {
+        $this->data["password"] = Hash::make($this->data["password"]);
+        $this->data = Arr::except($this->data, 'password_confirmation');
+    }
+    public function uploadImage(): void
+    {
+        if (isset($this->data["image"]))
+        {
+            $this->data["image"] = UploadFile::uploadFile('public', $this->data["image"], 'student/images', null, 'image');
+        }
+    }
+
+
+
+
+
+
     public function attempt(): void
     {
-        if (! $token = auth('admin')->attempt($this->data))
+        if (!$token = Auth::guard('student')->attempt($this->data))
         {
             $this->data["token"] = null;
-            $this->data["message"] = "you are not Auth Admin";
+            $this->data["message"] = "you are not Auth Student";
         }
 
         else
@@ -81,21 +113,12 @@ class AuthRequestHandler extends RequestHandler
             $this->data["token"] = $token;
         }
     }
-    public function checkStatus(): void
+    public function terminateJwtTokenFromModel(): void
     {
-        if (isset($this->data["token"]) && auth('admin')->user()->AdminStatusEnum->value != AdminStatusEnum::Active->value)
-        {
-            $this->data["token"] = null;
-            $this->data["message"] = "you are not Active Admin";
-        }
-    }
-    public function addJwtTokenToModel(): void
-    {
-        if ($this->data["token"])
-        {
-            $model = Admin::find(auth('admin')->user()->id);
-            $model->update(["jwtToken" => $this->data["token"]]);
-            $this->data["data"] = $model;
-        }
+        $model = Student::find(auth('student')->user()->id);
+        $model->update(["jwtToken" => null, "online" => 0]);
+        JWTAuth::invalidate(JWTAuth::getToken());
+        auth('student')->logout();
+        $this->data["data"] = $model;
     }
 }
