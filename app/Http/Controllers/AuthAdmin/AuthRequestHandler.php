@@ -81,7 +81,7 @@ class AuthRequestHandler extends RequestHandler
         else
         {
             $this->data["message"] = "you are Auth";
-            $this->data["token"] = JWTAuth::claims([ 'guard' => 'admin'])->fromUser(auth('admin')->user());
+            $this->data["token"] = JWTAuth::claims(['guard' => 'admin'])->fromUser(auth("admin")->user());
         }
     }
     public function checkStatus(): void
@@ -101,5 +101,4 @@ class AuthRequestHandler extends RequestHandler
             $this->data["data"] = $model;
         }
     }
-
 }
