@@ -349,7 +349,7 @@
                  width="37" height="37" alt="">
             <div class="media-body">
               <span class="account-name">{{ session("admin_data")["name"] }}</span>
-              <p class="mb-0 font-roboto account-role"> {{ session("admin_data")["AdminRoleEnum"]["translate"] }} <i class="middle fa fa-angle-down"></i></p>
+              <p class="mb-0 font-roboto account-role"> {{ session("admin_data")["AdminRoleEnum"]["translates"][app()->getLocale()] }} <i class="middle fa fa-angle-down"></i></p>
             </div>
           </div>
           <ul class="profile-dropdown onhover-show-div">

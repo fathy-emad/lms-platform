@@ -400,6 +400,8 @@
         let datatableUri = `{{ url("api")."/admin/course/material?where=course_id:" . request("course_id")}}`;
         let datatableAuthToken = "{{session("admin_data")["jwtToken"]}}";
         let dataTableLocale =  "{{session("locale")}}";
+        let dataTableReorder = null;
+
         let datatableColumns = [
             { "data": "id" },
             { "data": "lesson.lesson.translate" },

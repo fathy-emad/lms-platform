@@ -419,6 +419,8 @@
         let datatableUri = `{{ url("api")."/admin/setting-education/bank-question?where=teacher_id:" . request("teacher_id") . ",lesson_id:" . request('lesson_id')}}`;
         let datatableAuthToken = "{{session("admin_data")["jwtToken"]}}";
         let dataTableLocale =  "{{session("locale")}}";
+        let dataTableReorder = null;
+
         let datatableColumns = [
             { "data": "id" },
             { "data": "question" },

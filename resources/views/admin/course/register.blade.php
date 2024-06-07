@@ -229,6 +229,8 @@
         let datatableUri = `{{ url("api")."/admin/course/register?where=teacher_id:".request("teacher_id")}}`;
         let datatableAuthToken = "{{session("admin_data")["jwtToken"]}}";
         let dataTableLocale =  "{{session("locale")}}";
+        let dataTableReorder = null;
+
         let datatableColumns = [
             { "data": "id" },
             { "data": "teacher",

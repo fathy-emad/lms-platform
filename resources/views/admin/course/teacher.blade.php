@@ -60,6 +60,8 @@
         let datatableUri = `${APP_URL}/api/admin/teacher/register?where=TeacherStatusEnum:active`;
         let datatableAuthToken = "{{session("admin_data")["jwtToken"]}}";
         let dataTableLocale =  "{{session("locale")}}";
+        let dataTableReorder = null;
+
         let datatableColumns = [
             { "data": "id" },
             { "data": null,

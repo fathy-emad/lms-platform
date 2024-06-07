@@ -23,6 +23,7 @@ class AuthRequestHandler extends RequestHandler
         $model = Admin::find(auth('admin')->user()->id);
         $model->update(["jwtToken" => null]);
         $this->data["data"] = $model;
+        auth('admin')->logout();
         return $this;
     }
     public function handleChangePassword(): static

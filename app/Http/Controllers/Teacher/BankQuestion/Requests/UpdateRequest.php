@@ -23,7 +23,7 @@ class UpdateRequest extends ValidateRequest
             'lesson_id' => 'required|integer|exists:lessons,id',
             'question' => 'required|string|min:2',
             'answers' => 'required|array|min:3',
-            'answers.*' => 'required|string|min:2',
+            'answers.*' => 'required|string',
             'correctAnswer' => 'required|string',
             'images' => 'nullable|array',
             "images.*.key" => "nullable|integer",

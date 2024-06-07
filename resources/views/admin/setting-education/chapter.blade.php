@@ -195,6 +195,7 @@
         let datatableUri = `{{ url("api")."/admin/setting-education/chapter?where=curriculum_id:".request("curriculum_id")}}`;
         let datatableAuthToken = "{{session("admin_data")["jwtToken"]}}";
         let dataTableLocale =  "{{session("locale")}}";
+        let dataTableReorder = null;
         let datatableColumns = [
             { "data": "id" },
             { "data": "chapter.translate" },
@@ -227,7 +228,7 @@
 
                     actions += `<div class="col-auto">
                                     <a class="btn btn-sm btn-success" type="button" href="{{url("/admin/setting-education/lesson")}}/${data.id}">
-                                        <i class="fa fa-home"></i> Lesson
+                                        <i class="fa fa-home"></i> Lessons
                                     </a>
                                 </div>`;
                     actions += `</div>`;

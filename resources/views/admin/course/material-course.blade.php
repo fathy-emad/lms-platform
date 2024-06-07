@@ -71,6 +71,8 @@
         let datatableUri = `{{ url("api")."/admin/course/register?where=teacher_id:".request("teacher_id").",ActiveEnum:".\App\Enums\ActiveEnum::Active->value}}`;
         let datatableAuthToken = "{{session("admin_data")["jwtToken"]}}";
         let dataTableLocale =  "{{session("locale")}}";
+        let dataTableReorder = null;
+
         let datatableColumns = [
             { "data": "id" },
             { "data": "curriculum.subject.year.year.translate" },

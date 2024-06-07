@@ -20,7 +20,7 @@ class UpdateRequest extends ValidateRequest
                 "exists:edu_subjects,id",
                 Rule::unique('subjects', 'edu_subject_id')->where(function ($query){
                     return $query->where('year_id', $this->year_id);
-                })
+                })->ignore($this->id)
             ],
             "ActiveEnum" => ["sometimes", "string", new Enum(ActiveEnum::class)],
         ];

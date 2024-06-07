@@ -5,6 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Tymon\JWTAuth\Facades\JWTAuth;
 
 class EnsureEntityIsGuest
 {
@@ -15,21 +16,15 @@ class EnsureEntityIsGuest
      */
     public function handle(Request $request, Closure $next, $entity = null): Response
     {
-        // Define the redirection routes for each entity
-        $redirects = [
+
+        $redirect = match ($entity) {
             'admin' => 'admin.dashboard',
-            // Add more entities and their respective dashboard routes here
-        ];
+            default => 'website',
+        };
 
-        $entityData = session($entity . '_data', null);
+        if (isset(session($entity . '_data')["jwtToken"]) && JWTAuth::setToken(session($entity . '_data')["jwtToken"])->authenticate())
+            return redirect()->route($redirect);
 
-        // If session data exists for the entity, redirect to their "dashboard"
-        if ($entityData) {
-            $redirectRoute = $redirects[$entity] ?? null;
-            if ($redirectRoute) {
-                return redirect()->route($redirectRoute);
-            }
-        }
         return $next($request);
     }
 }

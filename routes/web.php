@@ -13,7 +13,12 @@
 
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Session;
+use Tymon\JWTAuth\Facades\JWTAuth;
 
 //Language Change
 Route::get('lang/{locale}', function ($locale) {
@@ -24,10 +29,7 @@ Route::get('lang/{locale}', function ($locale) {
 
 //Create session after login
 Route::post("create/session", function(Request $request){
-    $admin_data = $request->all();
-    $expirationMinutes = explode(" ", $admin_data["jwtTokenExpirationAfter"])[0] / 60;
-    $admin_data["jwtTokenExpirationAfter"] = Carbon::now()->addMinutes($expirationMinutes);
-    session(["admin_data" => $admin_data]);
+    session(["admin_data" => $request->all()]);
     return true;
 });
 

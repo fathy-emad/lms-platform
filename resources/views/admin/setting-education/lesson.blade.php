@@ -196,6 +196,8 @@
         let datatableUri = `{{ url("api")."/admin/setting-education/lesson?where=chapter_id:".request("chapter_id")}}`;
         let datatableAuthToken = "{{session("admin_data")["jwtToken"]}}";
         let dataTableLocale =  "{{session("locale")}}";
+        let dataTableReorder = null;
+
         let datatableColumns = [
             { "data": "id" },
             { "data": "lesson.translate" },

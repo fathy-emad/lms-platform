@@ -17,9 +17,9 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger("subject_id");
             $table->unsignedBigInteger("curriculum");
-            $table->json("EduTermsEnum");
+            $table->json("EduTermsEnums");
             $table->json("EduTypesEnums");
-            $table->enum('ActiveEnums', ActiveEnum::values())->default(ActiveEnum::Active->value);
+            $table->enum('ActiveEnum', ActiveEnum::values())->default(ActiveEnum::Active->value);
             $table->enum('from', MonthsEnum::values())->default(MonthsEnum::Aug->value);
             $table->enum('to', MonthsEnum::values())->default(MonthsEnum::Jul->value);
             $table->integer('priority');

@@ -73,7 +73,7 @@ class Repository implements RepositoryInterface
 
             foreach ($attributes as $attribute) {
                 list($key, $value) = explode(':', $attribute);
-                $conditions[trim($key)] = trim($value);
+                $conditions[trim($key)] = trim($value == "null" ? null : $value);
             }
             $this->query = $this->query->where($conditions);
         }
@@ -89,10 +89,11 @@ class Repository implements RepositoryInterface
             $this->query = $this->query->orWhere(function ($query) use($attributes) {
                 foreach ($attributes as $attribute) {
                     list($key, $value) = explode(':', $attribute);
-                    $query->where($key, $value);
+                    $query->where($key, $value == "null" ? null : $value);
                 }
             });
         }
+
         return $this;
     }
 

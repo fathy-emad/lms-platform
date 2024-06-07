@@ -74,6 +74,8 @@
         let datatableUri = APP_URL+"/api/admin/teacher/register?where=TeacherStatusEnum:" + "{{\App\Enums\TeacherStatusEnum::Active->value}}";
         let datatableAuthToken = "{{session("admin_data")["jwtToken"]}}";
         let dataTableLocale =  "{{session("locale")}}";
+        let dataTableReorder = null;
+
         let datatableColumns = [
             {
                 "data": "image.file",
