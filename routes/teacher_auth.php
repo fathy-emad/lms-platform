@@ -10,21 +10,21 @@ use Illuminate\Support\Facades\Route;
 |
 | Here is where you can register API routes for your application. These
 | routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "api auth teacher" middleware group. Make something great!
+| be assigned to the "api admin auth" middleware group. Make something great!
 |
 */
 
-//Guest
 Route::controller(AuthController::class)->group(function (){
+
+    //Guest
     Route::post('login', 'login');
-    //Route::post('forget-password', 'forgetPassword');
-    //Route::post('verify-token', 'verifyToken');
-    //Route::post('new-password', 'newPassword');
+    Route::post('reset-password', 'resetPassword'); //->middleware('apiThrottle:1,5')
+    Route::post('verify-token', 'verifyToken'); //->middleware('apiThrottle:3,1')
+    Route::post('new-password', 'newPassword');
 
     //Auth
     Route::middleware('apiAuth:teacher')->group(function (){
         Route::post('logout', 'logout');
-        //Route::post('change-password', 'changePassword');
-        //Route::post('change-email', 'changeEmail');
+        Route::post('change-password', 'changePassword');
     });
 });

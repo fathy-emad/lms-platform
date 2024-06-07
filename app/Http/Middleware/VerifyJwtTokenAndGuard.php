@@ -24,23 +24,19 @@ class VerifyJwtTokenAndGuard
      */
     public function handle(Request $request, Closure $next, $guard): Response
     {
-        Auth::shouldUse($guard);
 
         try {
-            // Check if the token is present
-            $user = JWTAuth::parseToken()->authenticate();
-            if (!$user) {
-                return ApiResponse::sendError(["you not Authenticated please login"], "Authentication error",null);
+            // Authenticate user based on token and set guard
+            if (!JWTAuth::parseToken()->authenticate()) {
+                return ApiResponse::sendError(["You are not authenticated, please login"], "Authentication error", null);
             }
 
-            // Check if guard is valid
-            if (!Auth::check()) {
-                return ApiResponse::sendError(["you not Authorized or allow to be here"], "Authorization error",null);
+            if (JWTAuth::parseToken()->getPayload()->get('guard') !== $guard) {
+                return ApiResponse::sendError(["You are not Authorized to be here, please login"], "Authorization error", null);
             }
-
         } catch (JWTException $e) {
 
-            // Handle different types of JWT exceptions
+            // Handling different types of JWT exceptions
             if ($e instanceof TokenExpiredException) {
                 return ApiResponse::sendError([$e->getMessage()], "Token expired", null);
 
@@ -48,7 +44,7 @@ class VerifyJwtTokenAndGuard
                 return ApiResponse::sendError([$e->getMessage()], "Token is invalid", null);
 
             } else {
-                return ApiResponse::sendError(["Authorization Token not found please login"], "Token not found", null);
+                return ApiResponse::sendError(["Authorization token not found, please login"], "Token not found", null);
             }
         }
 

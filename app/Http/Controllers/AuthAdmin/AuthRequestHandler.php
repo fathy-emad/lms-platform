@@ -20,6 +20,8 @@ class AuthRequestHandler extends RequestHandler
     }
     public function handleLogout(): static
     {
+        $token = JWTAuth::getToken();
+        JWTAuth::invalidate($token);
         $model = Admin::find(auth('admin')->user()->id);
         $model->update(["jwtToken" => null]);
         $this->data["data"] = $model;
@@ -57,7 +59,7 @@ class AuthRequestHandler extends RequestHandler
     public function handleNewPassword():static
     {
         $model = Admin::firstWhere('email', $this->data["email"]);
-        Auth::login($model);
+        Auth::guard("admin")->login($model);
         $token = JWTAuth::fromUser($model);
         $model->update([
             "password" => Hash::make($this->data["password"]),
@@ -70,7 +72,7 @@ class AuthRequestHandler extends RequestHandler
     }
     public function attempt(): void
     {
-        if (! $token = auth('admin')->attempt($this->data))
+        if (!JWTAuth::attempt($this->data))
         {
             $this->data["token"] = null;
             $this->data["message"] = "you are not Auth Admin";
@@ -79,7 +81,7 @@ class AuthRequestHandler extends RequestHandler
         else
         {
             $this->data["message"] = "you are Auth";
-            $this->data["token"] = $token;
+            $this->data["token"] = JWTAuth::claims([ 'guard' => 'admin'])->fromUser(auth('admin')->user());
         }
     }
     public function checkStatus(): void
@@ -99,4 +101,5 @@ class AuthRequestHandler extends RequestHandler
             $this->data["data"] = $model;
         }
     }
+
 }

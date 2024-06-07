@@ -5,6 +5,8 @@ namespace App\Http\Controllers\AuthTeacher;
 use App\Concretes\RequestHandler;
 use App\Enums\TeacherStatusEnum;
 use App\Models\Teacher;
+use Illuminate\Support\Facades\Auth;
+use Tymon\JWTAuth\Facades\JWTAuth;
 
 class AuthRequestHandler extends RequestHandler
 {
@@ -13,6 +15,7 @@ class AuthRequestHandler extends RequestHandler
         $this->attempt();
         $this->checkStatus();
         $this->addJwtTokenToModel();
+        $this->addGuardToClaims();
         return $this;
     }
 
@@ -24,7 +27,7 @@ class AuthRequestHandler extends RequestHandler
 
     public function attempt(): void
     {
-        if (! $token = auth('teacher')->attempt($this->data))
+        if (!Auth::guard("teacher")->attempt($this->data))
         {
             $this->data["token"] = null;
             $this->data["message"] = "you are not Auth Teacher";
@@ -33,7 +36,7 @@ class AuthRequestHandler extends RequestHandler
         else
         {
             $this->data["message"] = "you are Auth";
-            $this->data["token"] = $token;
+            $this->data["token"] = JWTAuth::claims(['guard' => 'teacher'])->fromUser(auth("teacher")->user());
         }
     }
 
@@ -61,5 +64,12 @@ class AuthRequestHandler extends RequestHandler
         $model = Teacher::find(auth('teacher')->user()->id);
         $model->update(["jwtToken" => null]);
         $this->data["data"] = $model;
+    }
+
+
+    public function addGuardToClaims(): void
+    {
+        $customClaims = ['guard' => "teacher"];
+        JWTAuth::customClaims($customClaims)->fromUser(Auth::guard("teacher")->user());
     }
 }

@@ -15,6 +15,7 @@ use App\Http\Controllers\AuthAdmin\Resources\LogoutResource;
 use App\Http\Controllers\Controller;
 use App\Http\Repositories\AdminRepository;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
