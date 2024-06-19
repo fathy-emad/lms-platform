@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthStudent\AuthController;
+use App\Http\Controllers\Student\Cart\CartController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,7 +15,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::controller(AuthController::class)->group(function (){
+Route::prefix('auth')->controller(AuthController::class)->group(function (){
 
     //Guest
     Route::post('register', 'register');
@@ -24,8 +25,24 @@ Route::controller(AuthController::class)->group(function (){
     Route::post('new-password', 'newPassword');
 
     //Auth
-    Route::middleware('apiAuth:admin')->group(function (){
+    Route::middleware('apiAuth:student')->group(function (){
         Route::post('logout', 'logout');
         Route::post('change-password', 'changePassword');
     });
 });
+
+
+Route::middleware(['apiAuth:student'])->group(function () {
+
+    //Cart
+    Route::controller(CartController::class)->group(function (){
+        Route::post('cart', 'create');
+        Route::get('cart', 'read');
+        Route::delete('cart', 'delete');
+    });
+
+
+});
+
+
+

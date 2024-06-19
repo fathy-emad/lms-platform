@@ -33,50 +33,21 @@ class RouteServiceProvider extends ServiceProvider
             //api routes
             Route::prefix('api')->middleware('api')->group(function (){
 
-                //api admin routes
-                Route::prefix('/admin')->group(function (){
+                //Admin routes
+                Route::prefix('admin')->group(base_path('routes/admin.php'));
 
-                    Route::prefix('/auth')
-                        ->group(base_path('routes/admin_auth.php'));
+                //Teacher routes
+                Route::prefix('teacher')->group(base_path('routes/teacher.php'));
 
-                    Route::prefix('/employee')
-                        ->group(base_path('routes/admin_employee.php'));
-
-                    Route::prefix('/setting')
-                        ->group(base_path('routes/admin_setting.php'));
-
-                    Route::prefix('/setting-education')
-                        ->group(base_path('routes/admin_setting_education.php'));
-
-                    Route::prefix('/teacher')
-                        ->group(base_path('routes/admin_teacher.php'));
-
-                    Route::prefix('/course')
-                        ->group(base_path('routes/admin_course.php'));
-                });
-
-
-                //api teacher routes
-                Route::prefix('/teacher')->group(function (){
-                    Route::prefix('/auth')
-                        ->group(base_path('routes/teacher_auth.php'));
-                });
-
-
-                //api student routes
-                Route::prefix('/student')->group(function (){
-                    Route::prefix('/auth')
-                        ->group(base_path('routes/student_auth.php'));
-                });
+                //Student routes
+                Route::prefix('student')->group(base_path('routes/student.php'));
 
                 //Web services routes
-                Route::prefix('/web-services')->group(base_path('routes/web_services.php'));
+                Route::prefix('web-services')->group(base_path('routes/web_services.php'));
 
             });
 
-
-            Route::middleware('web')
-                ->group(base_path('routes/web.php'));
+            Route::middleware('web')->group(base_path('routes/web.php'));
         });
     }
 }
