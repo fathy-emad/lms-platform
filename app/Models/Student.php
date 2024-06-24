@@ -6,6 +6,7 @@ use App\Enums\GenderEnum;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 
@@ -42,6 +43,11 @@ class Student extends Authenticatable implements JWTSubject
     public function country(): BelongsTo
     {
         return $this->belongsTo(Country::class, 'country_id');
+    }
+
+    public function invoices(): HasMany
+    {
+        return $this->hasMany(Invoice::class, 'student_id');
     }
 
     public function getJWTIdentifier(): mixed
