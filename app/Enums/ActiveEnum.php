@@ -8,7 +8,6 @@ enum ActiveEnum: string
 {
 
     use EnumTrait;
-
     case Active = "active";
     case NotActive = "notActive";
 }

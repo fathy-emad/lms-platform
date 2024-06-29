@@ -11,8 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('enrollment_payment_loggers', function (Blueprint $table) {
+        Schema::create('invoices', function (Blueprint $table) {
             $table->id();
+            $table->unsignedInteger("serial");
+            $table->unsignedInteger("student_id");
+            $table->string("paymentMethod");
+            $table->string("PaymentService");
+            $table->json("paymentData");
+            $table->float("cost");
+            $table->integer("count");
             $table->timestamps();
         });
     }
@@ -22,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('enrollment_payment_loggers');
+        Schema::dropIfExists('invoices');
     }
 };

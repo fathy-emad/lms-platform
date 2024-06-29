@@ -18,6 +18,7 @@ use App\Http\Controllers\SettingEducation\Stage\StageController;
 use App\Http\Controllers\SettingEducation\Subject\SubjectController;
 use App\Http\Controllers\SettingEducation\Year\YearController;
 use App\Http\Controllers\Teacher\BankQuestion\BankQuestionController;
+use App\Http\Controllers\Teacher\Register\RegisterController as RegisterTeacherController;
 
 /*
 |--------------------------------------------------------------------------
@@ -170,7 +171,7 @@ Route::middleware(['apiAuth:admin', 'apiPermission'])->group(function (){
     Route::prefix('teacher')->group(function (){
 
         //Register
-        Route::controller(RegisterController::class)->group(function (){
+        Route::controller(RegisterTeacherController::class)->group(function (){
             Route::get('register', 'read');
             Route::post('register', 'create');
             Route::put('register', 'update');

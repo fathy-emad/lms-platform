@@ -37,14 +37,14 @@ class UpdateRequest extends ValidateRequest
                     return $query->where("id", $this->id);
                 })
             ],
-            "image.file" => "nullable|file|mimes:svg,xml",
+            "image.file" => "nullable|image",
             "image.title" => "nullable|string",
         ];
     }
 
     public function withValidator(Validator $validator): void
     {
-        $validator->sometimes('image.file', 'required|file|mimes:svg,xml', function ($input) {
+        $validator->sometimes('image.file', 'required|image', function ($input) {
             return empty($input->image['key']);
         });
     }

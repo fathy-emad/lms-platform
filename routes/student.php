@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\AuthStudent\AuthController;
 use App\Http\Controllers\Student\Cart\CartController;
+use App\Http\Controllers\Student\Checkout\CheckoutController;
+use App\Http\Controllers\Student\Invoice\InvoiceController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -41,6 +43,19 @@ Route::middleware(['apiAuth:student'])->group(function () {
         Route::delete('cart', 'delete');
     });
 
+
+    //Checkout
+    Route::controller(CheckoutController::class)->group(function (){
+        Route::post('checkout', 'create');
+        Route::get('checkout', 'read');
+        Route::get('checkout/callback', 'callback');
+    });
+
+    //Invoice
+    Route::controller(InvoiceController::class)->group(function (){
+        Route::post('invoice', 'create');
+        Route::get('Invoice', 'read');
+    });
 
 });
 

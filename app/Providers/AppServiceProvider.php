@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Interfaces\ApiResponseInterface;
 use App\Services\ApiResponse;
+use App\Services\PaymobService;
 use App\Services\TranslationService;
 use App\Services\UploadFileService;
 use Illuminate\Support\Facades\Schema;
@@ -24,6 +25,10 @@ class AppServiceProvider extends ServiceProvider
 
         $this->app->singleton(UploadFileService::class, function ($app){
             return new UploadFileService();
+        });
+
+        $this->app->singleton(PaymobService::class, function ($app){
+            return new PaymobService();
         });
     }
 

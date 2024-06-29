@@ -186,6 +186,7 @@ return [
         "ApiResponse" => App\Facades\ApiResponseFacade::class,
         "Translation" => App\Facades\TranslationFacade::class,
         "UploadFile" => App\Facades\UploadFileFacade::class,
+        "Paymob" => App\Facades\PaymobFacade::class,
         // 'Example' => App\Facades\Example::class,
     ])->toArray(),
 
