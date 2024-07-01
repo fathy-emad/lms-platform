@@ -3,10 +3,12 @@
 namespace App\Concretes;
 
 use Exception;
+use ApiResponse;
 use Illuminate\Database\Eloquent\Model;
 use App\Interfaces\RepositoryInterface;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Arr;
 
@@ -14,30 +16,41 @@ class Repository implements RepositoryInterface
 {
     protected $query;
 
-    public function create(array $data): Model|string
+    public function create(array $data): Model
     {
         try {
             return $this->model->create($data);
         } catch (Exception $e) {
             // Handle exceptions related to model creation
-            return $e;
+            throw new HttpResponseException(
+                ApiResponse::sendError(["some thing went wrong" => [$e->getMessage()]], 'Creation Record Error', null)
+            );
         }
     }
 
-    public function getById(int $id): Model|string
+    public function getById(int $id): Model
     {
 
         try {
             $model = $this->model->find($id);
-            return $model ?: "Record Not Found";
+
+            if ($model) {
+                return $model;
+            }
+
+            throw new HttpResponseException(
+                ApiResponse::sendError(["something went wrong" => ["Record Not Found"]], 'Read Record Error', null)
+            );
 
         } catch (ModelNotFoundException|Exception $e){
-            return $e->getMessage();
 
+            throw new HttpResponseException(
+                ApiResponse::sendError(["some thing went wrong" => ["Record Not Found"]], 'Read Record Error', null)
+            );
         }
     }
 
-    public function getAll(): Collection|string
+    public function getAll(): Collection
     {
         try {
             $model = $this->query->get();
@@ -45,11 +58,13 @@ class Repository implements RepositoryInterface
             return $model;
 
         } catch (Exception $e) {
-            return $e;
+            throw new HttpResponseException(
+                ApiResponse::sendError(["some thing went wrong" => [$e->getMessage()]], 'Read Records Error', null)
+            );
         }
     }
 
-    public function paginate(): LengthAwarePaginator|string
+    public function paginate(): LengthAwarePaginator
     {
         try {
             $model = $this->query->paginate(request()->per_page);
@@ -59,7 +74,9 @@ class Repository implements RepositoryInterface
         } catch (Exception $e) {
             // Handle exceptions
             // Return an empty collection or handle as required
-            return $e;
+            throw new HttpResponseException(
+                ApiResponse::sendError(["some thing went wrong" => [$e->getMessage()]], 'Creation Records Pagination Error', null)
+            );
         }
     }
 
@@ -127,7 +144,7 @@ class Repository implements RepositoryInterface
         return $this;
     }
 
-    public function update(int $id, array $data): Model|string
+    public function update(int $id, array $data): Model
     {
         try {
             $model = $this->model->find($id);
@@ -135,11 +152,13 @@ class Repository implements RepositoryInterface
             return $model;
         } catch (Exception $e) {
             // Handle other exceptions
-            return $e;
+            throw new HttpResponseException(
+                ApiResponse::sendError(["some thing went wrong" => [$e->getMessage()]], 'Update Record Error', null)
+            );
         }
     }
 
-    public function delete(int $id): Model|string
+    public function delete(int $id): Model
     {
         try {
             $model = $this->model->find($id);
@@ -147,7 +166,9 @@ class Repository implements RepositoryInterface
             return $model;
         } catch (Exception $e) {
             // Handle other exceptions
-            return $e;
+            throw new HttpResponseException(
+                ApiResponse::sendError(["some thing went wrong" => [$e->getMessage()]], 'Delete Record Error', null)
+            );
         }
     }
 }

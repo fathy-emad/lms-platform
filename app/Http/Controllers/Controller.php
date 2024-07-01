@@ -19,16 +19,14 @@ class Controller extends BaseController
     public function create_model(array $data): JsonResponse
     {
         $data = $this->repository->create($data);
-        if($data instanceof Model) return ApiResponse::sendSuccess(new $this->resource($data), "record added successfully", null);
-        return ApiResponse::sendError([$data], "some thing went wrong", null);
+        return ApiResponse::sendSuccess(new $this->resource($data), "record added successfully", null);
     }
 
     public function read_model(Request $request): JsonResponse
     {
         if ($request->has("id")) {
             $data = $this->repository->getById($request->id);
-            if($data instanceof Model) return ApiResponse::sendSuccess(new $this->resource($data), "record read successfully", null);
-            return ApiResponse::sendError(["some thing went wrong to get record"], $data, null);
+            return ApiResponse::sendSuccess(new $this->resource($data), "record read successfully", null);
 
         } elseif ($request->has("per_page") && $request->has("page")){
             $data = $this->repository
@@ -36,9 +34,7 @@ class Controller extends BaseController
                 ->orWhere($request->orWhere)
                 ->orderBy($request->orderBy)
                 ->paginate($request);
-
-            if($data instanceof LengthAwarePaginator) return ApiResponse::withPagination($data)->sendSuccess( $this->resource::collection($data), "record read successfully", null);
-            return ApiResponse::sendError(["some thing went wrong to get paginated data"], "some thing went wrong", null);
+            return ApiResponse::withPagination($data)->sendSuccess( $this->resource::collection($data), "record read successfully", null);
 
         } else {
             $data = $this->repository
@@ -48,22 +44,19 @@ class Controller extends BaseController
                 ->skip($request->skip)
                 ->take($request->take)
                 ->getAll();
-            if($data instanceof Collection) return ApiResponse::sendSuccess($this->resource::collection($data), "record read successfully", null);
-            return ApiResponse::sendError(["some went wrong to get records"], "some thing went wrong", null);
+            return ApiResponse::sendSuccess($this->resource::collection($data), "record read successfully", null);
         }
     }
 
     public function update_model(int $id, array $data): JsonResponse
     {
         $data = $this->repository->update($id, $data);
-        if($data instanceof Model) return ApiResponse::sendSuccess(new $this->resource($data), "record updated successfully", null);
-        return ApiResponse::sendError([$data], "some thing went wrong", null);
+        return ApiResponse::sendSuccess(new $this->resource($data), "record updated successfully", null);
     }
 
     public function delete_model(int $id): JsonResponse
     {
         $data = $this->repository->delete($id);
-        if($data instanceof Model) return ApiResponse::sendSuccess(new $this->resource($data), "record deleted successfully", null);
-        return ApiResponse::sendError([$data], "some thing went wrong", null);
+        return ApiResponse::sendSuccess(new $this->resource($data), "record deleted successfully", null);
     }
 }

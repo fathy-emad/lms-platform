@@ -38,7 +38,7 @@ class PaymobService
             $this->authToken = $response->json()['token'];
 
         else
-            throw new HttpResponseException(ApiResponse::sendError(["checkout error please try again later"], 'Paymob authentication Checkout Error please try again later', null));
+            throw new HttpResponseException(ApiResponse::sendError(["Something went wrong" => ["checkout error please try again later"]], 'Paymob authentication Checkout Error please try again later', null));
     }
 
     public function createOrder($amount): void
@@ -56,7 +56,7 @@ class PaymobService
             $this->orderData = $response->json();
 
         else
-            throw new HttpResponseException(ApiResponse::sendError(["checkout error please try again later"], 'Paymob create order Checkout Error please try again later', null));
+            throw new HttpResponseException(ApiResponse::sendError(["Something went wrong" => ["checkout error please try again later"]], 'Paymob create order Checkout Error please try again later', null));
     }
 
     public function studentBillingData(): array
@@ -98,7 +98,7 @@ class PaymobService
             $this->paymentKey = $response->json()['token'];
 
         else
-            throw new HttpResponseException(ApiResponse::sendError(["checkout error please try again later"], 'Paymob create iframe Checkout Error please try again later', null));
+            throw new HttpResponseException(ApiResponse::sendError(["Something went wrong" => ["checkout error please try again later"]], 'Paymob create iframe Checkout Error please try again later', null));
     }
 
     public function paymentIframe(): string

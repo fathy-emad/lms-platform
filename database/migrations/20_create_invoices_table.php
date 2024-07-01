@@ -13,10 +13,9 @@ return new class extends Migration
     {
         Schema::create('invoices', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger("serial")->unique();
+            $table->string("serial")->unique();
             $table->unsignedBigInteger("student_id");
-            $table->string("paymentMethod")->nullable();
-            $table->string("paymentIntegration")->nullable();
+            $table->string("paymentService")->nullable();
             $table->json("paymentData")->nullable();
             $table->float("totalCost");
             $table->unsignedInteger("itemCount");

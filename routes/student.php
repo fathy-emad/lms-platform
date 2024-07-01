@@ -43,7 +43,6 @@ Route::middleware(['apiAuth:student'])->group(function () {
         Route::delete('cart', 'delete');
     });
 
-
     //Checkout
     Route::controller(CheckoutController::class)->group(function (){
         Route::post('checkout', 'create');

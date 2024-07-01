@@ -13,6 +13,21 @@ return new class extends Migration
     {
         Schema::create('payments', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger("invoice_id");
+            $table->unsignedBigInteger("course_id");
+            $table->float("cost");
+
+            $table->foreign("invoice_id")
+                ->references("id")
+                ->on("invoices")
+                ->restrictOnDelete()
+                ->cascadeOnUpdate();
+
+            $table->foreign("course_id")
+                ->references("id")
+                ->on("courses")
+                ->restrictOnDelete()
+                ->cascadeOnUpdate();
             $table->timestamps();
         });
     }

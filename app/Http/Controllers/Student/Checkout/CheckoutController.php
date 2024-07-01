@@ -26,8 +26,8 @@ class CheckoutController extends Controller
         return parent::read_model($request);
     }
 
-    public function callback(Request $request)
+    public function callback(Request $request): JsonResponse
     {
-
+        Return $this->requestHandler->checkoutCallback($request);
     }
 }

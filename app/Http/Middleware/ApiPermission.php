@@ -59,7 +59,7 @@ class ApiPermission
             }
 
 
-            if (! empty($errors)) throw new HttpResponseException(ApiResponse::sendError($errors, 'Permission Error', null));
+            if (! empty($errors)) throw new HttpResponseException(ApiResponse::sendError(["permission errors" => $errors], 'Permission Errors', null));
         }
 
         return $next($request);
