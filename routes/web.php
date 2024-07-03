@@ -11,14 +11,10 @@
 |
 */
 
-use Carbon\Carbon;
+
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Config;
-use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Session;
-use Tymon\JWTAuth\Facades\JWTAuth;
 
 //Language Change
 Route::get('lang/{locale}', function ($locale) {
@@ -28,16 +24,16 @@ Route::get('lang/{locale}', function ($locale) {
 })->name('lang');
 
 //Create session after login
-Route::post("create/session", function(Request $request){
-    session(["admin_data" => $request->all()]);
-    return true;
+Route::post("create/session/{entity}", function(Request $request, $entity){
+    Session::put($entity . '_data', $request->all());
+    return response()->json(true);
 });
 
 //Destroy session after logout
-Route::post("destroy/session", function(){
-    session()->flush();
-    session()->regenerate();
-    return true;
+Route::post("destroy/session/{entity}", function($entity){
+    Session::forget($entity . '_data');
+    Session::regenerate();
+    return response()->json(true);
 });
 
 //Admin routes
@@ -99,6 +95,31 @@ Route::prefix("admin")->name("admin.")->middleware("entity.locale")->group(funct
 
 });
 
+//Teacher routes
+Route::prefix("teacher")->name("teacher.")->middleware("entity.locale")->group(function (){
+
+    //guest
+    Route::middleware("entity.guest:teacher")->group(function (){
+
+        Route::view('auth/login', 'teacher.auth.login')->name('auth.login');
+        //Route::view('auth/register', 'teacher.auth.register')->name('auth.register');
+    });
+
+    //Auth
+    Route::middleware("entity.auth:teacher")->group(function (){
+
+        Route::view('dashboard', 'teacher.dashboard')->name('dashboard');
+
+        Route::name("bank-question.")->group(function(){
+            Route::view('bank-question', 'teacher.bank-question.courses')->name("bank-question.courses");
+            Route::view('bank-question/{curriculum_id}', 'teacher.bank-question.chapters')->name("bank-question.chapters");
+            Route::view('bank-question/{curriculum_id}/{chapter_id}', 'teacher.bank-question.lessons')->name("bank-question.lessons");
+            Route::view('bank-question/{curriculum_id}/{chapter_id}/{lesson_id}', 'teacher.bank-question.bank-questions')->name("bank-questions");
+        });
+
+    });
+
+});
 
 Route::prefix('widgets')->group(function () {
     Route::view('general-widget', 'widgets.general-widget')->name('general-widget');

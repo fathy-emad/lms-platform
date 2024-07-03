@@ -381,103 +381,109 @@ function submitForm(submit, datatable = null)
             'locale': locale,
         },
         success: function(response, textStatus, jqXHR) {
-            //Case is login
-            $(submit).prop("disabled", true);
-            if (response.success && action.split("/")[action.split("/").length - 1] === "login") {
-                let data = JSON.stringify(response.data);
-                $.ajax({
-                    url: APP_URL + "/create/session",
-                    type: "POST",
-                    processData: false,
-                    data: data,
-                    contentType: "application/json",
-                    headers: {
-                        'X-CSRF-TOKEN': csrf
-                    },
-                    success: function(response) {
-
-                        let title = "Login Successfully";
-                        let message = "You will redirect to dashboard";
-                        notifyForm(title, message, "success", function () {
-                            window.location = APP_URL + "/admin/dashboard";
-                        }, 0, 2000);
-
-                    },
-                    error: function(xhr) {
-                        $(submit).prop("disabled", false);
-                        let title = "Some thing went wrong";
-                        let message = xhr.responseText || "Unknown error";
-                        notifyForm(title, message, "danger");
-                    }
-                });
-
-            }
-            else if(response.success && action.split("/")[action.split("/").length - 1] === "logout"){
-                $.ajax({
-                    url: APP_URL + "/destroy/session",
-                    type: "POST",
-                    processData: false,
-                    //data: data,
-                    contentType: "application/json",
-                    headers: {
-                        'X-CSRF-TOKEN': csrf
-                    },
-                    success: function(response) {
-
-                        let title = "Logout Successfully";
-                        let message = "You will redirect to login";
-                        notifyForm(title, message, "success", function () {
-                            window.location = "http://127.0.0.1:8000/admin/auth/login";
-                        }, 0, 1000);
-
-                    },
-                    error: function(xhr) {
-                        $(submit).prop("disabled", false);
-                        let title = "Some thing went wrong";
-                        let message = xhr.responseText || "Unknown error";
-                        notifyForm(title, message, "danger");
-                    }
-                });
-            }
-            else {
-                $(submit).prop("disabled", false);
-                form[0].reset();
-                form.find("[name]").removeClass("is-invalid");
-                form.removeClass("was-validated");
-                datatable.DataTable().ajax.reload(null, false);
-                form.closest(".modal").find(".btn-close").click();
-                let title = response.message;
-                let message = "";
-                notifyForm(title, message, "success",null, 0, 3000);
+            let entity = action.split("/")[action.split("/").length - 3];
+            if (response.success) {
+                if (action.split("/").pop() === "login") {
+                    handleLoginSuccess(response, entity, csrf, submit);
+                } else if (action.split("/").pop() === "logout") {
+                    handleLogoutSuccess(entity, csrf, submit);
+                } else {
+                    handleFormSuccess(response, form, datatable, submit);
+                }
+            } else {
+                handleFormError(submit, response.message || "Unknown error");
             }
         },
-        error: function(xhr, status, error) {
-            $(submit).prop("disabled", false);
-            let title = "";
-            let message = "";
-
-            if(xhr.status === 422 && xhr.responseJSON.success == false ) {
-                let response = xhr.responseJSON;
-                let errors = response.errors;
-                message = "<ul>";
-                for (let key in errors) {
-                    if (errors.hasOwnProperty(key)) {
-                        //note check if name contain . spread and find test[]
-                        form.find("[name='" + key + "']").addClass("is-invalid");
-                        message += `<li>${errors[key]}</li>`;
-                    }
-                }
-                message += "</ul>";
-                title = response.message;
-
-            } else {
-                title = "Some thing went wrong";
-                message = xhr.responseText || "Unknown error";
-            }
-
-            notifyForm(title, message, "danger");
+        error: function(xhr) {
+            handleAjaxError(xhr, form, submit);
         }
     });
+}
+
+function handleLoginSuccess(response, entity, csrf, submit) {
+    let data = JSON.stringify(response.data);
+    $.ajax({
+        url: APP_URL + "/create/session/" + entity,
+        type: "POST",
+        processData: false,
+        data: data,
+        contentType: "application/json",
+        headers: {
+            'X-CSRF-TOKEN': csrf
+        },
+        success: function(response) {
+            let title = "Login Successfully";
+            let message = "You will redirect to dashboard";
+            notifyForm(title, message, "success", function () {
+                window.location = APP_URL + "/" + entity + "/dashboard";
+            }, 0, 2000);
+        },
+        error: function(xhr) {
+            handleFormError(submit, xhr.responseText || "Unknown error");
+        }
+    });
+}
+
+function handleLogoutSuccess(entity, csrf, submit) {
+    $.ajax({
+        url: APP_URL + "/destroy/session/" + entity,
+        type: "POST",
+        processData: false,
+        contentType: "application/json",
+        headers: {
+            'X-CSRF-TOKEN': csrf
+        },
+        success: function(response) {
+            let title = "Logout Successfully";
+            let message = "You will redirect to login";
+            notifyForm(title, message, "success", function () {
+                window.location = "http://127.0.0.1:8000/" + entity + "/auth/login";
+            }, 0, 1000);
+        },
+        error: function(xhr) {
+            handleFormError(submit, xhr.responseText || "Unknown error");
+        }
+    });
+}
+
+function handleFormSuccess(response, form, datatable, submit) {
+    $(submit).prop("disabled", false);
+    form[0].reset();
+    form.find("[name]").removeClass("is-invalid");
+    form.removeClass("was-validated");
+    if (datatable) {
+        datatable.DataTable().ajax.reload(null, false);
+    }
+    form.closest(".modal").find(".btn-close").click();
+    let title = response.message;
+    let message = "";
+    notifyForm(title, message, "success", null, 0, 3000);
+}
+
+function handleAjaxError(xhr, form, submit) {
+    $(submit).prop("disabled", false);
+    let title = "Some thing went wrong";
+    let message = xhr.responseText || "Unknown error";
+    if (xhr.status === 422 && xhr.responseJSON && xhr.responseJSON.success == false) {
+        let response = xhr.responseJSON;
+        let errors = response.errors;
+        message = "<ul>";
+        for (let key in errors) {
+            if (errors.hasOwnProperty(key)) {
+                form.find("[name='" + key + "']").addClass("is-invalid");
+                message += `<li>${errors[key]}</li>`;
+            }
+        }
+        message += "</ul>";
+        title = response.message;
+    }
+    notifyForm(title, message, "danger");
+}
+
+function handleFormError(submit, message) {
+    $(submit).prop("disabled", false);
+    let title = "Some thing went wrong";
+    notifyForm(title, message, "danger");
 }
 
 function notifyForm(title, message, type, callback, delay = 1000, timer = 10000)

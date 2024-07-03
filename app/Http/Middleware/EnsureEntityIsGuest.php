@@ -19,11 +19,16 @@ class EnsureEntityIsGuest
 
         $redirect = match ($entity) {
             'admin' => 'admin.dashboard',
+            'teacher' => 'teacher.dashboard',
             default => 'website',
         };
 
-        if (isset(session($entity . '_data')["jwtToken"]) && JWTAuth::setToken(session($entity . '_data')["jwtToken"])->authenticate())
+        if ($entity == "admin" && isset(session($entity . '_data')["jwtToken"]) && JWTAuth::setToken(session($entity . '_data')["jwtToken"])->authenticate())
             return redirect()->route($redirect);
+
+        elseif ($entity == "teacher" && isset(session($entity . '_data')["jwtToken"]) && JWTAuth::setToken(session($entity . '_data')["jwtToken"])->authenticate())
+            return redirect()->route($redirect);
+
 
         return $next($request);
     }

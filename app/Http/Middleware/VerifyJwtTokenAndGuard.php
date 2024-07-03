@@ -34,6 +34,9 @@ class VerifyJwtTokenAndGuard
             if ($auth->getPayload()->get('guard') !== $guard) {
                 return ApiResponse::sendError(["You are not Authorized to be here, please login"], "Authorization error", null);
             }
+
+            $request->attributes->set('guard', $guard);
+
         } catch (JWTException $e) {
 
             // Handling different types of JWT exceptions

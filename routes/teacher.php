@@ -1,6 +1,12 @@
 <?php
 
 use App\Http\Controllers\AuthTeacher\AuthController;
+use App\Http\Controllers\Course\Material\MaterialController;
+use App\Http\Controllers\Course\Register\CourseController;
+use App\Http\Controllers\SettingEducation\Chapter\ChapterController;
+use App\Http\Controllers\SettingEducation\Lesson\LessonController;
+use App\Http\Controllers\Teacher\BankQuestion\BankQuestionController;
+use App\Http\Controllers\Teacher\Register\RegisterController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,7 +20,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::controller(AuthController::class)->group(function (){
+
+Route::prefix('auth')->controller(AuthController::class)->group(function (){
 
     //Guest
     Route::post('login', 'login');
@@ -23,8 +30,41 @@ Route::controller(AuthController::class)->group(function (){
     Route::post('new-password', 'newPassword');
 
     //Auth
-    Route::middleware('apiAuth:teacher')->group(function (){
+    Route::middleware('apiAuth:admin')->group(function (){
         Route::post('logout', 'logout');
         Route::post('change-password', 'changePassword');
     });
 });
+
+Route::middleware('apiAuth:teacher')->group(function (){
+
+    //Create Course Request
+
+    //Courses
+    Route::get('course', [CourseController::class, 'read']);
+
+    //Chapters
+    Route::get('chapter', [ChapterController::class,'read']);
+
+    //Lessons
+    Route::get('lesson', [LessonController::class,'read']);
+
+    //Bank Questions
+    Route::controller(BankQuestionController::class)->group(function (){
+        Route::get('bank-question', 'read');
+        Route::post('bank-question', 'create');
+        Route::put('bank-question', 'update');
+        Route::delete('bank-question', 'delete');
+    });
+
+
+
+
+    //Material
+//    Route::controller(MaterialController::class)->group(function (){
+//        Route::get('material', 'read');
+//        Route::post('material', 'create');
+//        Route::put('material', 'update');
+//    });
+});
+

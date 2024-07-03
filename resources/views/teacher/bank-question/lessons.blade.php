@@ -1,6 +1,6 @@
-@extends('dashboard_layouts.simple.master')
+@extends('teacher_dashboard_layouts.simple.master')
 
-@section("phpScript") @php $pageData = checkPermission(request()->path(), session("admin_data")["permission"]["permissions"]) @endphp @endsection
+@section("phpScript")  @endsection
 
 @section('title', 'Default')
 
@@ -13,13 +13,13 @@
 @endsection
 
 @section('breadcrumb-title')
-    <h3>{{ $pageData["page"] }}</h3>
+    <h3>Bank Questions - Lessons</h3>
 @endsection
 
 @section('breadcrumb-items')
     <li class="breadcrumb-item">{{ __('lang.dashboard') }}</li>
-    <li class="breadcrumb-item">{{ $pageData["route"] }}</li>
-    <li class="breadcrumb-item active">{{ $pageData["page"] }}</li>
+    <li class="breadcrumb-item">Bank Questions</li>
+    <li class="breadcrumb-item active">Lessons</li>
 @endsection
 
 @section('content')
@@ -29,7 +29,8 @@
                 <div class="card">
                     <div class="card-header">
                         <nav class="breadcrumb breadcrumb-icon">
-                            <a class="breadcrumb-item" href="{{url("admin/teacher/bank-question/")}}" data-bread="teacher">({{ __("attributes.teacher") }}) {{ request("teacher") }}</a>
+                            <a class="breadcrumb-item" href="" data-bread="curriculum">({{ __("attributes.curriculum") }})</a>
+                            <a class="breadcrumb-item" href="" data-bread="chapter">({{ __("attributes.chapter") }})</a>
                         </nav>
                     </div>
                     <div class="card-body">
@@ -38,20 +39,14 @@
                                 <thead>
                                 <tr>
                                     <th>#ID</th>
-                                    <th>{{ __("attributes.year") }}</th>
-                                    <th>{{ __("attributes.course") }}</th>
-                                    <th>{{ __("attributes.created_at") }}</th>
-                                    <th>{{ __("attributes.updated_at") }}</th>
+                                    <th>{{ __("attributes.lesson") }}</th>
                                     <th>{{ __("attributes.actions") }}</th>
                                 </tr>
                                 </thead>
                                 <tfoot>
                                 <tr>
                                     <th>#ID</th>
-                                    <th>{{ __("attributes.year") }}</th>
-                                    <th>{{ __("attributes.course") }}</th>
-                                    <th>{{ __("attributes.created_at") }}</th>
-                                    <th>{{ __("attributes.updated_at") }}</th>
+                                    <th>{{ __("attributes.lesson") }}</th>
                                     <th>{{ __("attributes.actions") }}</th>
                                 </tr>
                                 </tfoot>
@@ -67,31 +62,30 @@
 @section('script')
     <script src="{{asset('assets/js/datatable/datatables/jquery.dataTables.min.js')}}"></script>
     <script>
-        let pageData = @json($pageData);
-        let datatableUri = `{{ url("api")."/admin/course/register?where=teacher_id:".request("teacher_id")}}`;
-        let datatableAuthToken = "{{session("admin_data")["jwtToken"]}}";
+        let datatableUri = `{{ url("api")."/teacher/lesson?where=chapter_id:" . request('chapter_id') .",ActiveEnum:".\App\Enums\ActiveEnum::Active->value}}`;
+        let datatableAuthToken = "{{session("teacher_data")["jwtToken"]}}";
         let dataTableLocale =  "{{session("locale")}}";
         let dataTableReorder = null;
 
         let datatableColumns = [
             { "data": "id" },
-            { "data": "curriculum.subject.year.year.translate" },
-            { "data": "curriculum.curriculum.translate" },
-            { "data": "created_at.dateTime" },
-            { "data": "updated_at.dateTime" },
+            { "data": "lesson.translate" },
             {
                 "data": null,
                 "orderable": false,
                 "searchable": false,
                 "render": function (data, type, row, meta) {
-                    console.log(data);
                     let actions = `<div class="row justify-content-start">`;
                     actions += `<div class="col-auto">
-                                    <a class="btn btn-sm btn-success" type="button" href="{{url("/admin/teacher/bank-question/".request("teacher")."/" . request("teacher_id"))}}/${data.curriculum.id}">
-                                        <i class="fa fa-home"></i> Chapters
+                                    <a class="btn btn-sm btn-success" type="button" href="{{url("/teacher/bank-question/".request("curriculum_id")."/".request("chapter_id"))}}/${data.id}">
+                                        <i class="fa fa-home"></i> Questions
                                     </a>
                                 </div>`;
                     actions += `</div>`;
+                    if(meta.row === 0){
+                        $("[data-bread=curriculum]").text("({{ __("attributes.curriculum") }}) " + data.chapter.curriculum.curriculum.translate).attr("href", APP_URL + "/teacher/bank-question");
+                        $("[data-bread=chapter]").text("({{ __("attributes.chapter") }}) " + data.chapter.chapter.translate).attr("href", APP_URL + "/teacher/bank-question/{{request("curriculum_id")}}");
+                    }
                     return actions;
                 }
             }

@@ -20,10 +20,15 @@ class EnsureEntityIsAuthenticated
     {
         $redirect = match ($entity) {
             'admin' => 'admin.auth.login',
+            'teacher' => 'teacher.auth.login',
             default => 'login',
         };
 
-        if (!isset(session($entity."_data")["jwtToken"]) || !JWTAuth::setToken(session($entity."_data")["jwtToken"])->authenticate()) {
+        if ($entity == "admin" && (!isset(session($entity."_data")["jwtToken"]) || !JWTAuth::setToken(session($entity."_data")["jwtToken"])->authenticate())) {
+            Session::flush();
+            return redirect()->route($redirect);
+
+        } elseif ($entity == "teacher" && (!isset(session($entity."_data")["jwtToken"]) || !JWTAuth::setToken(session($entity."_data")["jwtToken"])->authenticate())){
             Session::flush();
             return redirect()->route($redirect);
         }

@@ -125,7 +125,7 @@ Route::middleware(['apiAuth:admin', 'apiPermission'])->group(function (){
             Route::put('curriculum', 'update');
         });
 
-        //Branch
+        //Chapter
         Route::controller(ChapterController::class)->group(function (){
             Route::get('chapter', 'read');
             Route::post('chapter', 'create');
