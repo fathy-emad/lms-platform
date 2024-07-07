@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthTeacher\AuthController;
 use App\Http\Controllers\Course\Material\MaterialController;
 use App\Http\Controllers\Course\Register\CourseController;
+use App\Http\Controllers\Setting\Language\LanguageController;
 use App\Http\Controllers\SettingEducation\Chapter\ChapterController;
 use App\Http\Controllers\SettingEducation\Lesson\LessonController;
 use App\Http\Controllers\Teacher\BankQuestion\BankQuestionController;
@@ -16,7 +17,7 @@ use Illuminate\Support\Facades\Route;
 |
 | Here is where you can register API routes for your application. These
 | routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "api admin auth" middleware group. Make something great!
+| be assigned to the "api Teacher routes" middleware group. Make something great!
 |
 */
 
@@ -49,12 +50,23 @@ Route::middleware('apiAuth:teacher')->group(function (){
     //Lessons
     Route::get('lesson', [LessonController::class,'read']);
 
+    //Language
+    Route::get('language', [LanguageController::class, 'read']);
+
+
     //Bank Questions
     Route::controller(BankQuestionController::class)->group(function (){
         Route::get('bank-question', 'read');
         Route::post('bank-question', 'create');
         Route::put('bank-question', 'update');
         Route::delete('bank-question', 'delete');
+    });
+
+    //Material
+    Route::controller(MaterialController::class)->group(function (){
+        Route::get('material', 'read');
+        Route::post('material', 'create');
+        Route::put('material', 'update');
     });
 
 

@@ -55,5 +55,9 @@ return [
     "teacher" => "المدرس",
     "question" => 'السؤال',
     "answers" => 'الإجابات',
-    "images" => 'الصور'
+    "images" => 'الصور',
+    "description" => "الوصف",
+    "files" => "الملفات",
+    "FreeEnum" => "مجانا ؟",
+    "video" => "الفيديو",
 ];

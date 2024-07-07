@@ -111,19 +111,20 @@ Route::prefix("teacher")->name("teacher.")->middleware("entity.locale")->group(f
         Route::view('dashboard', 'teacher.dashboard')->name('dashboard');
 
         Route::name("bank-question.")->group(function(){
-            Route::view('bank-question', 'teacher.bank-question.courses')->name("bank-question.courses");
-            Route::view('bank-question/{curriculum_id}', 'teacher.bank-question.chapters')->name("bank-question.chapters");
-            Route::view('bank-question/{curriculum_id}/{chapter_id}', 'teacher.bank-question.lessons')->name("bank-question.lessons");
-            Route::view('bank-question/{curriculum_id}/{chapter_id}/{lesson_id}', 'teacher.bank-question.bank-questions')->name("bank-questions");
+            Route::view('bank-question', 'teacher.bank-question.courses')->name("courses");
+            Route::view('bank-question/{curriculum_id}', 'teacher.bank-question.chapters')->name("chapters");
+            Route::view('bank-question/{curriculum_id}/{chapter_id}', 'teacher.bank-question.lessons')->name("lessons");
+            Route::view('bank-question/{curriculum_id}/{chapter_id}/{lesson_id}', 'teacher.bank-question.bank-questions');
+        });
+
+        Route::name("material.")->group(function(){
+            Route::view('material', 'teacher.material.courses')->name("courses");
+            Route::view('material/{course_id}/{curriculum_id}', 'teacher.material.chapters')->name("chapters");
+            Route::view('material/{course_id}/{curriculum_id}/{chapter_id}', 'teacher.material.materials')->name("material");
         });
 
     });
 
-});
-
-Route::prefix('widgets')->group(function () {
-    Route::view('general-widget', 'widgets.general-widget')->name('general-widget');
-    Route::view('chart-widget', 'widgets.chart-widget')->name('chart-widget');
 });
 
 Route::prefix('page-layouts')->group(function () {

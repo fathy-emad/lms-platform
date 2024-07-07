@@ -55,5 +55,9 @@ return [
     "teacher" => "Teacher",
     "question" => 'Question',
     "answers" => 'Answers',
-    "images" => 'Images'
+    "images" => 'Images',
+    "description" => "Description",
+    "files" => "Files",
+    "FreeEnum" => "Free ?",
+    "video" => "Video",
 ];

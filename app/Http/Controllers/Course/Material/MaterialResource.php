@@ -23,20 +23,43 @@ class MaterialResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return [
-            "id" => $this->id,
-            "course_id" => $this->course_id,
-            "lesson" => new LessonResource($this->lesson),
-            "description" => new TranslationResource($this->descriptionTranslate),
-            "video" => $this->video,
-            "images" => $this->images,
-            "files" => $this->files,
-            //"questions" => BankQuestionResource::collection($this->duty),
-            "assignment" => $this->assignment,
-            "ActiveEnum" => new TranslationResource($this->ActiveEnum, true),
-            "FreeEnum" => new TranslationResource($this->FreeEnum, true),
-            "created_at" => new DateTimeResource($this->created_at),
-            "updated_at" => new DateTimeResource($this->updated_at),
-        ];
+
+        $return = match ($request->attributes->get('guard')) {
+            "teacher" => [
+                "id" => $this->id,
+                "course_id" => $this->course_id,
+                "lesson_id" => $this->lesson_id,
+                "lesson" => new TranslationResource($this->lesson->lessonTranslate),
+                "chapter" => new TranslationResource($this->lesson->chapter->chapterTranslate),
+                "course" => new TranslationResource($this->course->curriculum->curriculumTranslate),
+                "description" => new TranslationResource($this->descriptionTranslate),
+                "video" => $this->video,
+                "images" => $this->images,
+                "files" => $this->files,
+                //"questions" => BankQuestionResource::collection($this->duty),
+                "assignment" => $this->assignment,
+                "ActiveEnum" => new TranslationResource($this->ActiveEnum, true),
+                "FreeEnum" => new TranslationResource($this->FreeEnum, true),
+                "created_at" => new DateTimeResource($this->created_at),
+                "updated_at" => new DateTimeResource($this->updated_at),
+            ],
+            default => [
+                "id" => $this->id,
+                "course_id" => $this->course_id,
+                "lesson" => new LessonResource($this->lesson),
+                "description" => new TranslationResource($this->descriptionTranslate),
+                "video" => $this->video,
+                "images" => $this->images,
+                "files" => $this->files,
+                //"questions" => BankQuestionResource::collection($this->duty),
+                "assignment" => $this->assignment,
+                "ActiveEnum" => new TranslationResource($this->ActiveEnum, true),
+                "FreeEnum" => new TranslationResource($this->FreeEnum, true),
+                "created_at" => new DateTimeResource($this->created_at),
+                "updated_at" => new DateTimeResource($this->updated_at),
+            ],
+        };
+
+        return $return;
     }
 }
