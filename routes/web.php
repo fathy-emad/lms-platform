@@ -110,6 +110,13 @@ Route::prefix("teacher")->name("teacher.")->middleware("entity.locale")->group(f
 
         Route::view('dashboard', 'teacher.dashboard')->name('dashboard');
 
+//        Route::name("course_request.")->group(function(){
+//            Route::view('bank-question', 'teacher.bank-question.courses')->name("courses");
+//            Route::view('bank-question/{curriculum_id}', 'teacher.bank-question.chapters')->name("chapters");
+//            Route::view('bank-question/{curriculum_id}/{chapter_id}', 'teacher.bank-question.lessons')->name("lessons");
+//            Route::view('bank-question/{curriculum_id}/{chapter_id}/{lesson_id}', 'teacher.bank-question.bank-questions');
+//        });
+
         Route::name("bank-question.")->group(function(){
             Route::view('bank-question', 'teacher.bank-question.courses')->name("courses");
             Route::view('bank-question/{curriculum_id}', 'teacher.bank-question.chapters')->name("chapters");
