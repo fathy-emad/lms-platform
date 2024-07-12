@@ -21,7 +21,7 @@ return new class extends Migration
             $table->unsignedBigInteger("teacher_id");
             $table->unsignedBigInteger("enrollment_id");
             $table->float("cost");
-            $table->enum("status", TeacherPaymentStatusEnum::values())->default(TeacherPaymentStatusEnum::Pending->value);
+            $table->enum("TeacherPaymentStatusEnum", TeacherPaymentStatusEnum::values())->default(TeacherPaymentStatusEnum::Pending->value);
 
             $table->foreign("invoice_id")
                 ->references("id")

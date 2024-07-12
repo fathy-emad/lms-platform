@@ -9,7 +9,7 @@ enum TeacherPaymentStatusEnum: string
     use EnumTrait;
 
     case Pending = "pending";
-    case Review = "review";
-    case Rejected = "rejected";
+    case INReview = "in-review";
+    case ONWay = "on-way";
     case Paid = "paid";
 }

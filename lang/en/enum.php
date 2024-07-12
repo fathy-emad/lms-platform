@@ -59,12 +59,22 @@ return [
     ],
 
     "FreeEnum" => [
-        "Free" => "مجانى",
-        "NotFree" => "غير مجانى"
+        "Free" => "Free",
+        "NotFree" => "Not Free"
     ],
 
+
     "QuestionTypeEnum" => [
-        "Choose" => "إختر من متعدد"
+        "Choose" => "Single Choose"
     ],
+
+
+    "TeacherPaymentStatusEnum" => [
+        "Pending" => "Pending",
+        "INReview" => "In Review",
+        "ONWay" => "On Way",
+        "Paid" => "Paid",
+    ]
+
 
 ];

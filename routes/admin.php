@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Teacher\PaymentRequest\PaymentRequestController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthAdmin\AuthController;
 use App\Http\Controllers\Course\Material\MaterialController;
@@ -183,6 +184,12 @@ Route::middleware(['apiAuth:admin', 'apiPermission'])->group(function (){
             Route::post('bank-question', 'create');
             Route::put('bank-question', 'update');
             Route::delete('bank-question', 'delete');
+        });
+
+        //Payment Request
+        Route::controller(PaymentRequestController::class)->group(function (){
+            Route::get('payment-request', 'read');
+            Route::put('payment-request', 'update');
         });
 
     });

@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Course\Material;
 use App\Http\Controllers\Course\Register\CourseResource;
 use App\Http\Controllers\SettingEducation\Curriculum\CurriculumResource;
 use App\Http\Controllers\SettingEducation\Lesson\LessonResource;
-use App\Http\Controllers\Teacher\BankQuestion\BankQuestionResource;
+use App\Http\Controllers\Teacher\BankQuestion\PaymentRequestResource;
 use App\Http\Controllers\Teacher\Register\RegisterResource;
 use App\Http\Resources\AuthorResource;
 use App\Http\Resources\DateTimeResource;

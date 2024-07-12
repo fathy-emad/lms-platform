@@ -1,20 +1,20 @@
 <?php
 
-namespace App\Http\Controllers\Teacher\BankQuestion;
+namespace App\Http\Controllers\Teacher\PaymentRequest;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
-use App\Http\Repositories\BankQuestionRepository;
-use App\Http\Controllers\Teacher\BankQuestion\Requests\CreateRequest;
-use App\Http\Controllers\Teacher\BankQuestion\Requests\UpdateRequest;
+use App\Http\Repositories\PaymentRequestRepository;
+use App\Http\Controllers\Teacher\PaymentRequest\Requests\CreateRequest;
+use App\Http\Controllers\Teacher\PaymentRequest\Requests\UpdateRequest;
 
-class BankQuestionController extends Controller
+class PaymentRequestController extends Controller
 {
     public function __construct(
-        protected BankQuestionRepository $repository,
-        protected PaymentRequestHandler  $requestHandler,
-        protected string                 $resource = PaymentRequestResource::class,
+        protected PaymentRequestRepository $repository,
+        protected PaymentRequestHandler $requestHandler,
+        protected string $resource = PaymentRequestResource::class,
     ){}
 
     public function create(CreateRequest $request): JsonResponse
