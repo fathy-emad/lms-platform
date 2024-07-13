@@ -8,6 +8,7 @@ use App\Http\Controllers\SettingEducation\Chapter\ChapterController;
 use App\Http\Controllers\SettingEducation\Lesson\LessonController;
 use App\Http\Controllers\Teacher\BankQuestion\BankQuestionController;
 use App\Http\Controllers\Teacher\PaymentRequest\PaymentRequestController;
+use App\Http\Controllers\Teacher\Payments\PaymentsController;
 use App\Http\Controllers\Teacher\Register\RegisterController;
 use Illuminate\Support\Facades\Route;
 
@@ -54,6 +55,7 @@ Route::middleware('apiAuth:teacher')->group(function (){
     //Language
     Route::get('language', [LanguageController::class, 'read']);
 
+    Route::get('payments', [PaymentsController::class, 'read']);
 
     //Bank Questions
     Route::controller(BankQuestionController::class)->group(function (){

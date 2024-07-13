@@ -605,9 +605,6 @@
                     $(".view_modal").find(".view-translates").append(descriptionTranslates);
                 },
                 error: function(xhr, status, error) {
-
-                    console.log(JSON.parse(xhr.responseText));
-
                     let title = JSON.parse(xhr.responseText).message || "Something Went Wrong";
                     let message = JSON.parse(xhr.responseText).errors || "Unknown error";
                     notifyForm(title, message, "danger");

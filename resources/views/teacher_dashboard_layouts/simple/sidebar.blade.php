@@ -25,10 +25,21 @@
 
                     <li class="sidebar-list">
                         <a class="sidebar-link sidebar-title link-nav {{ $request_path[1] == "material" ? "active" : "" }}" href="{{url('teacher/material')}}" data-bs-original-title="" title="Bank Questions">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-image"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-video">
+                                <polygon points="23 7 16 12 23 17 23 7"></polygon>
+                                <rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect>
+                            </svg>
                             <span>Material</span>
                         </a>
                     </li>
+
+                    <li class="sidebar-list">
+                        <a class="sidebar-link sidebar-title link-nav {{ $request_path[1] == "payment" ? "active" : "" }}" href="{{url('teacher/my-payments')}}" data-bs-original-title="" title="My Payments">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-dollar-sign"><line x1="12" y1="1" x2="12" y2="23"></line><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 1 1 0 7H6"></path></svg>
+                            <span>My Payments</span>
+                        </a>
+                    </li>
+
                 </ul>
 			</div>
 			<div class="right-arrow" id="right-arrow"><i data-feather="arrow-right"></i></div>

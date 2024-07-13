@@ -130,6 +130,10 @@ Route::prefix("teacher")->name("teacher.")->middleware("entity.locale")->group(f
             Route::view('material/{course_id}/{curriculum_id}/{chapter_id}', 'teacher.material.materials')->name("material");
         });
 
+        Route::name("payment.")->group(function(){
+            Route::view('my-payments', 'teacher.payment.my-payments')->name("my-payments");
+        });
+
     });
 
 });

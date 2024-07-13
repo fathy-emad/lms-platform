@@ -34,7 +34,7 @@ class Controller extends BaseController
                 ->orWhere($request->orWhere)
                 ->orderBy($request->orderBy)
                 ->paginate($request);
-            return ApiResponse::withPagination($data)->sendSuccess( $this->resource::collection($data), "record read successfully", null);
+            return ApiResponse::withPagination($data)->sendSuccess($this->resource::collection($data), "record read successfully", null);
 
         } else {
             $data = $this->repository

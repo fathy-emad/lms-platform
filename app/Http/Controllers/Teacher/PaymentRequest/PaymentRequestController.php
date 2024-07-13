@@ -35,8 +35,4 @@ class PaymentRequestController extends Controller
         return parent::update_model($request->id, $data);
     }
 
-    public function delete(Request $request): JsonResponse
-    {
-        return parent::delete_model($request->id);
-    }
 }

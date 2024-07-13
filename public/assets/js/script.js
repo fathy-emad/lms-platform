@@ -353,7 +353,7 @@ $("#flip-back").click(function(){
     $(".flip-card-inner").removeClass("flipped")
 })
 
-function submitForm(submit, datatable = null)
+function submitForm(submit, datatable = null, successCallback = null, errorCallback = null)
 {
     //Collect form data
     $(submit).prop("disabled", true);
@@ -388,14 +388,15 @@ function submitForm(submit, datatable = null)
                 } else if (action.split("/").pop() === "logout") {
                     handleLogoutSuccess(entity, csrf, submit);
                 } else {
-                    handleFormSuccess(response, form, datatable, submit);
+                    handleFormSuccess(response, form, datatable, submit, successCallback);
                 }
+
             } else {
-                handleFormError(submit, response.message || "Unknown error");
+                handleFormError(submit, response.message || "Unknown error", errorCallback);
             }
         },
         error: function(xhr) {
-            handleAjaxError(xhr, form, submit);
+            handleAjaxError(xhr, form, submit, errorCallback);
         }
     });
 }
@@ -416,7 +417,7 @@ function handleLoginSuccess(response, entity, csrf, submit) {
             let message = "You will redirect to dashboard";
             notifyForm(title, message, "success", function () {
                 window.location = APP_URL + "/" + entity + "/dashboard";
-            }, 0, 2000);
+            }, 0, 1000);
         },
         error: function(xhr) {
             handleFormError(submit, xhr.responseText || "Unknown error");
@@ -446,7 +447,7 @@ function handleLogoutSuccess(entity, csrf, submit) {
     });
 }
 
-function handleFormSuccess(response, form, datatable, submit) {
+function handleFormSuccess(response, form, datatable, submit, successCallback) {
     $(submit).prop("disabled", false);
     form[0].reset();
     form.find("[name]").removeClass("is-invalid");
@@ -457,10 +458,10 @@ function handleFormSuccess(response, form, datatable, submit) {
     form.closest(".modal").find(".btn-close").click();
     let title = response.message;
     let message = "";
-    notifyForm(title, message, "success", null, 0, 3000);
+    notifyForm(title, message, "success", successCallback, 0, 3000);
 }
 
-function handleAjaxError(xhr, form, submit) {
+function handleAjaxError(xhr, form, submit, errorCallback) {
     $(submit).prop("disabled", false);
     let title = "Some thing went wrong";
     let message = xhr.responseText || "Unknown error";
@@ -477,16 +478,16 @@ function handleAjaxError(xhr, form, submit) {
         message += "</ul>";
         title = response.message;
     }
-    notifyForm(title, message, "danger");
+    notifyForm(title, message, "danger", errorCallback);
 }
 
-function handleFormError(submit, message) {
+function handleFormError(submit, message, successCallback) {
     $(submit).prop("disabled", false);
     let title = "Some thing went wrong";
-    notifyForm(title, message, "danger");
+    notifyForm(title, message, "danger", successCallback);
 }
 
-function notifyForm(title, message, type, callback, delay = 1000, timer = 10000)
+function notifyForm(title, message, type, callback, delay = 0, timer = 10000)
 {
     $.notify(
         {
@@ -522,7 +523,7 @@ function notifyForm(title, message, type, callback, delay = 1000, timer = 10000)
     const totalDuration = delay + timer;
 
     // Set a timeout to execute the callback after the notification is done
-    if (typeof callback === 'function') {
+    if (typeof callback === 'function' && callback) {
         setTimeout(callback, totalDuration);
     }
 }
