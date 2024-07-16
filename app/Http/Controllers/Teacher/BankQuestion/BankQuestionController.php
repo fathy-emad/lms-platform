@@ -13,8 +13,8 @@ class BankQuestionController extends Controller
 {
     public function __construct(
         protected BankQuestionRepository $repository,
-        protected PaymentRequestHandler  $requestHandler,
-        protected string                 $resource = PaymentRequestResource::class,
+        protected BankQuestionRequestHandler  $requestHandler,
+        protected string $resource = BankQuestionResource::class,
     ){}
 
     public function create(CreateRequest $request): JsonResponse
