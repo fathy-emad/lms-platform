@@ -74,7 +74,11 @@ return [
         "INReview" => "In Review",
         "ONWay" => "On Way",
         "Paid" => "Paid",
+    ],
+
+    "TeacherCourseRequestStatusEnum" => [
+        "Pending" => "Pending",
+        "Approved" => "Approved",
+        "Rejected" => "Rejected"
     ]
-
-
 ];

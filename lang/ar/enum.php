@@ -72,6 +72,12 @@ return [
         "INReview" => "يراجع",
         "ONWay" => "فى الطريق",
         "Paid" => "تم الدفع",
+    ],
+
+    "TeacherCourseRequestStatusEnum" => [
+        "Pending" => "معلق",
+        "Approved" => "مقبول",
+        "Rejected" => "مرفوض"
     ]
 
 ];

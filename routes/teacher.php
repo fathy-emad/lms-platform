@@ -7,6 +7,7 @@ use App\Http\Controllers\Setting\Language\LanguageController;
 use App\Http\Controllers\SettingEducation\Chapter\ChapterController;
 use App\Http\Controllers\SettingEducation\Lesson\LessonController;
 use App\Http\Controllers\Teacher\BankQuestion\BankQuestionController;
+use App\Http\Controllers\Teacher\CourseRequest\CourseRequestController;
 use App\Http\Controllers\Teacher\PaymentRequest\PaymentRequestController;
 use App\Http\Controllers\Teacher\Payments\PaymentsController;
 use App\Http\Controllers\Teacher\Register\RegisterController;
@@ -41,8 +42,6 @@ Route::prefix('auth')->controller(AuthController::class)->group(function (){
 
 Route::middleware('apiAuth:teacher')->group(function (){
 
-    //Create Course Request
-
     //Courses
     Route::get('course', [CourseController::class, 'read']);
 
@@ -76,6 +75,12 @@ Route::middleware('apiAuth:teacher')->group(function (){
     Route::controller(PaymentRequestController::class)->group(function (){
         Route::get('payment-request', 'read');
         Route::post('payment-request', 'create');
+    });
+
+    //Payment Request
+    Route::controller(CourseRequestController::class)->group(function (){
+        Route::get('course-request', 'read');
+        Route::post('course-request', 'create');
     });
 
 

@@ -60,4 +60,5 @@ return [
     "files" => "Files",
     "FreeEnum" => "Free ?",
     "video" => "Video",
+    "TeacherCourseRequestStatusEnum" => "Course Request Status"
 ];

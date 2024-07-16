@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Teacher\CourseRequest\CourseRequestController;
 use App\Http\Controllers\Teacher\PaymentRequest\PaymentRequestController;
 use App\Http\Controllers\Teacher\Payments\PaymentsController;
 use Illuminate\Support\Facades\Route;
@@ -220,6 +221,12 @@ Route::middleware(['apiAuth:admin', 'apiPermission'])->group(function (){
         Route::controller(PaymentRequestController::class)->group(function (){
             Route::get('payment', 'read');
             Route::put('payment', 'update');
+        });
+
+        //Course
+        Route::controller(CourseRequestController::class)->group(function (){
+            Route::get('course', 'read');
+            Route::put('course', 'update');
         });
 
     });

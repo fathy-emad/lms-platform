@@ -60,4 +60,5 @@ return [
     "files" => "الملفات",
     "FreeEnum" => "مجانا ؟",
     "video" => "الفيديو",
+    "TeacherCourseRequestStatusEnum" => "حالة طلب الكورس"
 ];
