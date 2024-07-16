@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Teacher\PaymentRequest;
 
+use App\Enums\TeacherPaymentStatusEnum;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;

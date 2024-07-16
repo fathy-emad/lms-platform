@@ -10,22 +10,25 @@ class ReadRequest extends ValidateRequest
     public function rules(): array
     {
 
-        return [
-            'where' => [
-                'required',
-                'string',
-                function ($attribute, $value, $fail) {
+        if ($this->attributes->get("guard") == "teacher")
+            return [
+                'where' => [
+                    'required',
+                    'string',
+                    function ($attribute, $value, $fail) {
 
-                    $id = explode(":", $value)[1];
+                        $id = explode(":", $value)[1];
 
-                    if (!Teacher::find($id))
-                        $fail("This teacher not found");
+                        if (!Teacher::find($id))
+                            $fail("This teacher not found");
 
-                    if (auth("teacher")->id() != $id)
-                        $fail("Sorry you are not the auth teacher");
-                }
-            ]
-        ];
+                        if (auth("teacher")->id() != $id)
+                            $fail("Sorry you are not the auth teacher");
+                    }
+                ]
+            ];
+
+        return [];
 
     }
 }

@@ -91,6 +91,11 @@ Route::prefix("admin")->name("admin.")->middleware("entity.locale")->group(funct
             Route::view('material/{teacher}/{teacher_id}/{course_id}/{curriculum_id}/{chapter_id}', 'admin.course.material')->name("material");
         });
 
+
+        Route::prefix("request")->name("request.")->group(function(){
+            Route::view('payment', 'admin.request.payment')->name("teachers");
+        });
+
     });
 
 });

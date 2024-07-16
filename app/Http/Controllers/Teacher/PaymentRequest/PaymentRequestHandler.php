@@ -50,6 +50,7 @@ class PaymentRequestHandler extends RequestHandler
                 throw new HttpResponseException(ApiResponse::sendError(["Payment Request error" => ["Not Found Teacher Payments Already All Payment Paid For This Request"]], 'Payment Request Error', null));
 
             $status = TeacherPaymentStatusEnum::values()[$indexOfEnum];
+            $this->data["TeacherPaymentStatusEnum"] = $status;
 
         }
 

@@ -27,7 +27,6 @@ class PaymentRequestResource extends JsonResource
             "totalAmount" => $this->totalAmount,
             "countItems" => $this->countItems,
             "TeacherPaymentStatusEnum" => new TranslationResource($this->TeacherPaymentStatusEnum, true),
-            "ActiveEnum" => new TranslationResource($this->ActiveEnum, true),
             "created_at" => new DateTimeResource($this->created_at),
             "updated_at" => new DateTimeResource($this->updated_at),
         ];
