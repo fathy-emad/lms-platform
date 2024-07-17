@@ -53,7 +53,8 @@
                                 <thead>
                                 <tr>
                                     <th>#ID</th>
-                                    <th>{{ __("attributes.teacher") }}</th>
+                                    <th>{{ __("attributes.stage") }}</th>
+                                    <th>{{ __("attributes.year") }}</th>
                                     <th>{{ __("attributes.curriculum") }}</th>
                                     <th>{{ __("attributes.cost") }}</th>
                                     <th>{{ __("attributes.percentage") }}</th>
@@ -66,7 +67,8 @@
                                 <tfoot>
                                 <tr>
                                     <th>#ID</th>
-                                    <th>{{ __("attributes.teacher") }}</th>
+                                    <th>{{ __("attributes.stage") }}</th>
+                                    <th>{{ __("attributes.year") }}</th>
                                     <th>{{ __("attributes.curriculum") }}</th>
                                     <th>{{ __("attributes.cost") }}</th>
                                     <th>{{ __("attributes.percentage") }}</th>
@@ -233,11 +235,8 @@
 
         let datatableColumns = [
             { "data": "id" },
-            { "data": "teacher",
-                render: function (data){
-                    return data.prefix + "/ " + data.name;
-                }
-            },
+            { "data": "curriculum.subject.year.stage.stage.translate" },
+            { "data": "curriculum.subject.year.year.translate" },
             { "data": "curriculum.curriculum.translate" },
             { "data": "cost",
                 render: function (data){

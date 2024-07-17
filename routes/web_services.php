@@ -24,4 +24,5 @@ Route::prefix("enums")->controller(EnumsController::class)->group(function (){
     Route::get("edu-terms", "EduTerms");
     Route::get("edu-types", "EduTypes");
     Route::get("name-prefix", "NamePrefix");
+    Route::get("teacher-course-request-status", "teacherCourseStatus");
 });

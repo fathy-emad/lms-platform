@@ -30,6 +30,8 @@ class CourseResource extends JsonResource
                 "cost" => $this->cost,
                 "percentage" => $this->percentage,
                 "ActiveEnum" => new TranslationResource($this->ActiveEnum, true),
+                "created_at" => new DateTimeResource($this->created_at),
+                "updated_at" => new DateTimeResource($this->updated_at),
             ],
             default => [
                 "id" => $this->id,

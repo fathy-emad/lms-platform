@@ -34,6 +34,8 @@
                                 <tr>
                                     <th>#ID</th>
                                     <th>{{ __("attributes.teacher") }}</th>
+                                    <th>{{ __("attributes.stage") }}</th>
+                                    <th>{{ __("attributes.subject") }}</th>
                                     <th>{{ __("attributes.actions") }}</th>
                                 </tr>
                                 </thead>
@@ -41,6 +43,8 @@
                                 <tr>
                                     <th>#ID</th>
                                     <th>{{ __("attributes.teacher") }}</th>
+                                    <th>{{ __("attributes.stage") }}</th>
+                                    <th>{{ __("attributes.subject") }}</th>
                                     <th>{{ __("attributes.actions") }}</th>
                                 </tr>
                                 </tfoot>
@@ -69,6 +73,8 @@
                     return data.prefix + "/ " + data.name;
                 }
             },
+            { "data": "stage.stage.translate" },
+            { "data": "subject.subject.translate" },
             {
                 "data": null,
                 "orderable": false,

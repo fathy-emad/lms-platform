@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Teacher\CourseRequest;
 
 
+use App\Enums\TeacherCourseRequestStatusEnum;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
@@ -30,6 +31,9 @@ class CourseRequestController extends Controller
 
     public function update(UpdateRequest $request): JsonResponse
     {
+        if ($request->TeacherCourseRequestStatusEnum == TeacherCourseRequestStatusEnum::Approved->value)
+            $this->requestHandler->set($request->validated())->addNewCourse();
+
         return parent::update_model($request->id, $request->validated());
     }
 

@@ -42,6 +42,9 @@ Route::prefix('auth')->controller(AuthController::class)->group(function (){
 
 Route::middleware('apiAuth:teacher')->group(function (){
 
+    //Teacher Data
+    Route::get('my-info', [RegisterController::class, 'read']);
+
     //Courses
     Route::get('course', [CourseController::class, 'read']);
 
@@ -81,16 +84,8 @@ Route::middleware('apiAuth:teacher')->group(function (){
     Route::controller(CourseRequestController::class)->group(function (){
         Route::get('course-request', 'read');
         Route::post('course-request', 'create');
+        Route::put('course-request', 'update');
     });
 
-
-
-
-    //Material
-//    Route::controller(MaterialController::class)->group(function (){
-//        Route::get('material', 'read');
-//        Route::post('material', 'create');
-//        Route::put('material', 'update');
-//    });
 });
 

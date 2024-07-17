@@ -93,7 +93,8 @@ Route::prefix("admin")->name("admin.")->middleware("entity.locale")->group(funct
 
 
         Route::prefix("request")->name("request.")->group(function(){
-            Route::view('payment', 'admin.request.payment')->name("teachers");
+            Route::view('payment', 'admin.request.payment')->name("payments");
+            Route::view('course', 'admin.request.course')->name("courses");
         });
 
     });
@@ -115,12 +116,9 @@ Route::prefix("teacher")->name("teacher.")->middleware("entity.locale")->group(f
 
         Route::view('dashboard', 'teacher.dashboard')->name('dashboard');
 
-//        Route::name("course_request.")->group(function(){
-//            Route::view('bank-question', 'teacher.bank-question.courses')->name("courses");
-//            Route::view('bank-question/{curriculum_id}', 'teacher.bank-question.chapters')->name("chapters");
-//            Route::view('bank-question/{curriculum_id}/{chapter_id}', 'teacher.bank-question.lessons')->name("lessons");
-//            Route::view('bank-question/{curriculum_id}/{chapter_id}/{lesson_id}', 'teacher.bank-question.bank-questions');
-//        });
+        Route::name("course-request.")->group(function(){
+            Route::view('course-request', 'teacher.course.course-request')->name("courses");
+        });
 
         Route::name("bank-question.")->group(function(){
             Route::view('bank-question', 'teacher.bank-question.courses')->name("courses");
@@ -137,6 +135,10 @@ Route::prefix("teacher")->name("teacher.")->middleware("entity.locale")->group(f
 
         Route::name("payment.")->group(function(){
             Route::view('my-payments', 'teacher.payment.my-payments')->name("my-payments");
+        });
+
+        Route::name("courses.")->group(function(){
+            Route::view('my-courses', 'teacher.course.my-courses')->name("my-courses");
         });
 
     });
