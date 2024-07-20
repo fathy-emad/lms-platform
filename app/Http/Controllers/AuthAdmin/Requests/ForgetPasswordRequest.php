@@ -4,7 +4,7 @@ namespace App\Http\Controllers\AuthAdmin\Requests;
 
 use App\Concretes\ValidateRequest;
 
-class ResetPasswordRequest extends ValidateRequest
+class ForgetPasswordRequest extends ValidateRequest
 {
     public function rules(): array
     {

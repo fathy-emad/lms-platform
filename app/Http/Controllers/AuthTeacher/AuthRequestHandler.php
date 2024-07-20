@@ -6,6 +6,7 @@ use App\Concretes\RequestHandler;
 use App\Enums\TeacherStatusEnum;
 use App\Models\Teacher;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
 
@@ -18,7 +19,6 @@ class AuthRequestHandler extends RequestHandler
         $this->addJwtTokenToModel();
         return $this;
     }
-
     public function handleLogout(): static
     {
         $this->terminateJwtTokenFromModel();
@@ -26,19 +26,12 @@ class AuthRequestHandler extends RequestHandler
     }
 
 
-
-
-
-
-
-
-
     public function attempt(): void
     {
         if (!$token = Auth::guard("teacher")->attempt($this->data))
         {
             $this->data["token"] = null;
-            $this->data["message"] = "you are not Auth Teacher";
+            $this->data["message"] = "Your email or password is invalid";
         }
 
         else
@@ -52,7 +45,7 @@ class AuthRequestHandler extends RequestHandler
         if (isset($this->data["token"]) && auth('teacher')->user()->TeacherStatusEnum->value != TeacherStatusEnum::Active->value)
         {
             $this->data["token"] = null;
-            $this->data["message"] = "you are not Active Teacher";
+            $this->data["message"] = "You are not active teacher account please contact with website";
         }
     }
     public function addJwtTokenToModel():void
@@ -71,6 +64,25 @@ class AuthRequestHandler extends RequestHandler
         JWTAuth::invalidate(JWTAuth::getToken());
         auth('teacher')->logout();
         $this->data["data"] = $model;
+    }
+    public function handleForgetPassword():static
+    {
+        $token = generateToken(6);
+        $model = Teacher::where("email", $this->data["email"])->update(["verifyToken" => $token]);
+        //send email here and check if model updated and email sent return true
+        $this->data["success"] = (bool) $model;
+        return $this;
+    }
+    public function handleNewPassword():static
+    {
+        $model = Teacher::firstWhere('email', $this->data["email"]);
+        $model->update([
+            "password" => Hash::make($this->data["password"]),
+            "verifyToken" => null
+        ]);
+        $this->data["success"] = true;
+        $this->data["data"] = $model;
+        return $this;
     }
 
 }

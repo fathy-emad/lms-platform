@@ -43,6 +43,7 @@ Route::prefix("admin")->name("admin.")->middleware("entity.locale")->group(funct
     Route::middleware("entity.guest:admin")->group(function (){
 
         Route::view('auth/login', 'admin.auth.login')->name('auth.login');
+        Route::view('auth/forget-password', 'admin.auth.forget-password')->name('auth.forget-password');
     });
 
     //Auth
@@ -108,7 +109,8 @@ Route::prefix("teacher")->name("teacher.")->middleware("entity.locale")->group(f
     Route::middleware("entity.guest:teacher")->group(function (){
 
         Route::view('auth/login', 'teacher.auth.login')->name('auth.login');
-        //Route::view('auth/register', 'teacher.auth.register')->name('auth.register');
+        Route::view('auth/register', 'teacher.auth.register')->name('auth.register');
+        Route::view('auth/forget-password', 'teacher.auth.forget-password')->name('auth.forget-password');
     });
 
     //Auth

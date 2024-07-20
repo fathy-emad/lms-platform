@@ -12,7 +12,7 @@
                 p = a("<div></div>").addClass("step-container login-card");
                 q = a("<a>" + c.labelNext + "</a>").attr("href", "#").addClass("btn btn-primary");
                 r = a("<a>" + c.labelPrevious + "</a>").attr("href", "#").addClass("btn btn-primary");
-                s = a("<a>" + c.labelFinish + "</a>").attr("href", "#").addClass("btn btn-primary");
+                //s = a("<a>" + c.labelFinish + "</a>").attr("href", "#").addClass("btn btn-primary");
                 c.errorSteps && 0 < c.errorSteps.length && a.each(c.errorSteps, function (a, b) {
                     y(b, !0)
                 });

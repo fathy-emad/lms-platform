@@ -3,18 +3,16 @@
 namespace App\Http\Controllers\AuthAdmin;
 
 use ApiResponse;
-use App\Http\Controllers\AuthAdmin\Requests\{
-    ChangePasswordRequest,
-    LoginRequest,
-    NewPasswordRequest,
-    ResetPasswordRequest,
-    VerifyTokenRequest
-};
-use App\Http\Controllers\AuthAdmin\Resources\LoginResource;
-use App\Http\Controllers\AuthAdmin\Resources\LogoutResource;
+use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use App\Http\Repositories\AdminRepository;
-use Illuminate\Http\JsonResponse;
+use App\Http\Controllers\AuthAdmin\Resources\LoginResource;
+use App\Http\Controllers\AuthAdmin\Resources\LogoutResource;
+use App\Http\Controllers\AuthAdmin\Requests\{ChangePasswordRequest,
+    ForgetPasswordRequest,
+    LoginRequest,
+    NewPasswordRequest,
+};
 
 class AuthController extends Controller
 {
@@ -26,7 +24,7 @@ class AuthController extends Controller
     public function login(LoginRequest $request): JsonResponse
     {
         $data = $this->requestHandler->set($request->validated())->handleLogin()->get();
-        if (! $data["token"]) return ApiResponse::sendError([$data["message"]], "Login Failed", null);
+        if (! $data["token"]) return ApiResponse::sendError(["Authentication error" => [$data["message"]]], "Login Failed", null);
         return ApiResponse::sendSuccess(new LoginResource($data["data"]), "Login successfully", null);
     }
 
@@ -42,25 +40,17 @@ class AuthController extends Controller
         return ApiResponse::sendSuccess(null, "Password changed successfully", null);
     }
 
-    public function resetPassword(ResetPasswordRequest $request): JsonResponse
+    public function forgetPassword(ForgetPasswordRequest $request): JsonResponse
     {
-        $data = $this->requestHandler->set($request->validated())->handleResetPassword()->get();
+        $data = $this->requestHandler->set($request->validated())->handleForgetPassword()->get();
         if ($data["success"]) return ApiResponse::sendSuccess(null, "Verification code sent to {$request->validated('email')} successfully", null);
-        else return ApiResponse::sendError(["Some thing went wrong please try again later"], "Reset Password failed", null);
+        else return ApiResponse::sendError(["Reset Password error" => ["Some thing went wrong please try again later"]], "Reset Password failed", null);
     }
-
-    public function verifyToken(VerifyTokenRequest $request): JsonResponse
-    {
-        $data = $this->requestHandler->set($request->validated())->handleVerifyToken()->get();
-        if ($data["success"]) return ApiResponse::sendSuccess($data["verifyToken"], "Verification code verified successfully", null);
-        else return ApiResponse::sendError(["Some thing went wrong please try again later"], "Verification code failed", null);
-    }
-
     public function newPassword(NewPasswordRequest $request): JsonResponse
     {
         $data = $this->requestHandler->set($request->validated())->handleNewPassword()->get();
-        if ($data["success"]) return ApiResponse::sendSuccess(new LoginResource($data["data"]), "New password set and logged in successfully", null);
-        else return ApiResponse::sendError(["Some thing went wrong please try again later"], "New password failed", null);
+        if ($data["success"]) return ApiResponse::sendSuccess(null, "New password set successfully", null);
+        else return ApiResponse::sendError(["new password error" => ["Some thing went wrong please try again later"]], "New password failed", null);
     }
 
 }

@@ -18,7 +18,6 @@ class InvoiceController extends Controller
 
     public function create(CreateRequest $request): JsonResponse
     {
-        dd($request->validated());
         return parent::create_model($request->validated());
     }
 

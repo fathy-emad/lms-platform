@@ -29,7 +29,7 @@
                         <div class="show-hide" style="margin-top: 15px !important;"><span class="show"></span></div>
                      </div>
                      <div class="form-group mb-0">
-                        <a class="link" href="{{ route('forget-password') }}">Forgot password?</a>
+                        <a class="link" href="{{ route('admin.auth.forget-password') }}">Forgot password?</a>
                         <button class="btn btn-primary btn-block" onclick="submitForm(this)" type="button">Sign in</button>
                      </div>
                   </form>

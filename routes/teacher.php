@@ -3,9 +3,12 @@
 use App\Http\Controllers\AuthTeacher\AuthController;
 use App\Http\Controllers\Course\Material\MaterialController;
 use App\Http\Controllers\Course\Register\CourseController;
+use App\Http\Controllers\Setting\Country\CountryController;
 use App\Http\Controllers\Setting\Language\LanguageController;
 use App\Http\Controllers\SettingEducation\Chapter\ChapterController;
+use App\Http\Controllers\SettingEducation\EduSubject\EduSubjectController;
 use App\Http\Controllers\SettingEducation\Lesson\LessonController;
+use App\Http\Controllers\SettingEducation\Stage\StageController;
 use App\Http\Controllers\Teacher\BankQuestion\BankQuestionController;
 use App\Http\Controllers\Teacher\CourseRequest\CourseRequestController;
 use App\Http\Controllers\Teacher\PaymentRequest\PaymentRequestController;
@@ -29,16 +32,23 @@ Route::prefix('auth')->controller(AuthController::class)->group(function (){
 
     //Guest
     Route::post('login', 'login');
-    Route::post('reset-password', 'resetPassword'); //->middleware('apiThrottle:1,5')
-    Route::post('verify-token', 'verifyToken'); //->middleware('apiThrottle:3,1')
-    Route::post('new-password', 'newPassword');
+    Route::post('register', [RegisterController::class, "create"]);
+    Route::post('forget-password', 'forgetPassword')->middleware('apiThrottle:3,5');
+    Route::post('new-password', 'newPassword')->middleware('apiThrottle:3,5');
 
     //Auth
-    Route::middleware('apiAuth:admin')->group(function (){
+    Route::middleware('apiAuth:teacher')->group(function (){
         Route::post('logout', 'logout');
         Route::post('change-password', 'changePassword');
     });
 });
+
+//Guest APIs
+Route::get('country', [CountryController::class, 'read']);
+Route::get('stage', [StageController::class, 'read']);
+Route::get('edu-subject', [EduSubjectController::class, 'read']);
+
+
 
 Route::middleware('apiAuth:teacher')->group(function (){
 

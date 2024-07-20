@@ -326,6 +326,7 @@
         let datatableUri = `${APP_URL}/${pageData.link}`;
         let datatableAuthToken = "{{session("admin_data")["jwtToken"]}}";
         let dataTableLocale =  "{{session("locale")}}";
+        let dataTableReorder = null;
         let datatableColumns = [
             {
                 "data": "flag.file",

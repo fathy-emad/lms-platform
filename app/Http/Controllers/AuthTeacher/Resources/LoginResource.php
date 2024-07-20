@@ -22,7 +22,7 @@ class LoginResource extends JsonResource
             "name" => $this->name,
             "email" => $this->email,
             "phone" => $this->phone,
-            "country" => new TranslationResource($this->country->countryTranslate->valueTranslate),
+            "country" => new CountryResource($this->country),
             "TeacherStatusEnum" => new TranslationResource($this->TeacherStatusEnum, true),
             "GenderEnum" => new TranslationResource($this->GenderEnum, true),
             "online" => $this->online,

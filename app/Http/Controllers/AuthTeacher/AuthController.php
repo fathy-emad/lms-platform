@@ -3,12 +3,14 @@
 namespace App\Http\Controllers\AuthTeacher;
 
 use ApiResponse;
+use Illuminate\Http\JsonResponse;
+use App\Http\Controllers\Controller;
 use App\Http\Repositories\TeacherRepository;
 use App\Http\Controllers\AuthTeacher\Requests\LoginRequest;
 use App\Http\Controllers\AuthTeacher\Resources\LoginResource;
 use App\Http\Controllers\AuthTeacher\Resources\LogoutResource;
-use App\Http\Controllers\Controller;
-use Illuminate\Http\JsonResponse;
+use App\Http\Controllers\AuthTeacher\Requests\NewPasswordRequest;
+use App\Http\Controllers\AuthTeacher\Requests\ForgetPasswordRequest;
 
 class AuthController extends Controller
 {
@@ -20,10 +22,22 @@ class AuthController extends Controller
     public function login(LoginRequest $request): JsonResponse
     {
         $data = $this->requestHandler->set($request->validated())->handleLogin()->get();
-        if (! $data["token"]) return ApiResponse::sendError([$data["message"]], "Login error", null);
+        if (! $data["token"]) return ApiResponse::sendError(["Authentication error" => [$data["message"]]], "Login error", null);
         return ApiResponse::sendSuccess(new LoginResource($data["data"]), "Login successfully", null);
     }
 
+    public function forgetPassword(ForgetPasswordRequest $request): JsonResponse
+    {
+        $data = $this->requestHandler->set($request->validated())->handleForgetPassword()->get();
+        if ($data["success"]) return ApiResponse::sendSuccess(null, "Verification code sent to {$request->validated('email')} successfully", null);
+        else return ApiResponse::sendError(["Reset Password error" => ["Some thing went wrong please try again later"]], "Reset Password failed", null);
+    }
+    public function newPassword(NewPasswordRequest $request): JsonResponse
+    {
+        $data = $this->requestHandler->set($request->validated())->handleNewPassword()->get();
+        if ($data["success"]) return ApiResponse::sendSuccess(null, "New password set successfully", null);
+        else return ApiResponse::sendError(["new password error" => ["Some thing went wrong please try again later"]], "New password failed", null);
+    }
     public function logout(): JsonResponse
     {
         $data = $this->requestHandler->set(null)->handleLogout()->get();
