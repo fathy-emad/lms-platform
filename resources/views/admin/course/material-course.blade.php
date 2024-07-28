@@ -84,7 +84,6 @@
                 "orderable": false,
                 "searchable": false,
                 "render": function (data) {
-                    console.log(data);
                     let actions = `<div class="row justify-content-start">`;
                     actions += `<div class="col-auto">
                                     <a class="btn btn-sm btn-success" type="button"

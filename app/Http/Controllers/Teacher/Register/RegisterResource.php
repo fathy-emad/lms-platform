@@ -28,6 +28,11 @@ class RegisterResource extends JsonResource
                 "name" => $this->name,
                 "image" => $this->image,
                 "curricula" => CurriculumResource::collection($this->available_curricula()),
+                "phone" => $this->phone,
+                "country_id" => $this->country_id,
+                "email" => $this->email,
+                "TeacherStatusEnum" => new TranslationResource($this->TeacherStatusEnum, true),
+                "GenderEnum" => new TranslationResource($this->GenderEnum, true),
             ],
             default => [
                 "id" => $this->id,

@@ -119,6 +119,7 @@
                 </div>
             </div>
         </div>
+
         <!-- Update modal -->
         <div class="modal fade update_modal" aria-labelledby="myLargeModalLabel" style="display: none;" data-bs-backdrop="static" aria-hidden="true">
             <div class="modal-dialog modal-lg">
@@ -200,10 +201,12 @@
                                             <div class="tab-content" id="pills-infotabContent">
 
                                                 <div class="tab-pane fade  active show" id="view-data" role="tabpanel" aria-labelledby="update-data-tab">
+
                                                     <div class="col-12 mb-3">
                                                         <label for="locale">{{ __("attributes.locale_symbol") }}</label>
                                                         <input class="form-control" name="locale" id="locale" type="text" placeholder="ex: ar, en" />
                                                     </div>
+
                                                     <div class="col-sm-12 mb-3">
                                                         <label for="flag">{{ __("attributes.flag") }}</label>
                                                         <div class="fileUploadBuilder" data-name="flag" data-title="" data-multiple="" data-value="" data-accepts="image/svg+xml"></div>

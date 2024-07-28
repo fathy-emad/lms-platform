@@ -66,7 +66,7 @@ class AuthRequestHandler extends RequestHandler
 
     public function handleChangePassword(): static
     {
-        $model = Admin::find(auth('admin')->user()->id);
+        $model = Admin::find(auth('admin')->id());
         $model->update(["password" => Hash::make($this->data["password"])]);
         $this->data["data"] = $model;
         return $this;

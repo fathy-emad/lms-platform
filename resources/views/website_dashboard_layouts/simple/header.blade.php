@@ -341,25 +341,25 @@
         <li class="profile-nav onhover-dropdown p-0 me-0">
           <div class="media profile-media">
               @php
-                  $file = session("teacher_data")["image"]["file"] ?? null;
+                  $file = session("admin_data")["image"]["file"] ?? null;
                   $image = asset(isset($file) ? "uploads/$file" : "assets/images/dashboard/profile.jpg");
               @endphp
             <img class="b-r-10 account-image"
                  src="{{ $image }}"
                  width="37" height="37" alt="">
             <div class="media-body">
-              <span class="account-name">{{ session("teacher_data")["name"] }}</span>
-              <p class="mb-0 font-roboto account-role"> {{ session("teacher_data")["TeacherStatusEnum"]["translates"][app()->getLocale()] }} <i class="middle fa fa-angle-down"></i></p>
+              <span class="account-name">{{ session("admin_data")["name"] }}</span>
+              <p class="mb-0 font-roboto account-role"> {{ session("admin_data")["AdminRoleEnum"]["translates"][app()->getLocale()] }} <i class="middle fa fa-angle-down"></i></p>
             </div>
           </div>
           <ul class="profile-dropdown onhover-show-div">
-            <li><a href="{{ route("teacher.account") }}"><i data-feather="user"></i><span>Account </span></a></li>
+            <li><a href="#"><i data-feather="user"></i><span>Account </span></a></li>
 {{--            <li><a href="#"><i data-feather="mail"></i><span>Inbox</span></a></li>--}}
 {{--            <li><a href="#"><i data-feather="file-text"></i><span>Taskboard</span></a></li>--}}
 {{--            <li><a href="#"><i data-feather="settings"></i><span>Settings</span></a></li>--}}
             <li>
                 <form novalidate="" class="theme-form needs-validation" id="form" method="POST"
-                      action="{{ url("api/teacher/auth/logout") }}" authorization="{{ session("teacher_data")["jwtToken"] }}" locale="{{app()->getLocale()}}" csrf="{{ csrf_token()}}">
+                      action="{{ url("api/admin/auth/logout") }}" authorization="{{ session("admin_data")["jwtToken"] }}" locale="{{app()->getLocale()}}" csrf="{{ csrf_token()}}">
                     <a href="#" onclick="submitForm(this)"><i data-feather="log-in"> </i><span>{{ __('lang.logout') }}</span></a>
                 </form>
             </li>

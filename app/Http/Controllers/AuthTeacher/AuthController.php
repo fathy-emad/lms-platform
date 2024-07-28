@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\AuthTeacher;
 
 use ApiResponse;
+use App\Http\Controllers\AuthTeacher\Requests\ChangePasswordRequest;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use App\Http\Repositories\TeacherRepository;
@@ -43,4 +44,12 @@ class AuthController extends Controller
         $data = $this->requestHandler->set(null)->handleLogout()->get();
         return ApiResponse::sendSuccess(new LogoutResource($data["data"]), "logout successfully", null);
     }
+
+
+    public function changePassword(ChangePasswordRequest $request): JsonResponse
+    {
+        $data = $this->requestHandler->set($request->validated())->handleChangePassword()->get();
+        return ApiResponse::sendSuccess(null, "Password changed successfully", null);
+    }
+
 }

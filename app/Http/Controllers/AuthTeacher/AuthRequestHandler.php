@@ -85,4 +85,12 @@ class AuthRequestHandler extends RequestHandler
         return $this;
     }
 
+    public function handleChangePassword(): static
+    {
+        $model = Teacher::find(auth('teacher')->id());
+        $model->update(["password" => Hash::make($this->data["password"])]);
+        $this->data["data"] = $model;
+        return $this;
+    }
+
 }

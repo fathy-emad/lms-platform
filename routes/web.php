@@ -50,6 +50,7 @@ Route::prefix("admin")->name("admin.")->middleware("entity.locale")->group(funct
     Route::middleware("entity.auth:admin")->group(function (){
 
         Route::view('dashboard', 'admin.dashboard')->name('dashboard');
+        Route::view('account', 'admin.account')->name('account');
 
         Route::prefix("setting")->name("setting.")->group(function(){
             Route::view('language', 'admin.setting.language')->name("language");
@@ -117,6 +118,7 @@ Route::prefix("teacher")->name("teacher.")->middleware("entity.locale")->group(f
     Route::middleware("entity.auth:teacher")->group(function (){
 
         Route::view('dashboard', 'teacher.dashboard')->name('dashboard');
+        Route::view('account', 'teacher.account')->name('account');
 
         Route::name("course-request.")->group(function(){
             Route::view('course-request', 'teacher.course.course-request')->name("courses");

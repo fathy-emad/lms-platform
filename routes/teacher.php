@@ -49,11 +49,13 @@ Route::get('stage', [StageController::class, 'read']);
 Route::get('edu-subject', [EduSubjectController::class, 'read']);
 
 
-
 Route::middleware('apiAuth:teacher')->group(function (){
 
     //Teacher Data
-    Route::get('my-info', [RegisterController::class, 'read']);
+    Route::controller(RegisterController::class)->group(function (){
+        Route::get('my-info', 'read');
+        Route::put('my-info', 'update');
+    });
 
     //Courses
     Route::get('course', [CourseController::class, 'read']);
