@@ -187,6 +187,7 @@ return [
         "Translation" => App\Facades\TranslationFacade::class,
         "UploadFile" => App\Facades\UploadFileFacade::class,
         "Paymob" => App\Facades\PaymobFacade::class,
+        "Notification" => App\Facades\NotificationFacade::class,
         // 'Example' => App\Facades\Example::class,
     ])->toArray(),
 

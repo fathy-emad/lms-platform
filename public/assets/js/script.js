@@ -510,7 +510,7 @@ function notifyForm(title, message, type, callback, delay = 0, timer = 10000)
                 x:30,
                 y:30
             },
-            delay:delay ,
+            delay:delay,
             z_index:10000,
             animate:{
                 enter:'animated shake',

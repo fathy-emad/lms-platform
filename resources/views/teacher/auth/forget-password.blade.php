@@ -18,7 +18,7 @@
                         <div>
                             <div><a class="logo" href="#"><img class="img-fluid for-light" src="{{asset('assets/images/logo/login.png')}}" alt="looginpage"><img class="img-fluid for-dark" src="{{asset('assets/images/logo/logo_dark.png')}}" alt="looginpage"></a></div>
                             <div class="login-main">
-                                <form novalidate="" class="theme-form needs-validation mb-5" id="form" method="POST"
+                                <form novalidate="" class="theme-form needs-validation mb-5" id="form1" method="POST"
                                       action="{{ url("api/teacher/auth/forget-password") }}" locale="{{app()->getLocale()}}" csrf="{{ csrf_token()}}">
                                     <h4>Reset Your Password</h4>
                                     <div class="form-group">
@@ -33,7 +33,7 @@
                                         </div>
                                     </div>
                                 </form>
-                                <form novalidate="" class="theme-form needs-validation" id="form" method="POST"
+                                <form novalidate="" class="theme-form needs-validation" id="form2" method="POST"
                                       action="{{ url("api/teacher/auth/new-password") }}" locale="{{app()->getLocale()}}" csrf="{{ csrf_token()}}">
                                     <div class="form-group mb-5">
                                         <label class="col-form-label pt-0">Enter OTP</label>

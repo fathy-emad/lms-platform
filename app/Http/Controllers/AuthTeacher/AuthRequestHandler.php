@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers\AuthTeacher;
 
-use App\Concretes\RequestHandler;
-use App\Enums\TeacherStatusEnum;
+use App\Concretes\NotificationEmail;
+use Notification;
 use App\Models\Teacher;
+use App\Enums\TeacherStatusEnum;
+use App\Concretes\RequestHandler;
+use Tymon\JWTAuth\Facades\JWTAuth;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Tymon\JWTAuth\Facades\JWTAuth;
-
 
 class AuthRequestHandler extends RequestHandler
 {
@@ -68,9 +69,11 @@ class AuthRequestHandler extends RequestHandler
     public function handleForgetPassword():static
     {
         $token = generateToken(6);
-        $model = Teacher::where("email", $this->data["email"])->update(["verifyToken" => $token]);
-        //send email here and check if model updated and email sent return true
-        $this->data["success"] = (bool) $model;
+        $model = Teacher::where("email", $this->data["email"]);
+        $teacher = $model->first();
+        $update = $model->update(["verifyToken" => $token]);
+        Notification::via([new NotificationEmail()])->send($teacher->fresh(), null, "otp");
+        $this->data["success"] = (bool) $update;
         return $this;
     }
     public function handleNewPassword():static

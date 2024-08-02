@@ -33,7 +33,7 @@ Route::prefix('auth')->controller(AuthController::class)->group(function (){
     //Guest
     Route::post('login', 'login');
     Route::post('register', [RegisterController::class, "create"]);
-    Route::post('forget-password', 'forgetPassword')->middleware('apiThrottle:3,5');
+    Route::post('forget-password', 'forgetPassword');//->middleware('apiThrottle:3,5');
     Route::post('new-password', 'newPassword')->middleware('apiThrottle:3,5');
 
     //Auth
