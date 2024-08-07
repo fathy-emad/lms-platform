@@ -9,8 +9,13 @@ class CreateRequest extends ValidateRequest
 {
     public function rules(): array
     {
+        if ($this->attributes->get("guard") == "admin")
+            $studentID = "required|integer|exists:students,id";
+        else
+            $studentID = "required|integer|exists:students,id|in:" . auth("student")->id();
+
         return [
-            "student_id" => "required|integer|exists:students,id|in:". auth("student")->id(),
+            "student_id" => $studentID,
             "course_id" => [
                 "required",
                 "integer",

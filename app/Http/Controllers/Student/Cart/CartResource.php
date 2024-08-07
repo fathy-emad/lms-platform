@@ -19,7 +19,7 @@ class CartResource extends JsonResource
     {
         return [
             "id" => $this->id,
-            "student_id" => $this->student_id,
+            "student" => $this->student,
             "course" => new CourseResource($this->course),
             "created_at" => new DateTimeResource($this->created_at),
             "updated_at" => new DateTimeResource($this->updated_at),

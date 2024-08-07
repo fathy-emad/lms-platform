@@ -2,7 +2,9 @@
 
 namespace App\Providers;
 
+use App\Concretes\CheckoutManual;
 use App\Services\ApiResponse;
+use App\Services\CheckoutService;
 use App\Services\PaymobService;
 use App\Services\UploadFileService;
 use App\Services\TranslationService;
@@ -28,13 +30,14 @@ class AppServiceProvider extends ServiceProvider
             return new UploadFileService();
         });
 
-        $this->app->singleton(PaymobService::class, function ($app){
-            return new PaymobService();
+        $this->app->singleton(CheckoutService::class, function ($app){
+            return new CheckoutService();
         });
 
         $this->app->singleton(NotificationService::class, function ($app){
             return new NotificationService();
         });
+
     }
 
     /**

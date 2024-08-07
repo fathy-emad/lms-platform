@@ -15,9 +15,12 @@ class DeleteRequest extends ValidateRequest
                 "integer",
                 "exists:carts,id",
                 function($attribute, $value, $fail) {
-                    $cart = Cart::find($value);
-                    if (isset($cart) && $cart->student_id != auth("student")->id()) {
-                        $fail('This course not belongs to you.');
+                    if ($this->attributes->get("guard") !== "admin")
+                    {
+                        $cart = Cart::find($value);
+                        if (isset($cart) && $cart->student_id != auth("student")->id()) {
+                            $fail('This course in cart not belongs to this student.');
+                        }
                     }
                 },
             ],

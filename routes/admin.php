@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Student\Checkout\CheckoutController;
 use App\Http\Controllers\Teacher\CourseRequest\CourseRequestController;
 use App\Http\Controllers\Teacher\PaymentRequest\PaymentRequestController;
 use App\Http\Controllers\Teacher\Payments\PaymentsController;
@@ -226,6 +227,12 @@ Route::middleware(['apiAuth:admin', 'apiPermission'])->group(function (){
         Route::controller(CourseRequestController::class)->group(function (){
             Route::get('course', 'read');
             Route::put('course', 'update');
+        });
+
+        //Course
+        Route::controller(CheckoutController::class)->group(function (){
+            Route::post('checkout', 'create');
+            Route::get('checkout', 'read');
         });
 
     });

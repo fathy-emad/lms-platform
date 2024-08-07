@@ -188,6 +188,7 @@ return [
         "UploadFile" => App\Facades\UploadFileFacade::class,
         "Paymob" => App\Facades\PaymobFacade::class,
         "Notification" => App\Facades\NotificationFacade::class,
+        "Checkout" => App\Facades\CheckoutFacade::class,
         // 'Example' => App\Facades\Example::class,
     ])->toArray(),
 

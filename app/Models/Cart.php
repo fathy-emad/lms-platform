@@ -12,6 +12,11 @@ class Cart extends Model
 
     protected $guarded = [];
 
+    public function student(): BelongsTo
+    {
+        return $this->belongsTo(Student::class, "student_id");
+    }
+
     public function course(): BelongsTo
     {
         return $this->belongsTo(Course::class, "course_id");

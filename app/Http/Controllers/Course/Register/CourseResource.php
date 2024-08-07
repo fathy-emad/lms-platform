@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Course\Register;
 
+use App\Http\Controllers\Teacher\Register\RegisterResource;
 use Illuminate\Http\Request;
 use App\Http\Resources\AuthorResource;
 use App\Http\Resources\DateTimeResource;
@@ -35,7 +36,7 @@ class CourseResource extends JsonResource
             ],
             default => [
                 "id" => $this->id,
-                "teacher" => $this->teacher,
+                "teacher" => new RegisterResource($this->teacher),
                 "curriculum" => new CurriculumResource($this->curriculum),
                 "cost" => $this->cost,
                 "percentage" => $this->percentage,

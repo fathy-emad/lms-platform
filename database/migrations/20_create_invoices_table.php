@@ -1,5 +1,7 @@
 <?php
 
+use App\Enums\PaymentMethodEnum;
+use App\Enums\PaymentServiceEnum;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -15,7 +17,8 @@ return new class extends Migration
             $table->id();
             $table->string("serial")->unique();
             $table->unsignedBigInteger("student_id");
-            $table->string("paymentService")->nullable();
+            $table->enum('PaymentServiceEnum', PaymentServiceEnum::values());
+            $table->enum('PaymentMethodEnum', PaymentMethodEnum::values());
             $table->json("paymentData")->nullable();
             $table->float("totalCost");
             $table->unsignedInteger("itemCount");

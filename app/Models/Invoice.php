@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Enums\PaymentMethodEnum;
+use App\Enums\PaymentServiceEnum;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -13,8 +15,10 @@ class Invoice extends Model
 
     protected $guarded = [];
     protected $casts = [
-      "paymentData" => "array",
-      "totalCost" => "float",
+        "paymentData" => "array",
+        "totalCost" => "float",
+        "PaymentServiceEnum" => PaymentServiceEnum::class,
+        "PaymentMethodEnum" => PaymentMethodEnum::class,
     ];
 
     protected static function boot(): void
