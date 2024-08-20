@@ -15,7 +15,7 @@ class RegisterRequest extends ValidateRequest
             "name" => "required|string|regex:/^[a-zA-Z0-9 .,?!\'’\"-]+$/u",
             "phone" => "required|digits:10|unique:students",
             "email" => "required|email|unique:teachers",
-            "national_id" => "nullable|digits:14|unique:admins",
+            "national_id" => "nullable|digits:14|unique:students",
             "password" => ["required", "confirmed", Password::min(8)->letters()->mixedCase()->numbers()->symbols()],
             "password_confirmation" => "required",
             "GenderEnum" => ["required", "string", new Enum(GenderEnum::class)],

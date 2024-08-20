@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\GenderEnum;
+use App\Enums\StudentStatusEnum;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -26,7 +27,8 @@ class Student extends Authenticatable implements JWTSubject
         "online" => "boolean",
         "image" => "array",
         'password' => 'hashed',
-        "GenderEnum" => GenderEnum::class
+        "GenderEnum" => GenderEnum::class,
+        'StudentStatusEnum' => StudentStatusEnum::class
     ];
 
     public function getPhonePrefixAttribute(): string

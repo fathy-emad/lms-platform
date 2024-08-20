@@ -80,5 +80,10 @@ return [
         "Pending" => "Pending",
         "Approved" => "Approved",
         "Rejected" => "Rejected"
-    ]
+    ],
+
+    "StudentStatusEnum" => [
+        "Active" => "Active",
+        "Blocked" => "Blocked"
+    ],
 ];

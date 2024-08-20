@@ -1,6 +1,7 @@
 <?php
 
 use App\Enums\GenderEnum;
+use App\Enums\StudentStatusEnum;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -23,6 +24,9 @@ return new class extends Migration
             $table->json('address')->nullable();
             $table->string("school")->nullable();
             $table->boolean('online')->default(false);
+
+            $table->enum('StudentStatusEnum', StudentStatusEnum::values())->default(StudentStatusEnum::Active->value);
+            $table->string('block_reason')->nullable();
 
             $table->string('password');
             $table->longText('jwtToken')->nullable();

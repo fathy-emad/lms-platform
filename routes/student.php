@@ -33,7 +33,6 @@ Route::prefix('auth')->controller(AuthController::class)->group(function (){
     });
 });
 
-
 Route::middleware(['apiAuth:student'])->group(function () {
 
     //Cart

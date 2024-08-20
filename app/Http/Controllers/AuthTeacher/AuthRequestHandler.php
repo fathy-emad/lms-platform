@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\AuthTeacher;
 
-use App\Concretes\NotificationEmail;
 use Notification;
 use App\Models\Teacher;
 use App\Enums\TeacherStatusEnum;
@@ -10,6 +9,7 @@ use App\Concretes\RequestHandler;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use App\Concretes\NotificationEmail;
 
 class AuthRequestHandler extends RequestHandler
 {

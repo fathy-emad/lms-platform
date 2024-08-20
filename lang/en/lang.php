@@ -71,7 +71,8 @@
         'view' => 'View',
         'translate' => 'Translates',
         'goTo' => 'Go to',
-        'save' => 'Save'
+        'save' => 'Save',
+        'language' => 'Language'
 
 	];
 ?>

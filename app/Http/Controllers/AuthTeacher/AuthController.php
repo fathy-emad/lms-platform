@@ -26,7 +26,16 @@ class AuthController extends Controller
         if (! $data["token"]) return ApiResponse::sendError(["Authentication error" => [$data["message"]]], "Login error", null);
         return ApiResponse::sendSuccess(new LoginResource($data["data"]), "Login successfully", null);
     }
-
+    public function logout(): JsonResponse
+    {
+        $data = $this->requestHandler->set(null)->handleLogout()->get();
+        return ApiResponse::sendSuccess(new LogoutResource($data["data"]), "logout successfully", null);
+    }
+    public function changePassword(ChangePasswordRequest $request): JsonResponse
+    {
+        $data = $this->requestHandler->set($request->validated())->handleChangePassword()->get();
+        return ApiResponse::sendSuccess(null, "Password changed successfully", null);
+    }
     public function forgetPassword(ForgetPasswordRequest $request): JsonResponse
     {
         $data = $this->requestHandler->set($request->validated())->handleForgetPassword()->get();
@@ -39,17 +48,7 @@ class AuthController extends Controller
         if ($data["success"]) return ApiResponse::sendSuccess(null, "New password set successfully", null);
         else return ApiResponse::sendError(["new password error" => ["Some thing went wrong please try again later"]], "New password failed", null);
     }
-    public function logout(): JsonResponse
-    {
-        $data = $this->requestHandler->set(null)->handleLogout()->get();
-        return ApiResponse::sendSuccess(new LogoutResource($data["data"]), "logout successfully", null);
-    }
 
 
-    public function changePassword(ChangePasswordRequest $request): JsonResponse
-    {
-        $data = $this->requestHandler->set($request->validated())->handleChangePassword()->get();
-        return ApiResponse::sendSuccess(null, "Password changed successfully", null);
-    }
 
 }

@@ -13,6 +13,7 @@
 
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Session;
 
@@ -477,3 +478,20 @@ Route::get('/clear-cache', function() {
     Artisan::call('route:clear');
     return "Cache is cleared";
 })->name('clear.cache');
+
+
+
+Route::middleware("entity.locale")->group(function (){
+
+    Route::get('/', function () { return view('website.index'); })->name('student.website');
+
+    //website guest
+    Route::name('student.')->middleware("entity.guest:student")->group(function (){
+        Route::view("login", "website.auth.login")->name("auth.login");
+        Route::view("register", "website.auth.register")->name("auth.register");
+        Route::view("forget-password", "website.auth.forget-password")->name("auth.forget-password");
+    });
+
+
+});
+

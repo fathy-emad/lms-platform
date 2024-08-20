@@ -416,7 +416,7 @@ function handleLoginSuccess(response, entity, csrf, submit) {
             let title = "Login Successfully";
             let message = "You will redirect to dashboard";
             notifyForm(title, message, "success", function () {
-                window.location = APP_URL + "/" + entity + "/dashboard";
+                window.location = APP_URL + "/" + (entity !== "student" ? "/dashboard" : '');
             }, 0, 1000);
         },
         error: function(xhr) {
@@ -438,7 +438,7 @@ function handleLogoutSuccess(entity, csrf, submit) {
             let title = "Logout Successfully";
             let message = "You will redirect to login";
             notifyForm(title, message, "success", function () {
-                window.location = "http://127.0.0.1:8000/" + entity + "/auth/login";
+                window.location = APP_URL + "/" + (entity !== "student" ? entity + "/auth/login" : '');
             }, 0, 1000);
         },
         error: function(xhr) {

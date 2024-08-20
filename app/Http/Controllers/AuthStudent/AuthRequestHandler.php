@@ -3,13 +3,15 @@
 namespace App\Http\Controllers\AuthStudent;
 
 use UploadFile;
-use App\Models\Admin;
+use Notification;
 use App\Models\Student;
 use Illuminate\Support\Arr;
+use App\Enums\StudentStatusEnum;
 use App\Concretes\RequestHandler;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use App\Concretes\NotificationEmail;
 
 class AuthRequestHandler extends RequestHandler
 {
@@ -22,55 +24,53 @@ class AuthRequestHandler extends RequestHandler
     public function handleLogin(): static
     {
         $this->attempt();
+        $this->checkStatus();
         $this->addJwtTokenToModel();
         return $this;
     }
     public function handleLogout(): static
     {
-        $this->terminateJwtTokenFromModel();
-        return $this;
-    }
-    public function handleChangePassword(): static
-    {
-        $model = Admin::find(auth('admin')->user()->id);
-        $model->update(["password" => Hash::make($this->data["password"])]);
+        $model = Student::find(auth('student')->user()->id);
+        $model->update(["jwtToken" => null, "online" => 0]);
+        JWTAuth::invalidate(JWTAuth::getToken());
+        auth('student')->logout();
         $this->data["data"] = $model;
         return $this;
     }
-    public function handleResetPassword():static
+    public function handleForgetPassword():static
     {
         $token = generateToken(6);
-        $model = Admin::where("email", $this->data["email"])->update(["verifyToken" => $token]);
-        //send email here and check if model updated and email sent return true
-        $this->data["success"] = (bool) $model;
+        $model = Student::where("email", $this->data["email"]);
+        $student = $model->first();
+        $update = $model->update(["verifyToken" => $token]);
+        Notification::via([new NotificationEmail()])->send($student->fresh(), null, "otp");
+        $this->data["success"] = (bool) $update;
         return $this;
     }
-    public function handleVerifyToken():static
+
+
+
+    public function attempt(): void
     {
-        $hashToken = Hash::make($this->data["verifyToken"]);
-        $model = Student::where("phone", $this->data["phone"])->update(["verifyToken" => $hashToken]);
-        if ($model){
-            $this->data["success"] = true;
-            $this->data["verifyToken"] = $hashToken;
-        } else {
-            $this->data["success"] = false;
-            $this->data["verifyToken"] = null;
+        if (!$token = Auth::guard("student")->attempt($this->data))
+        {
+            $this->data["token"] = null;
+            $this->data["message"] = "Your email or password is invalid";
         }
-        return $this;
+
+        else
+        {
+            $this->data["message"] = "you are Auth";
+            $this->data["token"] = $token;
+        }
     }
-    public function handleNewPassword():static
+    public function checkStatus(): void
     {
-        $model = Admin::firstWhere('email', $this->data["email"]);
-        Auth::login($model);
-        $token = JWTAuth::fromUser($model);
-        $model->update([
-            "password" => Hash::make($this->data["password"]),
-            "jwtToken" => $token,
-            "verifyToken" => null
-        ]);
-        $this->data["success"] = true;
-        $this->data["data"] = $model;
-        return $this;
+        if (isset($this->data["token"]) && auth('student')->user()->StudentStatusEnum->value != StudentStatusEnum::Active->value)
+        {
+            $this->data["token"] = null;
+            $this->data["message"] = "You are not active student account please contact us";
+        }
     }
     public function addJwtTokenToModel(): void
     {
@@ -81,11 +81,7 @@ class AuthRequestHandler extends RequestHandler
             $this->data["data"] = $model;
         }
     }
-    public function hashPassword(): void
-    {
-        $this->data["password"] = Hash::make($this->data["password"]);
-        $this->data = Arr::except($this->data, 'password_confirmation');
-    }
+
     public function uploadImage(): void
     {
         if (isset($this->data["image"]))
@@ -94,31 +90,35 @@ class AuthRequestHandler extends RequestHandler
         }
     }
 
-
-
-
-
-
-    public function attempt(): void
+    public function hashPassword(): void
     {
-        if (!$token = Auth::guard('student')->attempt($this->data))
-        {
-            $this->data["token"] = null;
-            $this->data["message"] = "you are not Auth Student";
-        }
-
-        else
-        {
-            $this->data["message"] = "you are Auth";
-            $this->data["token"] = $token;
-        }
+        $this->data["password"] = Hash::make($this->data["password"]);
+        $this->data = Arr::except($this->data, 'password_confirmation');
     }
-    public function terminateJwtTokenFromModel(): void
+
+    public function handleNewPassword():static
     {
-        $model = Student::find(auth('student')->user()->id);
-        $model->update(["jwtToken" => null, "online" => 0]);
-        JWTAuth::invalidate(JWTAuth::getToken());
-        auth('student')->logout();
+        $model = Student::firstWhere('email', $this->data["email"]);
+        $model->update([
+            "password" => Hash::make($this->data["password"]),
+            "verifyToken" => null
+        ]);
+        $this->data["success"] = true;
         $this->data["data"] = $model;
+        return $this;
     }
+    public function handleChangePassword(): static
+    {
+        $model = Student::find(auth('student')->id());
+        $model->update(["password" => Hash::make($this->data["password"])]);
+        $this->data["data"] = $model;
+        return $this;
+    }
+
+
+
+
+
+
+
 }

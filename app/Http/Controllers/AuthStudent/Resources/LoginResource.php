@@ -30,6 +30,8 @@ class LoginResource extends JsonResource
             "country" => new CountryResource($this->country),
             "GenderEnum" => new TranslationResource($this->GenderEnum, true),
             "online" => $this->online,
+            "StudentStatusEnum" => new TranslationResource($this->StudentStatusEnum, true),
+            "block_reason" => $this->block_reason,
             "address" => $this->address,
             "school" => $this->school,
             "image" => $this->image,

@@ -44,6 +44,7 @@ class EnsureEntityIsAuthenticated
         return match ($entity) {
             'admin' => 'admin.auth.login',
             'teacher' => 'teacher.auth.login',
+            'student' => 'student.auth.login',
             default => 'login',
         };
     }

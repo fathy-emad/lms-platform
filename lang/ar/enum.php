@@ -78,6 +78,11 @@ return [
         "Pending" => "معلق",
         "Approved" => "مقبول",
         "Rejected" => "مرفوض"
-    ]
+    ],
+
+    "StudentStatusEnum" => [
+        "Active" => "نشط",
+        "Blocked" => "محجوب"
+    ],
 
 ];
