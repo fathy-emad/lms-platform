@@ -9,7 +9,7 @@ class ForgetPasswordRequest extends ValidateRequest
     public function rules(): array
     {
         return [
-            "email" => "required|email|exists:teachers,email",
+            "email" => "required|email|exists:students,email",
         ];
     }
 

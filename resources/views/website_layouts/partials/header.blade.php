@@ -513,8 +513,8 @@
                                          class="avatar-img rounded-circle">
                                 </div>
                                 <div class="user-text">
-                                    <h6>Rolands R</h6>
-                                    <p class="text-muted mb-0">Student</p>
+                                    <h6>{{ session("student_data")["name"] }}</h6>
+                                    <p class="text-muted mb-0">{{ __("lang.student") }}</p>
                                 </div>
                             </div>
                             <a class="dropdown-item" href="{{ url('student-profile') }}"><i

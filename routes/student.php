@@ -22,9 +22,8 @@ Route::prefix('auth')->controller(AuthController::class)->group(function (){
     //Guest
     Route::post('register', 'register');
     Route::post('login', 'login');
-    Route::post('reset-password', 'resetPassword'); //->middleware('apiThrottle:1,5')
-    Route::post('verify-token', 'verifyToken'); //->middleware('apiThrottle:3,1')
-    Route::post('new-password', 'newPassword');
+    Route::post('forget-password', 'forgetPassword');//->middleware('apiThrottle:3,5');
+    Route::post('new-password', 'newPassword');//->middleware('apiThrottle:3,5');
 
     //Auth
     Route::middleware('apiAuth:student')->group(function (){

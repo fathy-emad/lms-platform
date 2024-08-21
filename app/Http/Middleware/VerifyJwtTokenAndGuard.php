@@ -5,6 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use ApiResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Tymon\JWTAuth\Exceptions\TokenExpiredException;
 use Tymon\JWTAuth\Exceptions\TokenInvalidException;
 use Tymon\JWTAuth\Facades\JWTAuth;
@@ -23,6 +24,7 @@ class VerifyJwtTokenAndGuard
      */
     public function handle(Request $request, Closure $next, $guard): Response
     {
+        Auth::shouldUse($guard);
         try {
             $auth = JWTAuth::parseToken();
             // Authenticate user based on token and set guard

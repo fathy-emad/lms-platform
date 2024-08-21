@@ -36,7 +36,7 @@
                                 </div>
                             </div>
                             <div class="forgot">
-                                <span><a class="forgot-link" href="{{ url('forgot-password') }}">Forgot Password?</a></span>
+                                <span><a class="forgot-link" href="{{ route('student.auth.forget-password') }}">Forgot Password?</a></span>
                             </div>
                             <div class="d-grid">
                                 <button class="btn btn-primary btn-start" type="button" onclick="submitForm(this, null)">Sign In</button>

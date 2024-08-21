@@ -416,7 +416,7 @@ function handleLoginSuccess(response, entity, csrf, submit) {
             let title = "Login Successfully";
             let message = "You will redirect to dashboard";
             notifyForm(title, message, "success", function () {
-                window.location = APP_URL + "/" + (entity !== "student" ? "/dashboard" : '');
+                window.location = APP_URL + "/" + (entity !== "student" ? entity + "/dashboard" : '');
             }, 0, 1000);
         },
         error: function(xhr) {

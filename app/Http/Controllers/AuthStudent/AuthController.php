@@ -50,7 +50,7 @@ class AuthController extends Controller
     {
         $data = $this->requestHandler->set($request->validated())->handleForgetPassword()->get();
         if ($data["success"]) return ApiResponse::sendSuccess(null, "Verification code sent to {$request->validated('email')} successfully", null);
-        else return ApiResponse::sendError(["Reset Password error" => ["Some thing went wrong please try again later"]], "Reset Password failed", null);
+        else return ApiResponse::sendError(["Reset password error" => ["Some thing went wrong please try again later"]], "Reset Password failed", null);
     }
     public function newPassword(NewPasswordRequest $request): JsonResponse
     {
