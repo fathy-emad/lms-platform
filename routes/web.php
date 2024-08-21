@@ -481,17 +481,21 @@ Route::get('/clear-cache', function() {
 
 
 
-Route::middleware("entity.locale")->group(function (){
+Route::name("student.")->middleware("entity.locale")->group(function (){
 
-    Route::get('/', function () { return view('website.index'); })->name('student.website');
+    Route::get('/', function () { return view('website.index'); })->name('website');
 
     //website guest
-    Route::name('student.')->middleware("entity.guest:student")->group(function (){
+    Route::middleware("entity.guest:student")->group(function (){
         Route::view("login", "website.auth.login")->name("auth.login");
         Route::view("register", "website.auth.register")->name("auth.register");
         Route::view("forget-password", "website.auth.forget-password")->name("auth.forget-password");
     });
 
+    //website auth
+    Route::middleware("entity.auth:student")->group(function (){
+
+    });
 
 });
 

@@ -39,7 +39,7 @@ class LoginResource extends JsonResource
             "created_at" => new DateTimeResource($this->created_at),
             "updated_at" => new DateTimeResource($this->updated_at),
             "jwtToken" => $this->jwtToken,
-            "jwtTokenExpirationAfter" => auth('admin')->factory()->getTTL() * 60 . " seconds",
+            "jwtTokenExpirationAfter" => auth('student')->factory()->getTTL() * 60 . " seconds",
         ];
     }
 }

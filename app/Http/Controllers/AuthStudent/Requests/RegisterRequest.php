@@ -13,17 +13,17 @@ class RegisterRequest extends ValidateRequest
     {
         return [
             "name" => "required|string|regex:/^[a-zA-Z0-9 .,?!\'’\"-]+$/u",
-            "phone" => "required|digits:10|unique:students",
-            "email" => "required|email|unique:teachers",
+            "phone" => "required|digits:10|unique:students,phone",
+            "email" => "required|email|unique:students,email",
             "national_id" => "nullable|digits:14|unique:students",
             "password" => ["required", "confirmed", Password::min(8)->letters()->mixedCase()->numbers()->symbols()],
             "password_confirmation" => "required",
             "GenderEnum" => ["required", "string", new Enum(GenderEnum::class)],
             "image.file" => "nullable|image",
-            //"image.title" => "nullable|string",
             "country_id" => "required|exists:countries,id",
             "born" => "required|date_format:Y-m-d",
-            "school" => "nullable|string"
+            "school" => "required|string",
+            "terms_of_service_and_privacy_policy" => "required|in:1",
         ];
     }
 

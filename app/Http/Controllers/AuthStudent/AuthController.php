@@ -15,17 +15,19 @@ use App\Http\Controllers\AuthStudent\Resources\LogoutResource;
 use App\Http\Controllers\Controller;
 use App\Http\Repositories\StudentRepository;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Arr;
 
 class AuthController extends Controller
 {
     public function __construct(
         protected StudentRepository $repository,
         protected AuthRequestHandler $requestHandler,
+        protected string $resource = AuthResource::class,
     ){}
 
     public function register(RegisterRequest $request): JsonResponse
     {
-        $data = $this->requestHandler->set($request->validated())->handleRegister()->get();
+        $data = Arr::except($this->requestHandler->set($request->validated())->handleRegister()->get(), ["terms_of_service_and_privacy_policy"]);
         return parent::create_model($data);
     }
     public function login(LoginRequest $request): JsonResponse

@@ -34,7 +34,7 @@ class AuthResource extends JsonResource
             "address" => $this->address,
             "school" => $this->school,
             "image" => $this->image,
-            "phone_verified_at" => $this->when($this->phone_verified_at, new DateTimeResource($this->phone_verified_at), null),
+            //"phone_verified_at" => $this->when($this->phone_verified_at, new DateTimeResource($this->phone_verified_at), null),
             "created_at" => new DateTimeResource($this->created_at),
             "updated_at" => new DateTimeResource($this->updated_at),
         ];

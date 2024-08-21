@@ -1,6 +1,43 @@
 @extends('website_layouts.mainlayout')
 @section('title') register @endsection
 @section('style')
+    <style>
+        /* Hide the arrow of the number input */
+        input[type="number"]::-webkit-outer-spin-button,
+        input[type="number"]::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        input[type="number"] {
+            -moz-appearance: textfield;
+        }
+
+        /* Disable the mouse wheel */
+        input[type=number]::-webkit-outer-spin-button,
+        input[type=number]::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        input[type=number] {
+            -moz-appearance: textfield;
+            appearance: textfield;
+            /* Disable mouse wheel */
+            -moz-appearance: textfield;
+            -webkit-appearance: none;
+            appearance: textfield;
+        }
+
+        input[type=number] {
+            -moz-appearance: textfield;
+            -webkit-appearance: none;
+            appearance: textfield;
+            /* Disable mouse wheel on focus */
+            overflow: hidden;
+        }
+
+    </style>
 @endsection
 
 @section('content')
@@ -17,10 +54,21 @@
                         </div>
                     </div>
                     <h1>Sign up</h1>
-                    <form action="" method="POST">
+                    <form novalidate="" class="theme-form needs-validation" id="form" method="POST"
+                          action="{{ url("api/student/auth/register") }}" locale="{{app()->getLocale()}}" csrf="{{ csrf_token()}}">
+
                         <div class="input-block">
                             <label class="form-control-label">Full Name</label>
-                            <input type="text" class="form-control" placeholder="Enter your Full Name">
+                            <input type="text" class="form-control" name="name" placeholder="Enter your Full Name" required>
+                        </div>
+
+                        <div class="input-block">
+                            <label class="add-course-label">Gender</label>
+                            <select class="form-control form-select" name="GenderEnum" style="border-color: rgba(255, 222, 218, 0.71);" required>
+                                @foreach(\App\Enums\GenderEnum::cases() as $gender)
+                                    <option value="{{$gender->value}}">{{ __("enum.GenderEnum.".$gender->name) }}</option>
+                                @endforeach
+                            </select>
                         </div>
 
                         <div class="row">
@@ -28,7 +76,7 @@
                                 <div class="input-block">
                                     <label class="add-course-label">Country</label>
                                     @php $countries = \App\Models\Country::with("countryTranslate")->get(); @endphp
-                                    <select class="form-select select">
+                                    <select class="form-control form-select" name="country_id" style="border-color: rgba(255, 222, 218, 0.71);">
                                         @foreach($countries as $country)
                                             <option value="{{$country->id}}">{{$country->countryTranslate->translates[app()->getLocale()]}} ({{ $country->phone_prefix  }})</option>
                                       @endforeach
@@ -36,19 +84,38 @@
                                 </div>
                             </div>
                             <div class="col-md-6">
-                                <label class="form-control-label">Phone</label>
-                                <input type="number" step="1" maxlength="10" id="phone"  minlength="10" class="form-control" placeholder="Please enter your phone"/>
+                                <div class="input-block">
+                                    <label class="form-control-label">Phone</label>
+                                    <input type="number" name="phone" step="1" maxlength="10" id="phone"  minlength="10" class="form-control" placeholder="Please enter your phone" required/>
+                                </div>
                             </div>
                         </div>
 
                         <div class="input-block">
                             <label class="form-control-label">Email</label>
-                            <input type="email" class="form-control" placeholder="Enter your email address">
+                            <input type="email" name="email" class="form-control" placeholder="Enter your email address">
+                            <div id="" class="text-primary">Be sure this email work correctly to get your account if lost</div>
                         </div>
+
+                        <div class="input-block">
+                            <label class="form-control-label">School</label>
+                            <input type="text" class="form-control" name="school" placeholder="Enter your Full Name" required>
+                        </div>
+
+                        <div class="input-block">
+                            <label class="form-label">Born</label>
+                            <div class="datepicker-icon">
+                                <span class="form-icon">
+                                    <i class="bx bx-calendar"></i>
+                                </span>
+                                <input type="text" name="born" class="form-control datetimepicker">
+                            </div>
+                        </div>
+
                         <div class="input-block">
                             <label class="form-control-label">Password</label>
                             <div class="pass-group" id="passwordInput">
-                                <input type="password" class="form-control pass-input" placeholder="Enter your password">
+                                <input type="password" name="password" class="form-control pass-input" placeholder="Enter your password">
                                 <span class="toggle-password feather-eye-off"></span>
                                 <span class="pass-checked"><i class="feather-check"></i></span>
                             </div>
@@ -61,29 +128,38 @@
                             <div id="passwordInfo"></div>
                         </div>
 
+                        <div class="input-block">
+                            <label class="form-control-label">Password confirmation</label>
+                            <div class="pass-group" id="passwordInputConfirmation">
+                                <input type="password" name="password_confirmation" class="form-control pass-input" placeholder="Enter your password confirmation">
+                                <span class="toggle-password feather-eye-off"></span>
+                                <span class="pass-checked"><i class="feather-check"></i></span>
+                            </div>
+                        </div>
+
                         <div class="form-check remember-me">
                             <label class="form-check-label mb-0">
-                                <input class="form-check-input" type="checkbox" name="remember"> I agree to the <a
+                                <input class="form-check-input" type="checkbox" name="terms_of_service_and_privacy_policy" value="1" required> I agree to the <a
                                     href="{{ url('term-condition') }}">Terms of Service</a> and <a
                                     href="{{ url('privacy-policy') }}">Privacy Policy.</a>
                             </label>
                         </div>
                         <div class="d-grid">
-                            <button class="btn btn-primary btn-start" type="submit">Create Account</button>
+                            <button class="btn btn-primary btn-start" type="button" onclick="submitForm(this, null, successCallback)">Create Account</button>
                         </div>
                     </form>
                 </div>
-                <div class="google-bg text-center">
-                    <span><a href="#">Or sign in with</a></span>
+                <div class="google-bg text-center" style="height: 34%">
+{{--                    <span><a href="#">Or sign in with</a></span>--}}
                     <div class="sign-google">
-                        <ul>
-                            <li><a href="#"><img src="{{ URL::asset('/build/img/net-icon-01.png') }}"
-                                                 class="img-fluid" alt="Logo"> Sign In using Google</a></li>
-                            <li><a href="#"><img src="{{ URL::asset('/build/img/net-icon-02.png') }}"
-                                                 class="img-fluid" alt="Logo">Sign In using Facebook</a></li>
-                        </ul>
+{{--                        <ul>--}}
+{{--                            <li><a href="#"><img src="{{ URL::asset('/build/img/net-icon-01.png') }}"--}}
+{{--                                                 class="img-fluid" alt="Logo"> Sign In using Google</a></li>--}}
+{{--                            <li><a href="#"><img src="{{ URL::asset('/build/img/net-icon-02.png') }}"--}}
+{{--                                                 class="img-fluid" alt="Logo">Sign In using Facebook</a></li>--}}
+{{--                        </ul>--}}
                     </div>
-                    <p class="mb-0">Already have an account? <a href="{{ url('login') }}">Sign in</a></p>
+                    <p class="mb-0"><span class="text-black">Already have an account?</span> <a href="{{ url('login') }}">Sign in</a></p>
                 </div>
             </div>
             <!-- /Login -->
@@ -110,5 +186,10 @@
             }
 
         });
+
+        let successCallback = function () {
+
+            window.location = APP_URL + "/login";
+        };
     </script>
 @endsection
