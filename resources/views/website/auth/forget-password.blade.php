@@ -13,7 +13,7 @@
                     <div class="img-logo">
                         <img src="{{ URL::asset('/build/img/logo.svg') }}" class="img-fluid" alt="Logo">
                         <div class="back-home">
-                            <a class="text-primary" href="{{ url('student.website') }}">Back to Home</a>
+                            <a class="text-primary" href="{{ route('student.website') }}">Back to Home</a>
                         </div>
                     </div>
                     <h1>Forgot Password ?</h1>
