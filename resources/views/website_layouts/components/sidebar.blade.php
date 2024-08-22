@@ -2,7 +2,7 @@
     !Route::is([
         'setting-student-subscription',
         'student-dashboard',
-        'student-profile',
+        'student.profile',
         'student-courses',
         'student-wishlist',
         'student-reviews',
@@ -160,7 +160,7 @@
 @if (Route::is([
         'setting-student-subscription',
         'student-dashboard',
-        'student-profile',
+        'student.profile',
         'student-courses',
         'student-wishlist',
         'student-reviews',
@@ -184,35 +184,30 @@
             <div class="settings-menu">
                 <div class="profile-bg">
                     <div class="profile-img">
-                        <a href="{{ url('student-profile') }}"><img
-                                src="{{ URL::asset('/build/img/user/user16.jpg') }}" alt="Img"></a>
+                        <a href="{{ route('student.profile') }}"><img
+                                src="{{ URL::asset("uploads/".auth("student")->user()->image["file"] ?: '/build/img/user/user11.jpg') }}" alt="Img"></a>
                     </div>
                 </div>
                 <div class="profile-group">
                     <div class="profile-name text-center">
-                        <h4><a href="{{ url('student-profile') }}">Rolands Richard</a></h4>
-                        <p>Student</p>
+                        <h4><a href="{{ url('student.profile') }}">{{ auth("student")->user()->name }}</a></h4>
+                        <p>{{ __("lang.student") }}</p>
                     </div>
                 </div>
             </div>
         </div>
         <div class="settings-widget account-settings">
             <div class="settings-menu">
-                <h3>Dashboard</h3>
+                <h3>{{ __("lang.profile") }}</h3>
                 <ul>
-                    <li class="nav-item {{ Request::is('student-dashboard') ? 'active' : '' }}">
-                        <a href="{{ url('student-dashboard') }}" class="nav-link">
-                            <i class="bx bxs-tachometer"></i>Dashboard
+                    <li class="nav-item {{ Route::is('student.profile') ? 'active' : '' }}">
+                        <a href="{{ route('student.profile') }}" class="nav-link">
+                            <i class="bx bxs-tachometer"></i>{{ __("lang.my_info") }}
                         </a>
                     </li>
-                    <li class="nav-item {{ Request::is('student-profile') ? 'active' : '' }}">
-                        <a href="{{ url('student-profile') }}" class="nav-link">
-                            <i class="bx bxs-user"></i>My Profile
-                        </a>
-                    </li>
-                    <li class="nav-item {{ Request::is('student-courses') ? 'active' : '' }}">
-                        <a href="{{ url('student-courses') }}" class="nav-link">
-                            <i class="bx bxs-graduation"></i>Enrolled Courses
+                    <li class="nav-item {{ Route::is('student.enrolled') ? 'active' : '' }}">
+                        <a href="{{ Route('student.enrolled') }}" class="nav-link">
+                            <i class="bx bxs-graduation"></i>{{ __("lang.enrolled_courses") }}
                         </a>
                     </li>
                     <li class="nav-item {{ Request::is('student-wishlist') ? 'active' : '' }}">

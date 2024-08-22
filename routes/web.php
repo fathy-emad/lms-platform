@@ -483,10 +483,9 @@ Route::get('/clear-cache', function() {
 
 Route::name("student.")->middleware("entity.locale")->group(function (){
 
-    Route::get('/', function () { return view('website.index'); })->name('website');
-
     //website guest
     Route::middleware("entity.guest:student")->group(function (){
+        Route::get('/', function () { return view('website.index'); })->name('website');
         Route::view("login", "website.auth.login")->name("auth.login");
         Route::view("register", "website.auth.register")->name("auth.register");
         Route::view("forget-password", "website.auth.forget-password")->name("auth.forget-password");
@@ -494,6 +493,24 @@ Route::name("student.")->middleware("entity.locale")->group(function (){
 
     //website auth
     Route::middleware("entity.auth:student")->group(function (){
+        //profile pages
+        Route::prefix("profile")->group(function (){
+            Route::view("", "website.profile.profile")->name("profile");
+            Route::view("enrolled", "website.profile.profile")->name("enrolled");
+        });
+
+        //profile pages
+        Route::prefix("home")->group(function (){
+            Route::get('', function () { return view('website.index'); })->name('home');
+            Route::view("subjects/{year_id?}", "website.home.subjects")->name("subjects");
+//            Route::view("years", "website.home.stages")->name("stages");
+//            Route::view("subjects", "website.home.stages")->name("stages");
+        });
+
+
+
+
+
 
     });
 

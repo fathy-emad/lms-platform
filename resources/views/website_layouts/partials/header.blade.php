@@ -18,7 +18,7 @@
         'students-list',
         'students-grid',
         'student-dashboard',
-        'student-profile',
+        'student.profile',
         'student-courses',
         'student-wishlist',
         'student-reviews',
@@ -51,7 +51,7 @@
         'course-details',
         'faq',
         'support',
-        'job-category',
+        'student.subjects',
         'cart',
         'checkout',
         'blog-list',
@@ -93,7 +93,7 @@
         'students-list',
         'students-grid',
         'student-dashboard',
-        'student-profile',
+        'student.profile',
         'student-courses',
         'student-wishlist',
         'student-reviews',
@@ -126,7 +126,7 @@
         'course-details',
         'faq',
         'support',
-        'job-category',
+        'student.subjects',
         'cart',
         'checkout',
         'blog-list',
@@ -161,13 +161,13 @@
                         <span></span>
                     </span>
                 </a>
-                <a href="{{ route('student.website') }}" class="navbar-brand logo">
+                <a href="{{ route('student.home') }}" class="navbar-brand logo">
                     <img src="{{ URL::asset('/build/img/logo.svg') }}" class="img-fluid" alt="Logo">
                 </a>
             </div>
             <div class="main-menu-wrapper">
                 <div class="menu-header">
-                    <a href="{{ route('student.website') }}" class="menu-logo">
+                    <a href="{{ route('student.home') }}" class="menu-logo">
                         <img src="{{ URL::asset('/build/img/logo.svg') }}" class="img-fluid" alt="Logo">
                     </a>
                     <a id="menu_close" class="menu-close" href="javascript:void(0);">
@@ -175,19 +175,41 @@
                     </a>
                 </div>
                 <ul class="main-nav">
-                    <li class="has-submenu active"><a class="" href="#">Home</a></li>
+                    <li class="has-submenu active"><a class="" href="#">{{ __("lang.home") }}</a></li>
                     <li class="has-submenu">
-                        <a href="#">Category <i class="fas fa-chevron-down"></i></a>
+                        <a href="#">{{ __("lang.years") }} <i class="fas fa-chevron-down"></i></a>
+                        @php
+                            $stages = \App\Models\Stage::with(['years' => function($query) {
+                                                            $query->where('ActiveEnum', \App\Enums\ActiveEnum::Active->value)
+                                                                  ->with('yearTranslate');
+                                                        }])
+                                                        ->where('ActiveEnum', \App\Enums\ActiveEnum::Active->value)
+                                                        ->orderBy('priority', 'asc')
+                                                        ->get();
+                        @endphp
                         <ul class="submenu">
-                            <li class="has-submenu">
-                                <a href="" class="">Instructor</a>
-                                <ul class="submenu">
-                                    <li class=""><a href="">List</a></li>
-                                    <li class=""><a href="">Grid</a></li>
-                                </ul>
-                            </li>
-                            <li class=""><a href="{{ url('instructor-dashboard') }}">Dashboard</a></li>
-                            <li class=""><a href="{{ url('instructor-profile') }}">My Profile</a></li>
+                            @foreach($stages as $stage)
+                                <li class="has-submenu">
+                                    <a href="#" class="">{{ $stage->stageTranslate->translates[app()->getLocale()] }}</a>
+                                    @if($stage->years->count())
+                                        <ul class="submenu">
+                                            @foreach($stage->years as $year)
+                                                <li class=""><a href="{{ route("student.subjects", ["year_id" => $year->id]) }}">{{ $year->yearTranslate->translates[app()->getLocale()] }}</a></li>
+                                            @endforeach
+                                        </ul>
+                                    @endif
+                                </li>
+                            @endforeach
+
+{{--                            <li class="has-submenu">--}}
+{{--                                <a href="" class="">Instructor</a>--}}
+{{--                                <ul class="submenu">--}}
+{{--                                    <li class=""><a href="">List</a></li>--}}
+{{--                                    <li class=""><a href="">Grid</a></li>--}}
+{{--                                </ul>--}}
+{{--                            </li>--}}
+{{--                            <li class=""><a href="{{ url('instructor-dashboard') }}">Dashboard</a></li>--}}
+{{--                            <li class=""><a href="{{ url('instructor.profile') }}">My Profile</a></li>--}}
                         </ul>
                     </li>
                     <li class="has-submenu {{ Request::is('blog-list', 'blog-grid', 'blog-masonry', 'blog-modern', 'blog-details') ? 'active' : '' }}">
@@ -217,7 +239,7 @@
             </div>
             <ul class="nav header-navbar-rht">
 
-                @if(! session("student_data"))
+                @if(!auth("student")->user())
                     <li class="nav-item">
                         <div>
                             <a href="#" id="dark-mode-toggle" class="dark-mode-toggle  ">
@@ -502,14 +524,14 @@
                     <li class="nav-item user-nav">
                         <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown">
                             <span class="user-img">
-                                <img src="{{ URL::asset('/build/img/user/user11.jpg') }}" alt="Img">
+                                <img src="{{ URL::asset("uploads/".session("student_data")["image"]["file"] ?: '/build/img/user/user11.jpg') }}" alt="Img">
                                 <span class="status online"></span>
                             </span>
                         </a>
                         <div class="users dropdown-menu dropdown-menu-right" data-popper-placement="bottom-end">
                             <div class="user-header">
                                 <div class="avatar avatar-sm">
-                                    <img src="{{ URL::asset('/build/img/user/user11.jpg') }}" alt="User Image"
+                                    <img src="{{ URL::asset("uploads/".session("student_data")["image"]["file"] ?: '/build/img/user/user11.jpg') }}" alt="User Image"
                                          class="avatar-img rounded-circle">
                                 </div>
                                 <div class="user-text">
@@ -517,16 +539,8 @@
                                     <p class="text-muted mb-0">{{ __("lang.student") }}</p>
                                 </div>
                             </div>
-                            <a class="dropdown-item" href="{{ url('student-profile') }}"><i
-                                    class="feather-user me-1"></i> Profile</a>
-                            <a class="dropdown-item" href="{{ url('setting-student-subscription') }}"><i
-                                    class="feather-star me-1"></i> Subscription</a>
-                            <div class="dropdown-item night-mode">
-                                <span><i class="feather-moon me-1"></i> Night Mode </span>
-                                <div class="form-check form-switch check-on m-0">
-                                    <input class="form-check-input" type="checkbox" id="night-mode">
-                                </div>
-                            </div>
+                            <a class="dropdown-item" href="{{ route('student.profile') }}"><i
+                                    class="feather-user me-1"></i>{{ __("lang.profile") }}</a>
 
                             <form novalidate="" class="theme-form needs-validation" id="form" method="POST"
                                   action="{{ url("api/student/auth/logout") }}" authorization="{{ session("student_data")["jwtToken"] }}" locale="{{app()->getLocale()}}" csrf="{{ csrf_token()}}">

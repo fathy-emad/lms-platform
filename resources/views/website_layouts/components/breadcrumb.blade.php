@@ -1,7 +1,7 @@
 @if (
     !Route::is([
         'student-dashboard',
-        'student-profile',
+        'student.profile',
         'student-courses',
         'student-wishlist',
         'student-reviews',
@@ -31,7 +31,7 @@
         'course-list',
         'faq',
         'help-center',
-        'job-category',
+        'student.subjects',
         'notifications',
         'pricing-plan',
         'privacy-policy',
@@ -87,7 +87,7 @@
 
 @if (Route::is([
         'student-dashboard',
-        'student-profile',
+        'student.profile',
         'student-courses',
         'student-wishlist',
         'student-reviews',
@@ -103,7 +103,7 @@
         'student-linked-accounts',
         'student-notifications',
         'student-quiz-details',
-       
+
     ]))
     <!-- Breadcrumb -->
     <div class="breadcrumb-bar breadcrumb-bar-info">
@@ -114,7 +114,7 @@
                         <h2 class="breadcrumb-title">{{ $title }}</h2>
                         <nav aria-label="breadcrumb" class="page-breadcrumb">
                             <ol class="breadcrumb">
-                                <li class="breadcrumb-item"><a href="{{ url('index') }}">{{ $item1 }}</a></li>
+                                <li class="breadcrumb-item"><a href="{{ route('student.home') }}">{{ $item1 }}</a></li>
                                 <li class="breadcrumb-item active" aria-current="page">{{ $item2 }}</li>
                             </ol>
                         </nav>
@@ -126,7 +126,7 @@
     <!-- /Breadcrumb -->
 @endif
 
-@if(Route::is(['students-grid','students-list','blog-details','blog-grid','blog-list','blog-masonry','blog-modern','cart','course-grid','course-list','faq','help-center','job-category','notifications','pricing-plan','privacy-policy','support','term-condition','wishlist']))
+@if(Route::is(['students-grid','students-list','blog-details','blog-grid','blog-list','blog-masonry','blog-modern','cart','course-grid','course-list','faq','help-center','student.subjects','notifications','pricing-plan','privacy-policy','support','term-condition','wishlist']))
 	<!-- Breadcrumb -->
     <div class="breadcrumb-bar">
         <div class="container">

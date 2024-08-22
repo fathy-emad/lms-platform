@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Enums\ActiveEnum;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Year extends Model
 {
@@ -16,6 +17,11 @@ class Year extends Model
     public function stage(): BelongsTo
     {
         return $this->belongsTo(Stage::class, 'stage_id');
+    }
+
+    public function subjects(): HasMany
+    {
+        return $this->hasMany(Subject::class, "year_id");
     }
 
     public function yearTranslate(): BelongsTo

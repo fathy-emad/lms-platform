@@ -23,7 +23,7 @@ class EnsureEntityIsGuest
         $redirect = match ($entity) {
             'admin' => 'admin.dashboard',
             'teacher' => 'teacher.dashboard',
-            'student' => 'student.website',
+            'student' => 'student.home',
             default => 'website',
         };
 

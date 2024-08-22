@@ -1,4 +1,4 @@
-@if (Route::is(['student.website']))
+@if (Route::is(['student.website', 'student.profile', 'student.home', 'student.subjects']))
     <!-- Footer -->
     <footer class="footer">
 
