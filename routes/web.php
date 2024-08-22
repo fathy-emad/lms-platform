@@ -502,7 +502,7 @@ Route::name("student.")->middleware("entity.locale")->group(function (){
         //profile pages
         Route::prefix("home")->group(function (){
             Route::get('', function () { return view('website.index'); })->name('home');
-            Route::view("subjects/{year_id?}", "website.home.subjects")->name("subjects");
+            Route::view("curricula/{year_id?}", "website.home.curricula")->name("curricula");
 //            Route::view("years", "website.home.stages")->name("stages");
 //            Route::view("subjects", "website.home.stages")->name("stages");
         });

@@ -1,6 +1,6 @@
 @extends('website_layouts.mainlayout')
 
-@section('title') {{ __("lang.subjects") }} @endsection
+@section('title') {{ __("lang.curricula") }} @endsection
 @section('style')
 @endsection
 
@@ -30,8 +30,6 @@
         }])
         ->find(request('year_id'));
     @endphp
-
-
 
 
     <!-- Page Wrapper -->

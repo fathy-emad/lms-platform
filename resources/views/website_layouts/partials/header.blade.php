@@ -51,7 +51,7 @@
         'course-details',
         'faq',
         'support',
-        'student.subjects',
+        'student.curricula',
         'cart',
         'checkout',
         'blog-list',
@@ -126,7 +126,7 @@
         'course-details',
         'faq',
         'support',
-        'student.subjects',
+        'student.curricula',
         'cart',
         'checkout',
         'blog-list',
@@ -177,7 +177,7 @@
                 <ul class="main-nav">
                     <li class="has-submenu active"><a class="" href="#">{{ __("lang.home") }}</a></li>
                     <li class="has-submenu">
-                        <a href="#">{{ __("lang.years") }} <i class="fas fa-chevron-down"></i></a>
+                        <a href="#">{{ __("lang.curricula") }} <i class="fas fa-chevron-down"></i></a>
                         @php
                             $stages = \App\Models\Stage::with(['years' => function($query) {
                                                             $query->where('ActiveEnum', \App\Enums\ActiveEnum::Active->value)
@@ -194,7 +194,7 @@
                                     @if($stage->years->count())
                                         <ul class="submenu">
                                             @foreach($stage->years as $year)
-                                                <li class=""><a href="{{ route("student.subjects", ["year_id" => $year->id]) }}">{{ $year->yearTranslate->translates[app()->getLocale()] }}</a></li>
+                                                <li class=""><a href="{{ route("student.curricula", ["year_id" => $year->id]) }}">{{ $year->yearTranslate->translates[app()->getLocale()] }}</a></li>
                                             @endforeach
                                         </ul>
                                     @endif

@@ -31,7 +31,7 @@
         'course-list',
         'faq',
         'help-center',
-        'student.subjects',
+        'student.curricula',
         'notifications',
         'pricing-plan',
         'privacy-policy',
@@ -126,7 +126,7 @@
     <!-- /Breadcrumb -->
 @endif
 
-@if(Route::is(['students-grid','students-list','blog-details','blog-grid','blog-list','blog-masonry','blog-modern','cart','course-grid','course-list','faq','help-center','student.subjects','notifications','pricing-plan','privacy-policy','support','term-condition','wishlist']))
+@if(Route::is(['students-grid','students-list','blog-details','blog-grid','blog-list','blog-masonry','blog-modern','cart','course-grid','course-list','faq','help-center','student.curricula','notifications','pricing-plan','privacy-policy','support','term-condition','wishlist']))
 	<!-- Breadcrumb -->
     <div class="breadcrumb-bar">
         <div class="container">
