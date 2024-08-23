@@ -33,6 +33,11 @@ class Curriculum extends Model
         return $this->belongsTo(Translate::class, 'curriculum');
     }
 
+    public function chapters(): HasMany
+    {
+        return $this->hasMany(Chapter::class, "curriculum_id");
+    }
+
     public function courses(): HasMany
     {
         return $this->hasMany(Course::class, "curriculum_id");

@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Enums\ActiveEnum;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Course extends Model
 {
@@ -26,6 +27,16 @@ class Course extends Model
     public function curriculum(): BelongsTo
     {
         return $this->belongsTo(Curriculum::class, 'curriculum_id');
+    }
+
+    public function enrollments(): HasMany
+    {
+        return $this->hasMany(Enrollment::class, "course_id");
+    }
+
+    public function materials(): HasMany
+    {
+        return $this->hasMany(Material::class, "course_id");
     }
 
     public function teacher(): BelongsTo

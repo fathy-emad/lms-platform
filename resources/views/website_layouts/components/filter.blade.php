@@ -1,4 +1,4 @@
-@if (!Route::is(['course-grid', 'course-list']))
+@if (!Route::is(['student.courses', 'course-list']))
     <!-- Filter -->
     <div class="showing-list">
         <div class="row">
@@ -52,15 +52,15 @@
     </div>
     <!-- /Filter -->
 @endif
-@if (Route::is(['course-grid', 'course-list']))
+@if (Route::is(['student.courses', 'course-list']))
     <!-- Filter -->
     <div class="showing-list">
         <div class="row">
             <div class="col-lg-6">
                 <div class="d-flex align-items-center">
                     <div class="view-icons">
-                        <a href="{{ url('course-grid') }}"
-                            class="grid-view {{ Request::is('course-grid') ? 'active' : '' }}"><i
+                        <a href="{{ route('student.courses') }}"
+                            class="grid-view {{ Route::is('student.courses') ? 'active' : '' }}"><i
                                 class="feather-grid"></i></a>
                         <a href="{{ url('course-list') }}"
                             class="list-view {{ Request::is('course-list') ? 'active' : '' }}"><i

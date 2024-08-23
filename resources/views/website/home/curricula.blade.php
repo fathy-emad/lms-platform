@@ -2,6 +2,30 @@
 
 @section('title') {{ __("lang.curricula") }} @endsection
 @section('style')
+    <style>
+        .curriculum-types{
+            background: #ffffff;
+            box-shadow: 0px 0px 6px rgba(227, 227, 227, 0.85);
+            border-radius: 0px 0px 10px 10px;
+            padding: 20px;
+            margin-bottom: 30px;
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: flex;
+            -webkit-box-align: center;
+            -ms-flex-align: center;
+            align-items: center;
+            justify-content: space-between;
+            -webkit-justify-content: space-between;
+            -ms-flex-pack: space-between;
+        }
+
+        .edu-wrap {
+            display: inline-block;
+            word-wrap: break-word;
+            max-width: 100%;
+        }
+    </style>
 @endsection
 
 @section('content')
@@ -65,19 +89,36 @@
                                 <div class="tab-pane fade show {{ $loop->first ? 'active' : '' }}" id="subject_{{$subject->id}}">
                                     <div class="row">
                                         @foreach($subject->curricula as $curriculum)
-                                            <div class="col-lg-4 col-md-6">
-                                                <div class="category-box">
+                                            <div class="col-lg-4 col-md-6 mb-3">
+                                                <div class="category-box mb-0" style="border-bottom-left-radius: 0 !important;border-bottom-right-radius: 0 !important;">
                                                     <div class="category-title">
-                                                        <div class="category-img">
-                                                            <img src="{{ URL::asset('/build/img/category/category-01.jpg') }}"
-                                                                 alt="">
-                                                        </div>
-                                                        <h5>{{ $curriculum->curriculumTranslate->translates[app()->getLocale()] }}</h5>
+                                                        <h5><a href="{{ $curriculum->courses->count() ? route("student.courses", ["curriculum_id" => $curriculum->id]) : "#" }}">{{ $curriculum->curriculumTranslate->translates[app()->getLocale()] }}</a></h5>
                                                     </div>
                                                     <div class="cat-count">
                                                         <span>{{ $curriculum->courses->count() }}</span>
                                                     </div>
                                                 </div>
+
+                                                @if($curriculum->EduTermsEnums->count() || $curriculum->EduTypesEnums->count())
+                                                    <div class="category-box p-3 curriculum-types">
+                                                        <div class="row">
+                                                            @if($curriculum->EduTermsEnums->count())
+                                                                <div class="col-12">
+                                                                    @foreach($curriculum->EduTermsEnums as $term)
+                                                                        <small class="rounded rounded-2 text-center text-light p-2 mb-1 edu-wrap" style="background: #ff5364;">{{ $term->title() }}</small>
+                                                                    @endforeach
+                                                                </div>
+                                                            @endif
+                                                            @if($curriculum->EduTypesEnums->count())
+                                                                <div class="col-12">
+                                                                    @foreach($curriculum->EduTypesEnums as $type)
+                                                                        <small class="rounded rounded-2 text-center text-light p-2 mb-1 edu-wrap" style="background: #000000;">{{ $type->title() }}</small>
+                                                                    @endforeach
+                                                                </div>
+                                                            @endif
+                                                        </div>
+                                                    </div>
+                                                @endif
                                             </div>
                                         @endforeach
                                     </div>
@@ -87,51 +128,7 @@
                         <!-- /Category List -->
 
                     @else
-                        <div class="error-box">
-                            <div class="error-logo">
-                                <a href="{{ url('index') }}">
-                                    <img src="{{ URL::asset('/build/img/logo.svg') }}" class="img-fluid" alt="Logo">
-                                </a>
-                            </div>
-                            <h4>WE ARE COMING SOON!!</h4>
-                            <h6 class="font-weight-normal">Stay tuned for something amazing</h6>
-                            <div class="countdown-container">
-                                <div class="countdown-el days-c">
-                                    <p class="big-text" id="days">0</p>
-                                    <span>Days</span>
-                                </div>
-                                <div class="countdown-el hours-c">
-                                    <p class="big-text" id="hours">0</p>
-                                    <span>hrs</span>
-                                </div>
-                                <div class="countdown-el mins-c">
-                                    <p class="big-text" id="mins">0</p>
-                                    <span>mins</span>
-                                </div>
-                            </div>
-                            <div class="error-box-img">
-                                <img src="{{ URL::asset('/build/img/come-soon.png') }}" alt="" class="img-fluid">
-                            </div>
-                            <div class="come-soon-box">
-                                <h5 class="h4 font-weight-normal">Subscribe to our mailing list to get latest updates</h5>
-                                <div class="subscribe-soon">
-                                    <form>
-                                        <div class="input-group mb-3">
-                                            <input type="text" class="form-control" placeholder="Email">
-                                            <button class="btn btn-danger" type="button">Subscribe</button>
-                                        </div>
-                                    </form>
-                                </div>
-                                <div class="social-icon-soon">
-                                    <ul>
-                                        <li><a href="javascript:;"><i class="fa-brands fa-facebook face-book"></i></a></li>
-                                        <li><a href="javascript:;"><i class="fa-brands fa-twitter twit-ter"></i></a></li>
-                                        <li><a href="javascript:;"><i class="fa-brands fa-instagram insta-gram"></i></a></li>
-                                        <li><a href="javascript:;"><i class="fa-brands fa-linkedin linked-in"></i></a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
+                        @include("website_layouts.components.errors.coming_soon")
                     @endif
                 </div>
             </div>

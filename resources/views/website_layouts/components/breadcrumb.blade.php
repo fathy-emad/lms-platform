@@ -18,7 +18,7 @@
         'student-notifications',
         'student-quiz-details',
         'checkout',
-        'course-details',
+        'student.course',
         'students-grid',
         'students-list',
         'blog-details',
@@ -27,7 +27,7 @@
         'blog-masonry',
         'blog-modern',
         'cart',
-        'course-grid',
+        'student.courses',
         'course-list',
         'faq',
         'help-center',
@@ -60,7 +60,7 @@
     <!-- /Breadcrumb -->
 @endif
 
-@if (Route::is(['checkout', 'course-details']))
+@if (Route::is(['checkout', 'student.course']))
     <!-- Breadcrumb -->
     <div class="breadcrumb-bar">
         <div class="container">
@@ -72,7 +72,7 @@
                                 <li class="breadcrumb-item"><a href="{{ url('index') }}">{{ $title }}</a></li>
                                 <li class="breadcrumb-item" aria-current="page">{{ $item1 }}</li>
                                 <li class="breadcrumb-item" aria-current="page">{{ $item2 }}</li>
-                                @if (Route::is(['course-details']))
+                                @if (Route::is(['student.course']))
                                     <li class="breadcrumb-item" aria-current="page">{{ $item3 }}</li>
                                 @endif
                             </ol>
@@ -114,7 +114,7 @@
                         <h2 class="breadcrumb-title">{{ $title }}</h2>
                         <nav aria-label="breadcrumb" class="page-breadcrumb">
                             <ol class="breadcrumb">
-                                <li class="breadcrumb-item"><a href="{{ route('student.home') }}">{{ $item1 }}</a></li>
+                                <li class="breadcrumb-item"><a href="{{ route('student.website') }}">{{ $item1 }}</a></li>
                                 <li class="breadcrumb-item active" aria-current="page">{{ $item2 }}</li>
                             </ol>
                         </nav>
@@ -126,7 +126,7 @@
     <!-- /Breadcrumb -->
 @endif
 
-@if(Route::is(['students-grid','students-list','blog-details','blog-grid','blog-list','blog-masonry','blog-modern','cart','course-grid','course-list','faq','help-center','student.curricula','notifications','pricing-plan','privacy-policy','support','term-condition','wishlist']))
+@if(Route::is(['students-grid','students-list','blog-details','blog-grid','blog-list','blog-masonry','blog-modern','cart','student.courses','course-list','faq','help-center','student.curricula','notifications','pricing-plan','privacy-policy','support','term-condition','wishlist']))
 	<!-- Breadcrumb -->
     <div class="breadcrumb-bar">
         <div class="container">
