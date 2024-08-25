@@ -12,6 +12,8 @@ class CreateRequest extends ValidateRequest
     public function rules(): array
     {
         return [
+            "title" => "required|string|min:2",
+            "description" => "required|string|min:2",
             "teacher_id" => "required|integer|exists:teachers,id",
             "curriculum_id" => [
                 "required",

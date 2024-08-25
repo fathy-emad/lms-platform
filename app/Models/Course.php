@@ -24,6 +24,16 @@ class Course extends Model
         return $costArray;
     }
 
+    public function titleTranslate(): BelongsTo
+    {
+        return $this->belongsTo(Translate::class, "title");
+    }
+
+    public function descriptionTranslate(): BelongsTo
+    {
+        return $this->belongsTo(Translate::class, "description");
+    }
+
     public function curriculum(): BelongsTo
     {
         return $this->belongsTo(Curriculum::class, 'curriculum_id');

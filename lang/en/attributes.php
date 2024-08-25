@@ -60,5 +60,6 @@ return [
     "files" => "Files",
     "FreeEnum" => "Free ?",
     "video" => "Video",
-    "TeacherCourseRequestStatusEnum" => "Course Request Status"
+    "TeacherCourseRequestStatusEnum" => "Course Request Status",
+    "video_duration" => "Video duration"
 ];

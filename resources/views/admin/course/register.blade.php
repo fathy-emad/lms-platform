@@ -53,6 +53,7 @@
                                 <thead>
                                 <tr>
                                     <th>#ID</th>
+                                    <th>{{ __("attributes.title") }}</th>
                                     <th>{{ __("attributes.stage") }}</th>
                                     <th>{{ __("attributes.year") }}</th>
                                     <th>{{ __("attributes.curriculum") }}</th>
@@ -67,6 +68,7 @@
                                 <tfoot>
                                 <tr>
                                     <th>#ID</th>
+                                    <th>{{ __("attributes.title") }}</th>
                                     <th>{{ __("attributes.stage") }}</th>
                                     <th>{{ __("attributes.year") }}</th>
                                     <th>{{ __("attributes.curriculum") }}</th>
@@ -102,6 +104,16 @@
 
                                     <div class="col-12 mb-3">
                                         <input type="hidden" name="teacher_id" value="{{request("teacher_id")}}">
+                                    </div>
+
+                                    <div class="col-12 mb-3">
+                                        <label for="title">{{ __("attributes.title") }}</label>
+                                        <input type="text" name="title" class="form-control" id="title">
+                                    </div>
+
+                                    <div class="col-12 mb-3">
+                                        <label for="description">{{ __("attributes.description") }}</label>
+                                        <textarea type="text" name="description" class="form-control" id="description"></textarea>
                                     </div>
 
                                     <div class="col-12 mb-3">
@@ -167,44 +179,65 @@
                             <div class="form-group">
                                 <div class="row">
 
-                                    <div class="col-12 mb-3">
-                                        <input type="hidden" name="teacher_id" value="{{request("teacher_id")}}">
-                                    </div>
+                                    <ul class="nav nav-pills nav-info mb-3" id="pills-infotab" role="tablist">
+                                        <li class="nav-item"><a class="nav-link active" id="update-data-tab" data-bs-toggle="pill" href="#update-data" role="tab" aria-controls="update-data" aria-selected="true" data-bs-original-title="" title=""><i class="icofont icofont-ui-home"></i>data</a></li>
+                                        <li class="nav-item"><a class="nav-link" id="update-title-translate-tab" data-bs-toggle="pill" href="#update-title-translate" role="tab" aria-controls="update-title-translate" aria-selected="false" data-bs-original-title="" title=""><i class="icofont icofont-contacts"></i>title translates</a></li>
+                                        <li class="nav-item"><a class="nav-link" id="update-desription-translate-tab" data-bs-toggle="pill" href="#update-description-translate" role="tab" aria-controls="update-description-translate" aria-selected="false" data-bs-original-title="" title=""><i class="icofont icofont-contacts"></i>description translates</a></li>
+                                    </ul>
 
-                                    <div class="col-12 mb-3">
-                                        <label for="curriculum_id">{{ __("attributes.curriculum") }}</label>
-                                        <select name="curriculum_id" class="form-control" id="curriculum_id"></select>
-                                    </div>
+                                    <div class="tab-content" id="pills-infotabContent">
 
-                                    <div class="col-12 mb-3">
-                                        <label for="cost">{{ __("attributes.cost") }}</label>
-                                        <div class="row">
+                                        <div class="tab-pane fade  active show" id="update-data" role="tabpanel" aria-labelledby="update-data-tab">
+
                                             <div class="col-12 mb-3">
-                                                <label for="cost_course">{{ __("attributes.course") }}</label>
-                                                <input class="form-control" name="cost[course]" id="cost_course" type="number" step="0.1"/>
+                                                <input type="hidden" name="teacher_id" value="{{request("teacher_id")}}">
                                             </div>
+
                                             <div class="col-12 mb-3">
-                                                <label for="cost_chapter">{{ __("attributes.chapter") }}</label>
-                                                <input class="form-control" name="cost[chapter]" id="cost_chapter" type="number" step="0.1"/>
+                                                <label for="curriculum_id">{{ __("attributes.curriculum") }}</label>
+                                                <select name="curriculum_id" class="form-control" id="curriculum_id"></select>
                                             </div>
+
                                             <div class="col-12 mb-3">
-                                                <label for="cost_lesson">{{ __("attributes.lesson") }}</label>
-                                                <input class="form-control" name="cost[lesson]" id="cost_lesson" type="number" step="0.1"/>
+                                                <label for="cost">{{ __("attributes.cost") }}</label>
+                                                <div class="row">
+                                                    <div class="col-12 mb-3">
+                                                        <label for="cost_course">{{ __("attributes.course") }}</label>
+                                                        <input class="form-control" name="cost[course]" id="cost_course" type="number" step="0.1"/>
+                                                    </div>
+                                                    <div class="col-12 mb-3">
+                                                        <label for="cost_chapter">{{ __("attributes.chapter") }}</label>
+                                                        <input class="form-control" name="cost[chapter]" id="cost_chapter" type="number" step="0.1"/>
+                                                    </div>
+                                                    <div class="col-12 mb-3">
+                                                        <label for="cost_lesson">{{ __("attributes.lesson") }}</label>
+                                                        <input class="form-control" name="cost[lesson]" id="cost_lesson" type="number" step="0.1"/>
+                                                    </div>
+                                                </div>
                                             </div>
+
+                                            <div class="col-12 mb-3">
+                                                <label for="percentage">{{ __("attributes.percentage") }}</label>
+                                                <input class="form-control" name="percentage" id="percentage" type="number" step="0.1"/>
+                                            </div>
+
+                                            <div class="col-sm-12 mb-3 media">
+                                                <label class="col-form-label m-r-10">{{ __("attributes.ActiveEnum") }}</label>
+                                                <div class="media-body icon-state">
+                                                    <label class="switch">
+                                                        <input type="checkbox" name="ActiveEnum" value="{{\App\Enums\ActiveEnum::Active->value}}"><span class="switch-state"></span>
+                                                    </label>
+                                                </div>
+                                            </div>
+
                                         </div>
-                                    </div>
 
-                                    <div class="col-12 mb-3">
-                                        <label for="percentage">{{ __("attributes.percentage") }}</label>
-                                        <input class="form-control" name="percentage" id="percentage" type="number" step="0.1"/>
-                                    </div>
+                                        <div class="tab-pane fade" id="update-title-translate" role="tabpanel" aria-labelledby="update-title-translate-tab">
+                                            <div class="row update-title-translates"></div>
+                                        </div>
 
-                                    <div class="col-sm-12 mb-3 media">
-                                        <label class="col-form-label m-r-10">{{ __("attributes.ActiveEnum") }}</label>
-                                        <div class="media-body icon-state">
-                                            <label class="switch">
-                                                <input type="checkbox" name="ActiveEnum" value="{{\App\Enums\ActiveEnum::Active->value}}"><span class="switch-state"></span>
-                                            </label>
+                                        <div class="tab-pane fade" id="update-description-translate" role="tabpanel" aria-labelledby="update-description-translate-tab">
+                                            <div class="row update-description-translates"></div>
                                         </div>
                                     </div>
 
@@ -227,6 +260,8 @@
     <script src="{{asset('assets/js/select2/select2.full.min.js')}}"></script>
     <script>
         let htmlCurricula = "";
+        let titleTranslates = "";
+        let descriptionTranslates = "";
         let pageData = @json($pageData);
         let datatableUri = `{{ url("api")."/admin/course/register?where=teacher_id:".request("teacher_id")}}`;
         let datatableAuthToken = "{{session("admin_data")["jwtToken"]}}";
@@ -235,6 +270,13 @@
 
         let datatableColumns = [
             { "data": "id" },
+            { "data": "title",
+                render: function (data){
+                    let $return = "";
+                    if(data) return data.translate;
+                    return "-"
+                }
+            },
             { "data": "curriculum.subject.year.stage.stage.translate" },
             { "data": "curriculum.subject.year.year.translate" },
             { "data": "curriculum.curriculum.translate" },
@@ -284,6 +326,19 @@
             modal.find("#cost_lesson").val(data.cost["lesson"]);
             modal.find("[name=ActiveEnum]").prop("checked", data.ActiveEnum.key === "active");
             modal.find("[name=curriculum_id]").val(data.curriculum.id).trigger("change");
+
+            modal.find(".update-title-translates").find("[data-locale]").each(function (){
+                let locale = $(this).data("locale");
+                $(this).val(data.title.translates[locale] || '');
+
+            });
+
+            modal.find(".update-description-translates").find("[data-locale]").each(function (){
+                let locale = $(this).data("locale");
+                $(this).val(data.description.translates[locale] || '');
+
+            });
+
             modal.modal("show");
         }
 
@@ -326,7 +381,43 @@
                 }
             });
 
+
+            //Get languages title and description
+            $.ajax({
+                url: APP_URL + "/api/admin/setting/language",
+                type: "GET",
+                data: null,
+                processData: false,
+                contentType: false,
+                headers: {
+                    'Authorization': 'Bearer ' + "{{ session("admin_data")["jwtToken"] }}",
+                    'locale': "{{ session("locale") }}",
+                },
+                success: function(response) {
+                    let data = response.data;
+                    for (const i in data) {
+                        titleTranslates += `<div class="col-12 mb-3">
+                                                    <label for="${data[i].locale}">${data[i].language.translate}</label>
+                                                    <input data-locale="${data[i].locale}" class="form-control" id="${data[i].locale}" type="text" name="title[${data[i].locale}]" value="">
+                                                </div>`;
+                        descriptionTranslates += `<div class="col-12 mb-3">
+                                                    <label for="${data[i].locale}">${data[i].language.translate}</label>
+                                                    <input data-locale="${data[i].locale}" class="form-control" id="${data[i].locale}" type="text" name="description[${data[i].locale}]" value="">
+                                                </div>`;
+                    }
+
+                    $(".update_modal").find(".update-title-translates").append(titleTranslates);
+                    $(".update_modal").find(".update-description-translates").append(descriptionTranslates);
+                },
+                error: function(xhr, status, error) {
+                    let title = "Some thing went wrong";
+                    let message = xhr.responseText || "Unknown error";
+                    notifyForm(title, message, "danger");
+                }
+            });
+
         });
+
 
     </script>
 @endsection

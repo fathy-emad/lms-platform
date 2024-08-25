@@ -122,6 +122,11 @@
                                                     <input type="text" class="form-control" name="video" id="video" />
                                                 </div>
 
+                                                <div class="col-12 mb-3">
+                                                    <label for="video_duration">{{ __("attributes.video_duration") }} (in min)</label>
+                                                    <input type="number" class="form-control" name="video_duration" id="video_duration" />
+                                                </div>
+
                                                 <div class="col-sm-12 mb-3 imagesUploadBuilder">
                                                     <label for="images">{{ __("attributes.images") }}</label>
                                                 </div>
@@ -209,6 +214,11 @@
                                                     <input type="text" class="form-control" name="video" id="video" />
                                                 </div>
 
+                                                <div class="col-12 mb-3">
+                                                    <label for="video_duration">{{ __("attributes.video_duration") }} (in min)</label>
+                                                    <input type="number" class="form-control" name="video_duration" id="video_duration" />
+                                                </div>
+
                                                 <div class="col-sm-12 mb-3 imagesUploadBuilder">
                                                     <label for="images">{{ __("attributes.images") }}</label>
                                                 </div>
@@ -290,6 +300,11 @@
                                                 <div class="col-12 mb-3">
                                                     <label for="video">{{ __("attributes.video") }}</label>
                                                     <input type="text" class="form-control" name="video" id="video" />
+                                                </div>
+
+                                                <div class="col-12 mb-3">
+                                                    <label for="video_duration">{{ __("attributes.video_duration") }} (in min)</label>
+                                                    <input type="number" class="form-control" name="video_duration" id="video_duration" />
                                                 </div>
 
                                                 <div class="col-sm-12 mb-3 imagesUploadBuilder">
@@ -461,8 +476,10 @@
             form[0].reset();
             modal.find("[name=id]").val(data.id);
             modal.find("[name=course_id]").val(data.course_id);
+            console.log(data.lesson.id);
             modal.find("[name=lesson_id]").val(data.lesson.id).trigger("change");
             modal.find("[name=video]").val(data.video);
+            modal.find("[name=video_duration]").val(data.video_duration);
             filesUploadBuilder(modal.find(".imagesUploadBuilder"), "images", data.images, true, "image/*");
             filesUploadBuilder(modal.find(".filesUploadBuilder"), "files", data.files, true, ".txt,.pdf,.doc,.docx,.ppt,.pptx");
             modal.find("[name=ActiveEnum]").prop("checked", data.ActiveEnum.key === "active");
@@ -480,6 +497,7 @@
             questionsUpdate = data.assignment;
             modal.find("[name=lesson_id]").val(data.lesson.id).trigger("change").prop("disabled", true);
             modal.find("[name=video]").val(data.video).prop("disabled", true);
+            modal.find("[name=video_duration]").val(data.video_duration).prop("disabled", true);
             filesUploadBuilder(modal.find(".imagesUploadBuilder"), "images", data.images, true, "image/*");
             $(".imagesUploadBuilder").find("button").remove();
             filesUploadBuilder(modal.find(".filesUploadBuilder"), "files", data.files, true, ".txt,.pdf,.doc,.docx,.ppt,.pptx");

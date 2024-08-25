@@ -19,6 +19,7 @@ return new class extends Migration
             $table->unsignedBigInteger('lesson_id');
             $table->unsignedBigInteger('description');
             $table->string('video')->nullable();
+            $table->integer('video_duration')->nullable();
             $table->json('images')->nullable();
             $table->json('files')->nullable();
             $table->json('assignment')->nullable();

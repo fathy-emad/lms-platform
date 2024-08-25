@@ -26,6 +26,7 @@ class UpdateRequest extends ValidateRequest
             "description.ar" => "required|string|regex:/^[\x{0600}-\x{06FF}\s]+$/u",
             "description.*" => "nullable|string",
             'video' => 'required|string',
+            'video_duration' => 'required|integer',
             'images.*.key' => 'nullable|integer',
             'images.*.file' => 'nullable|image',
             'images.*.title' => 'nullable|string',

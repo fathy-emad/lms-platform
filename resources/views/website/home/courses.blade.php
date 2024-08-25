@@ -17,16 +17,59 @@
         @endslot
     @endcomponent
 
-    @php $courses = \App\Models\Course::with(["curriculum.chapters" => function ($query) {
-                            $query->where("ActiveEnum", \App\Enums\ActiveEnum::Active->value)
-                            ->withCount(["lessons" => function ($query) {
-                                $query->where("ActiveEnum", \App\Enums\ActiveEnum::Active->value);
-                            }]);
-                    }])
-                    ->where("curriculum_id", request("curriculum_id"))
-                    ->where("ActiveEnum", \App\Enums\ActiveEnum::Active->value)
-                    ->orderBy("id", "desc")
-                    ->get();
+    @php
+        $perPage = 3;
+        $filter = request("filter");
+
+        if (!$filter || $filter == "newest")
+        {
+            $column = "id";
+            $order = "desc";
+        } elseif ($filter == "oldest") {
+            $column = "id";
+            $order = "asc";
+        } else {
+            $column = \Illuminate\Support\Facades\DB::raw("CAST(JSON_UNQUOTE(JSON_EXTRACT(cost, '$.course')) AS UNSIGNED)");
+            $order = $filter == "price_low" ? "asc" : "desc";
+        }
+
+        $courses = \App\Models\Course::with(["curriculum.chapters" => function ($query) {
+                        $query->where("ActiveEnum", \App\Enums\ActiveEnum::Active->value)
+                        ->withCount(["lessons" => function ($query) {
+                            $query->where("ActiveEnum", \App\Enums\ActiveEnum::Active->value);
+                        }]);
+                }])
+                ->withSum("materials", "video_duration")
+                ->where("curriculum_id", request("curriculum_id"))
+                ->where("ActiveEnum", \App\Enums\ActiveEnum::Active->value)
+                ->orderBy($column, $order)
+                ->paginate($perPage);
+
+        $curriculum = \App\Models\Curriculum::find(request("curriculum_id"));
+        $current_year_id = $curriculum->subject->year->id;
+        $current_subject_id = $curriculum->subject->id;
+
+        $latestCoursesData = \App\Models\Course::whereHas('curriculum.subject.year', function ($query) use ($current_year_id) {
+                $query->where('id', $current_year_id);
+            })
+            ->whereHas('curriculum.subject', function ($query) use ($current_subject_id) {
+                $query->where('id', '!=', $current_subject_id); // Exclude the current subject
+            })
+            ->select('curriculum_id', \Illuminate\Support\Facades\DB::raw('MAX(created_at) as latest_course_date'))
+            ->groupBy('curriculum_id')
+            ->orderBy('latest_course_date', 'desc')
+            ->get();
+
+
+        $latestCourses = \App\Models\Course::whereIn(\Illuminate\Support\Facades\DB::raw('CONCAT(curriculum_id, created_at)'), function ($query) use ($latestCoursesData) {
+            $query->select(\Illuminate\Support\Facades\DB::raw('CONCAT(curriculum_id, MAX(created_at))'))
+              ->from('courses')
+              ->whereIn('curriculum_id', $latestCoursesData->pluck('curriculum_id')->toArray())
+              ->groupBy('curriculum_id');
+             })
+            ->with(['curriculum.subject.subject.subjectTranslate', 'curriculum.curriculumTranslate'])
+            ->get();
+
     @endphp
 
     @if($courses->count())
@@ -36,7 +79,11 @@
             <div class="container">
                 <div class="row">
                     <div class="col-lg-9">
-                        @component('website_layouts.components.filter') @endcomponent
+                        @component('website_layouts.components.filter_courses')
+                            @slot('total') {{ $courses->total() }} @endslot
+                            @slot('perPage') {{ $perPage }} @endslot
+                            @slot('result') {{ $courses->count() }} @endslot
+                        @endcomponent
                         <div class="row">
 
                             @foreach($courses as $course)
@@ -60,7 +107,7 @@
                                                                 class="img-fluid"></a>
                                                         <div class="course-name">
                                                             <h4><a href="{{ url('instructor-profile') }}">{{ $course->teacher->prefix }}/ {{ $course->teacher->name }}</a></h4>
-                                                            <p>Instructor</p>
+                                                            <p>{{ __("lang.teacher") }}</p>
                                                         </div>
                                                     </div>
                                                     <div class="course-share d-flex align-items-center justify-content-center">
@@ -68,7 +115,7 @@
                                                     </div>
                                                 </div>
                                                 <h3 class="title"><a href="{{ route('student.course', ["course_id" => $course->id]) }}">
-                                                        {{ $course->title ?: "Course title" }}
+                                                        {{ $course->titleTranslate->translates[app()->getLocale()] }}
                                                     </a></h3>
 
                                                 <div class="course-info d-flex align-items-center">
@@ -78,7 +125,7 @@
                                                     </div>
                                                     <div class="course-view d-flex align-items-center">
                                                         <img src="{{ URL::asset('/build/img/icon/icon-02.svg') }}" alt="">
-                                                        <p>9hr 30min</p>
+                                                        <p>{{ floor($course->materials_sum_video_duration / 60) }} {{__("lang.hr")}} {{ $course->materials_sum_video_duration % 60 }} {{__("lang.min")}}</p>
                                                     </div>
                                                 </div>
                                                 <div class="rating">
@@ -99,237 +146,46 @@
                             @endforeach
                         </div>
 
-                        @component('website_layouts.components.pagination') @endcomponent
+                        @component('website_layouts.components.pagination', ["data" => $courses]) @endcomponent
 
                     </div>
                     <div class="col-lg-3 theiaStickySidebar">
                         <div class="filter-clear">
-                            <div class="clear-filter d-flex align-items-center">
-                                <h4><i class="feather-filter"></i>Filters</h4>
-                                <div class="clear-text">
-                                    <p>CLEAR</p>
-                                </div>
-                            </div>
 
-                            <!-- Search Filter -->
-                            <div class="card search-filter">
-                                <div class="card-body">
-                                    <div class="filter-widget mb-0">
-                                        <div class="categories-head d-flex align-items-center">
-                                            <h4>Course categories</h4>
-                                            <i class="fas fa-angle-down"></i>
-                                        </div>
-                                        <div>
-                                            <label class="custom_check">
-                                                <input type="checkbox" name="select_specialist">
-                                                <span class="checkmark"></span> Backend (3)
-
-                                            </label>
-                                        </div>
-                                        <div>
-                                            <label class="custom_check">
-                                                <input type="checkbox" name="select_specialist">
-                                                <span class="checkmark"></span> CSS (2)
-                                            </label>
-                                        </div>
-                                        <div>
-                                            <label class="custom_check">
-                                                <input type="checkbox" name="select_specialist">
-                                                <span class="checkmark"></span> Frontend (2)
-                                            </label>
-                                        </div>
-                                        <div>
-                                            <label class="custom_check">
-                                                <input type="checkbox" name="select_specialist" checked>
-                                                <span class="checkmark"></span> General (2)
-                                            </label>
-                                        </div>
-                                        <div>
-                                            <label class="custom_check">
-                                                <input type="checkbox" name="select_specialist" checked>
-                                                <span class="checkmark"></span> IT & Software (2)
-                                            </label>
-                                        </div>
-                                        <div>
-                                            <label class="custom_check">
-                                                <input type="checkbox" name="select_specialist">
-                                                <span class="checkmark"></span> Photography (2)
-                                            </label>
-                                        </div>
-                                        <div>
-                                            <label class="custom_check">
-                                                <input type="checkbox" name="select_specialist">
-                                                <span class="checkmark"></span> Programming Language (3)
-                                            </label>
-                                        </div>
-                                        <div>
-                                            <label class="custom_check mb-0">
-                                                <input type="checkbox" name="select_specialist">
-                                                <span class="checkmark"></span> Technology (2)
-                                            </label>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- /Search Filter -->
-
-                            <!-- Search Filter -->
-                            <div class="card search-filter">
-                                <div class="card-body">
-                                    <div class="filter-widget mb-0">
-                                        <div class="categories-head d-flex align-items-center">
-                                            <h4>Instructors</h4>
-                                            <i class="fas fa-angle-down"></i>
-                                        </div>
-                                        <div>
-                                            <label class="custom_check">
-                                                <input type="checkbox" name="select_specialist">
-                                                <span class="checkmark"></span> Keny White (10)
-
-                                            </label>
-                                        </div>
-                                        <div>
-                                            <label class="custom_check">
-                                                <input type="checkbox" name="select_specialist">
-                                                <span class="checkmark"></span> Hinata Hyuga (5)
-                                            </label>
-                                        </div>
-                                        <div>
-                                            <label class="custom_check">
-                                                <input type="checkbox" name="select_specialist">
-                                                <span class="checkmark"></span> John Doe (3)
-                                            </label>
-                                        </div>
-                                        <div>
-                                            <label class="custom_check mb-0">
-                                                <input type="checkbox" name="select_specialist" checked>
-                                                <span class="checkmark"></span> Nicole Brown
-                                            </label>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- /Search Filter -->
-
-                            <!-- Search Filter -->
-                            <div class="card search-filter ">
-                                <div class="card-body">
-                                    <div class="filter-widget mb-0">
-                                        <div class="categories-head d-flex align-items-center">
-                                            <h4>Price</h4>
-                                            <i class="fas fa-angle-down"></i>
-                                        </div>
-                                        <div>
-                                            <label class="custom_check custom_one">
-                                                <input type="radio" name="select_specialist">
-                                                <span class="checkmark"></span> All (18)
-
-                                            </label>
-                                        </div>
-                                        <div>
-                                            <label class="custom_check custom_one">
-                                                <input type="radio" name="select_specialist">
-                                                <span class="checkmark"></span> Free (3)
-
-                                            </label>
-                                        </div>
-                                        <div>
-                                            <label class="custom_check custom_one mb-0">
-                                                <input type="radio" name="select_specialist" checked>
-                                                <span class="checkmark"></span> Paid (15)
-                                            </label>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- /Search Filter -->
 
                             <!-- Latest Posts -->
                             <div class="card post-widget ">
                                 <div class="card-body">
                                     <div class="latest-head">
-                                        <h4 class="card-title">Latest Courses</h4>
+                                        <h4 class="card-title">Latest courses for you</h4>
                                     </div>
                                     <ul class="latest-posts">
-                                        <li>
-                                            <div class="post-thumb">
-                                                <a href="{{ url('course-details') }}">
-                                                    <img class="img-fluid"
-                                                         src="{{ URL::asset('/build/img/blog/blog-01.jpg') }}"
-                                                         alt="">
-                                                </a>
-                                            </div>
-                                            <div class="post-info free-color">
-                                                <h4>
-                                                    <a href="{{ url('course-details') }}">Introduction LearnPress – LMS
-                                                        plugin</a>
-                                                </h4>
-                                                <p>FREE</p>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="post-thumb">
-                                                <a href="{{ url('course-details') }}">
-                                                    <img class="img-fluid"
-                                                         src="{{ URL::asset('/build/img/blog/blog-02.jpg') }}"
-                                                         alt="">
-                                                </a>
-                                            </div>
-                                            <div class="post-info">
-                                                <h4>
-                                                    <a href="{{ url('course-details') }}">Become a PHP Master and Make
-                                                        Money</a>
-                                                </h4>
-                                                <p>$200</p>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="post-thumb">
-                                                <a href="{{ url('course-details') }}">
-                                                    <img class="img-fluid"
-                                                         src="{{ URL::asset('/build/img/blog/blog-03.jpg') }}"
-                                                         alt="">
-                                                </a>
-                                            </div>
-                                            <div class="post-info free-color">
-                                                <h4>
-                                                    <a href="{{ url('course-details') }}">Learning jQuery Mobile for
-                                                        Beginners</a>
-                                                </h4>
-                                                <p>FREE</p>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="post-thumb">
-                                                <a href="{{ url('course-details') }}">
-                                                    <img class="img-fluid"
-                                                         src="{{ URL::asset('/build/img/blog/blog-01.jpg') }}"
-                                                         alt="">
-                                                </a>
-                                            </div>
-                                            <div class="post-info">
-                                                <h4>
-                                                    <a href="{{ url('course-details') }}">Improve Your CSS Workflow with
-                                                        SASS</a>
-                                                </h4>
-                                                <p>$200</p>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="post-thumb ">
-                                                <a href="{{ url('course-details') }}">
-                                                    <img class="img-fluid"
-                                                         src="{{ URL::asset('/build/img/blog/blog-02.jpg') }}"
-                                                         alt="">
-                                                </a>
-                                            </div>
-                                            <div class="post-info free-color">
-                                                <h4>
-                                                    <a href="{{ url('course-details') }}">HTML5/CSS3 Essentials in 4-Hours</a>
-                                                </h4>
-                                                <p>FREE</p>
-                                            </div>
-                                        </li>
+
+                                        @foreach($latestCourses as $latest)
+                                            <li>
+                                                <div class="post-thumb">
+                                                    <a href="{{ route('student.course', ["course_id" => $latest->id]) }}">
+                                                        <img class="img-fluid"
+                                                             src="{{ URL::asset('/build/img/blog/blog-01.jpg') }}"
+                                                             alt="">
+                                                    </a>
+                                                </div>
+                                                <div class="post-info free-color">
+                                                    <h4>
+                                                        <a href="{{ route('student.course', ["course_id" => $latest->id]) }}">
+                                                            {{ $latest->titleTranslate->translates[app()->getLocale()] }}
+                                                        </a>
+                                                    </h4>
+                                                    <small>
+                                                        <a href="{{ route('student.courses', ["curriculum_id" => $latest->curriculum->id]) }}">
+                                                            ({{ $latest->curriculum->subject->subject->subjectTranslate->translates[app()->getLocale()] }}) -
+                                                            {{ $latest->curriculum->curriculumTranslate->translates[app()->getLocale()] }}
+                                                        </a>
+                                                    </small>
+                                                    <p>{{ $latest->cost["course"] }} LE</p>
+                                                </div>
+                                            </li>
+                                        @endforeach
                                     </ul>
                                 </div>
                             </div>

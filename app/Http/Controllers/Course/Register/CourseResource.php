@@ -24,6 +24,8 @@ class CourseResource extends JsonResource
         $return = match ($request->attributes->get('guard')) {
             "teacher" => [
                 "id" => $this->id,
+                "title" => new TranslationResource($this->titleTranslate),
+                "description" => new TranslationResource($this->descriptionTranslate),
                 "stage" => new TranslationResource($this->curriculum->subject->year->stage->stageTranslate),
                 "year" => new TranslationResource($this->curriculum->subject->year->yearTranslate),
                 "subject" => new TranslationResource($this->curriculum->subject->subject->subjectTranslate),
@@ -37,6 +39,8 @@ class CourseResource extends JsonResource
             default => [
                 "id" => $this->id,
                 "teacher" => new RegisterResource($this->teacher),
+                "title" => new TranslationResource($this->titleTranslate),
+                "description" => new TranslationResource($this->descriptionTranslate),
                 "curriculum" => new CurriculumResource($this->curriculum),
                 "cost" => $this->cost,
                 "percentage" => $this->percentage,

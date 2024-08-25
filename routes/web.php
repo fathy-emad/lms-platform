@@ -504,10 +504,9 @@ Route::name("student.")->middleware("entity.locale")->group(function (){
     //website guest/auth
     Route::middleware("entity.student")->group(function (){
         Route::get('/', function () { return view('website.index'); })->name('website');
-        Route::view("curricula/{year_id?}", "website.home.curricula")->name("curricula");
-        Route::view("courses/{curriculum_id?}", "website.home.courses")->name("courses");
-        Route::view("course/{course_id?}", "website.home.course")->name("course");
-
+        Route::view("curricula/{year_id}", "website.home.curricula")->name("curricula");
+        Route::view("courses/{curriculum_id}/{filter?}", "website.home.courses")->name("courses");
+        Route::view("course/{course_id}", "website.home.course")->name("course");
     });
 
 

@@ -24,6 +24,7 @@ class CreateRequest extends ValidateRequest
             ],
             'description' => 'required|string|min:2',
             'video' => 'required|string',
+            'video_duration' => 'required|integer',
             'images.*.file' => 'nullable|image',
             'images.*.title' => 'nullable|string',
             'files.*.file' => 'nullable|mimes:pdf,doc,docx,txt,ppt,pptx',

@@ -16,6 +16,12 @@ class UpdateRequest extends ValidateRequest
     {
         return [
             "id" => "required|integer|exists:courses,id",
+            "title" => "required|array|min:1",
+            "title.ar" => "required|string|regex:/^[\x{0600}-\x{06FF}\s]+$/u",
+            "title.*" => "nullable|string",
+            "description" => "required|array|min:1",
+            "description.ar" => "required|string|regex:/^[\x{0600}-\x{06FF}\s]+$/u",
+            "description.*" => "nullable|string",
             "teacher_id" => "required|integer|exists:teachers,id",
             "curriculum_id" => [
                 "required",

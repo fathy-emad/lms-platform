@@ -72,7 +72,12 @@
         'translate' => 'Translates',
         'goTo' => 'Go to',
         'save' => 'Save',
-        'language' => 'Language'
+        'language' => 'Language',
+        'lessons' => 'Lessons',
+        'hr' => 'hr',
+        'min' => 'min',
+        'teacher' => 'Teacher',
+        'buy_now' => 'Buy now'
 
 	];
 ?>
