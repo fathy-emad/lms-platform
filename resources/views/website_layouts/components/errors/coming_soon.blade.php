@@ -6,22 +6,8 @@
     </div>
     <h4>WE ARE COMING SOON!!</h4>
     <h6 class="font-weight-normal">Stay tuned for something amazing</h6>
-    <div class="countdown-container">
-        <div class="countdown-el days-c">
-            <p class="big-text" id="days">0</p>
-            <span>Days</span>
-        </div>
-        <div class="countdown-el hours-c">
-            <p class="big-text" id="hours">0</p>
-            <span>hrs</span>
-        </div>
-        <div class="countdown-el mins-c">
-            <p class="big-text" id="mins">0</p>
-            <span>mins</span>
-        </div>
-    </div>
     <div class="error-box-img">
-        <img src="{{ URL::asset('/build/img/come-soon.png') }}" alt="" class="img-fluid">
+        <img src="{{ URL::asset('/build/img/error-02.png') }}" alt="" class="img-fluid">
     </div>
     <div class="come-soon-box">
         <h5 class="h4 font-weight-normal">Subscribe to our mailing list to get latest updates</h5>

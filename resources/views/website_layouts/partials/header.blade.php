@@ -276,13 +276,13 @@
                                         <div class="media">
                                             <div class="d-flex media-wide">
                                                 <div class="avatar">
-                                                    <a href="{{ route('student.course') }}">
+                                                    <a href="#">
                                                         <img alt="Img"
                                                              src="{{ URL::asset('/build/img/course/course-04.jpg') }}">
                                                     </a>
                                                 </div>
                                                 <div class="media-body">
-                                                    <h6><a href="{{ route('student.course') }}">Learn
+                                                    <h6><a href="#">Learn
                                                             Angular...</a></h6>
                                                     <p>By Dave Franco</p>
                                                     <h5>$200 <span>$99.00</span></h5>
@@ -297,13 +297,13 @@
                                         <div class="media">
                                             <div class="d-flex media-wide">
                                                 <div class="avatar">
-                                                    <a href="{{ route('student.course') }}">
+                                                    <a href="#">
                                                         <img alt="Img"
                                                              src="{{ URL::asset('/build/img/course/course-14.jpg') }}">
                                                     </a>
                                                 </div>
                                                 <div class="media-body">
-                                                    <h6><a href="{{ route('student.course') }}">Build Responsive
+                                                    <h6><a href="#">Build Responsive
                                                             Real...</a>
                                                     </h6>
                                                     <p>Jenis R.</p>
@@ -319,13 +319,13 @@
                                         <div class="media">
                                             <div class="d-flex media-wide">
                                                 <div class="avatar">
-                                                    <a href="{{ route('student.course') }}">
+                                                    <a href="#">
                                                         <img alt="Img"
                                                              src="{{ URL::asset('/build/img/course/course-15.jpg') }}">
                                                     </a>
                                                 </div>
                                                 <div class="media-body">
-                                                    <h6><a href="{{ route('student.course') }}">C# Developers
+                                                    <h6><a href="#">C# Developers
                                                             Double ...</a>
                                                     </h6>
                                                     <p>Jesse Stevens</p>

@@ -22,7 +22,7 @@
         @endslot
     @endcomponent
 
-    @php $course = \App\Models\Course::with(["curriculum.chapters" => function ($query) {
+    @php $course = \App\Models\Course::with(["teacher.courses", "curriculum.chapters" => function ($query) {
                             $query->where("ActiveEnum", \App\Enums\ActiveEnum::Active->value)
                             ->with(["lessons" => function ($query) {
                                 $query->where("ActiveEnum", \App\Enums\ActiveEnum::Active->value);
@@ -135,8 +135,7 @@
                                     </div>
                                     <div class="col-sm-6 text-sm-end">
                                         <h6>
-                                            ({{ array_sum(array_column($course->curriculum->chapters->toArray(), "lessons_count")) }}
-                                            ) {{ __("lang.lesson") }}
+                                            ({{ array_sum(array_column($course->curriculum->chapters->toArray(), "lessons_count")) }}) {{ __("lang.lesson") }}
                                             {{ floor($course->materials_sum_video_duration / 60) }} {{__("lang.hr")}} {{ $course->materials_sum_video_duration % 60 }} {{__("lang.min")}}
                                         </h6>
                                     </div>
@@ -150,8 +149,7 @@
                                                    href="#collapseOne_{{$chapter->id}}"
                                                    aria-expanded="false">{{$chapter->chapterTranslate->translates[app()->getLocale()]}}</a>
                                             </h6>
-                                            <div id="collapseOne_{{$chapter->id}}" class="card-collapse collapse"
-                                                 style="">
+                                            <div id="collapseOne_{{$chapter->id}}" class="card-collapse collapse" style="">
                                                 <ul>
                                                     @if($chapter->lessons->count())
                                                         @foreach($chapter->lessons as $lesson)
@@ -188,148 +186,148 @@
                                     @endforeach
                                 @else
                                     @include("website_layouts.components.errors.coming_soon")
-                                    <div class="error-box">
-                                        @endif
-                                    </div>
-                            </div>
-                            <!-- /Course Content -->
 
-                            <!-- Instructor -->
-                            <div class="card instructor-sec">
-                                <div class="card-body">
-                                    <h5 class="subs-title">About the instructor</h5>
-                                    <div class="instructor-wrap">
-                                        <div class="about-instructor">
-                                            <div class="abt-instructor-img">
-                                                <a href="{{ url('instructor-profile') }}"><img
-                                                        src="{{ URL::asset('/build/img/user/user1.jpg') }}" alt="img"
-                                                        class="img-fluid"></a>
-                                            </div>
-                                            <div class="instructor-detail">
-                                                <h5><a href="{{ url('instructor-profile') }}">Nicole Brown</a></h5>
-                                                <p>UX/UI Designer</p>
-                                            </div>
-                                        </div>
-                                        <div class="rating">
-                                            <i class="fas fa-star filled"></i>
-                                            <i class="fas fa-star filled"></i>
-                                            <i class="fas fa-star filled"></i>
-                                            <i class="fas fa-star filled"></i>
-                                            <i class="fas fa-star"></i>
-                                            <span class="d-inline-block average-rating">4.5 Instructor Rating</span>
-                                        </div>
-                                    </div>
-                                    <div class="course-info d-flex align-items-center">
-                                        <div class="cou-info">
-                                            <img src="{{ URL::asset('/build/img/icon/play.svg') }}" alt="">
-                                            <p>5 Courses</p>
-                                        </div>
-                                        <div class="cou-info">
-                                            <img src="{{ URL::asset('/build/img/icon/icon-01.svg') }}" alt="">
-                                            <p>12+ Lesson</p>
-                                        </div>
-                                        <div class="cou-info">
-                                            <img src="{{ URL::asset('/build/img/icon/icon-02.svg') }}" alt="">
-                                            <p>9hr 30min</p>
-                                        </div>
-                                        <div class="cou-info">
-                                            <img src="{{ URL::asset('/build/img/icon/people.svg') }}" alt="">
-                                            <p>270,866 students enrolled</p>
-                                        </div>
-                                    </div>
-                                    <p>UI/UX Designer, with 7+ Years Experience. Guarantee of High Quality Work.</p>
-                                    <p>Skills: Web Design, UI Design, UX/UI Design, Mobile Design, User Interface
-                                        Design, Sketch,
-                                        Photoshop, GUI, Html, Css, Grid Systems, Typography, Minimal, Template, English,
-                                        Bootstrap,
-                                        Responsive Web Design, Pixel Perfect, Graphic Design, Corporate, Creative, Flat,
-                                        Luxury and
-                                        much more.</p>
-                                    <p>Available for:</p>
-                                    <ul>
-                                        <li>1. Full Time Office Work</li>
-                                        <li>2. Remote Work</li>
-                                        <li>3. Freelance</li>
-                                        <li>4. Contract</li>
-                                        <li>5. Worldwide</li>
-                                    </ul>
-                                </div>
+                                @endif
                             </div>
-                            <!-- /Instructor -->
-
-                            <!-- Reviews -->
-                            <div class="card review-sec">
-                                <div class="card-body">
-                                    <h5 class="subs-title">Reviews</h5>
-                                    <div class="instructor-wrap">
-                                        <div class="about-instructor">
-                                            <div class="abt-instructor-img">
-                                                <a href="{{ url('instructor-profile') }}"><img
-                                                        src="{{ URL::asset('/build/img/user/user1.jpg') }}" alt="img"
-                                                        class="img-fluid"></a>
-                                            </div>
-                                            <div class="instructor-detail">
-                                                <h5><a href="{{ url('instructor-profile') }}">Nicole Brown</a></h5>
-                                                <p>UX/UI Designer</p>
-                                            </div>
-                                        </div>
-                                        <div class="rating">
-                                            <i class="fas fa-star filled"></i>
-                                            <i class="fas fa-star filled"></i>
-                                            <i class="fas fa-star filled"></i>
-                                            <i class="fas fa-star filled"></i>
-                                            <i class="fas fa-star filled"></i>
-                                            <span class="d-inline-block average-rating">5 Instructor Rating</span>
-                                        </div>
-                                    </div>
-                                    <p class="rev-info">“ This is the second Photoshop course I have completed with
-                                        Cristian. Worth
-                                        every penny and recommend it highly. To get the most out of this course, its
-                                        best to to take
-                                        the Beginner to Advanced course first. The sound and video quality is of a good
-                                        standard.
-                                        Thank you Cristian. “</p>
-                                    <a href="javascript:;" class="btn btn-reply"><i class="feather-corner-up-left"></i>
-                                        Reply</a>
-                                </div>
-                            </div>
-                            <!-- /Reviews -->
-
-                            <!-- Comment -->
-                            <div class="card comment-sec">
-                                <div class="card-body">
-                                    <h5 class="subs-title">Post A comment</h5>
-                                    <form>
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <div class="input-block">
-                                                    <input type="text" class="form-control" placeholder="Full Name">
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <div class="input-block">
-                                                    <input type="email" class="form-control" placeholder="Email">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="input-block">
-                                            <input type="email" class="form-control" placeholder="Subject">
-                                        </div>
-                                        <div class="input-block">
-                                            <textarea rows="4" class="form-control"
-                                                      placeholder="Your Comments"></textarea>
-                                        </div>
-                                        <div class="submit-section">
-                                            <button class="btn submit-btn" type="submit">Submit</button>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
-                            <!-- /Comment -->
-
                         </div>
+                        <!-- /Course Content -->
 
-                        <div class="col-lg-4">
+                        <!-- Instructor -->
+                        <div class="card instructor-sec">
+                            <div class="card-body">
+                                <h5 class="subs-title">About the instructor</h5>
+                                <div class="instructor-wrap">
+                                    <div class="about-instructor">
+                                        <div class="abt-instructor-img">
+                                            <a href="{{ url('instructor-profile') }}"><img
+                                                    src="{{ URL::asset($course->teacher->image ? "uploads/" . $course->teacher->image["file"] :'/build/img/user/user1.jpg') }}" alt="img"
+                                                    class="img-fluid"></a>
+                                        </div>
+                                        <div class="instructor-detail">
+                                            <h5><a href="{{ url('instructor-profile') }}">{{ $course->teacher->prefix }}/ {{ $course->teacher->name }}</a></h5>
+                                            <p>{{ __("lang.teacher") }}</p>
+                                        </div>
+                                    </div>
+                                    <div class="rating">
+                                        <i class="fas fa-star filled"></i>
+                                        <i class="fas fa-star filled"></i>
+                                        <i class="fas fa-star filled"></i>
+                                        <i class="fas fa-star filled"></i>
+                                        <i class="fas fa-star"></i>
+                                        <span class="d-inline-block average-rating">4.5 Instructor Rating</span>
+                                    </div>
+                                </div>
+                                <div class="course-info d-flex align-items-center">
+                                    <div class="cou-info">
+                                        <img src="{{ URL::asset('/build/img/icon/play.svg') }}" alt="">
+                                        <p>{{ $course->teacher->courses->count() }} {{ __("lang.courses") }}</p>
+                                    </div>
+                                    <div class="cou-info">
+                                        <img src="{{ URL::asset('/build/img/icon/icon-01.svg') }}" alt="">
+                                        <p>{{ array_sum(array_column($course->teacher->courses->loadCount("materials")->toArray(), "materials_count")) }} {{ __("lang.lesson") }}</p>
+                                    </div>
+                                    <div class="cou-info">
+                                        @php $sum_duration = array_sum(array_column($course->teacher->courses->loadSum("materials", "video_duration")->toArray(), "materials_sum_video_duration")) @endphp
+                                        <img src="{{ URL::asset('/build/img/icon/icon-02.svg') }}" alt="">
+                                        <p>{{ floor($sum_duration / 60) }} {{__("lang.hr")}} {{ $sum_duration % 60 }} {{__("lang.min")}}</p>
+                                    </div>
+                                    <div class="cou-info">
+                                        <img src="{{ URL::asset('/build/img/icon/people.svg') }}" alt="">
+                                        <p>{{ array_sum(array_column($course->teacher->courses->loadCount("enrollments")->toArray(), "enrollments_count")) }} {{ __("student_enrolled") }}</p>
+                                    </div>
+                                </div>
+                                <p>UI/UX Designer, with 7+ Years Experience. Guarantee of High Quality Work.</p>
+                                <p>Skills: Web Design, UI Design, UX/UI Design, Mobile Design, User Interface
+                                    Design, Sketch,
+                                    Photoshop, GUI, Html, Css, Grid Systems, Typography, Minimal, Template, English,
+                                    Bootstrap,
+                                    Responsive Web Design, Pixel Perfect, Graphic Design, Corporate, Creative, Flat,
+                                    Luxury and
+                                    much more.</p>
+                                <p>Available for:</p>
+                                <ul>
+                                    <li>1. Full Time Office Work</li>
+                                    <li>2. Remote Work</li>
+                                    <li>3. Freelance</li>
+                                    <li>4. Contract</li>
+                                    <li>5. Worldwide</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <!-- /Instructor -->
+
+                        <!-- Reviews -->
+                        <div class="card review-sec">
+                            <div class="card-body">
+                                <h5 class="subs-title">Reviews</h5>
+                                <div class="instructor-wrap">
+                                    <div class="about-instructor">
+                                        <div class="abt-instructor-img">
+                                            <a href="{{ url('instructor-profile') }}"><img
+                                                    src="{{ URL::asset('/build/img/user/user1.jpg') }}" alt="img"
+                                                    class="img-fluid"></a>
+                                        </div>
+                                        <div class="instructor-detail">
+                                            <h5><a href="{{ url('instructor-profile') }}">Nicole Brown</a></h5>
+                                            <p>UX/UI Designer</p>
+                                        </div>
+                                    </div>
+                                    <div class="rating">
+                                        <i class="fas fa-star filled"></i>
+                                        <i class="fas fa-star filled"></i>
+                                        <i class="fas fa-star filled"></i>
+                                        <i class="fas fa-star filled"></i>
+                                        <i class="fas fa-star filled"></i>
+                                        <span class="d-inline-block average-rating">5 Instructor Rating</span>
+                                    </div>
+                                </div>
+                                <p class="rev-info">“ This is the second Photoshop course I have completed with
+                                    Cristian. Worth
+                                    every penny and recommend it highly. To get the most out of this course, its
+                                    best to to take
+                                    the Beginner to Advanced course first. The sound and video quality is of a good
+                                    standard.
+                                    Thank you Cristian. “</p>
+                                <a href="javascript:;" class="btn btn-reply"><i class="feather-corner-up-left"></i>
+                                    Reply</a>
+                            </div>
+                        </div>
+                        <!-- /Reviews -->
+
+                        <!-- Comment -->
+                        <div class="card comment-sec">
+                            <div class="card-body">
+                                <h5 class="subs-title">Post A comment</h5>
+                                <form>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="input-block">
+                                                <input type="text" class="form-control" placeholder="Full Name">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="input-block">
+                                                <input type="email" class="form-control" placeholder="Email">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="input-block">
+                                        <input type="email" class="form-control" placeholder="Subject">
+                                    </div>
+                                    <div class="input-block">
+                                        <textarea rows="4" class="form-control"
+                                                  placeholder="Your Comments"></textarea>
+                                    </div>
+                                    <div class="submit-section">
+                                        <button class="btn submit-btn" type="submit">Submit</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        <!-- /Comment -->
+                    </div>
+
+                    <div class="col-lg-4">
                             <div class="sidebar-sec">
 
                                 <!-- Video -->

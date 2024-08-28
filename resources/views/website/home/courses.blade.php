@@ -18,7 +18,7 @@
     @endcomponent
 
     @php
-        $perPage = 3;
+        $perPage = 9;
         $filter = request("filter");
 
         if (!$filter || $filter == "newest")
@@ -149,50 +149,53 @@
                         @component('website_layouts.components.pagination', ["data" => $courses]) @endcomponent
 
                     </div>
-                    <div class="col-lg-3 theiaStickySidebar">
-                        <div class="filter-clear">
 
+                    @if($latestCourses->count())
+                        <div class="col-lg-3 theiaStickySidebar">
+                            <div class="filter-clear">
+                                <!-- Latest Posts -->
+                                <div class="card post-widget ">
+                                    <div class="card-body">
+                                        <div class="latest-head">
+                                            <h4 class="card-title">Latest courses for you</h4>
+                                        </div>
 
-                            <!-- Latest Posts -->
-                            <div class="card post-widget ">
-                                <div class="card-body">
-                                    <div class="latest-head">
-                                        <h4 class="card-title">Latest courses for you</h4>
+                                        <ul class="latest-posts">
+
+                                                @foreach($latestCourses as $latest)
+                                                    <li>
+                                                        <div class="post-thumb">
+                                                            <a href="{{ route('student.course', ["course_id" => $latest->id]) }}">
+                                                                <img class="img-fluid"
+                                                                     src="{{ URL::asset('/build/img/blog/blog-01.jpg') }}"
+                                                                     alt="">
+                                                            </a>
+                                                        </div>
+                                                        <div class="post-info free-color">
+                                                            <h4>
+                                                                <a href="{{ route('student.course', ["course_id" => $latest->id]) }}">
+                                                                    {{ $latest->titleTranslate->translates[app()->getLocale()] }}
+                                                                </a>
+                                                            </h4>
+                                                            <small>
+                                                                <a href="{{ route('student.courses', ["curriculum_id" => $latest->curriculum->id]) }}">
+                                                                    ({{ $latest->curriculum->subject->subject->subjectTranslate->translates[app()->getLocale()] }}) -
+                                                                    {{ $latest->curriculum->curriculumTranslate->translates[app()->getLocale()] }}
+                                                                </a>
+                                                            </small>
+                                                            <p>{{ $latest->cost["course"] }} LE</p>
+                                                        </div>
+                                                    </li>
+                                                @endforeach
+                                            </ul>
+
                                     </div>
-                                    <ul class="latest-posts">
-
-                                        @foreach($latestCourses as $latest)
-                                            <li>
-                                                <div class="post-thumb">
-                                                    <a href="{{ route('student.course', ["course_id" => $latest->id]) }}">
-                                                        <img class="img-fluid"
-                                                             src="{{ URL::asset('/build/img/blog/blog-01.jpg') }}"
-                                                             alt="">
-                                                    </a>
-                                                </div>
-                                                <div class="post-info free-color">
-                                                    <h4>
-                                                        <a href="{{ route('student.course', ["course_id" => $latest->id]) }}">
-                                                            {{ $latest->titleTranslate->translates[app()->getLocale()] }}
-                                                        </a>
-                                                    </h4>
-                                                    <small>
-                                                        <a href="{{ route('student.courses', ["curriculum_id" => $latest->curriculum->id]) }}">
-                                                            ({{ $latest->curriculum->subject->subject->subjectTranslate->translates[app()->getLocale()] }}) -
-                                                            {{ $latest->curriculum->curriculumTranslate->translates[app()->getLocale()] }}
-                                                        </a>
-                                                    </small>
-                                                    <p>{{ $latest->cost["course"] }} LE</p>
-                                                </div>
-                                            </li>
-                                        @endforeach
-                                    </ul>
                                 </div>
-                            </div>
-                            <!-- /Latest Posts -->
+                                <!-- /Latest Posts -->
 
+                            </div>
                         </div>
-                    </div>
+                    @endif
                 </div>
             </div>
         </section>

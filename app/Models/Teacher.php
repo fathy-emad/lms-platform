@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Enums\GenderEnum;
 use App\Enums\NamePrefixEnum;
 use App\Enums\TeacherStatusEnum;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -51,6 +52,11 @@ class Teacher extends Authenticatable implements JWTSubject
     public function stage(): BelongsTo
     {
         return $this->belongsTo(Stage::class, 'stage_id');
+    }
+
+    public function courses(): HasMany
+    {
+        return $this->hasMany(Course::class, "teacher_id");
     }
 
     public function subject(): BelongsTo
