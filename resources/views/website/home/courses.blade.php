@@ -111,7 +111,15 @@
                                                         </div>
                                                     </div>
                                                     <div class="course-share d-flex align-items-center justify-content-center">
-                                                        <a href="#rate"><i class="fa-regular fa-heart"></i></a>
+                                                        <form novalidate="" class="theme-form needs-validation" id="form" method="POST"
+                                                              authorization="{{session("student_data")["jwtToken"] ?? ''}}"
+                                                              action="{{ url("api/student/cart") }}" locale="{{app()->getLocale()}}" csrf="{{ csrf_token()}}">
+                                                            <input type="hidden" name="student_id" value="{{ auth("student")->id() }}">
+                                                            <input type="hidden" name="course_id" value="{{ $course->id }}">
+                                                            <input type="hidden" name="id"
+                                                                   value="{{ auth('student')->user() && auth('student')->user()->carts && auth('student')->user()->carts()->where('course_id', $course->id)->exists() ? (auth('student')->user()->carts()->where('course_id', $course->id)->first())->id : "" }}">
+                                                            <a href="#" onclick="cartFunctions(this)"><i class="fa-regular fa-heart {{ auth('student')->user() && auth('student')->user()->carts && auth('student')->user()->carts()->where('course_id', $course->id)->exists() ? "color-active" : "" }}"></i></a>
+                                                        </form>
                                                     </div>
                                                 </div>
                                                 <h3 class="title"><a href="{{ route('student.course', ["course_id" => $course->id]) }}">
@@ -203,4 +211,21 @@
     @else
         @include("website_layouts.components.errors.coming_soon")
     @endif
+@endsection
+
+
+@section('script')
+    <script>
+        function cartFunctions(element) {
+            let form = $(element).parent("form");
+
+            if($(element).find("i").hasClass("color-active"))
+                form.find("[name=_method").remove();
+            else
+                form.append('<input type="hidden" name="_method" value="DELETE">')
+
+            submitForm($(element), null, location.reload());
+
+        }
+    </script>
 @endsection

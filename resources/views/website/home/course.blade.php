@@ -9,7 +9,7 @@
 @section('content')
     @component('website_layouts.components.breadcrumb')
         @slot('title')
-            Home
+            {{ __("lang.home") }}
         @endslot
         @slot('item1')
             {{ __("lang.course_details") }}

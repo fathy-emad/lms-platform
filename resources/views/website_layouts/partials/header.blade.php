@@ -52,7 +52,7 @@
         'faq',
         'support',
         'student.curricula',
-        'cart',
+        'student.cart',
         'checkout',
         'blog-list',
         'blog-grid',
@@ -127,7 +127,7 @@
         'faq',
         'support',
         'student.curricula',
-        'cart',
+        'student.cart',
         'checkout',
         'blog-list',
         'blog-grid',
@@ -234,7 +234,29 @@
                             <li class="{{ app()->getLocale() !== "ar" ? 'active' : '' }}"><a href="{{ route('lang', 'en')}}">EN (English)</a></li>
                         </ul>
                     </li>
-                    <li class="login-link"><a href="{{ url('login') }}">Login / Signup</a></li>
+                    @if(!auth("student")->user())
+                        <li class="login-link"><a href="{{ route('student.auth.login') }}">{{ __("lang.login") }} / {{ __("lang.register") }}</a></li>
+                    @else
+                        <li class="login-link"><a href="{{ route('student.cart') }}">{{ __("lang.cart") }}</a></li>
+                        <li class="login-link"><a href="{{ route('student.profile') }}"><i class="feather-home"></i>{{ __("lang.profile") }}</a></li>
+                        <li class="login-link">
+                            <form id="form" method="POST"
+                                  action="{{ url("api/student/auth/logout") }}" authorization="{{ session("student_data")["jwtToken"] }}" locale="{{app()->getLocale()}}" csrf="{{ csrf_token()}}">
+                                <a class="text-white p-3" href="#" onclick="submitForm(this)">{{ __("lang.logout") }}</a>
+                            </form>
+                        </li>
+                    @endif
+                    <li class="login-link">
+                        <div class="row justify-content-start p-3">
+                            <div class="col-6">
+                                <a href="#" id="dark-mode-toggle-mobile" class="dark-mode-toggle"><i class="fa-solid fa-moon"></i></a>
+                            </div>
+                            <div class="col-6">
+                                <a href="#" id="light-mode-toggle-mobile" class="dark-mode-toggle"><i class="fa-solid fa-sun"></i></a>
+                            </div>
+                        </div>
+                    </li>
+
                 </ul>
             </div>
             <ul class="nav header-navbar-rht">
@@ -242,105 +264,72 @@
                 @if(!auth("student")->user())
                     <li class="nav-item">
                         <div>
-                            <a href="#" id="dark-mode-toggle" class="dark-mode-toggle  ">
+                            <a href="#" id="dark-mode-toggle" class="dark-mode-toggle">
                                 <i class="fa-solid fa-moon"></i>
                             </a>
-                            <a href="#" id="light-mode-toggle" class="dark-mode-toggle ">
+                            <a href="#" id="light-mode-toggle" class="dark-mode-toggle">
                                 <i class="fa-solid fa-sun"></i>
                             </a>
                         </div>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link header-sign" href="{{ route("student.auth.login") }}">Signin</a>
+                        <a class="nav-link header-sign" href="{{ route("student.auth.login") }}">{{ __("lang.login") }}</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link header-login" href="{{ route("student.auth.register") }}">Signup</a>
+                        <a class="nav-link header-login" href="{{ route("student.auth.register") }}">{{ __("lang.register") }}</a>
                     </li>
                 @else
-{{--                    <li class="nav-item">--}}
-{{--                        <a href="{{ url('student-messages') }}"><img--}}
-{{--                                src="{{ URL::asset('/build/img/icon/messages.svg') }}" alt="img"></a>--}}
-{{--                    </li>--}}
                     <li class="nav-item cart-nav">
                         <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown">
                             <img src="{{ URL::asset('/build/img/icon/cart.svg') }}" alt="img">
                         </a>
                         <div class="wishes-list dropdown-menu dropdown-menu-right">
                             <div class="wish-header">
-                                <a href="#">View Cart</a>
-                                <a href="javascript:void(0)" class="float-end">Checkout</a>
+                                <a href="{{ route("student.cart") }}">{{ __("lang.view_cart") }}</a>
+                                <a href="javascript:void(0)" class="float-end">{{ __("lang.checkout") }}</a>
                             </div>
                             <div class="wish-content">
-                                <ul>
-                                    <li>
-                                        <div class="media">
-                                            <div class="d-flex media-wide">
-                                                <div class="avatar">
-                                                    <a href="#">
-                                                        <img alt="Img"
-                                                             src="{{ URL::asset('/build/img/course/course-04.jpg') }}">
-                                                    </a>
+                                @php $total = 0 @endphp
+                                @if(auth("student")->user()->carts)
+                                    <ul>
+                                        @foreach(auth("student")->user()->carts as $item)
+                                            @php $total += $item->course->cost["course"]; @endphp
+                                            <li>
+                                                <div class="media">
+                                                    <div class="d-flex media-wide">
+                                                        <div class="avatar">
+                                                            <a href="#">
+                                                                <img alt="Img"
+                                                                     src="{{ URL::asset('/build/img/course/course-04.jpg') }}">
+                                                            </a>
+                                                        </div>
+                                                        <div class="media-body">
+                                                            <h6><a href="#">{{ $item->course->titleTranslate->translates[app()->getLocale()] }}</a></h6>
+                                                            <p>{{ $item->course->teacher->prefix }}/ {{ $item->course->teacher->name }}</p>
+                                                            <p>
+                                                                {{ $item->course->curriculum->subject->year->stage->stageTranslate->translates[app()->getLocale()] }},
+                                                                {{ $item->course->curriculum->subject->year->yearTranslate->translates[app()->getLocale()] }},
+                                                                {{ $item->course->curriculum->subject->subject->subjectTranslate->translates[app()->getLocale()] }}
+                                                            </p>
+                                                            <h5>{{ $item->course->cost["course"] }} LE <span>1000.00 LE</span></h5>
+                                                        </div>
+                                                    </div>
+                                                    <div class="remove-btn">
+                                                        <form novalidate="" class="theme-form needs-validation" id="form" method="POST"
+                                                              authorization="{{session("student_data")["jwtToken"] ?? ""}}"
+                                                              action="{{ url("api/student/cart") }}" locale="{{app()->getLocale()}}" csrf="{{ csrf_token()}}">
+                                                            <input type="hidden" name="_method" value="DELETE">
+                                                            <input type="hidden" name="id" value="{{ $item->id ?? ""}}">
+                                                            <a href="#" class="btn" onclick="submitForm(this, null, location.reload())">{{ __("lang.remove") }}</a>
+                                                        </form>
+                                                    </div>
                                                 </div>
-                                                <div class="media-body">
-                                                    <h6><a href="#">Learn
-                                                            Angular...</a></h6>
-                                                    <p>By Dave Franco</p>
-                                                    <h5>$200 <span>$99.00</span></h5>
-                                                </div>
-                                            </div>
-                                            <div class="remove-btn">
-                                                <a href="#" class="btn">Remove</a>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="media">
-                                            <div class="d-flex media-wide">
-                                                <div class="avatar">
-                                                    <a href="#">
-                                                        <img alt="Img"
-                                                             src="{{ URL::asset('/build/img/course/course-14.jpg') }}">
-                                                    </a>
-                                                </div>
-                                                <div class="media-body">
-                                                    <h6><a href="#">Build Responsive
-                                                            Real...</a>
-                                                    </h6>
-                                                    <p>Jenis R.</p>
-                                                    <h5>$200 <span>$99.00</span></h5>
-                                                </div>
-                                            </div>
-                                            <div class="remove-btn">
-                                                <a href="#" class="btn">Remove</a>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="media">
-                                            <div class="d-flex media-wide">
-                                                <div class="avatar">
-                                                    <a href="#">
-                                                        <img alt="Img"
-                                                             src="{{ URL::asset('/build/img/course/course-15.jpg') }}">
-                                                    </a>
-                                                </div>
-                                                <div class="media-body">
-                                                    <h6><a href="#">C# Developers
-                                                            Double ...</a>
-                                                    </h6>
-                                                    <p>Jesse Stevens</p>
-                                                    <h5>$200 <span>$99.00</span></h5>
-                                                </div>
-                                            </div>
-                                            <div class="remove-btn">
-                                                <a href="#" class="btn">Remove</a>
-                                            </div>
-                                        </div>
-                                    </li>
-                                </ul>
+                                            </li>
+                                        @endforeach
+                                    </ul>
+                                @endif
                                 <div class="total-item">
-                                    <h6>Subtotal : $ 600</h6>
-                                    <h5>Total : $ 600</h5>
+                                    <h5>{{ __("lang.total") }} : {{ $total }} LE</h5>
                                 </div>
                             </div>
                         </div>
@@ -355,172 +344,6 @@
                             </a>
                         </div>
                     </li>
-{{--                    <li class="nav-item wish-nav">--}}
-{{--                        <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown">--}}
-{{--                            <img src="{{ URL::asset('/build/img/icon/wish.svg') }}" alt="img">--}}
-{{--                        </a>--}}
-{{--                        <div class="wishes-list dropdown-menu dropdown-menu-right">--}}
-{{--                            <div class="wish-content">--}}
-{{--                                <ul>--}}
-{{--                                    <li>--}}
-{{--                                        <div class="media">--}}
-{{--                                            <div class="d-flex media-wide">--}}
-{{--                                                <div class="avatar">--}}
-{{--                                                    <a href="{{ url('course-details') }}">--}}
-{{--                                                        <img alt="Img"--}}
-{{--                                                             src="{{ URL::asset('/build/img/course/course-04.jpg') }}">--}}
-{{--                                                    </a>--}}
-{{--                                                </div>--}}
-{{--                                                <div class="media-body">--}}
-{{--                                                    <h6><a href="{{ url('course-details') }}">Learn--}}
-{{--                                                            Angular...</a></h6>--}}
-{{--                                                    <p>By Dave Franco</p>--}}
-{{--                                                    <h5>$200 <span>$99.00</span></h5>--}}
-{{--                                                    <div class="remove-btn">--}}
-{{--                                                        <a href="#" class="btn">Add to cart</a>--}}
-{{--                                                    </div>--}}
-{{--                                                </div>--}}
-{{--                                            </div>--}}
-{{--                                        </div>--}}
-{{--                                    </li>--}}
-{{--                                    <li>--}}
-{{--                                        <div class="media">--}}
-{{--                                            <div class="d-flex media-wide">--}}
-{{--                                                <div class="avatar">--}}
-{{--                                                    <a href="{{ url('course-details') }}">--}}
-{{--                                                        <img alt="Img"--}}
-{{--                                                             src="{{ URL::asset('/build/img/course/course-14.jpg') }}">--}}
-{{--                                                    </a>--}}
-{{--                                                </div>--}}
-{{--                                                <div class="media-body">--}}
-{{--                                                    <h6><a href="{{ url('course-details') }}">Build Responsive--}}
-{{--                                                            Real...</a>--}}
-{{--                                                    </h6>--}}
-{{--                                                    <p>Jenis R.</p>--}}
-{{--                                                    <h5>$200 <span>$99.00</span></h5>--}}
-{{--                                                    <div class="remove-btn">--}}
-{{--                                                        <a href="#" class="btn">Add to cart</a>--}}
-{{--                                                    </div>--}}
-{{--                                                </div>--}}
-{{--                                            </div>--}}
-{{--                                        </div>--}}
-{{--                                    </li>--}}
-{{--                                    <li>--}}
-{{--                                        <div class="media">--}}
-{{--                                            <div class="d-flex media-wide">--}}
-{{--                                                <div class="avatar">--}}
-{{--                                                    <a href="{{ url('course-details') }}">--}}
-{{--                                                        <img alt="Img"--}}
-{{--                                                             src="{{ URL::asset('/build/img/course/course-15.jpg') }}">--}}
-{{--                                                    </a>--}}
-{{--                                                </div>--}}
-{{--                                                <div class="media-body">--}}
-{{--                                                    <h6><a href="{{ url('course-details') }}">C# Developers--}}
-{{--                                                            Double ...</a>--}}
-{{--                                                    </h6>--}}
-{{--                                                    <p>Jesse Stevens</p>--}}
-{{--                                                    <h5>$200 <span>$99.00</span></h5>--}}
-{{--                                                    <div class="remove-btn">--}}
-{{--                                                        <a href="#" class="btn">Remove</a>--}}
-{{--                                                    </div>--}}
-{{--                                                </div>--}}
-{{--                                            </div>--}}
-{{--                                        </div>--}}
-{{--                                    </li>--}}
-{{--                                </ul>--}}
-{{--                            </div>--}}
-{{--                        </div>--}}
-{{--                    </li>--}}
-{{--                    <li class="nav-item noti-nav">--}}
-{{--                        <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown">--}}
-{{--                            <img src="{{ URL::asset('/build/img/icon/notification.svg') }}" alt="img">--}}
-{{--                        </a>--}}
-{{--                        <div class="notifications dropdown-menu dropdown-menu-right">--}}
-{{--                            <div class="topnav-dropdown-header">--}}
-{{--                                <span class="notification-title">Notifications--}}
-{{--                                    <select>--}}
-{{--                                        <option>All</option>--}}
-{{--                                        <option>Unread</option>--}}
-{{--                                    </select>--}}
-{{--                                </span>--}}
-{{--                                <a href="javascript:void(0)" class="clear-noti">Mark all as read <i--}}
-{{--                                        class="fa-solid fa-circle-check"></i></a>--}}
-{{--                            </div>--}}
-{{--                            <div class="noti-content">--}}
-{{--                                <ul class="notification-list">--}}
-{{--                                    <li class="notification-message">--}}
-{{--                                        <div class="media d-flex">--}}
-{{--                                            <div>--}}
-{{--                                                <a href="{{ url('notifications') }}" class="avatar">--}}
-{{--                                                    <img class="avatar-img" alt="Img"--}}
-{{--                                                         src="{{ URL::asset('/build/img/user/user1.jpg') }}">--}}
-{{--                                                </a>--}}
-{{--                                            </div>--}}
-{{--                                            <div class="media-body">--}}
-{{--                                                <h6><a href="{{ url('notifications') }}">Lex Murphy requested--}}
-{{--                                                        <span>access--}}
-{{--                                                            to</span> UNIX directory tree hierarchy </a></h6>--}}
-{{--                                                <button class="btn btn-accept">Accept</button>--}}
-{{--                                                <button class="btn btn-reject">Reject</button>--}}
-{{--                                                <p>Today at 9:42 AM</p>--}}
-{{--                                            </div>--}}
-{{--                                        </div>--}}
-{{--                                    </li>--}}
-{{--                                    <li class="notification-message">--}}
-{{--                                        <div class="media d-flex">--}}
-{{--                                            <div>--}}
-{{--                                                <a href="{{ url('notifications') }}" class="avatar">--}}
-{{--                                                    <img class="avatar-img" alt="Img"--}}
-{{--                                                         src="{{ URL::asset('/build/img/user/user2.jpg') }}">--}}
-{{--                                                </a>--}}
-{{--                                            </div>--}}
-{{--                                            <div class="media-body">--}}
-{{--                                                <h6><a href="{{ url('notifications') }}">Ray Arnold left 6--}}
-{{--                                                        <span>comments--}}
-{{--                                                            on</span> Isla Nublar SOC2 compliance report</a></h6>--}}
-{{--                                                <p>Yesterday at 11:42 PM</p>--}}
-{{--                                            </div>--}}
-{{--                                        </div>--}}
-{{--                                    </li>--}}
-{{--                                    <li class="notification-message">--}}
-{{--                                        <div class="media d-flex">--}}
-{{--                                            <div>--}}
-{{--                                                <a href="{{ url('notifications') }}" class="avatar">--}}
-{{--                                                    <img class="avatar-img" alt="Img"--}}
-{{--                                                         src="{{ URL::asset('/build/img/user/user3.jpg') }}">--}}
-{{--                                                </a>--}}
-{{--                                            </div>--}}
-{{--                                            <div class="media-body">--}}
-{{--                                                <h6><a href="{{ url('notifications') }}">Dennis Nedry--}}
-{{--                                                        <span>commented--}}
-{{--                                                            on</span> Isla Nublar SOC2 compliance report</a></h6>--}}
-{{--                                                <p class="noti-details">“Oh, I finished de-bugging the phones, but--}}
-{{--                                                    the system's compiling for eighteen minutes, or twenty. So, some--}}
-{{--                                                    minor systems may go on and off for a while.”</p>--}}
-{{--                                                <p>Yesterday at 5:42 PM</p>--}}
-{{--                                            </div>--}}
-{{--                                        </div>--}}
-{{--                                    </li>--}}
-{{--                                    <li class="notification-message">--}}
-{{--                                        <div class="media d-flex">--}}
-{{--                                            <div>--}}
-{{--                                                <a href="{{ url('notifications') }}" class="avatar">--}}
-{{--                                                    <img class="avatar-img" alt="Img"--}}
-{{--                                                         src="{{ URL::asset('/build/img/user/user1.jpg') }}">--}}
-{{--                                                </a>--}}
-{{--                                            </div>--}}
-{{--                                            <div class="media-body">--}}
-{{--                                                <h6><a href="{{ url('notifications') }}">John Hammond--}}
-{{--                                                        <span>created</span>--}}
-{{--                                                        Isla Nublar SOC2 compliance report </a></h6>--}}
-{{--                                                <p>Last Wednesday at 11:15 AM</p>--}}
-{{--                                            </div>--}}
-{{--                                        </div>--}}
-{{--                                    </li>--}}
-{{--                                </ul>--}}
-{{--                            </div>--}}
-{{--                        </div>--}}
-{{--                    </li>--}}
                     <li class="nav-item user-nav">
                         <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown">
                             <span class="user-img">

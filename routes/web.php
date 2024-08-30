@@ -493,6 +493,9 @@ Route::name("student.")->middleware("entity.locale")->group(function (){
     //website auth
     Route::middleware("entity.auth:student")->group(function (){
 
+        //Cart
+        Route::view("cart", "website.home.cart")->name("cart");
+
         //profile pages
         Route::prefix("profile")->group(function (){
             Route::view("", "website.profile.profile")->name("profile");

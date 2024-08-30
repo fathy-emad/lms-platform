@@ -109,7 +109,16 @@
         'course_details' => 'Course details',
         'enrolled' => 'Enrolled',
         'duration' => 'Duration',
-        'chapters' => 'Chapters'
+        'chapters' => 'Chapters',
+        'view_cart' => 'View cart',
+        'checkout' => 'Checkout',
+        'remove' => 'Remove',
+        'total' => 'Total',
+        'cart' => 'Cart',
+        'your_cart' => 'Your cart',
+        'items' => 'Items',
+        'continue_shopping' => 'Continue searching',
+        'register' => 'Register'
 
 	];
 ?>

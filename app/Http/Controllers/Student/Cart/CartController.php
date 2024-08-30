@@ -26,12 +26,6 @@ class CartController extends Controller
         return parent::read_model($request);
     }
 
-    public function update(UpdateRequest $request)
-    {
-        $this->checkoutService->pay($request->validated());
-        return ApiResponse::sendSuccess([], "Checkout created successfully", null);
-    }
-
     public function delete(DeleteRequest $request): JsonResponse
     {
         return parent::delete_model($request->id);

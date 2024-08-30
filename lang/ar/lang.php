@@ -110,6 +110,15 @@
         'course_details' => 'تفاصيل الكورس',
         'enrolled' => 'مشترك',
         'duration' => 'المدة',
-        'chapters' => 'الفصول'
+        'chapters' => 'الفصول',
+        'view_cart' => 'عرض العربة',
+        'checkout' => 'الدفع',
+        'remove' => 'حذف',
+        'total' => 'المجموع',
+        'cart' => 'العربة',
+        'your_cart' => 'العربة خاصتك',
+        'items' => 'العناصر',
+        'continue_shopping' => 'إستمر بالتصفح',
+        'register' => 'تسجيل'
 	];
 ?>
