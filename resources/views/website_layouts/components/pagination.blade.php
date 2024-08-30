@@ -15,8 +15,7 @@
              <a class="page-link" href="{{ $data->path() . "?page=" . $data->currentPage() - 1 }}" tabindex="-1"><i class="fas fa-angle-left"></i></a>
          </li>
 
-
-         @for($i = 1; $i <= $data->onEachSide; $i++)
+         @for($i = 1; $i <= ceil($data->total() / $data->perPage()); $i++)
              <li class="page-item first-page {{ $data->currentPage() == $i ? "active" : "" }}">
                  <a class="page-link" href="{{ $data->path() . "?page=$i" }}">{{ $i }}</a>
              </li>

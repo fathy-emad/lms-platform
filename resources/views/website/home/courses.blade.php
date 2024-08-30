@@ -157,7 +157,7 @@
                                 <div class="card post-widget ">
                                     <div class="card-body">
                                         <div class="latest-head">
-                                            <h4 class="card-title">Latest courses for you</h4>
+                                            <h4 class="card-title">{{ __("lang.latest_for_you") }}</h4>
                                         </div>
 
                                         <ul class="latest-posts">

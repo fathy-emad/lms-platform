@@ -22,7 +22,8 @@
         @endslot
     @endcomponent
 
-    @php $course = \App\Models\Course::with(["teacher.courses", "curriculum.chapters" => function ($query) {
+    @php
+         $course = \App\Models\Course::with(["teacher.courses", "curriculum.chapters" => function ($query) {
                             $query->where("ActiveEnum", \App\Enums\ActiveEnum::Active->value)
                             ->with(["lessons" => function ($query) {
                                 $query->where("ActiveEnum", \App\Enums\ActiveEnum::Active->value);
@@ -33,6 +34,30 @@
                     }])
                     ->withSum("materials", "video_duration")
                     ->find(request("course_id"));
+
+         $current_year_id = $course->curriculum->subject->year->id;
+         $current_subject_id = $course->curriculum->subject->id;
+
+         $latestCoursesData = \App\Models\Course::whereHas('curriculum.subject.year', function ($query) use ($current_year_id) {
+                $query->where('id', $current_year_id);
+            })
+            ->whereHas('curriculum.subject', function ($query) use ($current_subject_id) {
+                $query->where('id', '!=', $current_subject_id); // Exclude the current subject
+            })
+            ->select('curriculum_id', \Illuminate\Support\Facades\DB::raw('MAX(created_at) as latest_course_date'))
+            ->groupBy('curriculum_id')
+            ->orderBy('latest_course_date', 'desc')
+            ->get();
+
+
+         $latestCourses = \App\Models\Course::whereIn(\Illuminate\Support\Facades\DB::raw('CONCAT(curriculum_id, created_at)'), function ($query) use ($latestCoursesData) {
+            $query->select(\Illuminate\Support\Facades\DB::raw('CONCAT(curriculum_id, MAX(created_at))'))
+              ->from('courses')
+              ->whereIn('curriculum_id', $latestCoursesData->pluck('curriculum_id')->toArray())
+              ->groupBy('curriculum_id');
+             })
+            ->with(['curriculum.subject.subject.subjectTranslate', 'curriculum.curriculumTranslate'])
+            ->get();
     @endphp
 
     @if(isset($course))
@@ -63,13 +88,14 @@
                                     <span class="d-inline-block average-rating"><span>4.5</span> (15)</span>
                                 </div>
                             </div>
-                            <span
-                                class="web-badge mb-3">{{ $course->teacher->subject->subjectTranslate->translates[app()->getLocale()] }}</span>
+                            <span class="web-badge mb-3">{{ $course->teacher->subject->subjectTranslate->translates[app()->getLocale()] }}</span>
                         </div>
                         <h2>{{ $course->titleTranslate->translates[app()->getLocale()] }}</h2>
-                        <p>{{ $course->curriculum->subject->year->stage->stageTranslate->translates[app()->getLocale()] }}
+                        <p>
+                            {{ $course->curriculum->subject->year->stage->stageTranslate->translates[app()->getLocale()] }}
                             , {{ $course->curriculum->subject->year->yearTranslate->translates[app()->getLocale()] }}
-                            , {{ $course->curriculum->curriculumTranslate->translates[app()->getLocale()] }}</p>
+                            , {{ $course->curriculum->curriculumTranslate->translates[app()->getLocale()] }}
+                        </p>
                         <div class="course-info d-flex align-items-center border-bottom-0 m-0 p-0">
                             <div class="cou-info">
                                 <img src="{{ URL::asset('/build/img/icon/icon-01.svg') }}" alt="">
@@ -105,21 +131,17 @@
                                 <p>{{ $course->descriptionTranslate->translates[app()->getLocale()]}}</p>
                                 <div class="row">
                                     <h6>{{ __("lang.belongs_to_terms") }}</h6>
-                                    <div class="col-md-6">
-                                        <ul>
-                                            @foreach($course->curriculum->EduTermsEnums as $term)
-                                                <li>{{ $term->title() }}.</li>
-                                            @endforeach
-                                        </ul>
+                                    <div class="col-md-12 mb-3">
+                                        @foreach($course->curriculum->EduTermsEnums as $term)
+                                            <span class="web-badge mb-3">{{ $term->title() }}</span>
+                                        @endforeach
                                     </div>
 
                                     <h6>{{ __("lang.belongs_to_types") }}</h6>
-                                    <div class="col-md-6">
-                                        <ul>
-                                            @foreach($course->curriculum->EduTypesEnums as $type)
-                                                <li>{{ $type->title() }}.</li>
-                                            @endforeach
-                                        </ul>
+                                    <div class="col-md-12">
+                                        @foreach($course->curriculum->EduTypesEnums as $type)
+                                            <span class="web-badge bg-dark mb-3">{{ $type->title() }}</span>
+                                        @endforeach
                                     </div>
                                 </div>
                             </div>
@@ -135,7 +157,7 @@
                                     </div>
                                     <div class="col-sm-6 text-sm-end">
                                         <h6>
-                                            ({{ array_sum(array_column($course->curriculum->chapters->toArray(), "lessons_count")) }}) {{ __("lang.lesson") }}
+                                            ({{ array_sum(array_column($course->curriculum->chapters->toArray(), "lessons_count")) }}) {{ __("lang.lessons") }}
                                             {{ floor($course->materials_sum_video_duration / 60) }} {{__("lang.hr")}} {{ $course->materials_sum_video_duration % 60 }} {{__("lang.min")}}
                                         </h6>
                                     </div>
@@ -195,7 +217,7 @@
                         <!-- Instructor -->
                         <div class="card instructor-sec">
                             <div class="card-body">
-                                <h5 class="subs-title">About the instructor</h5>
+                                <h5 class="subs-title">{{ __("lang.about_the_instructor") }}</h5>
                                 <div class="instructor-wrap">
                                     <div class="about-instructor">
                                         <div class="abt-instructor-img">
@@ -223,8 +245,15 @@
                                         <p>{{ $course->teacher->courses->count() }} {{ __("lang.courses") }}</p>
                                     </div>
                                     <div class="cou-info">
+                                        @php
+                                            $lessonsCount = $course->teacher->courses->load('curriculum.chapters.lessons')->sum(function ($course) {
+                                                return $course->curriculum->chapters->sum(function ($chapter) {
+                                                    return $chapter->lessons->count();
+                                                });
+                                            });
+                                        @endphp
                                         <img src="{{ URL::asset('/build/img/icon/icon-01.svg') }}" alt="">
-                                        <p>{{ array_sum(array_column($course->teacher->courses->loadCount("materials")->toArray(), "materials_count")) }} {{ __("lang.lesson") }}</p>
+                                        <p>{{ $lessonsCount }} {{ __("lang.lessons") }}</p>
                                     </div>
                                     <div class="cou-info">
                                         @php $sum_duration = array_sum(array_column($course->teacher->courses->loadSum("materials", "video_duration")->toArray(), "materials_sum_video_duration")) @endphp
@@ -233,28 +262,71 @@
                                     </div>
                                     <div class="cou-info">
                                         <img src="{{ URL::asset('/build/img/icon/people.svg') }}" alt="">
-                                        <p>{{ array_sum(array_column($course->teacher->courses->loadCount("enrollments")->toArray(), "enrollments_count")) }} {{ __("student_enrolled") }}</p>
+                                        <p>{{ array_sum(array_column($course->teacher->courses->loadCount("enrollments")->toArray(), "enrollments_count")) }} {{ __("lang.student_enrolled") }}</p>
                                     </div>
                                 </div>
-                                <p>UI/UX Designer, with 7+ Years Experience. Guarantee of High Quality Work.</p>
-                                <p>Skills: Web Design, UI Design, UX/UI Design, Mobile Design, User Interface
-                                    Design, Sketch,
-                                    Photoshop, GUI, Html, Css, Grid Systems, Typography, Minimal, Template, English,
-                                    Bootstrap,
-                                    Responsive Web Design, Pixel Perfect, Graphic Design, Corporate, Creative, Flat,
-                                    Luxury and
-                                    much more.</p>
-                                <p>Available for:</p>
-                                <ul>
-                                    <li>1. Full Time Office Work</li>
-                                    <li>2. Remote Work</li>
-                                    <li>3. Freelance</li>
-                                    <li>4. Contract</li>
-                                    <li>5. Worldwide</li>
-                                </ul>
+                                <p>{{ $course->teacher->bio ?? "teacher bio" }}</p>
                             </div>
                         </div>
                         <!-- /Instructor -->
+
+                        <!-- other Instructor courses -->
+                        <div class="card instructor-sec">
+                            <div class="card-body">
+                                <h5 class="subs-title">{{ __("lang.more_instructor_courses") }}</h5>
+                                <div class="all-btn all-category d-flex align-items-center">
+                                    <a href="{{ url('course-list') }}" class="btn btn-primary">{{ __("lang.all_courses") }}</a>
+                                </div>
+                                <div class="owl-carousel trending-course owl-theme aos" data-aos="fade-up">
+                                    @foreach($course->teacher->courses as $teacher_course)
+                                        <div class="course-box trend-box">
+                                            <div class="product trend-product">
+                                                <div class="product-img">
+                                                    <a href="{{ route('student.course', ["course_id" => $teacher_course->id]) }}">
+                                                        <img class="img-fluid" alt="Img"
+                                                             src="{{ URL::asset('/build/img/course/course-07.jpg') }}">
+                                                    </a>
+                                                    <div class="price">
+                                                        <h3>{{$teacher_course->cost["course"]}} LE <span>1000.00 LE</span></h3>
+                                                    </div>
+                                                </div>
+                                                <div class="product-content">
+                                                    <h3 class="title">
+                                                        <a href="{{ route('student.course', ["course_id" => $teacher_course->id]) }}">
+                                                            {{ $teacher_course->titleTranslate->translates[app()->getLocale()] }}
+                                                        </a>
+                                                    </h3>
+                                                    <div class="course-info d-flex align-items-center">
+                                                        <div class="rating-img d-flex align-items-center">
+                                                            <img src="{{ URL::asset('/build/img/icon/icon-01.svg') }}" alt="Img"
+                                                                 class="img-fluid">
+                                                            <p>{{ array_sum(array_column($teacher_course->curriculum->chapters->loadCount("lessons")->toArray(), "lessons_count")) }} {{ __("lang.lessons") }}</p>
+                                                        </div>
+                                                        <div class="course-view d-flex align-items-center">
+                                                            <img src="{{ URL::asset('/build/img/icon/icon-02.svg') }}" alt="Img"
+                                                                 class="img-fluid">
+                                                            <p>{{ floor($teacher_course->loadSum("materials", "video_duration")->materials_sum_video_duration / 60) }} {{__("lang.hr")}} {{ $teacher_course->loadSum("materials", "video_duration")->materials_sum_video_duration % 60 }} {{__("lang.min")}}</p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="rating">
+                                                        <i class="fas fa-star filled"></i>
+                                                        <i class="fas fa-star filled"></i>
+                                                        <i class="fas fa-star filled"></i>
+                                                        <i class="fas fa-star filled"></i>
+                                                        <i class="fas fa-star"></i>
+                                                        <span class="d-inline-block average-rating"><span>4.0</span> (15)</span>
+                                                    </div>
+                                                    <div class="all-btn all-category d-flex align-items-center">
+                                                        <a href="{{ url('checkout') }}" class="btn btn-primary">{{ __("lang.buy_now") }}</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @endforeach
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /other Instructor courses -->
 
                         <!-- Reviews -->
                         <div class="card review-sec">
@@ -366,57 +438,82 @@
                                 </div>
                                 <!-- /Video -->
 
-                                <!-- Include -->
-                                <div class="card include-sec">
-                                    <div class="card-body">
-                                        <div class="cat-title">
-                                            <h4>Includes</h4>
-                                        </div>
-                                        <ul>
-                                            <li><img src="{{ URL::asset('/build/img/icon/import.svg') }}" class="me-2"
-                                                     alt=""> 11 hours on-demand video
-                                            </li>
-                                            <li><img src="{{ URL::asset('/build/img/icon/play.svg') }}" class="me-2"
-                                                     alt=""> 69 downloadable resources
-                                            </li>
-                                            <li><img src="{{ URL::asset('/build/img/icon/key.svg') }}" class="me-2"
-                                                     alt=""> Full lifetime access
-                                            </li>
-                                            <li><img src="{{ URL::asset('/build/img/icon/mobile.svg') }}" class="me-2"
-                                                     alt=""> Access on mobile and TV
-                                            </li>
-                                            <li><img src="{{ URL::asset('/build/img/icon/cloud.svg') }}" class="me-2"
-                                                     alt=""> Assignments
-                                            </li>
-                                            <li><img src="{{ URL::asset('/build/img/icon/teacher.svg') }}" class="me-2"
-                                                     alt=""> Certificate of Completion
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                                <!-- /Include -->
-
                                 <!-- Features -->
                                 <div class="card feature-sec">
                                     <div class="card-body">
                                         <div class="cat-title">
-                                            <h4>Includes</h4>
+                                            <h4>{{ __("lang.course_features") }}</h4>
                                         </div>
                                         <ul>
+                                            <li><img src="{{ URL::asset('/build/img/icon/play.svg') }}" class="me-2"
+                                                     alt=""> {{ __("lang.non_downloadable") }}
+                                            </li>
+                                            <li><img src="{{ URL::asset('/build/img/icon/key.svg') }}" class="me-2"
+                                                     alt=""> {{ __("lang.watch_times") }}
+                                            </li>
+                                            <li><img src="{{ URL::asset('/build/img/icon/mobile.svg') }}" class="me-2"
+                                                     alt=""> {{ __("lang.Access_from_any_device") }}
+                                            </li>
+                                            <li><img src="{{ URL::asset('/build/img/icon/cloud.svg') }}" class="me-2"
+                                                     alt=""> {{ __("lang.assignments") }}
+                                            </li>
                                             <li><img src="{{ URL::asset('/build/img/icon/users.svg') }}" class="me-2"
-                                                     alt=""> Enrolled: <span>32 students</span></li>
+                                                     alt=""> {{ __("lang.enrolled") }}: <span>{{ isset($course->enrollments) ? $course->enrollments->count() : 0 }} {{ __("lang.students") }}</span></li>
                                             <li><img src="{{ URL::asset('/build/img/icon/timer.svg') }}" class="me-2"
-                                                     alt=""> Duration: <span>20 hours</span></li>
+                                                     alt=""> {{ __("lang.duration") }}: <span>{{ floor($course->materials_sum_video_duration / 60) }} {{__("lang.hours")}}</span></li>
                                             <li><img src="{{ URL::asset('/build/img/icon/chapter.svg') }}" class="me-2"
-                                                     alt=""> Chapters: <span>15</span></li>
+                                                     alt=""> {{ __("lang.chapters") }}: <span>{{ $course->curriculum->chapters->count() }}</span></li>
                                             <li><img src="{{ URL::asset('/build/img/icon/video.svg') }}" class="me-2"
-                                                     alt=""> Video:<span> 12 hours</span></li>
-                                            <li><img src="{{ URL::asset('/build/img/icon/chart.svg') }}" class="me-2"
-                                                     alt=""> Level: <span>Beginner</span></li>
+                                                     alt=""> {{ __("lang.lessons") }}:<span> {{ array_sum(array_column($course->curriculum->chapters->toArray(), "lessons_count")) }} {{ __("lang.lessons") }}</span></li>
                                         </ul>
                                     </div>
                                 </div>
                                 <!-- /Features -->
+
+                                <!-- other courses -->
+                                @if($latestCourses->count())
+                                    <!-- Latest Posts -->
+                                    <div class="card post-widget">
+                                        <div class="card-body">
+                                            <div class="latest-head">
+                                                <h4 class="card-title">{{ __("lang.latest_for_you") }}</h4>
+                                            </div>
+
+                                            <ul class="latest-posts">
+
+                                                @foreach($latestCourses as $latest)
+                                                    <li>
+                                                        <div class="post-thumb">
+                                                            <a href="{{ route('student.course', ["course_id" => $latest->id]) }}">
+                                                                <img class="img-fluid"
+                                                                     src="{{ URL::asset('/build/img/blog/blog-01.jpg') }}"
+                                                                     alt="">
+                                                            </a>
+                                                        </div>
+                                                        <div class="post-info free-color">
+                                                            <h4>
+                                                                <a href="{{ route('student.course', ["course_id" => $latest->id]) }}">
+                                                                    {{ $latest->titleTranslate->translates[app()->getLocale()] }}
+                                                                </a>
+                                                            </h4>
+                                                            <small>
+                                                                <a href="{{ route('student.courses', ["curriculum_id" => $latest->curriculum->id]) }}">
+                                                                    ({{ $latest->curriculum->subject->subject->subjectTranslate->translates[app()->getLocale()] }}) -
+                                                                    {{ $latest->curriculum->curriculumTranslate->translates[app()->getLocale()] }}
+                                                                </a>
+                                                            </small>
+                                                            <p>{{ $latest->cost["course"] }} LE</p>
+                                                        </div>
+                                                    </li>
+                                                @endforeach
+                                            </ul>
+
+                                        </div>
+                                    </div>
+                                    <!-- /Latest Posts -->
+
+                                @endif
+                                <!-- /end other courses -->
 
                             </div>
                         </div>
