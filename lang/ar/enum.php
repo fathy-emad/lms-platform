@@ -85,4 +85,15 @@ return [
         "Blocked" => "محجوب"
     ],
 
+    "NamePrefixEnum" => [
+        "Mr" => "استاذ",
+        "Mrs" => "استاذة",
+        "Ms" => "انسة",
+        "Dr" => "دكتور",
+        "Prof" => "بروفيسور",
+        "Eng" => "مهندس",
+        "PhD" => "PhD",
+        "Sheikh" => "Sheikh"
+    ]
+
 ];

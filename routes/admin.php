@@ -229,10 +229,11 @@ Route::middleware(['apiAuth:admin', 'apiPermission'])->group(function (){
             Route::put('course', 'update');
         });
 
-        //Course
+        //Checkout
         Route::controller(CheckoutController::class)->group(function (){
             Route::post('checkout', 'create');
             Route::get('checkout', 'read');
+            Route::delete('checkout', 'delete');
         });
 
     });

@@ -86,4 +86,16 @@ return [
         "Active" => "Active",
         "Blocked" => "Blocked"
     ],
+
+    "NamePrefixEnum" => [
+        "Mr" => "Mr",
+        "Mrs" => "Mrs",
+        "Ms" => "Miss",
+        "Dr" => "Dr",
+        "Prof" => "Prof",
+        "Eng" => "Eng",
+        "PhD" => "PhD",
+        "Sheikh" => "Sheikh"
+    ]
+
 ];

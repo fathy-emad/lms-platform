@@ -8,7 +8,7 @@ use Illuminate\Http\JsonResponse;
 use App\Services\CheckoutService;
 use App\Http\Controllers\Controller;
 use App\Http\Repositories\CartRepository;
-use App\Http\Controllers\Student\Checkout\Requests\{CreateRequest};
+use App\Http\Controllers\Student\Checkout\Requests\{CreateRequest, DeleteRequest};
 
 class CheckoutController extends Controller
 {
@@ -27,5 +27,10 @@ class CheckoutController extends Controller
     public function read(Request $request): JsonResponse
     {
         return parent::read_model($request);
+    }
+
+    public function delete(DeleteRequest $request): JsonResponse
+    {
+        return parent::delete_model($request->id);
     }
 }

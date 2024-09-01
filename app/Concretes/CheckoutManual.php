@@ -3,6 +3,7 @@
 namespace App\Concretes;
 
 use ApiResponse;
+use Notification;
 use Carbon\Carbon;
 use App\Models\Student;
 use App\Enums\PaymentMethodEnum;
@@ -81,6 +82,9 @@ class CheckoutManual implements CheckoutInterface
 
                 //Delete Cart Item
                 $this->cartRepository->delete($item->id);
+
+                //send email from here
+                Notification::via([new NotificationEmail()])->send($user->fresh(), $invoice, "invoice");
             }
 
         } catch (\Exception $e) {

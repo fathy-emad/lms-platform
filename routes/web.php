@@ -98,6 +98,7 @@ Route::prefix("admin")->name("admin.")->middleware("entity.locale")->group(funct
         Route::prefix("request")->name("request.")->group(function(){
             Route::view('payment', 'admin.request.payment')->name("payments");
             Route::view('course', 'admin.request.course')->name("courses");
+            Route::view('checkout', 'admin.request.checkout')->name("checkout");
         });
 
     });
@@ -495,6 +496,8 @@ Route::name("student.")->middleware("entity.locale")->group(function (){
 
         //Cart
         Route::view("cart", "website.home.cart")->name("cart");
+        //Route::view("checkout", "website.home.checkout")->name("checkout");
+        Route::view("invoice_email", "emails.invoice");
 
         //profile pages
         Route::prefix("profile")->group(function (){
@@ -511,7 +514,6 @@ Route::name("student.")->middleware("entity.locale")->group(function (){
         Route::view("courses/{curriculum_id}/{filter?}", "website.home.courses")->name("courses");
         Route::view("course/{course_id}", "website.home.course")->name("course");
     });
-
 
 });
 

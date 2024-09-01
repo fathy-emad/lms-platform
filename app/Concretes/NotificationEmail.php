@@ -3,6 +3,7 @@
 namespace App\Concretes;
 
 use ApiResponse;
+use App\Mail\InvoiceMail;
 use App\Mail\OTPMail;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Support\Facades\Mail;
@@ -27,6 +28,7 @@ class NotificationEmail implements NotificationInterface
     {
         return match ($type) {
             'otp' => OTPMail::class,
+            'invoice' => InvoiceMail::class,
             default => 'Invalid Template',
         };
     }
