@@ -18,12 +18,12 @@
 @endsection
 
 @section('breadcrumb-title')
-    <h3>My Payments</h3>
+    <h3>{{ __("lang.my_money") }}</h3>
 @endsection
 
 @section('breadcrumb-items')
     <li class="breadcrumb-item">{{ __('lang.dashboard') }}</li>
-    <li class="breadcrumb-item active">My Payments</li>
+    <li class="breadcrumb-item active">{{ __("lang.my_money") }}</li>
 @endsection
 @section('content')
 

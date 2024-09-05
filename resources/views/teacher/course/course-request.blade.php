@@ -21,12 +21,12 @@
 @endsection
 
 @section('breadcrumb-title')
-    <h3>Course Request</h3>
+    <h3>{{ __("lang.course_requests") }}</h3>
 @endsection
 
 @section('breadcrumb-items')
     <li class="breadcrumb-item">{{ __('lang.dashboard') }}</li>
-    <li class="breadcrumb-item active">Course Request</li>
+    <li class="breadcrumb-item active">{{ __("lang.course_requests") }}</li>
 @endsection
 
 @section('content')
@@ -38,7 +38,7 @@
                         <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target=".create_modal"
                                 data-bs-original-title="{{ __('lang.create') }} Course Request"
                                 title="{{ __('lang.create') }} Course Request">
-                            {{ __('lang.create') }} Course Request
+                            {{ __('lang.create') }} {{ __("lang.course_requests") }}
                         </button>
                     </div>
 
@@ -78,7 +78,7 @@
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h4 class="modal-title" id="myLargeModalLabel">{{ __('lang.create') }} Course Request</h4>
+                        <h4 class="modal-title" id="myLargeModalLabel">{{ __('lang.create') }} {{ __("lang.course_requests") }}</h4>
                         <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close" data-bs-original-title="" title=""></button>
                     </div>
                     <div class="modal-body">

@@ -23,12 +23,12 @@
 @endsection
 
 @section('breadcrumb-title')
-    <h3>Material</h3>
+    <h3>{{ __("lang.materials") }}</h3>
 @endsection
 
 @section('breadcrumb-items')
     <li class="breadcrumb-item">{{ __('lang.dashboard') }}</li>
-    <li class="breadcrumb-item active">Materials</li>
+    <li class="breadcrumb-item active">{{ __("lang.materials") }}</li>
 @endsection
 @section('content')
 

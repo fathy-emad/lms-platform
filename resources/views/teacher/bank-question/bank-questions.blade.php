@@ -15,12 +15,12 @@
 @endsection
 
 @section('breadcrumb-title')
-    <h3>Bank Questions</h3>
+    <h3>{{ __("lang.bank_questions") }}</h3>
 @endsection
 
 @section('breadcrumb-items')
     <li class="breadcrumb-item">{{ __('lang.dashboard') }}</li>
-    <li class="breadcrumb-item active">Bank Questions</li>
+    <li class="breadcrumb-item active">{{ __("lang.bank_questions") }}</li>
 @endsection
 
 @section('content')
@@ -34,7 +34,7 @@
                                 data-bs-target=".create_modal"
                                 data-bs-original-title="{{ __('lang.create') }} Bank Questions"
                                 title="{{ __('lang.create') }} Bank Questions">
-                            {{ __('lang.create') }} Bank Questions
+                            {{ __('lang.create') }} {{ __("lang.bank_questions") }}
                         </button>
                         <nav class="breadcrumb breadcrumb-icon">
                             <a class="breadcrumb-item" href=""
@@ -80,7 +80,7 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <h4 class="modal-title"
-                            id="myLargeModalLabel">{{ __('lang.create') }} Bank Questions</h4>
+                            id="myLargeModalLabel">{{ __('lang.create') }} {{ __("lang.bank_questions") }}</h4>
                         <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"
                                 data-bs-original-title="" title=""></button>
                     </div>
@@ -224,7 +224,7 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <h4 class="modal-title"
-                            id="myLargeModalLabel">{{ __('lang.update') }} Bank Question</h4>
+                            id="myLargeModalLabel">{{ __('lang.update') }} {{ __("lang.bank_questions") }}</h4>
                         <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"
                                 data-bs-original-title="" title=""></button>
                     </div>
@@ -375,7 +375,7 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <h4 class="modal-title"
-                            id="myLargeModalLabel">{{ __('lang.view') }} Bank Question</h4>
+                            id="myLargeModalLabel">{{ __('lang.view') }} {{ __("lang.bank_questions") }}</h4>
                         <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"
                                 data-bs-original-title="" title=""></button>
                     </div>
