@@ -118,7 +118,11 @@
         'your_cart' => 'Your cart',
         'items' => 'Items',
         'continue_shopping' => 'Continue searching',
-        'register' => 'Register'
-
+        'register' => 'Register',
+        'course_requests' => 'Course requests',
+        'my_courses' => 'My courses',
+        'bank_questions' => 'Bank questions',
+        'materials' => 'materials',
+        'my_money' => 'My money'
 	];
 ?>

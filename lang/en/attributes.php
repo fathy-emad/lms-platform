@@ -61,5 +61,10 @@ return [
     "FreeEnum" => "Free ?",
     "video" => "Video",
     "TeacherCourseRequestStatusEnum" => "Course Request Status",
-    "video_duration" => "Video duration"
+    "video_duration" => "Video duration",
+    "TeacherPaymentStatusEnum" => "Teacher payment status",
+    "totalAmount" => "Total amount",
+    "countItems" => "Count items",
+    "total" => "Total",
+    "status" => "Status"
 ];

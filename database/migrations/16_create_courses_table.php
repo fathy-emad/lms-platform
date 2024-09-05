@@ -16,8 +16,8 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger("teacher_id");
             $table->unsignedBigInteger('curriculum_id');
-            $table->unsignedBigInteger('title');
-            $table->unsignedBigInteger('description');
+            $table->unsignedBigInteger('title')->nullable();
+            $table->unsignedBigInteger('description')->nullable();
             $table->json('cost');
             $table->float('percentage');
             $table->enum('ActiveEnum', ActiveEnum::values())->default(ActiveEnum::Active->value);

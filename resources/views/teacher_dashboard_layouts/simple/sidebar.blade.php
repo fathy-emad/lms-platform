@@ -23,20 +23,21 @@
                                 <path d="M22 4H2a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h20a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2z"></path>
                                 <polyline points="22,6 12,13 2,6"></polyline>
                             </svg>
-                            <span>Course Request</span>
+                            <span>{{ __("lang.course_requests") }}</span>
                         </a>
                     </li>
 
                     <li class="sidebar-list">
                         <a class="sidebar-link sidebar-title link-nav {{ $request_path[1] == "my-courses" ? "active" : "" }}" href="{{url('teacher/my-courses')}}" data-bs-original-title="" title="Course Request">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>                            <span>Courses</span>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+                            <span>{{ __("lang.my_courses") }}</span>
                         </a>
                     </li>
 
                     <li class="sidebar-list">
                         <a class="sidebar-link sidebar-title link-nav {{ $request_path[1] == "bank-question" ? "active" : "" }}" href="{{url('teacher/bank-question')}}" data-bs-original-title="" title="Bank Questions">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-help-circle"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12" y2="17"></line></svg>
-                            <span>Bank Question</span>
+                            <span>{{ __("lang.bank_questions") }}</span>
                         </a>
                     </li>
 
@@ -46,14 +47,14 @@
                                 <polygon points="23 7 16 12 23 17 23 7"></polygon>
                                 <rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect>
                             </svg>
-                            <span>Material</span>
+                            <span>{{ __("lang.materials") }}</span>
                         </a>
                     </li>
 
                     <li class="sidebar-list">
                         <a class="sidebar-link sidebar-title link-nav {{ $request_path[1] == "payment" ? "active" : "" }}" href="{{url('teacher/my-payments')}}" data-bs-original-title="" title="My Payments">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-dollar-sign"><line x1="12" y1="1" x2="12" y2="23"></line><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 1 1 0 7H6"></path></svg>
-                            <span>My Payments</span>
+                            <span>{{ __("lang.my_money") }}</span>
                         </a>
                     </li>
 

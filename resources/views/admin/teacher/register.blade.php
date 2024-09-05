@@ -379,7 +379,12 @@
             { "data": "email" },
             { "data": "TeacherStatusEnum.translate"},
             { "data": "created_at.dateTime"},
-            { "data": "created_by.name"},
+            { "data": "created_by.name",
+                render:function (data) {
+                    if (data) return data;
+                    return "-";
+                }
+            },
             { "data": "updated_at.dateTime" },
             { "data": "updated_by.name",
                 render:function (data) {

@@ -75,7 +75,7 @@
                 "searchable": false,
                 "render": function (data, type, row, meta) {
                     if (meta.row === 0){
-                        $("[data-bread=curriculum]").text("({{ __("attributes.curriculum") }}) " + data.curriculum.curriculum.translate).attr("href", APP_URL + "/teacher/material");
+                        $("[data-bread=course]").text("({{ __("attributes.course") }}) " + data.curriculum.curriculum.translate).attr("href", APP_URL + "/teacher/material");
 
                     }
                     return `<div class="row justify-content-start"><div class="col-auto">

@@ -61,5 +61,10 @@ return [
     "FreeEnum" => "مجانا ؟",
     "video" => "الفيديو",
     "TeacherCourseRequestStatusEnum" => "حالة طلب الكورس",
-    "video_duration" => "مدة الفيديو"
+    "video_duration" => "مدة الفيديو",
+    "TeacherPaymentStatusEnum" => "حاله طلب استلام",
+    "totalAmount" => "كل المبلغ",
+    "countItems" => "عدد العناصر",
+    "total" => "المجموع",
+    "status" => "الحالة"
 ];

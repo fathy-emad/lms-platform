@@ -119,6 +119,11 @@
         'your_cart' => 'العربة خاصتك',
         'items' => 'العناصر',
         'continue_shopping' => 'إستمر بالتصفح',
-        'register' => 'تسجيل'
+        'register' => 'تسجيل',
+        'course_requests' => 'طلبات الكورسات',
+        'my_courses' => 'كورساتى',
+        'bank_questions' => 'بنك الأسئلة',
+        'materials' => 'محتوى الدروس',
+        'my_money' => 'فلوسى'
 	];
 ?>
