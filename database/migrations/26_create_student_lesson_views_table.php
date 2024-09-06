@@ -13,6 +13,9 @@ return new class extends Migration
     {
         Schema::create('student_lesson_views', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger("enrollment_id");
+            $table->unsignedBigInteger("lesson_id");
+            $table->smallInteger("views")->default(0);
             $table->timestamps();
         });
     }

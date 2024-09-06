@@ -20,24 +20,47 @@
         $course = \App\Models\Course::find(request("course_id"));
         $chapters = $course?->curriculum->chapters;
         $materials = $course?->materials;
-        $enrolled = auth("student")->user() !== null && auth("student")->user()->enrollments->count() ?
-            auth("student")->user()->enrollments()
-            ->where("expired_at", ">=", \Carbon\Carbon::now(auth("student")->user()->country->timezone))
+        $student = auth("student")->user();
+        $enrolled = $student && $student->enrollments()->exists() && $student->enrollments()
+            ->where("expired_at", ">=", \Carbon\Carbon::now($student->country->timezone))
             ->where("course_id", $course?->id)
-            ->exists() :
-            false;
+            ->exists();
         $lesson_data = \App\Models\Lesson::find(request("lesson_id"));
         $lesson_material = $materials?->where("lesson_id", request("lesson_id"))->first();
         $lesson_duration = $lesson_material?->video_duration;
         $lesson_free = $lesson_material?->FreeEnum == \App\Enums\FreeEnum::Free;
-        $watch_video = $lesson_free || $enrolled;
+
+        if ($enrolled)
+        {
+            $course_enrollments = $student->enrollments()
+            ->where("expired_at", ">=", \Carbon\Carbon::now($student->country->timezone))
+            ->where("course_id", $course?->id)->get();
+
+            $course_enrollment_ids = array_column($course_enrollments->toArray(), "id");
+
+            $course_lesson_views = \App\Models\StudentLessonView::where("lesson_id", request("lesson_id"))
+            ->whereIn("enrollment_id", $course_enrollment_ids)->orderBy("id", "desc");
+
+            $lesson_video_view = $course_lesson_views->sum("views") < ($course_enrollments->count() * 5);
+
+            if ($lesson_video_view && $course_lesson_views->count())
+                ($course_lesson_views->first())->increment("views", 1);
+
+            elseif ($lesson_video_view && !$course_lesson_views->count())
+                \App\Models\StudentLessonView::create(["views" => 1, "lesson_id" => request("lesson_id"), "enrollment_id" => ($course_enrollments->last())->id]);
+
+        }
+        else
+            $lesson_video_view = false;
+
+
+        $watch_video = $lesson_free || ($enrolled && $lesson_video_view);
     @endphp
 
     <!-- Course Lesson -->
     <section class="page-content course-sec course-lesson">
         <div class="container">
             <div class="row">
-
                 @if($course && $chapters)
                     <div class="col-lg-4">
                         <!-- Course Lesson -->
@@ -111,7 +134,10 @@
                                         {{ $course->curriculum->subject->year->yearTranslate->translates[app()->getLocale()] }},
                                         {{ $course->curriculum->subject->subject->subjectTranslate->translates[app()->getLocale()] }}
                                     </p>
-                                    <p>{{floor($lesson_duration / 60) }} {{ __("lang.hr") }} {{floor($lesson_duration % 60) }} {{ __("lang.min") }}</p>
+                                    <p>
+                                        {{floor($lesson_duration / 60) }} {{ __("lang.hr") }} {{floor($lesson_duration % 60) }} {{ __("lang.min") }}
+                                        <span class="text-danger">&nbsp;({{ $course_lesson_views->sum("views") }} {{ __("lang.views") }})</span>
+                                    </p>
                                     @if($watch_video)
                                         <div class="introduct-video">
                                             <a href="https://www.youtube.com/embed/1trvO6dqQUI" class="video-thumbnail"

@@ -58,6 +58,12 @@
             })
            ->with(['curriculum.subject.subject.subjectTranslate', 'curriculum.curriculumTranslate'])
            ->get();
+
+        $student = auth("student")->user();
+        $enrolled = $student && $student->enrollments()->exists() && $student->enrollments()
+         ->where("expired_at", ">=", \Carbon\Carbon::now($student->country->timezone))
+         ->where("course_id", $course?->id)
+         ->exists();
     @endphp
 
     @if(isset($course))
@@ -166,14 +172,6 @@
                                 </div>
 
                                 @if($course->curriculum->chapters->count())
-                                    @php
-                                        $enrolled = auth("student")->user() !== null && (auth("student")->user()->enrollments->count()) ?
-                                         auth("student")->user()->enrollments()
-                                        ->where("expired_at", ">=", \Carbon\Carbon::now(auth("student")->user()->country->timezone))
-                                        ->where("course_id", $course->id)
-                                        ->exists() :
-                                         false;
-                                    @endphp
                                     @foreach($course->curriculum->chapters as $chapter)
                                         <div class="course-card">
                                             <h6 class="cou-title">

@@ -129,6 +129,7 @@
         'credit_and_debit' => 'Credit and Debit cards',
         'preview' => 'Preview',
         'free' => 'Free',
-        'lesson' => 'Lesson'
+        'lesson' => 'Lesson',
+        'views' => 'Views'
 	];
 ?>
