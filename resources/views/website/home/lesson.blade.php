@@ -43,10 +43,10 @@
 
             $lesson_video_view = $course_lesson_views->sum("views") < ($course_enrollments->count() * 5);
 
-            if ($lesson_video_view && $course_lesson_views->count())
+            if ($lesson_video_view && $course_lesson_views->count() && isset($lesson_material))
                 ($course_lesson_views->first())->increment("views", 1);
 
-            elseif ($lesson_video_view && !$course_lesson_views->count())
+            elseif ($lesson_video_view && !$course_lesson_views->count() && isset($lesson_material))
                 \App\Models\StudentLessonView::create(["views" => 1, "lesson_id" => request("lesson_id"), "enrollment_id" => ($course_enrollments->last())->id]);
 
         }
@@ -136,7 +136,7 @@
                                     </p>
                                     <p>
                                         {{floor($lesson_duration / 60) }} {{ __("lang.hr") }} {{floor($lesson_duration % 60) }} {{ __("lang.min") }}
-                                        <span class="text-danger">&nbsp;({{ $course_lesson_views->sum("views") }} {{ __("lang.views") }})</span>
+                                        <span class="text-danger">&nbsp;({{ isset($course_lesson_views) ? $course_lesson_views->sum("views") : 0 }} {{ __("lang.views") }})</span>
                                     </p>
                                     @if($watch_video)
                                         <div class="introduct-video">
