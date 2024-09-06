@@ -41,7 +41,7 @@ class UpdateRequest extends ValidateRequest
                 //if change stage or subject, and he has courses prevent this action and tell him create new account
                 function ($attribute, $value, $fail) {
                     $teacher = Teacher::find($this->id);
-                    $courses = Course::where("teacher_id", $this->id)->first();
+                    $courses = Course::where("teacher_id", $this->id)->exists();
 
                     if ($courses && ($this->stage_id != $teacher->stage_id || $this->edu_subject_id != $teacher->edu_subject_id))
                         $fail("You can not change your stage or subject because you have course in this account please have a new account");

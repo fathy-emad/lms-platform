@@ -123,6 +123,12 @@
         'my_courses' => 'My courses',
         'bank_questions' => 'Bank questions',
         'materials' => 'materials',
-        'my_money' => 'My money'
+        'my_money' => 'My money',
+        'payment_method' => 'Payment method',
+        'manual' => 'Call us',
+        'credit_and_debit' => 'Credit and Debit cards',
+        'preview' => 'Preview',
+        'free' => 'Free',
+        'lesson' => 'Lesson'
 	];
 ?>

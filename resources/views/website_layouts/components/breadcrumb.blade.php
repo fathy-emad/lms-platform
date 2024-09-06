@@ -17,7 +17,7 @@
         'student-linked-accounts',
         'student-notifications',
         'student-quiz-details',
-        'checkout',
+        'student.checkout',
         'student.course',
         'students-grid',
         'students-list',
@@ -48,7 +48,7 @@
                         <h2 class="breadcrumb-title">{{ $title }}</h2>
                         <nav aria-label="breadcrumb" class="page-breadcrumb">
                             <ol class="breadcrumb">
-                                <li class="breadcrumb-item"><a href="{{ url('index') }}">{{ $item1 }}</a></li>
+                                <li class="breadcrumb-item"><a href="{{ route('student.website') }}">{{ $item1 }}</a></li>
                                 <li class="breadcrumb-item active" aria-current="page">{{ $item2 }}</li>
                             </ol>
                         </nav>
@@ -60,7 +60,7 @@
     <!-- /Breadcrumb -->
 @endif
 
-@if (Route::is(['checkout', 'student.course']))
+@if (Route::is(['student.checkout', 'student.course']))
     <!-- Breadcrumb -->
     <div class="breadcrumb-bar">
         <div class="container">
@@ -69,7 +69,7 @@
                     <div class="breadcrumb-list">
                         <nav aria-label="breadcrumb" class="page-breadcrumb">
                             <ol class="breadcrumb">
-                                <li class="breadcrumb-item"><a href="{{ url('index') }}">{{ $title }}</a></li>
+                                <li class="breadcrumb-item"><a href="{{ route('student.website') }}">{{ $title }}</a></li>
                                 <li class="breadcrumb-item" aria-current="page">{{ $item1 }}</li>
                                 <li class="breadcrumb-item" aria-current="page">{{ $item2 }}</li>
                                 @if (Route::is(['student.course']))
@@ -135,7 +135,7 @@
                     <div class="breadcrumb-list">
                         <nav aria-label="breadcrumb" class="page-breadcrumb">
                             <ol class="breadcrumb">
-                                <li class="breadcrumb-item"><a href="{{url('index')}}">{{ $title }}</a></li>
+                                <li class="breadcrumb-item"><a href="{{route('student.website')}}">{{ $title }}</a></li>
                                 <li class="breadcrumb-item">{{ $item1 }}</li>
                                 <li class="breadcrumb-item">{{ $item2 }}</li>
                             </ol>

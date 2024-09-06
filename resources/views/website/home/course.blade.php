@@ -23,41 +23,41 @@
     @endcomponent
 
     @php
-         $course = \App\Models\Course::with(["teacher.courses", "curriculum.chapters" => function ($query) {
-                            $query->where("ActiveEnum", \App\Enums\ActiveEnum::Active->value)
-                            ->with(["lessons" => function ($query) {
-                                $query->where("ActiveEnum", \App\Enums\ActiveEnum::Active->value);
-                            }])
-                            ->withCount(["lessons" => function ($query) {
-                                $query->where("ActiveEnum", \App\Enums\ActiveEnum::Active->value);
-                            }]);
-                    }])
-                    ->withSum("materials", "video_duration")
-                    ->find(request("course_id"));
+        $course = \App\Models\Course::with(["teacher.courses", "curriculum.chapters" => function ($query) {
+                           $query->where("ActiveEnum", \App\Enums\ActiveEnum::Active->value)
+                           ->with(["lessons" => function ($query) {
+                               $query->where("ActiveEnum", \App\Enums\ActiveEnum::Active->value);
+                           }])
+                           ->withCount(["lessons" => function ($query) {
+                               $query->where("ActiveEnum", \App\Enums\ActiveEnum::Active->value);
+                           }]);
+                   }])
+                   ->withSum("materials", "video_duration")
+                   ->find(request("course_id"));
 
-         $current_year_id = $course->curriculum->subject->year->id;
-         $current_subject_id = $course->curriculum->subject->id;
+        $current_year_id = $course->curriculum->subject->year->id;
+        $current_subject_id = $course->curriculum->subject->id;
 
-         $latestCoursesData = \App\Models\Course::whereHas('curriculum.subject.year', function ($query) use ($current_year_id) {
-                $query->where('id', $current_year_id);
+        $latestCoursesData = \App\Models\Course::whereHas('curriculum.subject.year', function ($query) use ($current_year_id) {
+               $query->where('id', $current_year_id);
+           })
+           ->whereHas('curriculum.subject', function ($query) use ($current_subject_id) {
+               $query->where('id', '!=', $current_subject_id); // Exclude the current subject
+           })
+           ->select('curriculum_id', \Illuminate\Support\Facades\DB::raw('MAX(created_at) as latest_course_date'))
+           ->groupBy('curriculum_id')
+           ->orderBy('latest_course_date', 'desc')
+           ->get();
+
+
+        $latestCourses = \App\Models\Course::whereIn(\Illuminate\Support\Facades\DB::raw('CONCAT(curriculum_id, created_at)'), function ($query) use ($latestCoursesData) {
+           $query->select(\Illuminate\Support\Facades\DB::raw('CONCAT(curriculum_id, MAX(created_at))'))
+             ->from('courses')
+             ->whereIn('curriculum_id', $latestCoursesData->pluck('curriculum_id')->toArray())
+             ->groupBy('curriculum_id');
             })
-            ->whereHas('curriculum.subject', function ($query) use ($current_subject_id) {
-                $query->where('id', '!=', $current_subject_id); // Exclude the current subject
-            })
-            ->select('curriculum_id', \Illuminate\Support\Facades\DB::raw('MAX(created_at) as latest_course_date'))
-            ->groupBy('curriculum_id')
-            ->orderBy('latest_course_date', 'desc')
-            ->get();
-
-
-         $latestCourses = \App\Models\Course::whereIn(\Illuminate\Support\Facades\DB::raw('CONCAT(curriculum_id, created_at)'), function ($query) use ($latestCoursesData) {
-            $query->select(\Illuminate\Support\Facades\DB::raw('CONCAT(curriculum_id, MAX(created_at))'))
-              ->from('courses')
-              ->whereIn('curriculum_id', $latestCoursesData->pluck('curriculum_id')->toArray())
-              ->groupBy('curriculum_id');
-             })
-            ->with(['curriculum.subject.subject.subjectTranslate', 'curriculum.curriculumTranslate'])
-            ->get();
+           ->with(['curriculum.subject.subject.subjectTranslate', 'curriculum.curriculumTranslate'])
+           ->get();
     @endphp
 
     @if(isset($course))
@@ -88,7 +88,8 @@
                                     <span class="d-inline-block average-rating"><span>4.5</span> (15)</span>
                                 </div>
                             </div>
-                            <span class="web-badge mb-3">{{ $course->teacher->subject->subjectTranslate->translates[app()->getLocale()] }}</span>
+                            <span
+                                class="web-badge mb-3">{{ $course->teacher->subject->subjectTranslate->translates[app()->getLocale()] }}</span>
                         </div>
                         <h2>{{ $course->titleTranslate->translates[app()->getLocale()] }}</h2>
                         <p>
@@ -157,13 +158,22 @@
                                     </div>
                                     <div class="col-sm-6 text-sm-end">
                                         <h6>
-                                            ({{ array_sum(array_column($course->curriculum->chapters->toArray(), "lessons_count")) }}) {{ __("lang.lessons") }}
+                                            ({{ array_sum(array_column($course->curriculum->chapters->toArray(), "lessons_count")) }}
+                                            ) {{ __("lang.lessons") }}
                                             {{ floor($course->materials_sum_video_duration / 60) }} {{__("lang.hr")}} {{ $course->materials_sum_video_duration % 60 }} {{__("lang.min")}}
                                         </h6>
                                     </div>
                                 </div>
 
                                 @if($course->curriculum->chapters->count())
+                                    @php
+                                        $enrolled = auth("student")->user() !== null && (auth("student")->user()->enrollments->count()) ?
+                                         auth("student")->user()->enrollments()
+                                        ->where("expired_at", ">=", \Carbon\Carbon::now(auth("student")->user()->country->timezone))
+                                        ->where("course_id", $course->id)
+                                        ->exists() :
+                                         false;
+                                    @endphp
                                     @foreach($course->curriculum->chapters as $chapter)
                                         <div class="course-card">
                                             <h6 class="cou-title">
@@ -171,14 +181,16 @@
                                                    href="#collapseOne_{{$chapter->id}}"
                                                    aria-expanded="false">{{$chapter->chapterTranslate->translates[app()->getLocale()]}}</a>
                                             </h6>
-                                            <div id="collapseOne_{{$chapter->id}}" class="card-collapse collapse" style="">
+
+                                            <div id="collapseOne_{{$chapter->id}}" class="card-collapse collapse"
+                                                 style="">
                                                 <ul>
                                                     @if($chapter->lessons->count())
                                                         @foreach($chapter->lessons as $lesson)
                                                             @php
                                                                 $duration = "00:00";
                                                                 $isFree = false;
-                                                                if ($course->materials->where("lesson_id", $lesson->id)->first() !== null)
+                                                                if ($course->materials()->where("lesson_id", $lesson->id)->exists())
                                                                 {
                                                                     $material = $course->materials->where("lesson_id", $lesson->id)->first();
                                                                     $duration = isset($material->video_duration) && $material->video_duration ? floor($material->video_duration / 60) . ":" . $material->video_duration % 60 : "00:00";
@@ -193,8 +205,13 @@
                                                                         class="me-2">{{ $lesson->lessonTranslate->translates[app()->getLocale()] }}
                                                                 </p>
                                                                 <div>
-                                                                    @if($isFree) <span class="text-success">{{ (__("lang.free")) }}</span> @endif
-                                                                    <a href="javascript:;">{{ __("lang.preview") }}</a>
+                                                                    @if($isFree)
+                                                                        <span
+                                                                            class="text-success">{{ (__("lang.free")) }}</span>
+                                                                    @endif
+                                                                    @if(($enrolled && !$isFree) || $isFree)
+                                                                        <a href="{{ route("student.lesson", ["course_id" => $course->id, "lesson_id" => $lesson->id]) }}">{{ __("lang.preview") }}</a>
+                                                                    @endif
                                                                     <span>{{ $duration }}</span>
                                                                 </div>
                                                             </li>
@@ -222,11 +239,13 @@
                                     <div class="about-instructor">
                                         <div class="abt-instructor-img">
                                             <a href="{{ url('instructor-profile') }}"><img
-                                                    src="{{ URL::asset($course->teacher->image ? "uploads/" . $course->teacher->image["file"] :'/build/img/user/user1.jpg') }}" alt="img"
+                                                    src="{{ URL::asset($course->teacher->image ? "uploads/" . $course->teacher->image["file"] :'/build/img/user/user1.jpg') }}"
+                                                    alt="img"
                                                     class="img-fluid"></a>
                                         </div>
                                         <div class="instructor-detail">
-                                            <h5><a href="{{ url('instructor-profile') }}">{{ $course->teacher->prefix }}/ {{ $course->teacher->name }}</a></h5>
+                                            <h5><a href="{{ url('instructor-profile') }}">{{ $course->teacher->prefix }}
+                                                    / {{ $course->teacher->name }}</a></h5>
                                             <p>{{ __("lang.teacher") }}</p>
                                         </div>
                                     </div>
@@ -275,7 +294,8 @@
                             <div class="card-body">
                                 <h5 class="subs-title">{{ __("lang.more_instructor_courses") }}</h5>
                                 <div class="all-btn all-category d-flex align-items-center">
-                                    <a href="{{ url('course-list') }}" class="btn btn-primary">{{ __("lang.all_courses") }}</a>
+                                    <a href="{{ url('course-list') }}"
+                                       class="btn btn-primary">{{ __("lang.all_courses") }}</a>
                                 </div>
                                 <div class="owl-carousel trending-course owl-theme aos" data-aos="fade-up">
                                     @foreach($course->teacher->courses as $teacher_course)
@@ -287,7 +307,8 @@
                                                              src="{{ URL::asset('/build/img/course/course-07.jpg') }}">
                                                     </a>
                                                     <div class="price">
-                                                        <h3>{{$teacher_course->cost["course"]}} LE <span>1000.00 LE</span></h3>
+                                                        <h3>{{$teacher_course->cost["course"]}} LE
+                                                            <span>1000.00 LE</span></h3>
                                                     </div>
                                                 </div>
                                                 <div class="product-content">
@@ -298,12 +319,14 @@
                                                     </h3>
                                                     <div class="course-info d-flex align-items-center">
                                                         <div class="rating-img d-flex align-items-center">
-                                                            <img src="{{ URL::asset('/build/img/icon/icon-01.svg') }}" alt="Img"
+                                                            <img src="{{ URL::asset('/build/img/icon/icon-01.svg') }}"
+                                                                 alt="Img"
                                                                  class="img-fluid">
                                                             <p>{{ array_sum(array_column($teacher_course->curriculum->chapters->loadCount("lessons")->toArray(), "lessons_count")) }} {{ __("lang.lessons") }}</p>
                                                         </div>
                                                         <div class="course-view d-flex align-items-center">
-                                                            <img src="{{ URL::asset('/build/img/icon/icon-02.svg') }}" alt="Img"
+                                                            <img src="{{ URL::asset('/build/img/icon/icon-02.svg') }}"
+                                                                 alt="Img"
                                                                  class="img-fluid">
                                                             <p>{{ floor($teacher_course->loadSum("materials", "video_duration")->materials_sum_video_duration / 60) }} {{__("lang.hr")}} {{ $teacher_course->loadSum("materials", "video_duration")->materials_sum_video_duration % 60 }} {{__("lang.min")}}</p>
                                                         </div>
@@ -317,7 +340,8 @@
                                                         <span class="d-inline-block average-rating"><span>4.0</span> (15)</span>
                                                     </div>
                                                     <div class="all-btn all-category d-flex align-items-center">
-                                                        <a href="{{ url('checkout') }}" class="btn btn-primary">{{ __("lang.buy_now") }}</a>
+                                                        <a href="{{ url('checkout') }}"
+                                                           class="btn btn-primary">{{ __("lang.buy_now") }}</a>
                                                     </div>
                                                 </div>
                                             </div>
@@ -400,125 +424,133 @@
                     </div>
 
                     <div class="col-lg-4">
-                            <div class="sidebar-sec">
+                        <div class="sidebar-sec">
 
-                                <!-- Video -->
-                                <div class="video-sec vid-bg">
-                                    <div class="card">
-                                        <div class="card-body">
-                                            <a href="https://www.youtube.com/embed/1trvO6dqQUI" class="video-thumbnail"
-                                               data-fancybox="">
-                                                <div class="play-icon">
-                                                    <i class="fa-solid fa-play"></i>
-                                                </div>
-                                                <img class="" src="{{ URL::asset('/build/img/video.jpg') }}"
-                                                     alt="">
-                                            </a>
-                                            <div class="video-details">
-                                                <div class="course-fee">
-                                                    <h2>FREE</h2>
-                                                    <p><span>$99.00</span> 50% off</p>
-                                                </div>
-                                                <div class="row gx-2">
-                                                    <div class="col-md-6">
-                                                        <a href="{{ url('course-details') }}"
-                                                           class="btn btn-wish w-100"><i
-                                                                class="feather-heart"></i> Add to Wishlist</a>
-                                                    </div>
-                                                    <div class="col-md-6">
-                                                        <a href="javascript:;" class="btn btn-wish w-100"><i
-                                                                class="feather-share-2"></i> Share</a>
-                                                    </div>
-                                                </div>
-                                                <a href="{{ url('checkout') }}" class="btn btn-enroll w-100">Enroll
-                                                    Now</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- /Video -->
-
-                                <!-- Features -->
-                                <div class="card feature-sec">
+                            <!-- Video -->
+                            <div class="video-sec vid-bg">
+                                <div class="card">
                                     <div class="card-body">
-                                        <div class="cat-title">
-                                            <h4>{{ __("lang.course_features") }}</h4>
+                                        <a href="https://www.youtube.com/embed/1trvO6dqQUI" class="video-thumbnail"
+                                           data-fancybox="">
+                                            <div class="play-icon">
+                                                <i class="fa-solid fa-play"></i>
+                                            </div>
+                                            <img class="" src="{{ URL::asset('/build/img/video.jpg') }}"
+                                                 alt="">
+                                        </a>
+                                        <div class="video-details">
+                                            <div class="course-fee">
+                                                <h2>FREE</h2>
+                                                <p><span>$99.00</span> 50% off</p>
+                                            </div>
+                                            <div class="row gx-2">
+                                                <div class="col-md-6">
+                                                    <a href="{{ url('course-details') }}"
+                                                       class="btn btn-wish w-100"><i
+                                                            class="feather-heart"></i> Add to Wishlist</a>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <a href="javascript:;" class="btn btn-wish w-100"><i
+                                                            class="feather-share-2"></i> Share</a>
+                                                </div>
+                                            </div>
+                                            <a href="{{ url('checkout') }}" class="btn btn-enroll w-100">Enroll
+                                                Now</a>
                                         </div>
-                                        <ul>
-                                            <li><img src="{{ URL::asset('/build/img/icon/play.svg') }}" class="me-2"
-                                                     alt=""> {{ __("lang.non_downloadable") }}
-                                            </li>
-                                            <li><img src="{{ URL::asset('/build/img/icon/key.svg') }}" class="me-2"
-                                                     alt=""> {{ __("lang.watch_times") }}
-                                            </li>
-                                            <li><img src="{{ URL::asset('/build/img/icon/mobile.svg') }}" class="me-2"
-                                                     alt=""> {{ __("lang.Access_from_any_device") }}
-                                            </li>
-                                            <li><img src="{{ URL::asset('/build/img/icon/cloud.svg') }}" class="me-2"
-                                                     alt=""> {{ __("lang.assignments") }}
-                                            </li>
-                                            <li><img src="{{ URL::asset('/build/img/icon/users.svg') }}" class="me-2"
-                                                     alt=""> {{ __("lang.enrolled") }}: <span>{{ isset($course->enrollments) ? $course->enrollments->count() : 0 }} {{ __("lang.students") }}</span></li>
-                                            <li><img src="{{ URL::asset('/build/img/icon/timer.svg') }}" class="me-2"
-                                                     alt=""> {{ __("lang.duration") }}: <span>{{ floor($course->materials_sum_video_duration / 60) }} {{__("lang.hours")}}</span></li>
-                                            <li><img src="{{ URL::asset('/build/img/icon/chapter.svg') }}" class="me-2"
-                                                     alt=""> {{ __("lang.chapters") }}: <span>{{ $course->curriculum->chapters->count() }}</span></li>
-                                            <li><img src="{{ URL::asset('/build/img/icon/video.svg') }}" class="me-2"
-                                                     alt=""> {{ __("lang.lessons") }}:<span> {{ array_sum(array_column($course->curriculum->chapters->toArray(), "lessons_count")) }} {{ __("lang.lessons") }}</span></li>
-                                        </ul>
                                     </div>
                                 </div>
-                                <!-- /Features -->
-
-                                <!-- other courses -->
-                                @if($latestCourses->count())
-                                    <!-- Latest Posts -->
-                                    <div class="card post-widget">
-                                        <div class="card-body">
-                                            <div class="latest-head">
-                                                <h4 class="card-title">{{ __("lang.latest_for_you") }}</h4>
-                                            </div>
-
-                                            <ul class="latest-posts">
-
-                                                @foreach($latestCourses as $latest)
-                                                    <li>
-                                                        <div class="post-thumb">
-                                                            <a href="{{ route('student.course', ["course_id" => $latest->id]) }}">
-                                                                <img class="img-fluid"
-                                                                     src="{{ URL::asset('/build/img/blog/blog-01.jpg') }}"
-                                                                     alt="">
-                                                            </a>
-                                                        </div>
-                                                        <div class="post-info free-color">
-                                                            <h4>
-                                                                <a href="{{ route('student.course', ["course_id" => $latest->id]) }}">
-                                                                    {{ $latest->titleTranslate->translates[app()->getLocale()] }}
-                                                                </a>
-                                                            </h4>
-                                                            <small>
-                                                                <a href="{{ route('student.courses', ["curriculum_id" => $latest->curriculum->id]) }}">
-                                                                    ({{ $latest->curriculum->subject->subject->subjectTranslate->translates[app()->getLocale()] }}) -
-                                                                    {{ $latest->curriculum->curriculumTranslate->translates[app()->getLocale()] }}
-                                                                </a>
-                                                            </small>
-                                                            <p>{{ $latest->cost["course"] }} LE</p>
-                                                        </div>
-                                                    </li>
-                                                @endforeach
-                                            </ul>
-
-                                        </div>
-                                    </div>
-                                    <!-- /Latest Posts -->
-
-                                @endif
-                                <!-- /end other courses -->
-
                             </div>
+                            <!-- /Video -->
+
+                            <!-- Features -->
+                            <div class="card feature-sec">
+                                <div class="card-body">
+                                    <div class="cat-title">
+                                        <h4>{{ __("lang.course_features") }}</h4>
+                                    </div>
+                                    <ul>
+                                        <li><img src="{{ URL::asset('/build/img/icon/play.svg') }}" class="me-2"
+                                                 alt=""> {{ __("lang.non_downloadable") }}
+                                        </li>
+                                        <li><img src="{{ URL::asset('/build/img/icon/key.svg') }}" class="me-2"
+                                                 alt=""> {{ __("lang.watch_times") }}
+                                        </li>
+                                        <li><img src="{{ URL::asset('/build/img/icon/mobile.svg') }}" class="me-2"
+                                                 alt=""> {{ __("lang.Access_from_any_device") }}
+                                        </li>
+                                        <li><img src="{{ URL::asset('/build/img/icon/cloud.svg') }}" class="me-2"
+                                                 alt=""> {{ __("lang.assignments") }}
+                                        </li>
+                                        <li><img src="{{ URL::asset('/build/img/icon/users.svg') }}" class="me-2"
+                                                 alt=""> {{ __("lang.enrolled") }}:
+                                            <span>{{ isset($course->enrollments) ? $course->enrollments->count() : 0 }} {{ __("lang.students") }}</span>
+                                        </li>
+                                        <li><img src="{{ URL::asset('/build/img/icon/timer.svg') }}" class="me-2"
+                                                 alt=""> {{ __("lang.duration") }}:
+                                            <span>{{ floor($course->materials_sum_video_duration / 60) }} {{__("lang.hours")}}</span>
+                                        </li>
+                                        <li><img src="{{ URL::asset('/build/img/icon/chapter.svg') }}" class="me-2"
+                                                 alt=""> {{ __("lang.chapters") }}:
+                                            <span>{{ $course->curriculum->chapters->count() }}</span></li>
+                                        <li><img src="{{ URL::asset('/build/img/icon/video.svg') }}" class="me-2"
+                                                 alt=""> {{ __("lang.lessons") }}
+                                            :<span> {{ array_sum(array_column($course->curriculum->chapters->toArray(), "lessons_count")) }} {{ __("lang.lessons") }}</span>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <!-- /Features -->
+
+                            <!-- other courses -->
+                            @if($latestCourses->count())
+                                <!-- Latest Posts -->
+                                <div class="card post-widget">
+                                    <div class="card-body">
+                                        <div class="latest-head">
+                                            <h4 class="card-title">{{ __("lang.latest_for_you") }}</h4>
+                                        </div>
+
+                                        <ul class="latest-posts">
+
+                                            @foreach($latestCourses as $latest)
+                                                <li>
+                                                    <div class="post-thumb">
+                                                        <a href="{{ route('student.course', ["course_id" => $latest->id]) }}">
+                                                            <img class="img-fluid"
+                                                                 src="{{ URL::asset('/build/img/blog/blog-01.jpg') }}"
+                                                                 alt="">
+                                                        </a>
+                                                    </div>
+                                                    <div class="post-info free-color">
+                                                        <h4>
+                                                            <a href="{{ route('student.course', ["course_id" => $latest->id]) }}">
+                                                                {{ $latest->titleTranslate->translates[app()->getLocale()] }}
+                                                            </a>
+                                                        </h4>
+                                                        <small>
+                                                            <a href="{{ route('student.courses', ["curriculum_id" => $latest->curriculum->id]) }}">
+                                                                ({{ $latest->curriculum->subject->subject->subjectTranslate->translates[app()->getLocale()] }}
+                                                                ) -
+                                                                {{ $latest->curriculum->curriculumTranslate->translates[app()->getLocale()] }}
+                                                            </a>
+                                                        </small>
+                                                        <p>{{ $latest->cost["course"] }} LE</p>
+                                                    </div>
+                                                </li>
+                                            @endforeach
+                                        </ul>
+
+                                    </div>
+                                </div>
+                                <!-- /Latest Posts -->
+
+                            @endif
+                            <!-- /end other courses -->
+
                         </div>
                     </div>
                 </div>
+            </div>
         </section>
         <!-- /Pricing Plan -->
     @else

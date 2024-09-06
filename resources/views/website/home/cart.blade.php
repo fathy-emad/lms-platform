@@ -107,7 +107,7 @@
                                         </div>
                                         <div class="col-lg-6 col-md-6">
                                             <div class="check-outs">
-                                                <a href="{{ route('student.website') }}" class="btn btn-primary">{{ __("lang.checkout") }}</a>
+                                                <a href="{{ route('student.checkout') }}" class="btn btn-primary">{{ __("lang.checkout") }}</a>
                                             </div>
                                         </div>
                                         <div class="col-lg-6 col-md-6">

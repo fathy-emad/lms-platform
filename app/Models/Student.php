@@ -52,6 +52,11 @@ class Student extends Authenticatable implements JWTSubject
         return $this->hasMany(Cart::class, "student_id");
     }
 
+    public function enrollments(): HasMany
+    {
+        return $this->hasMany(Enrollment::class, "student_id");
+    }
+
     public function invoices(): HasMany
     {
         return $this->hasMany(Invoice::class, 'student_id');

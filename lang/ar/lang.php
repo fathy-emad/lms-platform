@@ -124,6 +124,12 @@
         'my_courses' => 'كورساتى',
         'bank_questions' => 'بنك الأسئلة',
         'materials' => 'محتوى الدروس',
-        'my_money' => 'فلوسى'
+        'my_money' => 'فلوسى',
+        'payment_method' => 'طرق الدفع',
+        'manual' => 'إتصل بنا',
+        'credit_and_debit' => 'كروت الدفع',
+        'preview' => 'عرض',
+        'free' => 'مجانا',
+        'lesson' => 'الدرس'
 	];
 ?>

@@ -23,7 +23,7 @@ class ApiLocale
         if ($request->hasHeader('locale'))
         {
             $locale = $request->header('locale');
-            $exists_locale = Language::where('locale', $locale)->first();
+            $exists_locale = Language::where('locale', $locale)->exists();
 
             if ($exists_locale) App::setLocale($locale);
         }
