@@ -96,7 +96,7 @@
                                                          src="{{ URL::asset('/build/img/course/course-10.jpg') }}">
                                                 </a>
                                                 <div class="price">
-                                                    <h3>{{$course->cost["course"]}} LE<span>1000.00 LE</span></h3>
+                                                    <h3>{{$course->cost["course"]}} LE<span>{{$course->cost["course"] * 2}} LE</span></h3>
                                                 </div>
                                             </div>
                                             <div class="product-content">
@@ -122,9 +122,11 @@
                                                         </form>
                                                     </div>
                                                 </div>
-                                                <h3 class="title"><a href="{{ route('student.course', ["course_id" => $course->id]) }}">
+                                                <h3 class="title">
+                                                    <a href="{{ route('student.course', ["course_id" => $course->id]) }}">
                                                         {{ $course->titleTranslate->translates[app()->getLocale()] }}
-                                                    </a></h3>
+                                                    </a>
+                                                </h3>
 
                                                 <div class="course-info d-flex align-items-center">
                                                     <div class="rating-img d-flex align-items-center">
@@ -136,7 +138,10 @@
                                                         <p>{{ floor($course->materials_sum_video_duration / 60) }} {{__("lang.hr")}} {{ $course->materials_sum_video_duration % 60 }} {{__("lang.min")}}</p>
                                                     </div>
                                                 </div>
-                                                <div class="rating">
+                                                @if(auth('student')->user() && auth('student')->user()->enrollments && auth('student')->user()->enrollments()->where('course_id', $course->id)->whereDate("expired_at", ">=", \Carbon\Carbon::now(auth('student')->user()->country->timezone))->exists())
+                                                    <small class="web-badge bg-danger mb-3">exp: {{auth('student')->user()->enrollments()->where('course_id', $course->id)->whereDate("expired_at", ">=", \Carbon\Carbon::now(auth('student')->user()->country->timezone))->latest()->first()->expired_at}}</small>
+                                                @endif
+                                                <div class="rating mt-3">
                                                     <i class="fas fa-star filled"></i>
                                                     <i class="fas fa-star filled"></i>
                                                     <i class="fas fa-star filled"></i>
@@ -212,7 +217,6 @@
         @include("website_layouts.components.errors.coming_soon")
     @endif
 @endsection
-
 
 @section('script')
     <script>

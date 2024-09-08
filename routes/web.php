@@ -494,15 +494,12 @@ Route::name("student.")->middleware("entity.locale")->group(function (){
     //website auth
     Route::middleware("entity.auth:student")->group(function (){
 
-        //Cart
-        Route::view("cart", "website.home.cart")->name("cart");
-        Route::view("checkout", "website.home.checkout")->name("checkout");
-        Route::view("invoice_email", "emails.invoice");
-
         //profile pages
         Route::prefix("profile")->group(function (){
             Route::view("", "website.profile.profile")->name("profile");
-            Route::view("enrolled", "website.profile.profile")->name("enrolled");
+            Route::view("enrolled-courses", "website.profile.enrolled_courses")->name("enrolled_courses");
+            Route::view("cart", "website.profile.cart")->name("cart");
+            Route::view("checkout", "website.profile.checkout")->name("checkout");
         });
     });
 

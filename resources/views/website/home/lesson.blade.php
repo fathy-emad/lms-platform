@@ -22,7 +22,7 @@
         $materials = $course?->materials;
         $student = auth("student")->user();
         $enrolled = $student && $student->enrollments()->exists() && $student->enrollments()
-            ->where("expired_at", ">=", \Carbon\Carbon::now($student->country->timezone))
+            ->whereDate("expired_at", ">=", \Carbon\Carbon::now($student->country->timezone))
             ->where("course_id", $course?->id)
             ->exists();
         $lesson_data = \App\Models\Lesson::find(request("lesson_id"));
@@ -33,7 +33,7 @@
         if ($enrolled)
         {
             $course_enrollments = $student->enrollments()
-            ->where("expired_at", ">=", \Carbon\Carbon::now($student->country->timezone))
+            ->whereDate("expired_at", ">=", \Carbon\Carbon::now($student->country->timezone))
             ->where("course_id", $course?->id)->get();
 
             $course_enrollment_ids = array_column($course_enrollments->toArray(), "id");

@@ -61,7 +61,7 @@
 
         $student = auth("student")->user();
         $enrolled = $student && $student->enrollments()->exists() && $student->enrollments()
-         ->where("expired_at", ">=", \Carbon\Carbon::now($student->country->timezone))
+         ->whereDate("expired_at", ">=", \Carbon\Carbon::now($student->country->timezone))
          ->where("course_id", $course?->id)
          ->exists();
     @endphp
@@ -306,7 +306,7 @@
                                                     </a>
                                                     <div class="price">
                                                         <h3>{{$teacher_course->cost["course"]}} LE
-                                                            <span>1000.00 LE</span></h3>
+                                                            <span>{{$teacher_course->cost["course"] * 2}} LE</span></h3>
                                                     </div>
                                                 </div>
                                                 <div class="product-content">
@@ -329,7 +329,10 @@
                                                             <p>{{ floor($teacher_course->loadSum("materials", "video_duration")->materials_sum_video_duration / 60) }} {{__("lang.hr")}} {{ $teacher_course->loadSum("materials", "video_duration")->materials_sum_video_duration % 60 }} {{__("lang.min")}}</p>
                                                         </div>
                                                     </div>
-                                                    <div class="rating">
+                                                    @if(auth('student')->user() && auth('student')->user()->enrollments && auth('student')->user()->enrollments()->where('course_id', $teacher_course->id)->whereDate("expired_at", ">=", \Carbon\Carbon::now(auth('student')->user()->country->timezone))->exists())
+                                                        <small class="web-badge bg-danger mb-3">exp: {{auth('student')->user()->enrollments()->where('course_id', $teacher_course->id)->whereDate("expired_at", ">=", \Carbon\Carbon::now(auth('student')->user()->country->timezone))->latest()->first()->expired_at}}</small>
+                                                    @endif
+                                                    <div class="rating mt-3">
                                                         <i class="fas fa-star filled"></i>
                                                         <i class="fas fa-star filled"></i>
                                                         <i class="fas fa-star filled"></i>
@@ -438,22 +441,34 @@
                                         </a>
                                         <div class="video-details">
                                             <div class="course-fee">
-                                                <h2>FREE</h2>
-                                                <p><span>$99.00</span> 50% off</p>
+                                                <h2>{{ $course->cost["course"] }} LE</h2>
+                                                <p><span>{{ $course->cost["course"] * 2 }} LE</span> 50% off</p>
                                             </div>
                                             <div class="row gx-2">
                                                 <div class="col-md-6">
-                                                    <a href="{{ url('course-details') }}"
-                                                       class="btn btn-wish w-100"><i
-                                                            class="feather-heart"></i> Add to Wishlist</a>
+                                                    <form novalidate="" class="theme-form needs-validation" id="form" method="POST"
+                                                          authorization="{{session("student_data")["jwtToken"] ?? ''}}"
+                                                          action="{{ url("api/student/cart") }}" locale="{{app()->getLocale()}}" csrf="{{ csrf_token()}}">
+                                                        <input type="hidden" name="student_id" value="{{ auth("student")->id() }}">
+                                                        <input type="hidden" name="course_id" value="{{ $course->id }}">
+                                                        <input type="hidden" name="id"
+                                                               value="{{ auth('student')->user() && auth('student')->user()->carts && auth('student')->user()->carts()->where('course_id', $course->id)->exists() ? (auth('student')->user()->carts()->where('course_id', $course->id)->first())->id : "" }}">
+                                                        <a href="javascript:void(0);" onclick="cartFunctions(this)"
+                                                           class="btn btn-wish w-100">
+                                                            <i class="feather-heart {{ auth('student')->user() && auth('student')->user()->carts && auth('student')->user()->carts()->where('course_id', $course->id)->exists() ? "color-active" : "" }}"></i>
+                                                            {{ __("lang.add_to_cart") }}
+                                                        </a>
+                                                    </form>
+
                                                 </div>
                                                 <div class="col-md-6">
-                                                    <a href="javascript:;" class="btn btn-wish w-100"><i
-                                                            class="feather-share-2"></i> Share</a>
+                                                    <a href="javascript:;" class="btn btn-wish w-100"><i class="feather-share-2"></i> Share</a>
                                                 </div>
                                             </div>
-                                            <a href="{{ url('checkout') }}" class="btn btn-enroll w-100">Enroll
-                                                Now</a>
+                                            <a href="{{ url('checkout') }}" class="btn btn-enroll w-100 mb-3">{{ __("lang.enroll_now") }}</a>
+                                            @if(auth('student')->user() && auth('student')->user()->enrollments && auth('student')->user()->enrollments()->where('course_id', $course->id)->whereDate("expired_at", ">=", \Carbon\Carbon::now(auth('student')->user()->country->timezone))->exists())
+                                                <small class="web-badge bg-danger mb-3 mt-3">exp: {{auth('student')->user()->enrollments()->where('course_id', $course->id)->whereDate("expired_at", ">=", \Carbon\Carbon::now(auth('student')->user()->country->timezone))->latest()->first()->expired_at}}</small>
+                                            @endif
                                         </div>
                                     </div>
                                 </div>
@@ -555,4 +570,21 @@
         @include("website_layouts.components.errors.coming_soon")
     @endif
 
+@endsection
+
+
+@section('script')
+    <script>
+        function cartFunctions(element) {
+            let form = $(element).parent("form");
+
+            if($(element).find("i").hasClass("color-active"))
+                form.find("[name=_method").remove();
+            else
+                form.append('<input type="hidden" name="_method" value="DELETE">')
+
+            submitForm($(element), null, location.reload());
+
+        }
+    </script>
 @endsection

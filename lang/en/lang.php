@@ -130,6 +130,20 @@
         'preview' => 'Preview',
         'free' => 'Free',
         'lesson' => 'Lesson',
-        'views' => 'Views'
+        'views' => 'Views',
+        'name' => 'Name',
+        'phone' => 'Phone',
+        'gender' => 'Gender',
+        'email' => 'Email',
+        'status' => 'Status',
+        'school' => 'School',
+        'born' => 'Born',
+        'my_info' => 'My Info',
+        'enrolled_courses' => 'Enrolled courses',
+        'active_courses' => 'Active courses',
+        'completed_courses' => 'Completed courses',
+        'setting' => 'Settings',
+        'add_to_cart' => 'Add to cart',
+        'enroll_now' => 'Enroll now'
 	];
 ?>

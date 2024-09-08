@@ -6,7 +6,7 @@
             {{ __("lang.checkout") }}
         @endslot
         @slot('item1')
-            {{ __("lang.home") }}
+            {{ __("lang.profile") }}
         @endslot
         @slot('item2')
             {{ __("lang.checkout") }}
