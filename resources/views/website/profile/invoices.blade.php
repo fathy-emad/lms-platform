@@ -52,7 +52,7 @@
                                             @foreach($invoices as $invoice)
                                                 <tr>
                                                     <td>
-                                                        <a href="{{ route("student.download.invoice", ["invoice_id" => $invoice->id]) }}" class="action-icon"><i class="bx bxs-download"></i></a>
+                                                        <a href="#" class="action-icon"><i class="bx bxs-download"></i></a>
                                                     </td>
                                                     <td>#{{ $invoice->serial }}</td>
                                                     <td>{{ $invoice->totalCost }} LE</td>

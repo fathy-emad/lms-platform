@@ -18,11 +18,10 @@
             text-align: center;
             margin: 0 auto;
             width: 650px;
-            font-family: work-Sans, sans-serif, Work Sans;
+            font-family: work-Sans, sans-serif;
             background-color: #f6f7fb;
             display: block;
         }
-
         ul{
             margin:0;
             padding: 0;
@@ -78,10 +77,6 @@
         .footer-social-icon tr td img{
             margin-left:5px;
             margin-right:5px;
-        }
-        @font-face {
-            font-family: 'Work Sans';
-            src: url('{{ storage_path('fonts/WorkSans-Regular.ttf') }}') format('truetype');
         }
     </style>
 </head>
