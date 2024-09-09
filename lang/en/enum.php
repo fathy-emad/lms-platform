@@ -96,6 +96,12 @@ return [
         "Eng" => "Eng",
         "PhD" => "PhD",
         "Sheikh" => "Sheikh"
+    ],
+
+    "PaymentMethodEnum" => [
+        "Card" => "Card",
+        "Wallet" => "Wallet",
+        "Manual" => "Manual (Call us)"
     ]
 
 ];

@@ -12,6 +12,7 @@
 */
 
 
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
@@ -500,7 +501,19 @@ Route::name("student.")->middleware("entity.locale")->group(function (){
             Route::view("enrolled-courses", "website.profile.enrolled_courses")->name("enrolled_courses");
             Route::view("cart", "website.profile.cart")->name("cart");
             Route::view("checkout", "website.profile.checkout")->name("checkout");
+            Route::view("invoices", "website.profile.invoices")->name("invoices");
         });
+
+
+        Route::get('/download-invoice/{invoice_id}', function($invoice_id) {
+
+            $data = \App\Models\Invoice::find($invoice_id);
+            $user = auth("student")->user();
+
+            $pdf = Pdf::loadView('emails.invoice', compact('data', 'user'));
+
+            return $pdf->download('invoice.pdf');
+        })->name("download.invoice");
     });
 
 

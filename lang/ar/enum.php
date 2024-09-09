@@ -94,6 +94,12 @@ return [
         "Eng" => "مهندس",
         "PhD" => "PhD",
         "Sheikh" => "Sheikh"
+    ],
+
+    "PaymentMethodEnum" => [
+        "Card" => "كارت",
+        "Wallet" => "محفظة إلكترونية",
+        "Manual" => "الإتصال بنا"
     ]
 
 ];

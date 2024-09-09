@@ -7,7 +7,7 @@ use App\Traits\EnumTrait;
 enum PaymentMethodEnum: string
 {
 
-    //donot miss if add new type add it i invoice database
+    //do not miss if add new type add it i invoice database
 
     use EnumTrait;
 

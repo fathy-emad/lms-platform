@@ -64,7 +64,7 @@
                                                                     <img class="img-fluid" alt="Img" src="{{URL::asset('/build/img/course/course-02.jpg')}}">
                                                                 </a>
                                                                 <div class="price">
-                                                                    <h3>{{$active_enrollment->payment->cost}} LE<span>1000.00 LE</span></h3>
+                                                                    <h3>{{$active_enrollment->payment->cost}} LE</h3>
                                                                 </div>
                                                             </div>
                                                             <div class="product-content">
@@ -120,7 +120,7 @@
                                                                     <img class="img-fluid" alt="Img" src="{{URL::asset('/build/img/course/course-02.jpg')}}">
                                                                 </a>
                                                                 <div class="price">
-                                                                    <h3>{{$all_enrollment->payment->cost}} LE<span>1000.00 LE</span></h3>
+                                                                    <h3>{{$all_enrollment->payment->cost}} LE</h3>
                                                                 </div>
                                                             </div>
                                                             <div class="product-content">
@@ -176,7 +176,7 @@
                                                                     <img class="img-fluid" alt="Img" src="{{URL::asset('/build/img/course/course-02.jpg')}}">
                                                                 </a>
                                                                 <div class="price">
-                                                                    <h3>{{$completed_enrollment->payment->cost}} LE<span>1000.00 LE</span></h3>
+                                                                    <h3>{{$completed_enrollment->payment->cost}} LE</h3>
                                                                 </div>
                                                             </div>
                                                             <div class="product-content">

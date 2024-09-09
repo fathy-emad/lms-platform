@@ -35,6 +35,11 @@
                         <i class="bx bxs-cart"></i>{{ __("lang.cart") }}
                     </a>
                 </li>
+                <li class="nav-item {{ Request::is('student.invoices') ? 'active' : '' }}">
+                    <a href="{{ route('student.invoices') }}" class="nav-link">
+                        <i class="bx bxs-dollar-circle"></i>{{ __("lang.invoices") }}
+                    </a>
+                </li>
             </ul>
             <h3>Account Settings</h3>
             <ul>

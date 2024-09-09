@@ -144,6 +144,11 @@
         'completed_courses' => 'Completed courses',
         'setting' => 'Settings',
         'add_to_cart' => 'Add to cart',
-        'enroll_now' => 'Enroll now'
+        'enroll_now' => 'Enroll now',
+        'count' => 'Count',
+        'invoice_id' => 'Invoice ID',
+        'date' => 'date',
+        'invoices' => 'Invoices',
+        'invoice' => 'Invoice'
 	];
 ?>
