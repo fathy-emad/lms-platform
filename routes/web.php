@@ -502,6 +502,11 @@ Route::name("student.")->middleware("entity.locale")->group(function (){
             Route::view("cart", "website.profile.cart")->name("cart");
             Route::view("checkout", "website.profile.checkout")->name("checkout");
             Route::view("invoices", "website.profile.invoices")->name("invoices");
+
+            //settings pages
+            Route::prefix("settings")->group(function (){
+                Route::view("", "website.profile.settings.edit-profile")->name("profile.settings.edit-profile");
+            });
         });
 
     });

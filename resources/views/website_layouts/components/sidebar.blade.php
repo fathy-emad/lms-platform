@@ -44,8 +44,8 @@
             <h3>Account Settings</h3>
             <ul>
                 <li
-                    class="nav-item {{ Request::is(
-                        'student-settings',
+                    class="nav-item {{ Route::is(
+                        'student.profile.settings.edit-profile',
                         'student-change-password',
                         'student-setting-notifications',
                         'student-setting-social-profile',
@@ -57,7 +57,7 @@
                     )
                         ? 'active'
                         : '' }}">
-                    <a href="{{ url('student-settings') }}" class="nav-link ">
+                    <a href="{{ Route('student.profile.settings.edit-profile') }}" class="nav-link ">
                         <i class="bx bxs-cog"></i>Settings
                     </a>
                 </li>
