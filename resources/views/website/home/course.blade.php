@@ -341,8 +341,13 @@
                                                         <span class="d-inline-block average-rating"><span>4.0</span> (15)</span>
                                                     </div>
                                                     <div class="all-btn all-category d-flex align-items-center">
-                                                        <a href="{{ url('checkout') }}"
-                                                           class="btn btn-primary">{{ __("lang.buy_now") }}</a>
+                                                        <form novalidate="" class="theme-form needs-validation" id="form" method="POST"
+                                                              authorization="{{session("student_data")["jwtToken"] ?? ''}}"
+                                                              action="{{ url("api/student/cart") }}" locale="{{app()->getLocale()}}" csrf="{{ csrf_token()}}">
+                                                            <input type="hidden" name="student_id" value="{{ auth("student")?->id() }}">
+                                                            <input type="hidden" name="course_id" value="{{ $course->id }}">
+                                                            <a role="button" class="btn btn-primary" onclick="submitForm(this,null,window.location=APP_URL+'/profile/checkout',window.location=APP_URL+'/profile/checkout')">{{ __("lang.enroll_now") }}</a>
+                                                        </form>
                                                     </div>
                                                 </div>
                                             </div>
@@ -449,7 +454,7 @@
                                                     <form novalidate="" class="theme-form needs-validation" id="form" method="POST"
                                                           authorization="{{session("student_data")["jwtToken"] ?? ''}}"
                                                           action="{{ url("api/student/cart") }}" locale="{{app()->getLocale()}}" csrf="{{ csrf_token()}}">
-                                                        <input type="hidden" name="student_id" value="{{ auth("student")->id() }}">
+                                                        <input type="hidden" name="student_id" value="{{ auth("student")?->id() }}">
                                                         <input type="hidden" name="course_id" value="{{ $course->id }}">
                                                         <input type="hidden" name="id"
                                                                value="{{ auth('student')->user() && auth('student')->user()->carts && auth('student')->user()->carts()->where('course_id', $course->id)->exists() ? (auth('student')->user()->carts()->where('course_id', $course->id)->first())->id : "" }}">
@@ -465,7 +470,13 @@
                                                     <a href="javascript:;" class="btn btn-wish w-100"><i class="feather-share-2"></i> Share</a>
                                                 </div>
                                             </div>
-                                            <a href="{{ url('checkout') }}" class="btn btn-enroll w-100 mb-3">{{ __("lang.enroll_now") }}</a>
+                                            <form novalidate="" class="theme-form needs-validation" id="form" method="POST"
+                                                  authorization="{{session("student_data")["jwtToken"] ?? ''}}"
+                                                  action="{{ url("api/student/cart") }}" locale="{{app()->getLocale()}}" csrf="{{ csrf_token()}}">
+                                                <input type="hidden" name="student_id" value="{{ auth("student")?->id() }}">
+                                                <input type="hidden" name="course_id" value="{{ $course->id }}">
+                                                <a role="button" class="btn btn-enroll w-100 mb-3" onclick="submitForm(this,null,window.location=APP_URL+'/profile/checkout',window.location=APP_URL+'/profile/checkout')">{{ __("lang.enroll_now") }}</a>
+                                            </form>
                                             @if(auth('student')->user() && auth('student')->user()->enrollments && auth('student')->user()->enrollments()->where('course_id', $course->id)->whereDate("expired_at", ">=", \Carbon\Carbon::now(auth('student')->user()->country->timezone))->exists())
                                                 <small class="web-badge bg-danger mb-3 mt-3">exp: {{auth('student')->user()->enrollments()->where('course_id', $course->id)->whereDate("expired_at", ">=", \Carbon\Carbon::now(auth('student')->user()->country->timezone))->latest()->first()->expired_at}}</small>
                                             @endif
@@ -578,7 +589,7 @@
         function cartFunctions(element) {
             let form = $(element).parent("form");
 
-            if($(element).find("i").hasClass("color-active"))
+            if(!$(element).find("i").hasClass("color-active"))
                 form.find("[name=_method").remove();
             else
                 form.append('<input type="hidden" name="_method" value="DELETE">')

@@ -150,7 +150,13 @@
                                                     <span class="d-inline-block average-rating"><span>4.0</span> (15)</span>
                                                 </div>
                                                 <div class="all-btn all-category d-flex align-items-center">
-                                                    <a href="{{ url('checkout') }}" class="btn btn-primary">{{ __("lang.buy_now") }}</a>
+                                                    <form novalidate="" class="theme-form needs-validation" id="form" method="POST"
+                                                          authorization="{{session("student_data")["jwtToken"] ?? ''}}"
+                                                          action="{{ url("api/student/cart") }}" locale="{{app()->getLocale()}}" csrf="{{ csrf_token()}}">
+                                                        <input type="hidden" name="student_id" value="{{ auth("student")?->id() }}">
+                                                        <input type="hidden" name="course_id" value="{{ $course->id }}">
+                                                        <a role="button" class="btn btn-primary" onclick="submitForm(this,null,window.location=APP_URL+'/profile/checkout',window.location=APP_URL+'/profile/checkout')">{{ __("lang.enroll_now") }}</a>
+                                                    </form>
                                                 </div>
                                             </div>
                                         </div>

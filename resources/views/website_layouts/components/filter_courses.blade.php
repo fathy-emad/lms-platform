@@ -59,12 +59,12 @@
             <div class="col-lg-6">
                 <div class="d-flex align-items-center">
                     <div class="view-icons">
-                        <a href="{{ route('student.courses', ["curriculum_id" => request("curriculum_id")]) }}"
-                           class="grid-view {{ Route::is('student.courses') ? 'active' : '' }}"><i
-                                class="feather-grid"></i></a>
-                        <a href="{{ url('course-list') }}"
-                           class="list-view {{ Request::is('course-list') ? 'active' : '' }}"><i
-                                class="feather-list"></i></a>
+{{--                        <a href="{{ route('student.courses', ["curriculum_id" => request("curriculum_id")]) }}"--}}
+{{--                           class="grid-view {{ Route::is('student.courses') ? 'active' : '' }}"><i--}}
+{{--                                class="feather-grid"></i></a>--}}
+{{--                        <a href="{{ url('course-list') }}"--}}
+{{--                           class="list-view {{ Request::is('course-list') ? 'active' : '' }}"><i--}}
+{{--                                class="feather-list"></i></a>--}}
                     </div>
                     <div class="show-result">
                         <h4>Showing {{ $result }}-{{ $perPage }} of {{ $total }} results</h4>
