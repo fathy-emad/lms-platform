@@ -286,7 +286,7 @@
                         <div class="wishes-list dropdown-menu dropdown-menu-right">
                             <div class="wish-header">
                                 <a href="{{ route("student.cart") }}">{{ __("lang.view_cart") }}</a>
-                                <a href="javascript:void(0)" class="float-end">{{ __("lang.checkout") }}</a>
+                                <a href="{{ route("student.checkout") }}" class="float-end">{{ __("lang.checkout") }}</a>
                             </div>
                             <div class="wish-content">
                                 @php $total = 0 @endphp

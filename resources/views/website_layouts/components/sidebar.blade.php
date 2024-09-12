@@ -41,7 +41,7 @@
                     </a>
                 </li>
             </ul>
-            <h3>Account Settings</h3>
+            <h3>{{ __("lang.account_settings") }}</h3>
             <ul>
                 <li
                     class="nav-item {{ Route::is(
@@ -58,13 +58,16 @@
                         ? 'active'
                         : '' }}">
                     <a href="{{ Route('student.profile.settings.edit-profile') }}" class="nav-link ">
-                        <i class="bx bxs-cog"></i>Settings
+                        <i class="bx bxs-cog"></i>{{ __("lang.settings") }}
                     </a>
                 </li>
                 <li class="nav-item {{ Request::is('index') ? 'active' : '' }}">
-                    <a href="{{ url('index') }}" class="nav-link">
-                        <i class="bx bxs-log-out"></i>Logout
-                    </a>
+                    <form novalidate="" class="theme-form needs-validation" id="form" method="POST"
+                          action="{{ url("api/student/auth/logout") }}" authorization="{{ session("student_data")["jwtToken"] }}" locale="{{app()->getLocale()}}" csrf="{{ csrf_token()}}">
+                        <a class="nav-link" role="button" onclick="submitForm(this)">
+                            <i class="bx bxs-log-out"></i>{{ __("lang.logout") }}
+                        </a>
+                    </form>
                 </li>
             </ul>
         </div>

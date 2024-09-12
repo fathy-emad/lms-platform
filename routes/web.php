@@ -506,6 +506,7 @@ Route::name("student.")->middleware("entity.locale")->group(function (){
             //settings pages
             Route::prefix("settings")->group(function (){
                 Route::view("", "website.profile.settings.edit-profile")->name("profile.settings.edit-profile");
+                Route::view("change-password", "website.profile.settings.change-password")->name("profile.settings.change-password");
             });
         });
 

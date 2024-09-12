@@ -150,6 +150,15 @@
         'invoice_id' => 'رقم الفاتورة',
         'date' => 'التاريخ',
         'invoices' => 'المدفوعات',
-        'invoice' => 'الفاتورة'
+        'invoice' => 'الفاتورة',
+        'edit_profile' => 'تعديل الحساب',
+        'change_password' => 'تغير كلمة المرور',
+        'your_pic' => 'صوررتك',
+        'personal_details' => 'البيانات الأساسية',
+        'settings' => 'الإعدادات',
+        'edit_your_personal_information' => 'تعديل بياناتك الشخصية',
+        'title_settings' => 'يمكنك التحكم و إدارة بياناتك و حسابك من هنا',
+        'email_note' => 'تأكدة من صحة بيانات البريد الإلكترونى لمعرفة إسترجاع حسابك',
+        'account_settings' => 'إعدادات الحساب'
 	];
 ?>

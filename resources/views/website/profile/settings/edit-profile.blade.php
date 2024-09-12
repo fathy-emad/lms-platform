@@ -54,7 +54,7 @@
                     <div class="input-block">
                         <label class="form-control-label">{{ __("attributes.email") }}</label>
                         <input type="email" name="email" class="form-control" value="{{$student->email}}" placeholder="Enter your email address">
-                        <div id="" class="text-primary">Be sure this email work correctly to get your account if lost</div>
+                        <div id="" class="text-primary">{{ __("lang.email_note") }}</div>
                     </div>
                 </div>
 

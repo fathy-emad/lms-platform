@@ -142,13 +142,23 @@
         'enrolled_courses' => 'Enrolled courses',
         'active_courses' => 'Active courses',
         'completed_courses' => 'Completed courses',
-        'setting' => 'Settings',
+        'setting' => 'Setting',
         'add_to_cart' => 'Add to cart',
         'enroll_now' => 'Enroll now',
         'count' => 'Count',
         'invoice_id' => 'Invoice ID',
         'date' => 'date',
         'invoices' => 'Invoices',
-        'invoice' => 'Invoice'
+        'invoice' => 'Invoice',
+        'edit_profile' => 'Edit profile',
+        'change_password' => 'Change password',
+        'your_pic' => 'Your pic',
+        'personal_details' => 'Personal details',
+        'settings' => 'Settings',
+        'edit_your_personal_information' => 'Edit your personal information',
+        'title_settings' => 'You have full control to manage your own account settings',
+        'email_note' => 'Be sure this email work correctly to get your account if lost',
+        'account_settings' => 'Account settings'
+
 	];
 ?>

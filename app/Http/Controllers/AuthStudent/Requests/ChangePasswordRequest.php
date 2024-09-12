@@ -11,7 +11,7 @@ class ChangePasswordRequest extends ValidateRequest
     {
         return [
             "id" => "required|integer|exists:students,id|in:" . auth("student")->id(),
-            "currentPassword" => "required|current_password:teacher",
+            "currentPassword" => "required|current_password:student",
             "password" => ["required", "confirmed", Password::min(8)->letters()->mixedCase()->numbers()->symbols()],
             "password_confirmation" => "required",
         ];

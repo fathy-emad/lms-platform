@@ -66,5 +66,9 @@ return [
     "totalAmount" => "Total amount",
     "countItems" => "Count items",
     "total" => "Total",
-    "status" => "Status"
+    "status" => "Status",
+    "gender" => 'Gender',
+    'born' => 'Born',
+    'school' => 'School',
+    'current_password' => 'Current Password'
 ];

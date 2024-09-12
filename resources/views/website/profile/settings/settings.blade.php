@@ -65,7 +65,7 @@
                         <div class="settings-menu p-0">
                             <div class="profile-heading">
                                 <h3>{{ __("lang.settings") }}</h3>
-                                <p>You have full control to manage your own account settings</p>
+                                <p>{{ __("lang.title_settings") }}</p>
                             </div>
                             <div class="settings-page-head">
                                 <ul class="settings-pg-links">
@@ -74,9 +74,11 @@
                                             {{__("lang.edit_profile")}}
                                         </a>
                                     </li>
-                                    <li><a href="{{ url('student-change-password') }}"><i class="bx bx-lock"></i>{{__("lang.change_password")}}</a></li>
-                                    <li><a href="{{ url('student-social-profile') }}"><i class="bx bx-user-circle"></i>{{__("lang.change_email")}}</a></li>
-                                    <li><a href="{{ url('student-notifications') }}"><i class="bx bx-bell"></i>{{__("lang.notifications")}}</a></li>
+                                    <li><a href="{{ Route('student.profile.settings.change-password') }}"
+                                            class="{{ Route::is('student.profile.settings.change-password') ? "active" : "" }}"><i class="bx bx-lock"></i>
+                                            {{__("lang.change_password")}}</a></li>
+{{--                                    <li><a href="{{ url('student-social-profile') }}"><i class="bx bx-user-circle"></i>{{__("lang.change_email")}}</a></li>--}}
+{{--                                    <li><a href="{{ url('student-notifications') }}"><i class="bx bx-bell"></i>{{__("lang.notifications")}}</a></li>--}}
                                 </ul>
                             </div>
 

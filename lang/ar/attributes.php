@@ -66,5 +66,9 @@ return [
     "totalAmount" => "كل المبلغ",
     "countItems" => "عدد العناصر",
     "total" => "المجموع",
-    "status" => "الحالة"
+    "status" => "الحالة",
+    "gender" => 'النوع',
+    'born' => 'الميلاد',
+    'school' => 'المدرسة',
+    'current_password' => 'كلمة المرور الحالية'
 ];
