@@ -9,7 +9,7 @@
 @endphp
 @section('section_form')
     <form novalidate="" class="theme-form needs-validation" id="form" method="POST"
-          action="{{ url("api/student/auth/register") }}"
+          action="{{ url("api/student/register") }}"
           authorization="{{session("student_data")["jwtToken"] ?? ''}}" locale="{{app()->getLocale()}}" csrf="{{ csrf_token()}}">
         <input type="hidden" name="id" value="{{ $student->id }}">
         <input type="hidden" name="_method" value="PUT">
@@ -46,7 +46,7 @@
                 <div class="col-md-12">
                     <div class="input-block">
                         <label class="form-label">{{ __("attributes.name") }}</label>
-                        <input type="text" class="form-control" value="{{ $student->name }}">
+                        <input type="text" class="form-control" name="name" value="{{ $student->name }}">
                     </div>
                 </div>
 
@@ -167,7 +167,7 @@
 
         let successCallback = function () {
 
-            window.location = APP_URL + "/login";
+            location.reload();
         };
     </script>
 @endsection

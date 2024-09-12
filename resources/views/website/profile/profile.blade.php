@@ -29,7 +29,7 @@
                     <div class="settings-widget card-details mb-0">
                         <div class="settings-menu p-0">
                             <div class="profile-heading">
-                                <h3>{{ __("lang_my_info") }}</h3>
+                                <h3>{{ __("lang.my_info") }}</h3>
                             </div>
                             <div class="checkout-form personal-address">
                                 <div class="row">
