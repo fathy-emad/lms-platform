@@ -5,7 +5,7 @@
             <div class="profile-bg">
                 <div class="profile-img">
                     <a href="{{ route('student.profile') }}"><img
-                            src="{{ URL::asset(auth("student")?->user() ? "uploads/".auth("student")->user()->image["file"] : '/build/img/user/user11.jpg') }}"
+                            src="{{ URL::asset(auth("student")->user() !== null ? "uploads/".auth("student")->user()->image["file"] : '/build/img/user/user11.jpg') }}"
                             alt="Img"></a>
                 </div>
             </div>
