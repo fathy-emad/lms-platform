@@ -347,7 +347,7 @@
                     <li class="nav-item user-nav">
                         <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown">
                             <span class="user-img">
-                                <img src="{{ URL::asset((session("student_data")["image"] ? "uploads/". session("student_data")["image"]["file"] : '/build/img/user/user11.jpg')) }}" alt="Img">
+                                <img src="{{ URL::asset(isset(auth("student")->user()->image["file"]) ? "uploads/".auth("student")->user()->image["file"] : '/build/img/user/user11.jpg') }}" alt="Img">
                                 <span class="status online"></span>
                             </span>
                         </a>
