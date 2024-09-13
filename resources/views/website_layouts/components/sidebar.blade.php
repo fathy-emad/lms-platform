@@ -5,7 +5,8 @@
             <div class="profile-bg">
                 <div class="profile-img">
                     <a href="{{ route('student.profile') }}"><img
-                            src="{{ URL::asset("uploads/".auth("student")->user()->image["file"] ?: '/build/img/user/user11.jpg') }}" alt="Img"></a>
+                            src="{{ URL::asset(auth("student")?->user() ? "uploads/".auth("student")->user()->image["file"] : '/build/img/user/user11.jpg') }}"
+                            alt="Img"></a>
                 </div>
             </div>
             <div class="profile-group">
@@ -63,7 +64,9 @@
                 </li>
                 <li class="nav-item {{ Request::is('index') ? 'active' : '' }}">
                     <form novalidate="" class="theme-form needs-validation" id="form" method="POST"
-                          action="{{ url("api/student/auth/logout") }}" authorization="{{ session("student_data")["jwtToken"] }}" locale="{{app()->getLocale()}}" csrf="{{ csrf_token()}}">
+                          action="{{ url("api/student/auth/logout") }}"
+                          authorization="{{ session("student_data")["jwtToken"] }}" locale="{{app()->getLocale()}}"
+                          csrf="{{ csrf_token()}}">
                         <a class="nav-link" role="button" onclick="submitForm(this)">
                             <i class="bx bxs-log-out"></i>{{ __("lang.logout") }}
                         </a>
