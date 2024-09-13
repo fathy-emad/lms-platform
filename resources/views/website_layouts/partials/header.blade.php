@@ -354,7 +354,7 @@
                         <div class="users dropdown-menu dropdown-menu-right" data-popper-placement="bottom-end">
                             <div class="user-header">
                                 <div class="avatar avatar-sm">
-                                    <img src="{{ URL::asset(auth("student")->user() !== null && isset(auth("student")->user()->image["file"]) ? "uploads/".auth("student")->user()->image["file"] : '/build/img/user/user11.jpg') }}" alt="User Image"
+                                    <img src="{{ URL::asset(isset(auth("student")->user()->image["file"]) ? "uploads/".auth("student")->user()->image["file"] : '/build/img/user/user11.jpg') }}" alt="User Image"
                                          class="avatar-img rounded-circle">
                                 </div>
                                 <div class="user-text">
