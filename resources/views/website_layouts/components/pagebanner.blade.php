@@ -4,10 +4,10 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-12 col-12">
-                    @if (!Route::is(['help-center']))
+                    @if (!Route::is(['student.faqs']))
                         <h1 class="mb-0">{{ $title }}</h1>
                     @endif
-                    @if (Route::is(['help-center']))
+                    @if (Route::is(['student.faqs']))
                         <h1>{{ $title }}</h1>
                         <p>{{ $li1 }}</p>
                     @endif

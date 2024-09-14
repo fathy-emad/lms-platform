@@ -64,13 +64,13 @@
         'instructor-quiz-attempts-details',
         'add-course',
         'student.lesson',
-        'help-center',
+        'student.faqs',
         'instructor-edit',
-        'privacy-policy',
+        'student.privacy_policy',
         'setting-student-subscription',
         'student-notifications',
         'student-social-profile',
-        'term-condition',
+        'student.terms_condition',
     ]))
     <header class="header">
 @endif
@@ -139,13 +139,13 @@
         'instructor-quiz-attempts-details',
         'add-course',
         'student.lesson',
-        'help-center',
+        'student.faqs',
         'instructor-edit',
-        'privacy-policy',
+        'student.privacy_policy',
         'setting-student-subscription',
         'student-notifications',
         'student-social-profile',
-        'term-condition',
+        'student.terms_condition',
     ]))
     <header class="header header-page">
 @endif

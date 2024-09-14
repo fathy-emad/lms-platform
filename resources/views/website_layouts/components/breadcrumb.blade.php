@@ -30,13 +30,13 @@
         'student.courses',
         'course-list',
         'faq',
-        'help-center',
+        'student.faqs',
         'student.curricula',
         'notifications',
         'pricing-plan',
-        'privacy-policy',
+        'student.privacy_policy',
         'support',
-        'term-condition',
+        'student.terms_condition',
         'wishlist'
     ]))
     <!-- Breadcrumb -->
@@ -113,7 +113,7 @@
     <!-- /Breadcrumb -->
 @endif
 
-@if(Route::is(['students-grid','students-list','blog-details','blog-grid','blog-list','blog-masonry','blog-modern','student.courses','course-list','faq','help-center','student.curricula','notifications','pricing-plan','privacy-policy','support','term-condition','wishlist']))
+@if(Route::is(['students-grid','students-list','blog-details','blog-grid','blog-list','blog-masonry','blog-modern','student.courses','course-list','faq','student.faqs','student.curricula','notifications','pricing-plan','student.privacy_policy','support','student.terms_condition','wishlist']))
 	<!-- Breadcrumb -->
     <div class="breadcrumb-bar">
         <div class="container">

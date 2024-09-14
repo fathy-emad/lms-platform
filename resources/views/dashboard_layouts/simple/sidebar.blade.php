@@ -1,11 +1,11 @@
 <div class="sidebar-wrapper">
 	<div>
 		<div class="logo-wrapper">
-			<a href="{{route('admin.dashboard')}}"><img class="img-fluid for-light" src="{{asset('assets/images/logo/logo.png')}}" alt=""><img class="img-fluid for-dark" src="{{asset('assets/images/logo/logo_dark.png')}}" alt=""></a>
+			<a href="{{route('admin.dashboard')}}"><img class="img-fluid for-light" src="{{asset('build/img/logo.svg')}}" alt=""><img class="img-fluid for-dark" src="{{asset('build/img/logo_dark.svg')}}" alt=""></a>
 			<div class="back-btn"><i class="fa fa-angle-left"></i></div>
 			<div class="toggle-sidebar"><i class="status_toggle middle sidebar-toggle" data-feather="grid"> </i></div>
 		</div>
-		<div class="logo-icon-wrapper"><a href="{{route('admin.dashboard')}}"><img class="img-fluid" src="{{asset('assets/images/logo/logo-icon.png')}}" alt=""></a></div>
+		<div class="logo-icon-wrapper"><a href="{{route('admin.dashboard')}}"><img class="img-fluid" width="40" height="40" src="{{asset('build/img/favicon.svg')}}" alt=""></a></div>
 		<nav class="sidebar-main">
 			<div class="left-arrow" id="left-arrow"><i data-feather="arrow-left"></i></div>
 			<div id="sidebar-menu">
@@ -34,7 +34,7 @@
                                     </a>
                                     <ul class="sidebar-submenu" style="display:{{ $activeMenu ? "block" : "none" }}">
                                         @foreach($items as $item)
-                                            @if(!in_array(explode("/", $item["link"])[2], ["setting-education", "setting"]) || in_array(explode("/", $item["link"])[3], ["stage", "edu-subject", "route-menu", "country", "language"]))
+                                            @if(!in_array(explode("/", $item["link"])[2], ["setting-education", "setting"]) || in_array(explode("/", $item["link"])[3], ["stage", "edu-subject", "route-menu", "country", "language", "faq"]))
                                                 <li><a href="{{url(str_replace("api/", "", $item["link"]))}}" class="{{$api == $item["link"] ? 'active' : ''}}"><i data-feather="settings"></i>{{ $item["title"]["translates"][app()->getLocale()] }}</a></li>
                                             @endif
                                         @endforeach

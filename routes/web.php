@@ -59,6 +59,7 @@ Route::prefix("admin")->name("admin.")->middleware("entity.locale")->group(funct
             Route::view('country', 'admin.setting.country')->name("country");
             Route::view('route-menu', 'admin.setting.route-menu')->name("route-menu");
             Route::view('route-item/{menu_title}/{menu_id}', 'admin.setting.route-item')->name("route-item");
+            Route::view('faq', 'admin.setting.faq')->name("faq");
         });
 
         Route::prefix("employee")->name("employee.")->group(function(){
@@ -520,6 +521,9 @@ Route::name("student.")->middleware("entity.locale")->group(function (){
         Route::view("courses/{curriculum_id}/{filter?}", "website.home.courses")->name("courses");
         Route::view("course/{course_id}", "website.home.course")->name("course");
         Route::view("lesson/{course_id}/{lesson_id}", "website.home.lesson")->name("lesson");
+        Route::view("term-condition", "website.home.term_condition")->name("terms_condition");
+        Route::view("privacy-policy", "website.home.privacy_policy")->name("privacy_policy");
+        Route::view("faqs", "website.home.faqs")->name("faqs");
     });
 
 });

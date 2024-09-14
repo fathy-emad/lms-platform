@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Setting\FAQ\FAQController;
 use App\Http\Controllers\Student\Checkout\CheckoutController;
 use App\Http\Controllers\Teacher\CourseRequest\CourseRequestController;
 use App\Http\Controllers\Teacher\PaymentRequest\PaymentRequestController;
@@ -85,6 +86,15 @@ Route::middleware(['apiAuth:admin', 'apiPermission'])->group(function (){
             Route::put('route-item', 'update');
             Route::post('route-item/reorder', 'reorder');
         });
+
+        //FAQS
+        Route::controller(FAQController::class)->group(function (){
+            Route::get('faq', 'read');
+            Route::post('faq', 'create');
+            Route::put('faq', 'update');
+            Route::delete('faq', 'delete');
+        });
+
 
     });
 

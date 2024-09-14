@@ -160,6 +160,19 @@
         'email_note' => 'Be sure this email work correctly to get your account if lost',
         'account_settings' => 'Account settings',
         'no_invoices' => 'You do not have invoices',
+        'terms_condition' => 'Terms & Conditions',
+        'privacy_policy' => 'Privacy Policy',
+        'faqs' => 'FAQs',
+        'faqs_title' => 'Have questions? Search through our Help Center',
+        'faqs_header' => 'Frequently asked questions',
+        'faqs_description' => 'Here are the most frequently asked questions you may check before getting started',
+        'contactus_header' => "Can't find what you're looking for?",
+        'contactus' => 'Contact us',
+        'contactus_description' => 'We can provide you with the support you need. Just contact us and our team will reply
+                                    quick to you.',
+        'support' => 'Support',
+        'support_description' => 'The good news is that you’re not alone, and you’re in the right place. Contact us for
+                                    more detailed support.'
 
 	];
 ?>

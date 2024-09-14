@@ -8,7 +8,10 @@
     'student.cart',
     'student.invoices',
     'student.enrolled_courses',
-    'student.profile.settings.edit-profile'
+    'student.profile.settings.edit-profile',
+    'student.terms_condition',
+    'student.privacy_policy',
+    'student.faqs'
 ]))
     <!-- Footer -->
     <footer class="footer">
@@ -115,8 +118,8 @@
                         <div class="col-md-6">
                             <div class="privacy-policy">
                                 <ul>
-                                    <li><a href="{{ url('term-condition') }}">Terms</a></li>
-                                    <li><a href="{{ url('privacy-policy') }}">Privacy</a></li>
+                                    <li><a href="{{ Route('student.terms_condition') }}">{{ __("lang.terms_condition") }}</a></li>
+                                    <li><a href="{{ Route('student.privacy_policy') }}">{{ __("lang.privacy_policy") }}</a></li>
                                 </ul>
                             </div>
                         </div>
