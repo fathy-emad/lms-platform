@@ -175,8 +175,8 @@
                     </a>
                 </div>
                 <ul class="main-nav">
-                    <li class="has-submenu active"><a class="" href="{{ route("student.website") }}">{{ __("lang.home") }}</a></li>
-                    <li class="has-submenu">
+                    <li class="has-submenu {{ Route::is("student.website") ? "active" : "" }}"><a class="" href="{{ route("student.website") }}">{{ __("lang.home") }}</a></li>
+                    <li class="has-submenu {{ Route::is(["student.curricula", "student.courses", "student.course", "student.lesson"]) ? "active" : ""  }}">
                         <a href="#">{{ __("lang.curricula") }} <i class="fas fa-chevron-down"></i></a>
                         @php
                             $stages = \App\Models\Stage::with(['years' => function($query) {
@@ -212,21 +212,6 @@
 {{--                            <li class=""><a href="{{ url('instructor.profile') }}">My Profile</a></li>--}}
                         </ul>
                     </li>
-                    <li class="has-submenu {{ Request::is('blog-list', 'blog-grid', 'blog-masonry', 'blog-modern', 'blog-details') ? 'active' : '' }}">
-                        <a href="#">Blog <i class="fas fa-chevron-down"></i></a>
-                        <ul class="submenu">
-                            <li class="{{ Request::is('blog-list') ? 'active' : '' }}"><a
-                                    href="{{ url('blog-list') }}">Blog List</a></li>
-                            <li class="{{ Request::is('blog-grid') ? 'active' : '' }}"><a
-                                    href="{{ url('blog-grid') }}">Blog Grid</a></li>
-                            <li class="{{ Request::is('blog-masonry') ? 'active' : '' }}"><a
-                                    href="{{ url('blog-masonry') }}">Blog Masonry</a></li>
-                            <li class="{{ Request::is('blog-modern') ? 'active' : '' }}"><a
-                                    href="{{ url('blog-modern') }}">Blog Modern</a></li>
-                            <li class="{{ Request::is('blog-details') ? 'active' : '' }}"><a
-                                    href="{{ url('blog-details') }}">Blog Details</a></li>
-                        </ul>
-                    </li>
                     <li class="has-submenu">
                         <a href="#"> {{ __("lang.language") }} <i class="fas fa-chevron-down"></i></a>
                         <ul class="submenu">
@@ -234,6 +219,8 @@
                             <li class="{{ app()->getLocale() !== "ar" ? 'active' : '' }}"><a href="{{ route('lang', 'en')}}">EN (English)</a></li>
                         </ul>
                     </li>
+                    <li class="has-submenu {{ Route::is("student.faqs") ? "active" : ""  }}"><a class="" href="{{ route("student.faqs") }}">{{ __("lang.faqs") }}</a></li>
+
                     @if(!auth("student")->user())
                         <li class="login-link"><a href="{{ route('student.auth.login') }}">{{ __("lang.login") }} / {{ __("lang.register") }}</a></li>
                     @else
