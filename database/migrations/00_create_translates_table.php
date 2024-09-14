@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('field');
             $table->string('table');
-            $table->string('key');
+            $table->text('key');
             $table->json('translates');
             $table->timestamps();
         });
