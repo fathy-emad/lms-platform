@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\Setting\FAQ\FAQController;
+use App\Http\Controllers\Setting\PrivacyPolicy\PrivacyPolicyController;
+use App\Http\Controllers\Setting\TermsCondition\TermsConditionController;
 use App\Http\Controllers\Student\Checkout\CheckoutController;
 use App\Http\Controllers\Teacher\CourseRequest\CourseRequestController;
 use App\Http\Controllers\Teacher\PaymentRequest\PaymentRequestController;
@@ -93,6 +95,22 @@ Route::middleware(['apiAuth:admin', 'apiPermission'])->group(function (){
             Route::post('faq', 'create');
             Route::put('faq', 'update');
             Route::delete('faq', 'delete');
+        });
+
+        //Terms conditions
+        Route::controller(TermsConditionController::class)->group(function (){
+            Route::get('terms-conditions', 'read');
+            Route::post('terms-conditions', 'create');
+            Route::put('terms-conditions', 'update');
+            Route::delete('terms-conditions', 'delete');
+        });
+
+        //privacy policy
+        Route::controller(PrivacyPolicyController::class)->group(function (){
+            Route::get('privacy-policy', 'read');
+            Route::post('privacy-policy', 'create');
+            Route::put('privacy-policy', 'update');
+            Route::delete('privacy-policy', 'delete');
         });
 
 

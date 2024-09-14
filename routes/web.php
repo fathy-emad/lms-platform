@@ -60,6 +60,8 @@ Route::prefix("admin")->name("admin.")->middleware("entity.locale")->group(funct
             Route::view('route-menu', 'admin.setting.route-menu')->name("route-menu");
             Route::view('route-item/{menu_title}/{menu_id}', 'admin.setting.route-item')->name("route-item");
             Route::view('faq', 'admin.setting.faq')->name("faq");
+            Route::view('terms-conditions', 'admin.setting.terms-conditions')->name("terms-conditions");
+            Route::view('privacy-policy', 'admin.setting.privacy-policy')->name("privacy-policy");
         });
 
         Route::prefix("employee")->name("employee.")->group(function(){

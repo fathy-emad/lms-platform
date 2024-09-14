@@ -70,5 +70,8 @@ return [
     "gender" => 'النوع',
     'born' => 'الميلاد',
     'school' => 'المدرسة',
-    'current_password' => 'كلمة المرور الحالية'
+    'current_password' => 'كلمة المرور الحالية',
+    'answer' => 'الإجابة',
+    'header' => 'العنوان',
+    'body' => 'المحتوى'
 ];

@@ -70,5 +70,8 @@ return [
     "gender" => 'Gender',
     'born' => 'Born',
     'school' => 'School',
-    'current_password' => 'Current Password'
+    'current_password' => 'Current Password',
+    'answer' => 'Answer',
+    'header' => 'Header',
+    'body' => 'Body'
 ];

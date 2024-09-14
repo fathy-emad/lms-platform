@@ -44,8 +44,8 @@
                                 <thead>
                                 <tr>
                                     <th>#ID</th>
-                                    <th>{{ __("attributes.question") }}</th>
-                                    <th>{{ __("attributes.answer") }}</th>
+                                    <th>{{ __("attributes.header") }}</th>
+                                    <th>{{ __("attributes.body") }}</th>
                                     <th>{{ __("attributes.ActiveEnum") }}</th>
                                     <th>{{ __("attributes.created_at") }}</th>
                                     <th>{{ __("attributes.created_by") }}</th>
@@ -57,8 +57,8 @@
                                 <tfoot>
                                 <tr>
                                     <th>#ID</th>
-                                    <th>{{ __("attributes.question") }}</th>
-                                    <th>{{ __("attributes.answer") }}</th>
+                                    <th>{{ __("attributes.header") }}</th>
+                                    <th>{{ __("attributes.body") }}</th>
                                     <th>{{ __("attributes.ActiveEnum") }}</th>
                                     <th>{{ __("attributes.created_at") }}</th>
                                     <th>{{ __("attributes.created_by") }}</th>
@@ -91,13 +91,13 @@
 
 
                                     <div class="col-12 mb-3">
-                                        <label for="question">{{ __("attributes.question") }}</label>
-                                        <input class="form-control" name="question" id="question" type="text" />
+                                        <label for="header">{{ __("attributes.header") }}</label>
+                                        <input class="form-control" name="header" id="header" type="text" />
                                     </div>
 
                                     <div class="col-12 mb-3">
-                                        <label for="answer">{{ __("attributes.answer") }}</label>
-                                        <textarea class="form-control" name="answer" id="answer"> </textarea>
+                                        <label for="body">{{ __("attributes.body") }}</label>
+                                        <textarea class="form-control" name="body" id="body"> </textarea>
                                     </div>
 
                                     <div class="col-sm-12 mb-3 media">
@@ -139,8 +139,8 @@
                                     <div class="col-12">
                                         <ul class="nav nav-pills nav-info mb-3" id="pills-infotab" role="tablist">
                                             <li class="nav-item"><a class="nav-link active" id="update-data-tab" data-bs-toggle="pill" href="#update-data" role="tab" aria-controls="update-data" aria-selected="true" data-bs-original-title="" title=""><i class="icofont icofont-ui-home"></i>data</a></li>
-                                            <li class="nav-item"><a class="nav-link" id="update-question-translate-tab" data-bs-toggle="pill" href="#update-question-translate" role="tab" aria-controls="update-question-translate" aria-selected="false" data-bs-original-title="" title=""><i class="icofont icofont-contacts"></i>question translates</a></li>
-                                            <li class="nav-item"><a class="nav-link" id="update-answer-translate-tab" data-bs-toggle="pill" href="#update-answer-translate" role="tab" aria-controls="update-answer-translate" aria-selected="false" data-bs-original-title="" title=""><i class="icofont icofont-contacts"></i>answer translates</a></li>
+                                            <li class="nav-item"><a class="nav-link" id="update-header-translate-tab" data-bs-toggle="pill" href="#update-header-translate" role="tab" aria-controls="update-header-translate" aria-selected="false" data-bs-original-title="" title=""><i class="icofont icofont-contacts"></i>header translates</a></li>
+                                            <li class="nav-item"><a class="nav-link" id="update-body-translate-tab" data-bs-toggle="pill" href="#update-body-translate" role="tab" aria-controls="update-body-translate" aria-selected="false" data-bs-original-title="" title=""><i class="icofont icofont-contacts"></i>body translates</a></li>
                                         </ul>
                                         <div class="tab-content" id="pills-infotabContent">
 
@@ -155,12 +155,12 @@
                                                 </div>
                                             </div>
 
-                                            <div class="tab-pane fade" id="update-question-translate" role="tabpanel" aria-labelledby="update-question-translate-tab">
-                                                <div class="row update-question-translates"></div>
+                                            <div class="tab-pane fade" id="update-header-translate" role="tabpanel" aria-labelledby="update-header-translate-tab">
+                                                <div class="row update-header-translates"></div>
                                             </div>
 
-                                            <div class="tab-pane fade" id="update-answer-translate" role="tabpanel" aria-labelledby="update-answer-translate-tab">
-                                                <div class="row update-answer-translates"></div>
+                                            <div class="tab-pane fade" id="update-body-translate" role="tabpanel" aria-labelledby="update-body-translate-tab">
+                                                <div class="row update-body-translates"></div>
                                             </div>
                                         </div>
                                     </div>
@@ -182,8 +182,8 @@
     <script src="{{asset('assets/js/datatable/datatables/jquery.dataTables.min.js')}}"></script>
     <script>
 
-        let questionTranslates = "";
-        let answerTranslates = "";
+        let headerTranslates = "";
+        let bodyTranslates = "";
         let pageData = @json($pageData);
         let datatableUri = `${APP_URL}/${pageData.link}`;
         let datatableAuthToken = "{{session("admin_data")["jwtToken"]}}";
@@ -191,8 +191,8 @@
         let dataTableReorder = null;
         let datatableColumns = [
             { "data": "id" },
-            { "data": "question.translate" },
-            { "data": "answer.translate" },
+            { "data": "header.translate" },
+            { "data": "body.translate" },
             { "data": "ActiveEnum.translate" },
             { "data": "created_at.dateTime" },
             { "data": "created_by.name" },
@@ -234,15 +234,15 @@
             modal.find("[name=id]").val(data.id);
             modal.find("[name=ActiveEnum]").prop("checked", data.ActiveEnum.key === "active");
 
-            modal.find(".update-question-translates").find("[data-locale]").each(function (){
+            modal.find(".update-header-translates").find("[data-locale]").each(function (){
                 let locale = $(this).data("locale");
-                $(this).val(data.question.translates[locale] || '');
+                $(this).val(data.header.translates[locale] || '');
 
             });
 
-            modal.find(".update-answer-translates").find("[data-locale]").each(function (){
+            modal.find(".update-body-translates").find("[data-locale]").each(function (){
                 let locale = $(this).data("locale");
-                $(this).val(data.answer.translates[locale] || '');
+                $(this).val(data.body.translates[locale] || '');
 
             });
 
@@ -272,18 +272,18 @@
                     let data = response.data;
                     for (const i in data) {
                         console.log(data)
-                        questionTranslates += `<div class="col-12 mb-3">
+                        headerTranslates += `<div class="col-12 mb-3">
                                                     <label for="${data[i].locale}">${data[i].language.translate}</label>
-                                                    <input data-locale="${data[i].locale}" class="form-control" id="${data[i].locale}" type="text" name="question[${data[i].locale}]" value="">
+                                                    <input data-locale="${data[i].locale}" class="form-control" id="${data[i].locale}" type="text" name="header[${data[i].locale}]" value="">
                                                 </div>`;
-                        answerTranslates += `<div class="col-12 mb-3">
+                        bodyTranslates += `<div class="col-12 mb-3">
                                                     <label for="${data[i].locale}">${data[i].language.translate}</label>
-                                                    <textarea data-locale="${data[i].locale}" class="form-control" id="${data[i].locale}" name="answer[${data[i].locale}]"></textarea>
+                                                    <textarea data-locale="${data[i].locale}" class="form-control" id="${data[i].locale}" name="body[${data[i].locale}]"></textarea>
                                                 </div>`;
                     }
 
-                    $(".update_modal").find(".update-question-translates").append(questionTranslates);
-                    $(".update_modal").find(".update-answer-translates").append(answerTranslates);
+                    $(".update_modal").find(".update-header-translates").append(headerTranslates);
+                    $(".update_modal").find(".update-body-translates").append(bodyTranslates);
                 },
                 error: function(xhr, status, error) {
                     let title = "Some thing went wrong";

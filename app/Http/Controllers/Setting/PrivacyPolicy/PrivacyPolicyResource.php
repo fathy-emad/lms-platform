@@ -1,0 +1,32 @@
+<?php
+
+namespace App\Http\Controllers\Setting\PrivacyPolicy;
+
+use App\Http\Resources\AuthorResource;
+use App\Http\Resources\DateTimeResource;
+use App\Http\Resources\TranslationResource;
+use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\JsonResource;
+
+class PrivacyPolicyResource extends JsonResource
+{
+
+    /**
+     * Transform the resource into an array.
+     *
+     * @return array<string, mixed>
+     */
+    public function toArray(Request $request): array
+    {
+        return [
+            "id" => $this->id,
+            "header" => new TranslationResource($this->headerTranslate),
+            "body" => new TranslationResource($this->bodyTranslate),
+            "ActiveEnum" => new TranslationResource($this->ActiveEnum, true),
+            "created_at" => new DateTimeResource($this->created_at),
+            "updated_at" => new DateTimeResource($this->updated_at),
+            "created_by" => new AuthorResource($this->createdBy),
+            "updated_by" => $this->when($this->updatedBy, new AuthorResource($this->updatedBy), null),
+        ];
+    }
+}

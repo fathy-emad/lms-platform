@@ -17,17 +17,17 @@ return new class extends Migration
             $table->unsignedBigInteger("header");
             $table->unsignedBigInteger("body");
             $table->unsignedBigInteger("created_by");
-            $table->unsignedBigInteger("updated_by");
+            $table->unsignedBigInteger("updated_by")->nullable();
             $table->enum('ActiveEnum', ActiveEnum::values())->default(ActiveEnum::Active->value);
 
 
-            $table->foreign("question")
+            $table->foreign("header")
                 ->references("id")
                 ->on("translates")
                 ->restrictOnDelete()
                 ->cascadeOnUpdate();
 
-            $table->foreign("answer")
+            $table->foreign("body")
                 ->references("id")
                 ->on("translates")
                 ->restrictOnDelete()
@@ -35,7 +35,7 @@ return new class extends Migration
 
             $table->foreign("created_by")
                 ->references("id")
-                ->on("admin")
+                ->on("admins")
                 ->restrictOnDelete()
                 ->cascadeOnUpdate();
 
