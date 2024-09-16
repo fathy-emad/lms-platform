@@ -1,4 +1,24 @@
 @extends('website_layouts.mainlayout')
+@section('style')
+    <style>
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%; /* 16:9 aspect ratio (9 / 16 = 0.5625 or 56.25%) */
+            height: 0;
+            overflow: hidden;
+            max-width: 100%; /* Ensures the video doesn't exceed the container width */
+            background: #000;
+        }
+
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+@endsection
 @section("title")
     {{ __("lang.lesson") }}
 @endsection
@@ -29,8 +49,9 @@
         $lesson_material = $materials?->where("lesson_id", request("lesson_id"))->first();
         $lesson_duration = $lesson_material?->video_duration;
         $lesson_free = $lesson_material?->FreeEnum == \App\Enums\FreeEnum::Free;
+        $lesson_video_view = false;
 
-        if ($enrolled)
+        if ($enrolled && isset($lesson_material) && $lesson_material && !$lesson_free)
         {
             $course_enrollments = $student->enrollments()
             ->whereDate("expired_at", ">=", \Carbon\Carbon::now($student->country->timezone))
@@ -41,20 +62,57 @@
             $course_lesson_views = \App\Models\StudentLessonView::where("lesson_id", request("lesson_id"))
             ->whereIn("enrollment_id", $course_enrollment_ids)->orderBy("id", "desc");
 
-            $lesson_video_view = $course_lesson_views->sum("views") < ($course_enrollments->count() * 5);
+            if($lesson_video_view = $course_lesson_views->sum("views") < ($course_enrollments->count() * 5))
+            {
+                $videoId = $lesson_material->video;
+                $apiSecret = env("VDO_API_SECRET");
 
-            if ($lesson_video_view && $course_lesson_views->count() && isset($lesson_material))
-                ($course_lesson_views->first())->increment("views", 1);
+                $response = \Illuminate\Support\Facades\Http::withHeaders([
+                    'Authorization' => 'Apisecret ' . $apiSecret,
+                ])->post('https://dev.vdocipher.com/api/videos/' . $videoId . '/otp', [
+                    'ttl' => 300,
+                    'annotate' => json_encode([
+                        [
+                           'type'=>'rtext',
+                           'text'=> "$student->phone",
+                           'alpha'=>'0.8',
+                           'color'=>'0xFFFFFF',
+                           'size'=>'35',
+                           'interval'=> 3000,
+                           'skip'=> 1000
+                        ],
+                        [
+                           'type'=>'rtext',
+                           'text'=> "$student->email",
+                           'alpha'=>'0.8',
+                           'color'=>'0xFFFFFF',
+                           'size'=>'30',
+                           'interval'=> 3000,
+                           'skip'=> 1000
+                        ],
+                    ]),
+                ]);
 
-            elseif ($lesson_video_view && !$course_lesson_views->count() && isset($lesson_material))
-                \App\Models\StudentLessonView::create(["views" => 1, "lesson_id" => request("lesson_id"), "enrollment_id" => ($course_enrollments->last())->id]);
+                if ($response->successful()) {
+                    // Get the response data as JSON
+                    $data = $response->json();
+                    $otp = $data['otp'];
+                    $playbackInfo = $data['playbackInfo'];
 
+                    if ($course_lesson_views->count())
+                        ($course_lesson_views->first())->increment("views", 1);
+
+                    elseif (!$course_lesson_views->count())
+                        \App\Models\StudentLessonView::create(["views" => 1, "lesson_id" => request("lesson_id"), "enrollment_id" => ($course_enrollments->last())->id]);
+                } else {
+                    $statusCode = $response->status();
+                    $error = $response->body();
+                    $lesson_video_view = false;
+                }
+            }
         }
-        else
-            $lesson_video_view = false;
 
-
-        $watch_video = $lesson_free || ($enrolled && $lesson_video_view);
+        $watch_video = $lesson_free || $lesson_video_view;
     @endphp
 
     <!-- Course Lesson -->
@@ -140,17 +198,30 @@
                                     </p>
                                     @if($watch_video)
                                         <div class="introduct-video">
-                                            <a href="https://www.youtube.com/embed/1trvO6dqQUI" class="video-thumbnail"
-                                               data-fancybox="">
-                                                <div class="play-icon">
-                                                    <i class="fa-solid fa-play"></i>
+                                            @if($lesson_free)
+                                                <div class="video-container">
+                                                    <iframe
+                                                        width="560"
+                                                        height="315"
+                                                        src="https://www.youtube.com/embed/{{$lesson_material->video}}"
+                                                        frameborder="0"
+                                                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                                        allowfullscreen>
+                                                    </iframe>
                                                 </div>
-                                                <img class="" src="{{ URL::asset('/build/img/video-img-01.jpg') }}"
-                                                     alt="">
-                                            </a>
+                                            @else
+                                                <div class="video-container">
+                                                    <iframe
+                                                        src="https://player.vdocipher.com/v2/?otp={{$otp}}&playbackInfo={{$playbackInfo}}"
+                                                        style="border:0;"
+                                                        allow="encrypted-media"
+                                                        allowfullscreen>
+                                                    </iframe>
+                                                </div>
+                                            @endif
                                         </div>
                                     @else
-                                        @include("website_layouts.components.errors.view")
+                                        @include("website_layouts.components.errors.view", ["error" => $error ?? ""])
                                     @endif
                                 </div>
                             </div>
