@@ -1,0 +1,133 @@
+{
+  "resources/css/style.css": {
+    "file": "css/style.min.css",
+    "src": "resources/css/style.css",
+    "isEntry": true
+  },
+  "resources/img/ban-bg.png": {
+    "file": "icons/ban-bg.png",
+    "src": "resources/img/ban-bg.png"
+  },
+  "resources/img/banner-background-img-1.png": {
+    "file": "icons/banner-background-img-1.png",
+    "src": "resources/img/banner-background-img-1.png"
+  },
+  "resources/img/banner.png": {
+    "file": "icons/banner.png",
+    "src": "resources/img/banner.png"
+  },
+  "resources/img/bg-banner-01.png": {
+    "file": "icons/bg-banner-01.png",
+    "src": "resources/img/bg-banner-01.png"
+  },
+  "resources/img/bg-banner-02.png": {
+    "file": "icons/bg-banner-02.png",
+    "src": "resources/img/bg-banner-02.png"
+  },
+  "resources/img/bg-banner.png": {
+    "file": "icons/bg-banner.png",
+    "src": "resources/img/bg-banner.png"
+  },
+  "resources/img/bg/bg-3.png": {
+    "file": "icons/bg-3.png",
+    "src": "resources/img/bg/bg-3.png"
+  },
+  "resources/img/bg/bg-footer.jpg": {
+    "file": "icons/bg-footer.jpg",
+    "src": "resources/img/bg/bg-footer.jpg"
+  },
+  "resources/img/bg/breadcrumb-bar.png": {
+    "file": "icons/breadcrumb-bar.png",
+    "src": "resources/img/bg/breadcrumb-bar.png"
+  },
+  "resources/img/bg/home-main.png": {
+    "file": "icons/home-main.png",
+    "src": "resources/img/bg/home-main.png"
+  },
+  "resources/img/bg/map.png": {
+    "file": "icons/map.png",
+    "src": "resources/img/bg/map.png"
+  },
+  "resources/img/bg/profile-bg.jpg": {
+    "file": "icons/profile-bg.jpg",
+    "src": "resources/img/bg/profile-bg.jpg"
+  },
+  "resources/img/course-bg.png": {
+    "file": "icons/course-bg.png",
+    "src": "resources/img/course-bg.png"
+  },
+  "resources/img/error-bg1.png": {
+    "file": "icons/error-bg1.png",
+    "src": "resources/img/error-bg1.png"
+  },
+  "resources/img/footer-background-img.png": {
+    "file": "icons/footer-background-img.png",
+    "src": "resources/img/footer-background-img.png"
+  },
+  "resources/img/home-six-banner.jpg": {
+    "file": "icons/home-six-banner.jpg",
+    "src": "resources/img/home-six-banner.jpg"
+  },
+  "resources/img/icon-three/building.svg": {
+    "file": "icons/building.svg",
+    "src": "resources/img/icon-three/building.svg"
+  },
+  "resources/img/icon-three/email.svg": {
+    "file": "icons/email.svg",
+    "src": "resources/img/icon-three/email.svg"
+  },
+  "resources/img/icon-three/search-icon.svg": {
+    "file": "icons/search-icon.svg",
+    "src": "resources/img/icon-three/search-icon.svg"
+  },
+  "resources/img/icon/home-search-six.svg": {
+    "file": "icons/home-search-six.svg",
+    "src": "resources/img/icon/home-search-six.svg"
+  },
+  "resources/img/inner-banner.jpg": {
+    "file": "icons/inner-banner.jpg",
+    "src": "resources/img/inner-banner.jpg"
+  },
+  "resources/img/instructor/instructor-bg-banner.png": {
+    "file": "icons/instructor-bg-banner.png",
+    "src": "resources/img/instructor/instructor-bg-banner.png"
+  },
+  "resources/img/joing-us.png": {
+    "file": "icons/joing-us.png",
+    "src": "resources/img/joing-us.png"
+  },
+  "resources/img/login-bg.png": {
+    "file": "icons/login-bg.png",
+    "src": "resources/img/login-bg.png"
+  },
+  "resources/img/slider/home-three-banner.jpg": {
+    "file": "icons/home-three-banner.jpg",
+    "src": "resources/img/slider/home-three-banner.jpg"
+  },
+  "resources/img/students/student-bg-banner.png": {
+    "file": "icons/student-bg-banner.png",
+    "src": "resources/img/students/student-bg-banner.png"
+  },
+  "resources/img/support-bg.png": {
+    "file": "icons/support-bg.png",
+    "src": "resources/img/support-bg.png"
+  },
+  "resources/img/testimonial-background-img-1.png": {
+    "file": "icons/testimonial-background-img-1.png",
+    "src": "resources/img/testimonial-background-img-1.png"
+  },
+  "resources/img/testimonial-background-img-2.png": {
+    "file": "icons/testimonial-background-img-2.png",
+    "src": "resources/img/testimonial-background-img-2.png"
+  },
+  "resources/img/user-love.jpg": {
+    "file": "icons/user-love.jpg",
+    "src": "resources/img/user-love.jpg"
+  },
+  "resources/js/script.js": {
+    "file": "js/script.js",
+    "name": "script",
+    "src": "resources/js/script.js",
+    "isEntry": true
+  }
+}

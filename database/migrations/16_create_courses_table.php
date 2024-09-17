@@ -20,6 +20,8 @@ return new class extends Migration
             $table->unsignedBigInteger('description')->nullable();
             $table->json('cost');
             $table->float('percentage');
+            $table->string("video")->nullable();
+            $table->json("image")->nullable();
             $table->enum('ActiveEnum', ActiveEnum::values())->default(ActiveEnum::Active->value);
             $table->unsignedBigInteger('created_by');
             $table->unsignedBigInteger('updated_by')->nullable();

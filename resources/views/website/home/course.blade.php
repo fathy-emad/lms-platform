@@ -1,4 +1,24 @@
 @extends('website_layouts.mainlayout')
+@section('style')
+    <style>
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%; /* 16:9 aspect ratio (9 / 16 = 0.5625 or 56.25%) */
+            height: 0;
+            overflow: hidden;
+            max-width: 100%; /* Ensures the video doesn't exceed the container width */
+            background: #000;
+        }
+
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+@endsection
 @section('title')
     {{ __("lang.course_details") }}
 @endsection
@@ -48,7 +68,6 @@
            ->groupBy('curriculum_id')
            ->orderBy('latest_course_date', 'desc')
            ->get();
-
 
         $latestCourses = \App\Models\Course::whereIn(\Illuminate\Support\Facades\DB::raw('CONCAT(curriculum_id, created_at)'), function ($query) use ($latestCoursesData) {
            $query->select(\Illuminate\Support\Facades\DB::raw('CONCAT(curriculum_id, MAX(created_at))'))
@@ -302,7 +321,7 @@
                                                 <div class="product-img">
                                                     <a href="{{ route('student.course', ["course_id" => $teacher_course->id]) }}">
                                                         <img class="img-fluid" alt="Img"
-                                                             src="{{ URL::asset('/build/img/course/course-07.jpg') }}">
+                                                             src="{{ URL::asset(isset($teacher_course->image?->file) ? 'uploads/'.$teacher_course->image?->file : '/build/img/course.png') }}">
                                                     </a>
                                                     <div class="price">
                                                         <h3>{{$teacher_course->cost["course"]}} LE
@@ -436,14 +455,16 @@
                             <div class="video-sec vid-bg">
                                 <div class="card">
                                     <div class="card-body">
-                                        <a href="https://www.youtube.com/embed/1trvO6dqQUI" class="video-thumbnail"
-                                           data-fancybox="">
-                                            <div class="play-icon">
-                                                <i class="fa-solid fa-play"></i>
-                                            </div>
-                                            <img class="" src="{{ URL::asset('/build/img/video.jpg') }}"
-                                                 alt="">
-                                        </a>
+                                        <div class="video-container">
+                                            <iframe
+                                                width="560"
+                                                height="315"
+                                                src="https://www.youtube.com/embed/{{$course->video}}?rel=0"
+                                                frameborder="0"
+                                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                                allowfullscreen>
+                                            </iframe>
+                                        </div>
                                         <div class="video-details">
                                             <div class="course-fee">
                                                 <h2>{{ $course->cost["course"] }} LE</h2>
@@ -541,7 +562,7 @@
                                                     <div class="post-thumb">
                                                         <a href="{{ route('student.course', ["course_id" => $latest->id]) }}">
                                                             <img class="img-fluid"
-                                                                 src="{{ URL::asset('/build/img/blog/blog-01.jpg') }}"
+                                                                 src="{{ URL::asset(isset($latest->image?->file) ? 'uploads/'.$latest->image?->file : '/build/img/course.png') }}"
                                                                  alt="">
                                                         </a>
                                                     </div>
