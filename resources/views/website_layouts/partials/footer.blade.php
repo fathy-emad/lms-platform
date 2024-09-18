@@ -28,8 +28,7 @@
                                 <img src="{{ URL::asset('/build/img/logo.svg') }}" alt="logo">
                             </div>
                             <div class="footer-about-content">
-                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut consequat mauris Lorem
-                                    ipsum dolor sit amet, consectetur adipiscing elit. Ut consequat mauris</p>
+                                <p>{{ __("lang.website_bio") }}</p>
                             </div>
                         </div>
                         <!-- /Footer Widget -->
