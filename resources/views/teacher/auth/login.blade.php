@@ -14,7 +14,7 @@
             <div class="col-xl-7 p-0">
                 <div class="login-card">
                     <div>
-                        <div><a class="logo text-start" href="#"><img class="img-fluid for-light" src="{{asset('assets/images/logo/login.png')}}" alt="looginpage"><img class="img-fluid for-dark" src="{{asset('assets/images/logo/logo_dark.png')}}" alt="looginpage"></a></div>
+                        <div><a class="logo text-start" href="#"><img class="img-fluid for-light" width="175" height="40" src="{{asset('build/img/logo.svg')}}" alt="looginpage"><img class="img-fluid for-dark" width="175" height="40" src="{{asset('build/img/logo_dark.svg')}}" alt="looginpage"></a></div>
                         <div class="login-main">
                             <form novalidate="" class="theme-form needs-validation" id="form" method="POST"
                                   action="{{ url("api/teacher/auth/login") }}" locale="{{app()->getLocale()}}" csrf="{{ csrf_token()}}">

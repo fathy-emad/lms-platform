@@ -28,8 +28,8 @@
                             <ul>
                                 <li>
                                     <a class="logo text-start ps-0" href="#">
-                                        <img class="img-fluid for-light" src="{{asset('assets/images/logo/login.png')}}" alt="looginpage">
-                                        <img class="img-fluid for-dark" src="{{asset('assets/images/logo/logo_dark.png')}}" alt="looginpage">
+                                        <img class="img-fluid for-light" width="175" height="40" src="{{asset('build/img/logo.svg')}}" alt="looginpage">
+                                        <img class="img-fluid for-dark" width="175" height="40" src="{{asset('build/img/logo_dark.svg')}}" alt="looginpage">
                                     </a>
                                 </li>
                                 <li>
@@ -53,7 +53,6 @@
                                         <small>Add Contact Number</small>
                                     </a>
                                 </li>
-
                                 <li>
                                     <a href="#step-4">
                                         <h4>4</h4>
@@ -61,7 +60,6 @@
                                         <small>Add Course specialization details</small>
                                     </a>
                                 </li>
-
                                 <li>
                                     <a href="#step-5">
                                         <h4>5</h4>
@@ -69,15 +67,13 @@
                                         <small>Add your password</small>
                                     </a>
                                 </li>
-
-                                <li class="pb-0">
+                                <li>
                                     <a href="#step-6">
-                                        <h4>4</h4>
+                                        <h4>6</h4>
                                         <h5> Done <i class="fa fa-thumbs-o-up"></i></h5>
                                         <small>Register.. !</small>
                                     </a>
                                 </li>
-                                <li><img src="{{asset('assets/images/login/icon.png')}}" alt="looginpage"></li>
                             </ul>
                             <div id="step-1">
                                 <div class="wizard-title">
@@ -119,7 +115,7 @@
                                                 <input class="form-control" name="image[file]" accept="image/*" type="file" id="image">
                                             </div>
                                             <div class="col-sm-3">
-                                                <img class="img-fluid for-light" src="{{asset('assets/images/logo/login.png')}}" id="imagePreview" alt="looginpage">
+                                                <img class="img-fluid for-light" src="{{asset('build/img/logo.svg')}}" id="imagePreview" alt="looginpage">
                                             </div>
                                         </div>
                                     </div>
