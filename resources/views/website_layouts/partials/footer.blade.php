@@ -11,7 +11,9 @@
     'student.profile.settings.edit-profile',
     'student.terms_condition',
     'student.privacy_policy',
-    'student.faqs'
+    'student.faqs',
+    'student.lesson',
+    'student.support'
 ]))
     <!-- Footer -->
     <footer class="footer">
@@ -20,8 +22,8 @@
         <div class="footer-top">
             <div class="container">
                 <div class="row">
-                    <div class="col-lg-4 col-md-6">
 
+                    <div class="col-lg-4 col-md-6">
                         <!-- Footer Widget -->
                         <div class="footer-widget footer-about">
                             <div class="footer-logo">
@@ -35,17 +37,31 @@
 
                     </div>
 
-                    <div class="col-lg-2 col-md-6">
+                    <div class="col-lg-1 col-md-6">
 
                         <!-- Footer Widget -->
                         <div class="footer-widget footer-menu">
-                            <h2 class="footer-title">For Instructor</h2>
+                            <h2 class="footer-title">{{ __("lang.teacher") }}</h2>
                             <ul>
-                                <li><a href="{{ url('instructor-profile') }}">Profile</a></li>
-                                <li><a href="{{ url('login') }}">Login</a></li>
-                                <li><a href="{{ url('register') }}">Register</a></li>
-                                <li><a href="{{ url('instructor-list') }}">Instructor</a></li>
-                                <li><a href="{{ url('instructor-dashboard') }}"> Dashboard</a></li>
+                                <li><a href="{{ Route('teacher.dashboard') }}">{{ __("lang.dashboard") }}</a></li>
+                                <li><a href="{{ route('teacher.auth.login') }}">{{ __("lang.login") }}</a></li>
+                                <li><a href="{{ route('teacher.auth.register') }}">{{ __("lang.register") }}</a></li>
+                            </ul>
+                        </div>
+                        <!-- /Footer Widget -->
+
+                    </div>
+
+                    <div class="col-lg-1 col-md-6">
+
+                        <!-- Footer Widget -->
+                        <div class="footer-widget footer-menu">
+                            <h2 class="footer-title">{{ __("lang.student") }}</h2>
+                            <ul>
+                                <li><a href="{{ Route('student.profile') }}">{{ __("lang.profile") }}</a></li>
+                                <li><a href="{{ route('student.profile.settings.edit-profile') }}">{{ __("lang.settings") }}</a></li>
+                                <li><a href="{{ route('student.auth.login') }}">{{ __("lang.login") }}</a></li>
+                                <li><a href="{{ route('student.auth.register') }}">{{ __("lang.register") }}</a></li>
                             </ul>
                         </div>
                         <!-- /Footer Widget -->
@@ -56,13 +72,11 @@
 
                         <!-- Footer Widget -->
                         <div class="footer-widget footer-menu">
-                            <h2 class="footer-title">For Student</h2>
+                            <h2 class="footer-title">Loomyedu</h2>
                             <ul>
-                                <li><a href="{{ url('student-profile') }}">Profile</a></li>
-                                <li><a href="{{ url('login') }}">Login</a></li>
-                                <li><a href="{{ url('register') }}">Register</a></li>
-                                <li><a href="{{ url('students-list') }}">Student</a></li>
-                                <li><a href="{{ url('student-dashboard') }}"> Dashboard</a></li>
+                                <li><a href="{{ Route('student.profile') }}">{{ __("lang.blogs") }}</a></li>
+                                <li><a href="{{ Route('student.faqs') }}">{{ __("lang.faqs") }}</a></li>
+                                <li><a href="{{ Route('student.support') }}">{{ __("lang.support") }}</a></li>
                             </ul>
                         </div>
                         <!-- /Footer Widget -->
@@ -84,18 +98,27 @@
                                 <div class="footer-address">
                                     <img src="{{ URL::asset('/build/img/icon/icon-20.svg') }}" alt=""
                                         class="img-fluid">
-                                    <p> 3556 Beech Street, San Francisco,<br> California, CA 94108 </p>
+                                    <p> 3556 Omer ibn alkhatab Street, Cairo,<br> Egypte, CA 94108 </p>
                                 </div>
                                 <p>
                                     <img src="{{ URL::asset('/build/img/icon/icon-19.svg') }}" alt=""
                                         class="img-fluid">
-                                    dreamslms@example.com
+                                    loomyacademy@loomyacademy.com
                                 </p>
                                 <p class="mb-0">
                                     <img src="{{ URL::asset('/build/img/icon/icon-21.svg') }}" alt=""
                                         class="img-fluid">
-                                    +19 123-456-7890
+                                    +20 114-166-1776
                                 </p>
+                            </div>
+                            <div class="social-icon-soon mt-3 justify-content-start">
+                                <ul class="justify-content-start">
+                                    <li><a href="javascript:;"><i class="fa-brands fa-youtube you-tube"></i></a></li>
+                                    <li><a href="javascript:;"><i class="fa-brands fa-facebook face-book"></i></a></li>
+                                    <li><a href="javascript:;"><i class="fa-brands fa-twitter twit-ter"></i></a></li>
+                                    <li><a href="javascript:;"><i class="fa-brands fa-instagram insta-gram"></i></a></li>
+                                    <li><a href="javascript:;"><i class="fa-brands fa-tiktok"></i></a></li>
+                                </ul>
                             </div>
                         </div>
                         <!-- /Footer Widget -->

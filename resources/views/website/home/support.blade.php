@@ -1,25 +1,57 @@
 @extends('website_layouts.mainlayout')
-@section('title') {{ __("lang.faqs") }} @endsection
+@section('title') {{ __("lang.support") }} @endsection
 @section('content')
     @component('website_layouts.components.breadcrumb')
         @slot('title')
-            {{ __("lang.faqs") }}
+            {{ __("lang.support") }}
         @endslot
         @slot('item1')
             {{ __("lang.home") }}
         @endslot
         @slot('item2')
-            {{ __("lang.faqs") }}
+            {{ __("lang.support") }}
         @endslot
     @endcomponent
     @component('website_layouts.components.pagebanner')
         @slot('title')
-            {{ __("lang.faqs") }}
-        @endslot
-        @slot('li1')
-             {{ __("lang.faqs_title") }}
+            {{ __("lang.support") }}
         @endslot
     @endcomponent
+
+    <!-- Help Details -->
+    <div class="page-content">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6 col-md-8 mx-auto">
+                    <div class="support-wrap">
+                        <h5>Submit a Request</h5>
+                        <form action="#">
+                            <div class="input-block">
+                                <label>First Name</label>
+                                <input type="text" class="form-control" placeholder="Enter your first Name">
+                            </div>
+                            <div class="input-block">
+                                <label>Email</label>
+                                <input type="text" class="form-control" placeholder="Enter your email address">
+                            </div>
+                            <div class="input-block">
+                                <label>Subject</label>
+                                <input type="text" class="form-control" placeholder="Enter your Subject">
+                            </div>
+                            <div class="input-block">
+                                <label>Description</label>
+                                <textarea class="form-control" placeholder="Write down here" rows="4"></textarea>
+                            </div>
+                            <button class="btn btn-submit">Submit</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <!-- /Help Details -->
+
 
     @php $faqs = \App\Models\FAQ::where("ActiveEnum", \App\Enums\ActiveEnum::Active->value)->get(); @endphp
 
@@ -64,7 +96,6 @@
         </div>
         <!-- /Help Details -->
     @endif
-
 
     <!-- Help Details -->
     <div class="support-sec">

@@ -15703,6 +15703,10 @@ input[type="password"]::-ms-clear {
 .social-icon-soon ul li .linked-in {
   color: #0a66c2;
 }
+.social-icon-soon ul li .you-tube {
+    color: red;
+}
+
 .social-icon-soon ul li i:hover {
   color: #ff5364;
 }

@@ -526,6 +526,7 @@ Route::name("student.")->middleware("entity.locale")->group(function (){
         Route::view("term-condition", "website.home.term_condition")->name("terms_condition");
         Route::view("privacy-policy", "website.home.privacy_policy")->name("privacy_policy");
         Route::view("faqs", "website.home.faqs")->name("faqs");
+        Route::view("support", "website.home.support")->name("support");
     });
 
 });
