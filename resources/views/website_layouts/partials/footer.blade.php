@@ -144,7 +144,7 @@
                                 <p class="mb-0">&copy;
                                     <script>
                                         document.write(new Date().getFullYear())
-                                    </script> Loomyedu. All rights reserved.
+                                    </script> Loomyedu. {{ __("lang.all_rights") }}
                                 </p>
                             </div>
                         </div>
