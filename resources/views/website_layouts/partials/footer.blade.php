@@ -87,13 +87,7 @@
 
                         <!-- Footer Widget -->
                         <div class="footer-widget footer-contact">
-                            <h2 class="footer-title">News letter</h2>
-                            <div class="news-letter">
-                                <form>
-                                    <input type="text" class="form-control" placeholder="Enter your email address"
-                                        name="email">
-                                </form>
-                            </div>
+                            <h2 class="footer-title">{{ __("lang.find_us") }}</h2>
                             <div class="footer-contact-info">
                                 <div class="footer-address">
                                     <img src="{{ URL::asset('/build/img/icon/icon-20.svg') }}" alt=""
