@@ -10,7 +10,7 @@
 @section('content')
     <div class="container-fluid">
         <div class="row">
-            <div class="col-xl-5"><img class="bg-img-cover bg-center" src="{{asset('assets/images/login/3.jpg')}}" alt="looginpage"></div>
+            <div class="col-xl-5"><img class="bg-img-cover bg-center" width="200" height="200" src="{{asset('build/img/instructor.webp')}}" alt="looginpage"></div>
             <div class="col-xl-7 p-0">
                 <div class="login-card">
                     <div>
