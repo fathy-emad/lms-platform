@@ -127,7 +127,7 @@
                                 <p class="mb-0">&copy;
                                     <script>
                                         document.write(new Date().getFullYear())
-                                    </script> DreamsLMS. All rights reserved.
+                                    </script> Loomyedu. All rights reserved.
                                 </p>
                             </div>
                         </div>
