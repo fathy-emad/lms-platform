@@ -17,6 +17,11 @@
             width: 100%;
             height: 100%;
         }
+        .inner-banner{
+            background-image: url("{{\Illuminate\Support\Facades\URL::asset('build/img/course_cover.png')}}");
+            background-size: cover;
+            background-repeat: no-repeat;
+        }
     </style>
 @endsection
 @section('title')
