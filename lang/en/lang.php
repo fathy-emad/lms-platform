@@ -182,5 +182,6 @@
         'withdraw' => 'Withdraw',
         'withdraw_message' => 'Are you sure you want to withdraw you pending money?',
         'send' => 'Send',
+        'times' => 'Sell times'
 	];
 ?>
