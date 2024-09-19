@@ -9,6 +9,7 @@ use App\Enums\AdminStatusEnum;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\Enum;
 use Illuminate\Validation\Rules\Password;
+use Illuminate\Validation\Validator;
 
 class UpdateRequest extends ValidateRequest
 {
@@ -35,8 +36,32 @@ class UpdateRequest extends ValidateRequest
             "cost.course" => "required|numeric",
             "cost.chapter" => "required|numeric",
             "cost.lesson" => "required|numeric",
+            "video" => "required|string|min:4",
+            "image.key" => [
+                "nullable",
+                "integer",
+                Rule::exists("courses", "image->key")->where(function ($query){
+                    return $query->where("id", $this->id);
+                })
+            ],
+            "image.file" => "nullable|image",
+            "image.title" => "nullable|string",
             "percentage" => "required|numeric",
             "ActiveEnum" => ["sometimes", "string", new Enum(ActiveEnum::class)],
         ];
+    }
+
+
+    /**
+     * Configure the validator instance.
+     *
+     * @param Validator $validator
+     * @return void
+     */
+    public function withValidator(Validator $validator): void
+    {
+        $validator->sometimes('image.file', 'required|image', function ($input) {
+            return empty($input->image['key']);
+        });
     }
 }

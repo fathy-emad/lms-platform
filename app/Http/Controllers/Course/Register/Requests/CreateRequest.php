@@ -27,6 +27,9 @@ class CreateRequest extends ValidateRequest
             "cost.course" => "required|numeric",
             "cost.chapter" => "required|numeric",
             "cost.lesson" => "required|numeric",
+            "video" => "required|string|min:4",
+            "image.file" => "required|image",
+            "image.title" => "nullable|string",
             "percentage" => "required|numeric",
             "ActiveEnum" => ["sometimes", "string", new Enum(ActiveEnum::class)],
         ];

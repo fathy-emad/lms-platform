@@ -54,7 +54,6 @@
                                 <tr>
                                     <th>#ID</th>
                                     <th>{{ __("attributes.title") }}</th>
-                                    <th>{{ __("attributes.stage") }}</th>
                                     <th>{{ __("attributes.year") }}</th>
                                     <th>{{ __("attributes.curriculum") }}</th>
                                     <th>{{ __("attributes.cost") }}</th>
@@ -69,7 +68,6 @@
                                 <tr>
                                     <th>#ID</th>
                                     <th>{{ __("attributes.title") }}</th>
-                                    <th>{{ __("attributes.stage") }}</th>
                                     <th>{{ __("attributes.year") }}</th>
                                     <th>{{ __("attributes.curriculum") }}</th>
                                     <th>{{ __("attributes.cost") }}</th>
@@ -142,6 +140,15 @@
                                     <div class="col-12 mb-3">
                                         <label for="percentage">{{ __("attributes.percentage") }}</label>
                                         <input class="form-control" name="percentage" id="percentage" type="number" step="0.1"/>
+                                    </div>
+
+                                    <div class="col-12 mb-3">
+                                        <label for="video">{{ __("attributes.video") }}</label>
+                                        <input class="form-control" name="video" id="video" type="text"/>
+                                    </div>
+
+                                    <div class="col-sm-12 mb-3 fileUploadBuilder">
+                                        <label for="image">{{ __("attributes.image") }}</label>
                                     </div>
 
                                     <div class="col-sm-12 mb-3 media">
@@ -221,6 +228,15 @@
                                                 <input class="form-control" name="percentage" id="percentage" type="number" step="0.1"/>
                                             </div>
 
+                                            <div class="col-12 mb-3">
+                                                <label for="video">{{ __("attributes.video") }}</label>
+                                                <input class="form-control" name="video" id="video" type="text"/>
+                                            </div>
+
+                                            <div class="col-sm-12 mb-3 fileUploadBuilder">
+                                                <label for="image">{{ __("attributes.image") }}</label>
+                                            </div>
+
                                             <div class="col-sm-12 mb-3 media">
                                                 <label class="col-form-label m-r-10">{{ __("attributes.ActiveEnum") }}</label>
                                                 <div class="media-body icon-state">
@@ -277,7 +293,6 @@
                     return "-"
                 }
             },
-            { "data": "curriculum.subject.year.stage.stage.translate" },
             { "data": "curriculum.subject.year.year.translate" },
             { "data": "curriculum.curriculum.translate" },
             { "data": "cost",
@@ -326,7 +341,8 @@
             modal.find("#cost_lesson").val(data.cost["lesson"]);
             modal.find("[name=ActiveEnum]").prop("checked", data.ActiveEnum.key === "active");
             modal.find("[name=curriculum_id]").val(data.curriculum.id).trigger("change");
-
+            modal.find("[name=video]").val(data.video);
+            fileUploadBuilder($(modal).find(".fileUploadBuilder"), "image", data.image, true, "image/*");
             modal.find(".update-title-translates").find("[data-locale]").each(function (){
                 let locale = $(this).data("locale");
                 $(this).val(data.title.translates[locale] || '');
@@ -348,6 +364,8 @@
             form[0].reset();
             form.find("[name]").removeClass("is-invalid");
             $(this).find("[name=curriculum_id]").val($(this).find('#curriculum_id option:first').val()).trigger("change");
+            fileUploadBuilder($(".create_modal").find(".fileUploadBuilder"), "image", null, true, "image/*");
+
         });
 
         $(document).ready(function() {

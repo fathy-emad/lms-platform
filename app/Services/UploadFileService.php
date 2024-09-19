@@ -18,6 +18,12 @@ class UploadFileService
         //not attach or detach file
         else if (isset($fileData["key"]))
         {
+            if (isset($fileData["title"]))
+            {
+                $image = $model->{$attribute};
+                $image['title'] = $fileData["title"];
+                $model->{$attribute} = $image;
+            }
             return $model->{$attribute};
         }
 

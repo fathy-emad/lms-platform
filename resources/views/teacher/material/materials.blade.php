@@ -442,9 +442,10 @@
                             </div>`;
                     actions += `</div>`;
                     if (meta.row === 0){
+
                         $("[data-bread=course]").text("({{ __("attributes.course") }}) " + data.course.translate)
                             .attr("href", APP_URL + "/" + "teacher/material");
-                        $("[data-bread=curriculum]").text("({{ __("attributes.curriculum") }}) " + data.course.curriculum.curriculum.translate)
+                        $("[data-bread=chapter]").text("({{ __("attributes.chapter") }}) " + data.chapter.translate)
                             .attr("href", APP_URL + "/" + "teacher/material");
                     }
                     return actions;

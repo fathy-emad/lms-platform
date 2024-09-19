@@ -2,9 +2,7 @@
 
 namespace App\Http\Controllers\Setting\Country;
 
-
 use App\Concretes\RequestHandler;
-use App\Enums\ActiveEnum;
 use Translation;
 use UploadFile;
 

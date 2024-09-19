@@ -542,7 +542,7 @@ function fileUploadBuilder(element, name, value, title, accept) {
                                     <div class="input-group-square">
                                         <div class="input-group" style="height: 60px !important;">
                                             <div class="input-group-prepend"><span class="input-group-text" style="height: 100% !important;">title</span></div>
-                                            <input class="form-control" type="text" data-file="title" placeholder="title image" value="${value ? value.title : ''}">
+                                            <input class="form-control" type="text" data-file="title" name="${name}[title]" placeholder="title image" value="${value ? value.title : ''}">
                                         </div>
                                     </div>
                                 </div>
@@ -564,6 +564,7 @@ function fileUploadBuilder(element, name, value, title, accept) {
     $(element).find("[data-file=reset]").on("click", function (){
         $(element).find("[data-file=key]").val('');
         $(element).find("[data-file=file]").val('');
+        $(element).find("[data-file=title]").val('');
         $(element).find("[data-file=preview]").attr('src', `${APP_URL}/assets/images/no-image.jpg`);
     });
 }
@@ -636,6 +637,7 @@ function filesUploadBuilder(element, name, values, title, accept) {
     function reset(clone){
         $(clone).find("[data-file=key]").val('');
         $(clone).find("[data-file=file]").val('');
+        $(clone).find("[data-file=title]").val('');
         $(clone).find("[data-file=preview]").attr('src', `${APP_URL}/assets/images/no-image.jpg`);
     }
 

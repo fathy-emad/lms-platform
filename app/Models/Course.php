@@ -14,6 +14,7 @@ class Course extends Model
     protected $casts = [
         "cost" => "array",
         "percentage" => "float",
+        "image" => "array",
         "ActiveEnum" => ActiveEnum::class
     ];
 

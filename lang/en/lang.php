@@ -174,6 +174,13 @@
         'support_description' => 'The good news is that you’re not alone, and you’re in the right place. Contact us for
                                     more detailed support.',
         'website_bio' => "Loomyedu is a comprehensive online platform designed to empower students by offering subscription-based courses across a wide range of topics. With a focus on high-quality education, Loomyedu provides access to expert instructors, engaging content, and practical learning experiences. Whether you're looking to develop new skills or deepen existing knowledge, Loomyedu makes learning accessible, flexible, and convenient, helping students achieve their educational and professional goals.",
-        'all_rights' => "All rights reserved."
+        'all_rights' => "All rights reserved.",
+        'pending' => 'Pending',
+        'in_review' => 'In Review',
+        'on_way' => 'On Way',
+        'paid' => 'Paid',
+        'withdraw' => 'Withdraw',
+        'withdraw_message' => 'Are you sure you want to withdraw you pending money?',
+        'send' => 'Send',
 	];
 ?>
