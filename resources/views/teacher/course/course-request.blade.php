@@ -163,10 +163,23 @@
                 },
                 success: function(response) {
                     let data = response.data;
+
                     for (const i in data.curricula){
                         let curriculum = data.curricula[i];
-                        htmlCurricula += `<option value="${curriculum.id}">(${curriculum.subject.year.year.translate}) ${curriculum.curriculum.translate}</option>`;
+                        let types = curriculum.EduTypesEnums.map(function(item) {
+                            return item.translate;
+                        }).join(', ');
+                        let terms = curriculum.EduTermsEnums.map(function(item) {
+                            return item.translate;
+                        }).join(', ');
+                        htmlCurricula += `<option value="${curriculum.id}">
+                                            (${curriculum.subject.year.year.translate})
+                                            (${curriculum.curriculum.translate})
+                                            (${terms})
+                                            (${types})
+                                        </option>`;
                     }
+
                     $(".create_modal, .update_modal").each(function() {
                         $(this).find("#curriculum_id").select2().append(htmlCurricula);
                     });

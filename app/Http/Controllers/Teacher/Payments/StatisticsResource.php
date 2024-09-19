@@ -9,11 +9,13 @@ class StatisticsResource extends JsonResource
 {
     public function toArray(Request $request): array
     {
-        $curriculum = $this->first()->course->curriculum;
+        $course = $this->first()->course;
+        $curriculum = $course->curriculum;
         return [
             "stage" => new TranslationResource($curriculum->subject->year->stage->stageTranslate),
             "year" => new TranslationResource($curriculum->subject->year->yearTranslate),
-            "course" => new TranslationResource($curriculum->curriculumTranslate),
+            "curriculum" => new TranslationResource($curriculum->curriculumTranslate),
+            "course" => new TranslationResource($course->titleTranslate),
             "count" => $this->count(),
             "cost" => $this->sum("cost")
         ];
