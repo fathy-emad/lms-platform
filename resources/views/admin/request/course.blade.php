@@ -141,7 +141,18 @@
             { "data": "curriculum.subject.year.stage.stage.translate" },
             { "data": "curriculum.subject.year.year.translate" },
             { "data": "curriculum.subject.subject.translate" },
-            { "data": "curriculum.curriculum.translate" },
+            { "data": "curriculum", render: function (data) {
+                    let curriculum = data.curriculum.translate
+                    let types = data.EduTypesEnums.map(function(item) {
+                        return item.translate;
+                    }).join(', ');
+                    let terms = data.EduTermsEnums.map(function(item) {
+                        return item.translate;
+                    }).join(', ');
+
+                    return curriculum + "(" + terms +") (" + types + ")";
+                }
+            },
             { "data": "created_at.dateTime" },
             { "data": "updated_at.dateTime" },
             {
