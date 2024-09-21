@@ -37,9 +37,13 @@
     @endcomponent
 
     @php
-        $course = \App\Models\Course::find(request("course_id"));
-        $chapters = $course?->curriculum->chapters;
-        $materials = $course?->materials;
+        $course = \App\Models\Course::whereHas('teacher', function ($query) {
+                    $query->where('TeacherStatusEnum', \App\Enums\TeacherStatusEnum::Active->value); // Ensure the teacher is active
+               })
+               ->where("ActiveEnum", \App\Enums\ActiveEnum::Active->value)
+               ->find(request("course_id"));
+        $chapters = $course?->curriculum->chapters()->where("ActiveEnum", \App\Enums\ActiveEnum::Active->value)->get();
+        $materials = $course?->materials()->where("ActiveEnum", \App\Enums\ActiveEnum::Active->value)->get();
         $student = auth("student")->user();
         $enrolled = $student && $student->enrollments()->exists() && $student->enrollments()
             ->whereDate("expired_at", ">=", \Carbon\Carbon::now($student->country->timezone))

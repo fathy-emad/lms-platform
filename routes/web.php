@@ -527,6 +527,8 @@ Route::name("student.")->middleware("entity.locale")->group(function (){
         Route::view("privacy-policy", "website.home.privacy_policy")->name("privacy_policy");
         Route::view("faqs", "website.home.faqs")->name("faqs");
         Route::view("support", "website.home.support")->name("support");
+        Route::view("teacher/profile/{teacher_id}", "website.teacher.profile")->name("teacher.profile");
+        Route::view("teacher/courses/{teacher_id}", "website.teacher.courses")->name("teacher.courses");
     });
 
 });

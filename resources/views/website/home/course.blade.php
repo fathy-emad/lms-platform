@@ -48,46 +48,67 @@
     @endcomponent
 
     @php
-        $course = \App\Models\Course::with(["teacher.courses", "curriculum.chapters" => function ($query) {
-                           $query->where("ActiveEnum", \App\Enums\ActiveEnum::Active->value)
-                           ->with(["lessons" => function ($query) {
-                               $query->where("ActiveEnum", \App\Enums\ActiveEnum::Active->value);
-                           }])
-                           ->withCount(["lessons" => function ($query) {
-                               $query->where("ActiveEnum", \App\Enums\ActiveEnum::Active->value);
-                           }]);
-                   }])
-                   ->withSum("materials", "video_duration")
-                   ->find(request("course_id"));
-
-        $current_year_id = $course->curriculum->subject->year->id;
-        $current_subject_id = $course->curriculum->subject->id;
-
-        $latestCoursesData = \App\Models\Course::whereHas('curriculum.subject.year', function ($query) use ($current_year_id) {
-               $query->where('id', $current_year_id);
-           })
-           ->whereHas('curriculum.subject', function ($query) use ($current_subject_id) {
-               $query->where('id', '!=', $current_subject_id); // Exclude the current subject
-           })
-           ->select('curriculum_id', \Illuminate\Support\Facades\DB::raw('MAX(created_at) as latest_course_date'))
-           ->groupBy('curriculum_id')
-           ->orderBy('latest_course_date', 'desc')
-           ->get();
-
-        $latestCourses = \App\Models\Course::whereIn(\Illuminate\Support\Facades\DB::raw('CONCAT(curriculum_id, created_at)'), function ($query) use ($latestCoursesData) {
-           $query->select(\Illuminate\Support\Facades\DB::raw('CONCAT(curriculum_id, MAX(created_at))'))
-             ->from('courses')
-             ->whereIn('curriculum_id', $latestCoursesData->pluck('curriculum_id')->toArray())
-             ->groupBy('curriculum_id');
+        $course = \App\Models\Course::with([
+                "teacher" => function ($query) {
+                    $query->where("TeacherStatusEnum", \App\Enums\TeacherStatusEnum::Active->value) // Ensure the teacher is active
+                          ->with("courses"); // Load teacher's other courses
+                },
+                "curriculum.chapters" => function ($query) {
+                    $query->where("ActiveEnum", \App\Enums\ActiveEnum::Active->value)
+                          ->with(["lessons" => function ($query) {
+                              $query->where("ActiveEnum", \App\Enums\ActiveEnum::Active->value);
+                          }])
+                          ->withCount(["lessons" => function ($query) {
+                              $query->where("ActiveEnum", \App\Enums\ActiveEnum::Active->value);
+                          }]);
+                }
+            ])
+            ->withSum("materials", "video_duration")
+            ->whereHas('teacher', function ($query) {
+                $query->where('TeacherStatusEnum', \App\Enums\TeacherStatusEnum::Active->value); // Ensure the teacher is active
             })
-           ->with(['curriculum.subject.subject.subjectTranslate', 'curriculum.curriculumTranslate'])
-           ->get();
+            ->where("ActiveEnum", \App\Enums\ActiveEnum::Active->value)
+            ->find(request("course_id"));
 
-        $student = auth("student")->user();
-        $enrolled = $student && $student->enrollments()->exists() && $student->enrollments()
-         ->whereDate("expired_at", ">=", \Carbon\Carbon::now($student->country->timezone))
-         ->where("course_id", $course?->id)
-         ->exists();
+
+        if (isset($course))
+        {
+                $current_year_id = $course->curriculum->subject->year->id;
+                $current_subject_id = $course->curriculum->subject->id;
+
+                $latestCoursesData = \App\Models\Course::whereHas('curriculum.subject.year', function ($query) use ($current_year_id) {
+                   $query->where('id', $current_year_id);
+               })
+               ->whereHas('curriculum.subject', function ($query) use ($current_subject_id) {
+                   $query->where('id', '!=', $current_subject_id); // Exclude the current subject
+               })
+               ->whereHas('teacher', function ($query) {
+                    $query->where('TeacherStatusEnum', \App\Enums\TeacherStatusEnum::Active->value); // Ensure the teacher is active
+               })
+               ->select('curriculum_id', \Illuminate\Support\Facades\DB::raw('MAX(created_at) as latest_course_date'))
+               ->groupBy('curriculum_id')
+               ->orderBy('latest_course_date', 'desc')
+               ->get();
+
+                $latestCourses = \App\Models\Course::whereIn(\Illuminate\Support\Facades\DB::raw('CONCAT(curriculum_id, created_at)'), function ($query) use ($latestCoursesData) {
+                   $query->select(\Illuminate\Support\Facades\DB::raw('CONCAT(curriculum_id, MAX(created_at))'))
+                     ->from('courses')
+                     ->whereIn('curriculum_id', $latestCoursesData->pluck('curriculum_id')->toArray())
+                     ->groupBy('curriculum_id');
+                    })
+                    ->whereHas('teacher', function ($query) {
+                        $query->where('TeacherStatusEnum', \App\Enums\TeacherStatusEnum::Active->value); // Ensure the teacher is active
+                    })
+                   ->with(['curriculum.subject.subject.subjectTranslate', 'curriculum.curriculumTranslate'])
+                   ->get();
+
+                $student = auth("student")->user();
+                $enrolled = $student && $student->enrollments()->exists() && $student->enrollments()
+                 ->whereDate("expired_at", ">=", \Carbon\Carbon::now($student->country->timezone))
+                 ->where("course_id", $course?->id)
+                 ->exists();
+        }
+
     @endphp
 
     @if(isset($course))
@@ -99,13 +120,13 @@
                         <div class="instructor-wrap border-bottom-0 m-0">
                             <div class="about-instructor align-items-center">
                                 <div class="abt-instructor-img">
-                                    <a href="{{ url('instructor-profile') }}"><img
+                                    <a href="{{ route('student.teacher.profile', ["teacher_id" => $course->teacher->id]) }}"><img
                                             src="{{ URL::asset($course->teacher->image ? "uploads/" . $course->teacher->image["file"] :'/build/img/user/user1.jpg') }}"
                                             alt="img"
                                             class="img-fluid"></a>
                                 </div>
                                 <div class="instructor-detail me-3">
-                                    <h5><a href="{{ url('instructor-profile') }}">{{ $course->teacher->prefix }}
+                                    <h5><a href="{{ route('student.teacher.profile', ["teacher_id" => $course->teacher->id]) }}">{{ $course->teacher->prefix }}
                                             / {{ $course->teacher->name }}</a></h5>
                                     <p>{{ __("lang.teacher") }}</p>
                                 </div>
@@ -260,13 +281,13 @@
                                 <div class="instructor-wrap">
                                     <div class="about-instructor">
                                         <div class="abt-instructor-img">
-                                            <a href="{{ url('instructor-profile') }}"><img
+                                            <a href="{{ route('student.teacher.profile', ["teacher_id" => $course->teacher->id]) }}"><img
                                                     src="{{ URL::asset($course->teacher->image ? "uploads/" . $course->teacher->image["file"] :'/build/img/user/user1.jpg') }}"
                                                     alt="img"
                                                     class="img-fluid"></a>
                                         </div>
                                         <div class="instructor-detail">
-                                            <h5><a href="{{ url('instructor-profile') }}">{{ $course->teacher->prefix }}
+                                            <h5><a href="{{ route('student.teacher.profile', ["teacher_id" => $course->teacher->id]) }}">{{ $course->teacher->prefix }}
                                                     / {{ $course->teacher->name }}</a></h5>
                                             <p>{{ __("lang.teacher") }}</p>
                                         </div>
@@ -316,7 +337,7 @@
                             <div class="card-body">
                                 <h5 class="subs-title">{{ __("lang.more_instructor_courses") }}</h5>
                                 <div class="all-btn all-category d-flex align-items-center">
-                                    <a href="{{ url('course-list') }}"
+                                    <a href="{{ route('student.teacher.courses', ["teacher_id" => $course->teacher->id]) }}"
                                        class="btn btn-primary">{{ __("lang.all_courses") }}</a>
                                 </div>
                                 <div class="owl-carousel trending-course owl-theme aos" data-aos="fade-up">
@@ -334,11 +355,30 @@
                                                     </div>
                                                 </div>
                                                 <div class="product-content">
-                                                    <h3 class="title">
-                                                        <a href="{{ route('student.course', ["course_id" => $teacher_course->id]) }}">
-                                                            {{ $teacher_course->titleTranslate->translates[app()->getLocale()] }}
-                                                        </a>
-                                                    </h3>
+                                                    <div class="course-group d-flex">
+                                                        <div class="course-group-img d-flex">
+
+                                                            <div class="course-nameبي">
+                                                                <h4>
+                                                                    <a href="{{ route('student.course', ["course_id" => $teacher_course->id]) }}">
+                                                                        {{ $teacher_course->titleTranslate->translates[app()->getLocale()] }}
+                                                                    </a>
+                                                                </h4>
+                                                            </div>
+                                                        </div>
+                                                        <div class="course-share d-flex align-items-center justify-content-center">
+                                                            <form novalidate="" class="theme-form needs-validation" id="form" method="POST"
+                                                                  authorization="{{session("student_data")["jwtToken"] ?? ''}}"
+                                                                  action="{{ url("api/student/cart") }}" locale="{{app()->getLocale()}}" csrf="{{ csrf_token()}}">
+                                                                <input type="hidden" name="student_id" value="{{ auth("student")->id() }}">
+                                                                <input type="hidden" name="course_id" value="{{ $teacher_course->id }}">
+                                                                <input type="hidden" name="id"
+                                                                       value="{{ auth('student')->user() && auth('student')->user()->carts && auth('student')->user()->carts()->where('course_id', $teacher_course->id)->exists() ? (auth('student')->user()->carts()->where('course_id', $teacher_course->id)->first())->id : "" }}">
+                                                                <a href="#" onclick="cartFunctions(this)"><i class="fa-regular fa-heart {{ auth('student')->user() && auth('student')->user()->carts && auth('student')->user()->carts()->where('course_id', $teacher_course->id)->exists() ? "color-active" : "" }}"></i></a>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+
                                                     <div class="course-info d-flex align-items-center">
                                                         <div class="rating-img d-flex align-items-center">
                                                             <img src="{{ URL::asset('/build/img/icon/icon-01.svg') }}"
@@ -611,11 +651,12 @@
 
 
 @section('script')
+
     <script>
         function cartFunctions(element) {
             let form = $(element).parent("form");
 
-            if(!$(element).find("i").hasClass("color-active"))
+            if($(element).find("i").hasClass("color-active"))
                 form.find("[name=_method").remove();
             else
                 form.append('<input type="hidden" name="_method" value="DELETE">')

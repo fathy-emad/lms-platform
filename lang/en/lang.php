@@ -182,6 +182,12 @@
         'withdraw' => 'Withdraw',
         'withdraw_message' => 'Are you sure you want to withdraw you pending money?',
         'send' => 'Send',
-        'times' => 'Sell times'
+        'times' => 'Sell times',
+        'teacher_profile' => 'Teacher profile',
+        'country' => 'Country',
+        'bio' => 'Bio',
+        'stage' => 'Stage',
+        'subject' => 'Subject',
+        'teacher_courses' => 'Teacher Courses'
 	];
 ?>

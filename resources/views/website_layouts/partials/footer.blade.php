@@ -13,7 +13,9 @@
     'student.privacy_policy',
     'student.faqs',
     'student.lesson',
-    'student.support'
+    'student.support',
+    'student.teacher.profile',
+    'student.teacher.courses'
 ]))
     <!-- Footer -->
     <footer class="footer">

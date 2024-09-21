@@ -40,6 +40,12 @@
                         }]);
                 }])
                 ->withSum("materials", "video_duration")
+                ->whereHas('curriculum', function ($query) {
+                    $query->where('ActiveEnum', \App\Enums\ActiveEnum::Active->value);
+                })
+                ->whereHas('teacher', function ($query) {
+                    $query->where('TeacherStatusEnum', \App\Enums\TeacherStatusEnum::Active->value);
+                })
                 ->where("curriculum_id", request("curriculum_id"))
                 ->where("ActiveEnum", \App\Enums\ActiveEnum::Active->value)
                 ->orderBy($column, $order)
@@ -55,6 +61,9 @@
             ->whereHas('curriculum.subject', function ($query) use ($current_subject_id) {
                 $query->where('id', '!=', $current_subject_id); // Exclude the current subject
             })
+            ->whereHas('teacher', function ($query) {
+                $query->where('TeacherStatusEnum', \App\Enums\TeacherStatusEnum::Active->value); // Ensure the teacher is active
+            })
             ->select('curriculum_id', \Illuminate\Support\Facades\DB::raw('MAX(created_at) as latest_course_date'))
             ->groupBy('curriculum_id')
             ->orderBy('latest_course_date', 'desc')
@@ -63,10 +72,13 @@
 
         $latestCourses = \App\Models\Course::whereIn(\Illuminate\Support\Facades\DB::raw('CONCAT(curriculum_id, created_at)'), function ($query) use ($latestCoursesData) {
             $query->select(\Illuminate\Support\Facades\DB::raw('CONCAT(curriculum_id, MAX(created_at))'))
-              ->from('courses')
-              ->whereIn('curriculum_id', $latestCoursesData->pluck('curriculum_id')->toArray())
-              ->groupBy('curriculum_id');
-             })
+                  ->from('courses')
+                  ->whereIn('curriculum_id', $latestCoursesData->pluck('curriculum_id')->toArray())
+                  ->groupBy('curriculum_id');
+            })
+            ->whereHas('teacher', function ($query) {
+                $query->where('TeacherStatusEnum', \App\Enums\TeacherStatusEnum::Active->value); // Ensure the teacher is active
+            })
             ->with(['curriculum.subject.subject.subjectTranslate', 'curriculum.curriculumTranslate'])
             ->get();
 
@@ -102,11 +114,11 @@
                                             <div class="product-content">
                                                 <div class="course-group d-flex">
                                                     <div class="course-group-img d-flex">
-                                                        <a href="{{ url('instructor-profile') }}"><img
+                                                        <a href="{{ route('student.teacher.profile', ["teacher_id" => $course->teacher->id]) }}"><img
                                                                 src="{{ URL::asset($course->teacher->image["file"] ? "uploads/".$course->teacher->image["file"] : '/build/img/user/user1.jpg') }}" alt=""
                                                                 class="img-fluid"></a>
                                                         <div class="course-name">
-                                                            <h4><a href="{{ url('instructor-profile') }}">{{ $course->teacher->prefix }}/ {{ $course->teacher->name }}</a></h4>
+                                                            <h4><a href="{{ route('student.teacher.profile', ["teacher_id" => $course->teacher->id]) }}">{{ $course->teacher->prefix }}/ {{ $course->teacher->name }}</a></h4>
                                                             <p>{{ __("lang.teacher") }}</p>
                                                         </div>
                                                     </div>
