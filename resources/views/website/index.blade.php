@@ -17,7 +17,7 @@
                                 <div class="form-inner">
                                     <div class="input-group">
                                         <i class="fa-solid fa-magnifying-glass search-icon"></i>
-                                        <input type="email" class="form-control"
+                                        <input type="text" class="form-control"
                                             placeholder="Search School, Online eductional centers, etc">
                                         <span class="drop-detail">
                                             <select class="form-select select">
@@ -28,8 +28,9 @@
                                                 <option>Python</option>
                                             </select>
                                         </span>
-                                        <button class="btn btn-primary sub-btn" type="submit"><i
-                                                class="fas fa-arrow-right"></i></button>
+                                        <button class="btn btn-primary sub-btn" type="submit">
+                                            <i @class(['fas', 'fa-arrow-right' => app()->getLocale() != 'ar', 'fa-arrow-left' => app()->getLocale() == 'ar'])></i>
+                                        </button>
                                     </div>
                                 </div>
                             </form>
