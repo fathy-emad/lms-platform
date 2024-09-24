@@ -5,7 +5,8 @@
 <link rel="shortcut icon" type="image/x-icon" href="{{ url('build/img/favicon.svg') }}">
 
 <!-- Bootstrap CSS -->
-<link rel="stylesheet" href="{{ url('/build/css/bootstrap.min.css') }}">
+@php $boostrap = app()->getLocale() == "ar" ? "bootstrap.rtl.min.css" : "bootstrap.min.css"; @endphp
+<link rel="stylesheet" href="{{ url('/build/css/' . $boostrap) }}">
 
 <!-- Daterangepicker CSS -->
 <link rel="stylesheet" href="{{ url('/build/plugins/daterangepicker/daterangepicker.css') }}">
