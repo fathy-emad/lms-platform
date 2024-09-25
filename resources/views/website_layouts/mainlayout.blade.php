@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="{{ app()->getLocale() == "ar" ? "ar" : "en" }}">
+<html lang="{{ app()->getLocale() }}" dir="{{ app()->getLocale() == "ar" ? "rtl" : "ltr" }}">
 
 <head>
     @include('website_layouts.partials.head')
 </head>
 
-<body dir="{{ app()->getLocale() == "ar" ? "rtl" : "ltr" }}">
+<body>
 
 @if (Route::is(['coming-soon', 'error-404', 'error-500', 'under-construction']))<body class="error-page" dir="{{ app()->getLocale() == "ar" ? "rtl" : "ltr" }}">@endif
 @if (Route::is(['student-messages','instructor-chat']))<body class="chat-page main-chat-blk" dir="{{ app()->getLocale() == "ar" ? "rtl" : "ltr" }}">@endif
