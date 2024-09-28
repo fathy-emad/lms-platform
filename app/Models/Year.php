@@ -6,6 +6,7 @@ use App\Enums\ActiveEnum;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 
 class Year extends Model
 {
@@ -22,6 +23,11 @@ class Year extends Model
     public function subjects(): HasMany
     {
         return $this->hasMany(Subject::class, "year_id");
+    }
+
+    public function curricula(): HasManyThrough
+    {
+        return $this->hasManyThrough(Curriculum::class,Subject::class,"year_id","subject_id","id","id");
     }
 
     public function yearTranslate(): BelongsTo

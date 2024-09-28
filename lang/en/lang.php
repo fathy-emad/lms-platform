@@ -188,6 +188,21 @@
         'bio' => 'Bio',
         'stage' => 'Stage',
         'subject' => 'Subject',
-        'teacher_courses' => 'Teacher Courses'
+        'teacher_courses' => 'Teacher Courses',
+        'hero_title_one' => 'The Leader in Online Learning',
+        'hero_title_two' => 'Engaging & Accessible Online Courses For All',
+        'hero_title_three' => 'Own your future learning new skills online',
+        'hero_title_four' => 'Trusted by over :users Users',
+        'hero_title_five' => 'worldwide since 2022',
+        'online_courses' => 'Online Courses',
+        'expert_tutors' => 'Expert Tutors',
+        'certified_courses' => 'Certified Courses',
+        'online_students' => 'Online Students',
+        'all_years' => 'Education Categories',
+        'top_years' => 'Top Categories',
+        'all_years_description' => "Here you can explore all the years or categories available. Whether you're looking for courses that suit your academic level or prefer a specific field, you'll find everything you need here. Our programs offer a wide variety of topics that meet the needs of all students.",
+        'teachers' => 'Teachers',
+        'select_stage' => 'Select Stage',
+        'select_category' => 'Select Category'
 	];
 ?>

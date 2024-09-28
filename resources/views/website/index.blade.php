@@ -1,42 +1,155 @@
 @extends('website_layouts.mainlayout')
 @section('title') loomy edu @endsection
 @section('content')
-    <!-- Home Banner -->
+    @php
+        $students_count = \App\Models\Student::count();
+        $courses_count = \App\Models\Course::count();
+        $teachers_count = \App\Models\Teacher::count();
+        $stages = \App\Models\Stage::with(["stageTranslate"])
+            ->where("ActiveEnum", \App\Enums\ActiveEnum::Active->value)
+            ->whereHas('years', function($query) {
+                $query->where('ActiveEnum', \App\Enums\ActiveEnum::Active->value);
+            })
+            ->orderBy("priority")
+            ->get();
+
+        $years = \App\Models\Year::with(["yearTranslate", "curricula"])
+            ->where("ActiveEnum", \App\Enums\ActiveEnum::Active->value)
+            ->orderBy("stage_id")
+            ->orderBy("priority")
+            ->get();
+
+
+
+    $bestCourses = \App\Models\Course::whereHas('curriculum', function ($query) {
+        $query->where('ActiveEnum', \App\Enums\ActiveEnum::Active->value)
+            ->whereHas('chapters', function ($chapterQuery) {
+                $chapterQuery->where('ActiveEnum', \App\Enums\ActiveEnum::Active->value)
+                    ->whereHas('lessons', function ($lessonQuery) {
+                        $lessonQuery->where('ActiveEnum', \App\Enums\ActiveEnum::Active->value);
+                    });
+            })
+            ->whereHas('subject', function ($subjectQuery) {
+                $subjectQuery->where('ActiveEnum', \App\Enums\ActiveEnum::Active->value)
+                    ->whereHas('year', function ($yearQuery) {
+                        $yearQuery->where('id', 1)
+                            ->where('ActiveEnum', \App\Enums\ActiveEnum::Active->value);
+                    });
+            });
+        })
+        ->where('ActiveEnum', \App\Enums\ActiveEnum::Active->value)  // Course must be active
+        ->with(['curriculum.chapters.lessons' => function ($query) {
+            $query->where('ActiveEnum', \App\Enums\ActiveEnum::Active->value);  // Filter active lessons
+        }])
+        ->withSum('materials', 'video_duration')  // Sum the video duration from materials
+        ->withCount('enrollments')  // Count the enrollments for each course
+        ->get()
+        ->map(function ($course) {
+            // Count active lessons by traversing curriculum -> chapters -> lessons
+            $course->lessons_count = $course->curriculum->chapters->sum(function ($chapter) {
+                return $chapter->lessons->count();
+            });
+
+            return $course;
+        })
+        ->groupBy(function ($course) {
+            return $course->curriculum->subject->id;
+        })
+        ->map(function ($courses) {
+            return $courses->first();
+        });
+
+
+
+    $trendingCourses = \App\Models\Course::whereHas('curriculum', function ($query) {
+        $query->where('ActiveEnum', \App\Enums\ActiveEnum::Active->value)
+            ->whereHas('chapters', function ($chapterQuery) {
+                $chapterQuery->where('ActiveEnum', \App\Enums\ActiveEnum::Active->value)
+                    ->whereHas('lessons', function ($lessonQuery) {
+                        $lessonQuery->where('ActiveEnum', \App\Enums\ActiveEnum::Active->value);
+                    });
+            })
+            ->whereHas('subject', function ($subjectQuery) {
+                $subjectQuery->where('ActiveEnum', \App\Enums\ActiveEnum::Active->value)
+                    ->whereHas('year', function ($yearQuery) {
+                        $yearQuery->where('id', '!=', 1)  // Exclude Year id = 1
+                            ->where('ActiveEnum', \App\Enums\ActiveEnum::Active->value);
+                    });
+            });
+        })
+        ->where('ActiveEnum', \App\Enums\ActiveEnum::Active->value)  // Course must be active
+        ->whereHas('enrollments', function ($enrollmentQuery) {
+            $enrollmentQuery->whereYear('created_at', \Carbon\Carbon::now()->year);  // Only current year enrollments
+        })
+        ->with(['curriculum.chapters.lessons' => function ($query) {
+            $query->where('ActiveEnum', \App\Enums\ActiveEnum::Active->value);  // Filter active lessons
+        }])
+        ->withSum('materials', 'video_duration')  // Sum the video duration from materials
+        ->withCount(['enrollments' => function ($query) {
+            $query->whereYear('created_at', \Carbon\Carbon::now()->year);  // Only count enrollments in the current year
+        }])
+        ->orderBy('enrollments_count', 'desc')  // Order by enrollments count
+        ->limit(20)  // Limit to the top 20 courses
+        ->get()
+        ->map(function ($course) {
+            // Count active lessons by traversing curriculum -> chapters -> lessons
+            $course->lessons_count = $course->curriculum->chapters->sum(function ($chapter) {
+                return $chapter->lessons->count();
+            });
+
+            return $course;
+        });
+
+        dd($bestCourses, $trendingCourses);
+    @endphp
     <section class="home-slide d-flex align-items-center">
         <div class="container">
             <div class="row ">
                 <div class="col-md-7">
                     <div class="home-slide-face aos" data-aos="fade-up">
                         <div class="home-slide-text ">
-                            <h5>The Leader in Online Learning</h5>
-                            <h1>Engaging & Accessible Online Courses For All</h1>
-                            <p>Own your future learning new skills online</p>
+                            <h5>{{ __("lang.hero_title_one") }}</h5>
+                            <h1>{{ __("lang.hero_title_two") }}</h1>
+                            <p>{{ __("lang.hero_title_three") }}</p>
                         </div>
                         <div class="banner-content">
                             <form class="form" action="course-list">
                                 <div class="form-inner">
-                                    <div class="input-group">
-                                        <i class="fa-solid fa-magnifying-glass search-icon"></i>
-                                        <input type="text" class="form-control"
-                                            placeholder="Search School, Online eductional centers, etc">
-                                        <span class="drop-detail">
-                                            <select class="form-select select">
-                                                <option>Category</option>
-                                                <option>Angular</option>
-                                                <option>Node Js</option>
-                                                <option>React</option>
-                                                <option>Python</option>
-                                            </select>
-                                        </span>
-                                        <button class="btn btn-primary sub-btn" type="submit">
-                                            <i @class(['fas', 'fa-arrow-right' => app()->getLocale() != 'ar', 'fa-arrow-left' => app()->getLocale() == 'ar'])></i>
-                                        </button>
+                                    <div class="input-group row">
+                                        <div class="col-sm-12 col-md-1">
+                                            <i class="fa-solid fa-magnifying-glass search-icon mt-3"></i>
+                                        </div>
+                                        <div class="col-sm-12 col-md-5 text-center">
+                                            <span class="drop-detail" style="width: 100%">
+                                                <select class="form-select select" id="stages" onchange="selectYears()">
+                                                   <option value="-1">-- {{ __("lang.select_stage") }} --</option>
+                                                    @foreach($stages as $stage)
+                                                        <option value="{{ $stage->id }}">{{ $stage->stageTranslate->translates[app()->getLocale()] }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </span>
+                                        </div>
+                                        <div class="col-sm-12 col-md-5">
+                                            <span class="drop-detail" style="width: 100%">
+                                                <select class="form-select select" id="years" onchange="onChangeYears(this)">
+                                                    <option value="-1" data-stage="-1">-- {{ __("lang.select_category") }} --</option>
+                                                    @foreach($years as $year)
+                                                        <option value="{{ $year->id }}" data-stage="{{ $year->stage->id }}">{{ $year->yearTranslate->translates[app()->getLocale()] }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </span>
+                                        </div>
+                                        <div class="col-sm-12 col-md-1 text-center">
+                                            <button class="btn btn-primary sub-btn" id="buttonSelectYear" type="button" onclick="getCurriculaOfYear()" disabled>
+                                                <i @class(['fas', 'fa-arrow-right' => app()->getLocale() != 'ar', 'fa-arrow-left' => app()->getLocale() == 'ar'])></i>
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
                             </form>
                         </div>
                         <div class="trust-user">
-                            <p>Trusted by over 15K Users <br>worldwide since 2022</p>
+                            <p>{{ __("lang.hero_title_four", ["users" => $students_count]) }} <br>{{ __("lang.hero_title_five") }}</p>
                             <div class="trust-rating d-flex align-items-center">
                                 <div class="rate-head">
                                     <h2><span>1000</span>+</h2>
@@ -74,8 +187,8 @@
                                         <img src="{{ URL::asset('/build/img/pencil-icon.svg') }}" alt="Img">
                                     </div>
                                     <div class="course-inner-content">
-                                        <h4><span>10</span>K</h4>
-                                        <p>Online Courses</p>
+                                        <h4><span>{{ $courses_count }}</span></h4>
+                                        <p>{{ __("lang.online_courses") }}</p>
                                     </div>
                                 </div>
                             </div>
@@ -89,8 +202,8 @@
                                         <img src="{{ URL::asset('/build/img/cources-icon.svg') }}" alt="Img">
                                     </div>
                                     <div class="course-inner-content">
-                                        <h4><span>200</span>+</h4>
-                                        <p>Expert Tutors</p>
+                                        <h4><span>{{ $teachers_count }}</span>+</h4>
+                                        <p>{{ __("lang.expert_tutors") }}</p>
                                     </div>
                                 </div>
                             </div>
@@ -104,8 +217,8 @@
                                         <img src="{{ URL::asset('/build/img/certificate-icon.svg') }}" alt="Img">
                                     </div>
                                     <div class="course-inner-content">
-                                        <h4><span>6</span>K+</h4>
-                                        <p>Ceritified Courses</p>
+                                        <h4><span>100</span>+</h4>
+                                        <p>{{ __("lang.certified_courses") }}</p>
                                     </div>
                                 </div>
                             </div>
@@ -119,8 +232,8 @@
                                         <img src="{{ URL::asset('/build/img/gratuate-icon.svg') }}" alt="Img">
                                     </div>
                                     <div class="course-inner-content">
-                                        <h4><span>60</span>K +</h4>
-                                        <p>Online Students</p>
+                                        <h4><span>{{ $students_count }}</span>+</h4>
+                                        <p>{{ __("lang.online_students") }}</p>
                                     </div>
                                 </div>
                             </div>
@@ -137,213 +250,38 @@
         <div class="container">
             <div class="section-header aos" data-aos="fade-up">
                 <div class="section-sub-head">
-                    <span>Favourite Course</span>
-                    <h2>Top Category</h2>
+                    <span>{{ __("lang.all_years") }}</span>
+                    <h2>{{ __("lang.top_years") }}</h2>
                 </div>
-                <div class="all-btn all-category d-flex align-items-center">
-                    <a href="{{ url('job-category') }}" class="btn btn-primary">All Categories</a>
-                </div>
+{{--                <div class="all-btn all-category d-flex align-items-center">--}}
+{{--                    <a href="{{ url('job-category') }}" class="btn btn-primary">All Categories</a>--}}
+{{--                </div>--}}
             </div>
             <div class="section-text aos" data-aos="fade-up">
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Eget aenean accumsan bibendum gravida maecenas
-                    augue elementum et neque. Suspendisse imperdiet.</p>
+                <p>
+                    {{ __("lang.all_years_description") }}
+                </p>
             </div>
             <div class="owl-carousel mentoring-course owl-theme aos" data-aos="fade-up">
-                <div class="feature-box text-center ">
-                    <div class="feature-bg">
-                        <div class="feature-header">
-                            <div class="feature-icon">
-                                <img src="{{ URL::asset('/build/img/categories-icon.png') }}" alt="Img">
+                @foreach($years as $year)
+                    <div class="feature-box text-center ">
+                        <div class="feature-bg">
+                            <div class="feature-header">
+                                <div class="feature-icon">
+                                    <a href="{{ route("student.curricula", ["year_id", $year->id]) }}"><img src="{{ URL::asset('/build/img/categories-icon.png') }}" alt="Img"></a>
+                                </div>
+                                <div class="feature-cont">
+                                    <div class="feature-text">
+                                        <a href="{{ route("student.curricula", ["year_id" => $year->id]) }}">
+                                            {{ $year->yearTranslate->translates[app()->getLocale()] }}
+                                        </a>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="feature-cont">
-                                <div class="feature-text">Angular Development</div>
-                            </div>
+                            <p>{{ array_sum(array_column($year->curricula->loadCount("courses")->toArray(), "courses_count")) }} {{ __("lang.courses") }}</p>
                         </div>
-                        <p>40 Instructors</p>
                     </div>
-                </div>
-                <div class="feature-box text-center ">
-                    <div class="feature-bg">
-                        <div class="feature-header">
-                            <div class="feature-icon">
-                                <img src="{{ URL::asset('/build/img/categories-icon-01.png') }}" alt="Img">
-                            </div>
-                            <div class="feature-cont">
-                                <div class="feature-text">Docker Development</div>
-                            </div>
-                        </div>
-                        <p>45 Instructors</p>
-                    </div>
-                </div>
-                <div class="feature-box text-center ">
-                    <div class="feature-bg">
-                        <div class="feature-header">
-                            <div class="feature-icon">
-                                <img src="{{ URL::asset('/build/img/categories-icon-02.png') }}" alt="Img">
-                            </div>
-                            <div class="feature-cont">
-                                <div class="feature-text">Node JS Frontend</div>
-                            </div>
-                        </div>
-                        <p>40 Instructors</p>
-                    </div>
-                </div>
-                <div class="feature-box text-center ">
-                    <div class="feature-bg">
-                        <div class="feature-header">
-                            <div class="feature-icon">
-                                <img src="{{ URL::asset('/build/img/categories-icon-03.png') }}" alt="Img">
-                            </div>
-                            <div class="feature-cont">
-                                <div class="feature-text">Swift Development</div>
-                            </div>
-                        </div>
-                        <p>23 Instructors</p>
-                    </div>
-                </div>
-                <div class="feature-box text-center ">
-                    <div class="feature-bg">
-                        <div class="feature-header">
-                            <div class="feature-icon">
-                                <img src="{{ URL::asset('/build/img/categories-icon-04.png') }}" alt="Img">
-                            </div>
-                            <div class="feature-cont">
-                                <div class="feature-text">Python Development</div>
-                            </div>
-                        </div>
-                        <p>30 Instructors</p>
-                    </div>
-                </div>
-                <div class="feature-box text-center ">
-                    <div class="feature-bg">
-                        <div class="feature-header">
-                            <div class="feature-icon">
-                                <img src="{{ URL::asset('/build/img/categories-icon-05.png') }}" alt="Img">
-                            </div>
-                            <div class="feature-cont">
-                                <div class="feature-text">React<br> Native</div>
-                            </div>
-                        </div>
-                        <p>80 Instructors</p>
-                    </div>
-                </div>
-                <div class="feature-box text-center ">
-                    <div class="feature-bg">
-                        <div class="feature-header">
-                            <div class="feature-icon">
-                                <img src="{{ URL::asset('/build/img/categories-icon-04.png') }}" alt="Img">
-                            </div>
-                            <div class="feature-cont">
-                                <div class="feature-text">Angular Development</div>
-                            </div>
-                        </div>
-                        <p>40 Instructors</p>
-                    </div>
-                </div>
-                <div class="feature-box text-center ">
-                    <div class="feature-bg">
-                        <div class="feature-header">
-                            <div class="feature-icon">
-                                <img src="{{ URL::asset('/build/img/categories-icon-01.png') }}" alt="Img">
-                            </div>
-                            <div class="feature-cont">
-                                <div class="feature-text">Docker Development</div>
-                            </div>
-                        </div>
-                        <p>45 Instructors</p>
-                    </div>
-                </div>
-                <div class="feature-box text-center ">
-                    <div class="feature-bg">
-                        <div class="feature-header">
-                            <div class="feature-icon">
-                                <img src="{{ URL::asset('/build/img/categories-icon-02.png') }}" alt="Img">
-                            </div>
-                            <div class="feature-cont">
-                                <div class="feature-text">Node JS Frontend</div>
-                            </div>
-                        </div>
-                        <p>40 Instructors</p>
-                    </div>
-                </div>
-                <div class="feature-box text-center ">
-                    <div class="feature-bg">
-                        <div class="feature-header">
-                            <div class="feature-icon">
-                                <img src="{{ URL::asset('/build/img/categories-icon-03.png') }}" alt="Img">
-                            </div>
-                            <div class="feature-cont">
-                                <div class="feature-text">Swift Development</div>
-                            </div>
-                        </div>
-                        <p>23 Instructors</p>
-                    </div>
-                </div>
-                <div class="feature-box text-center ">
-                    <div class="feature-bg">
-                        <div class="feature-header">
-                            <div class="feature-icon">
-                                <img src="{{ URL::asset('/build/img/categories-icon-04.png') }}" alt="Img">
-                            </div>
-                            <div class="feature-cont">
-                                <div class="feature-text">Python Development</div>
-                            </div>
-                        </div>
-                        <p>30 Instructors</p>
-                    </div>
-                </div>
-                <div class="feature-box text-center ">
-                    <div class="feature-bg">
-                        <div class="feature-header">
-                            <div class="feature-icon">
-                                <img src="{{ URL::asset('/build/img/categories-icon-01.png') }}" alt="Img">
-                            </div>
-                            <div class="feature-cont">
-                                <div class="feature-text">Docker Development</div>
-                            </div>
-                        </div>
-                        <p>45 Instructors</p>
-                    </div>
-                </div>
-                <div class="feature-box text-center ">
-                    <div class="feature-bg">
-                        <div class="feature-header">
-                            <div class="feature-icon">
-                                <img src="{{ URL::asset('/build/img/categories-icon-02.png') }}" alt="Img">
-                            </div>
-                            <div class="feature-cont">
-                                <div class="feature-text">Node JS Frontend</div>
-                            </div>
-                        </div>
-                        <p>40 Instructors</p>
-                    </div>
-                </div>
-                <div class="feature-box text-center ">
-                    <div class="feature-bg">
-                        <div class="feature-header">
-                            <div class="feature-icon">
-                                <img src="{{ URL::asset('/build/img/categories-icon-03.png') }}" alt="Img">
-                            </div>
-                            <div class="feature-cont">
-                                <div class="feature-text">Swift Development</div>
-                            </div>
-                        </div>
-                        <p>23 Instructors</p>
-                    </div>
-                </div>
-                <div class="feature-box text-center ">
-                    <div class="feature-bg">
-                        <div class="feature-header">
-                            <div class="feature-icon">
-                                <img src="{{ URL::asset('/build/img/categories-icon-04.png') }}" alt="Img">
-                            </div>
-                            <div class="feature-cont">
-                                <div class="feature-text">Python Development</div>
-                            </div>
-                        </div>
-                        <p>30 Instructors</p>
-                    </div>
-                </div>
+                @endforeach
             </div>
         </div>
     </section>
@@ -1995,4 +1933,41 @@
         </div>
     </section>
     <!-- /Latest Blog -->
+@endsection
+
+@section('script')
+    <script>
+        function getCurriculaOfYear() {
+           let year_id = $("#years").val();
+           window.location = APP_URL + "/curricula/" + year_id;
+        }
+
+        function onChangeYears(element)
+        {
+            if($(element).val() != "-1")
+                $("#buttonSelectYear").prop("disabled", false)
+            else
+                $("#buttonSelectYear").prop("disabled", true)
+        }
+
+        function selectYears() {
+            // Get the selected stage ID
+            let stage_id = $("#stages").val();
+
+            // Disable all year options initially
+            $("#years option").each(function() {
+                let yearStage = $(this).data("stage");
+                if (yearStage == stage_id) {
+                    $(this).prop("disabled", false);
+                } else {
+                    $(this).prop("disabled", true);
+                }
+            });
+        }
+
+        $(document).ready(function () {
+            selectYears();
+        });
+
+    </script>
 @endsection

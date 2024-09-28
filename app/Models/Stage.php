@@ -35,6 +35,11 @@ class Stage extends Model
         return $this->hasManyThrough(Subject::class,Year::class,"stage_id","year_id","id","id");
     }
 
+    public function teachers(): HasMany
+    {
+        return $this->hasMany(Teacher::class, "stage_id");
+    }
+
     public function createdBy(): BelongsTo
     {
         return $this->belongsTo(Admin::class, 'created_by');
