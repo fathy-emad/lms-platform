@@ -15,7 +15,7 @@ class CreateRequest extends ValidateRequest
         return [
             "stage_id" => "required|integer|exists:stages,id",
             "year" => "required|string|min:2",
-            "image.file" => "required|file|mimes:png",
+            "image.file" => "required|image",
             "image.title" => "nullable|string",
             "ActiveEnum" => ["sometimes", "string", new Enum(ActiveEnum::class)],
         ];

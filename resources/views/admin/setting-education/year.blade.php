@@ -261,7 +261,7 @@
             let form = modal.find("form");
             form[0].reset();
             $(modal).find("[name=id]").val(data.id);
-            fileUploadBuilder($(modal).find(".fileUploadBuilder"), "image", data.image, false, "image/png");
+            fileUploadBuilder($(modal).find(".fileUploadBuilder"), "image", data.image, false, "image/*");
             modal.find("[name=ActiveEnum]").prop("checked", data.ActiveEnum.key === "active");
             modal.find("[data-locale]").each(function (){
                 let locale = $(this).data("locale");
@@ -275,7 +275,7 @@
             let form = $(this).find("form");
             form[0].reset();
             $(this).find('#year').val('');
-            fileUploadBuilder($(".create_modal").find(".fileUploadBuilder"), "image", null, false, "image/png");
+            fileUploadBuilder($(".create_modal").find(".fileUploadBuilder"), "image", null, false, "image/*");
         });
 
         $(document).ready(function() {

@@ -26,7 +26,7 @@ class UpdateRequest extends ValidateRequest
                     return $query->where("id", $this->id);
                 })
             ],
-            "image.file" => "nullable|file|mimes:png",
+            "image.file" => "nullable|image",
             "image.title" => "nullable|string",
             "ActiveEnum" => ["sometimes", "string", new Enum(ActiveEnum::class)],
         ];
@@ -40,7 +40,7 @@ class UpdateRequest extends ValidateRequest
      */
     public function withValidator(Validator $validator): void
     {
-        $validator->sometimes('image.file', 'required|file|mimes:png', function ($input) {
+        $validator->sometimes('image.file', 'required|image', function ($input) {
             return empty($input->image['key']);
         });
     }
