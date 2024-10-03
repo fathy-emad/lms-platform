@@ -19,8 +19,6 @@
             ->orderBy("priority")
             ->get();
 
-
-
     $bestCourses = \App\Models\Course::whereHas('curriculum', function ($query) {
         $query->where('ActiveEnum', \App\Enums\ActiveEnum::Active->value)
             ->whereHas('chapters', function ($chapterQuery) {
@@ -100,7 +98,7 @@
             return $course;
         });
 
-        dd($bestCourses, $trendingCourses);
+        //dd($bestCourses, $trendingCourses);
     @endphp
     <section class="home-slide d-flex align-items-center">
         <div class="container">
@@ -253,9 +251,6 @@
                     <span>{{ __("lang.all_years") }}</span>
                     <h2>{{ __("lang.top_years") }}</h2>
                 </div>
-{{--                <div class="all-btn all-category d-flex align-items-center">--}}
-{{--                    <a href="{{ url('job-category') }}" class="btn btn-primary">All Categories</a>--}}
-{{--                </div>--}}
             </div>
             <div class="section-text aos" data-aos="fade-up">
                 <p>
@@ -268,7 +263,9 @@
                         <div class="feature-bg">
                             <div class="feature-header">
                                 <div class="feature-icon">
-                                    <a href="{{ route("student.curricula", ["year_id", $year->id]) }}"><img src="{{ URL::asset('/build/img/categories-icon.png') }}" alt="Img"></a>
+                                    <a href="{{ route("student.curricula", ["year_id", $year->id]) }}">
+                                        <img src="{{ URL::asset(isset($year->image["file"]) ? 'uploads/' . $year->image["file"] : '/build/img/categories-icon.png') }}" alt="Img">
+                                    </a>
                                 </div>
                                 <div class="feature-cont">
                                     <div class="feature-text">

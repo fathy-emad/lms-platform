@@ -30,6 +30,7 @@ class YearResource extends JsonResource
                 "id"         => $this->id,
                 "stage"      => new StageResource($this->stage),
                 "year"       => new TranslationResource($this->yearTranslate),
+                "image"      => $this->image,
                 "ActiveEnum" => new TranslationResource($this->ActiveEnum, true),
                 "priority"   => $this->priority,
                 "created_by" => new AuthorResource($this->createdBy),

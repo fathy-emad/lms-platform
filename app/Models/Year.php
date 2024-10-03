@@ -12,7 +12,8 @@ class Year extends Model
 {
     protected $guarded = [];
     protected $casts = [
-        "ActiveEnum" => ActiveEnum::class
+        "ActiveEnum" => ActiveEnum::class,
+        "image" => "array"
     ];
 
     public function stage(): BelongsTo

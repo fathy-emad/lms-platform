@@ -17,6 +17,7 @@ return new class extends Migration
 
             $table->unsignedBigInteger('stage_id');
             $table->unsignedBigInteger('year');
+            $table->json("image")->nullable();
             $table->enum('ActiveEnum', ActiveEnum::values())->default(ActiveEnum::Active->value);
             $table->integer('priority');
             $table->unsignedBigInteger('created_by');

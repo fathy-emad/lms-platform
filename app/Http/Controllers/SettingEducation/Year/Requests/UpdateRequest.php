@@ -7,6 +7,7 @@ use App\Enums\ActiveEnum;
 use App\Enums\SystemConstantsEnum;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\Enum;
+use Illuminate\Validation\Validator;
 
 class UpdateRequest extends ValidateRequest
 {
@@ -18,7 +19,29 @@ class UpdateRequest extends ValidateRequest
             "year" => "required|array|min:1",
             "year.ar" => "required|string|regex:/^[\x{0600}-\x{06FF}\s]+$/u",
             "year.*" => "nullable|string",
+            "image.key" => [
+                "nullable",
+                "integer",
+                Rule::exists("countries", "flag->key")->where(function ($query){
+                    return $query->where("id", $this->id);
+                })
+            ],
+            "image.file" => "nullable|file|mimes:png",
+            "image.title" => "nullable|string",
             "ActiveEnum" => ["sometimes", "string", new Enum(ActiveEnum::class)],
         ];
+    }
+
+    /**
+     * Configure the validator instance.
+     *
+     * @param Validator $validator
+     * @return void
+     */
+    public function withValidator(Validator $validator): void
+    {
+        $validator->sometimes('image.file', 'required|file|mimes:png', function ($input) {
+            return empty($input->image['key']);
+        });
     }
 }

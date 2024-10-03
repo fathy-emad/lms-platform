@@ -2,18 +2,21 @@
 
 namespace App\Http\Controllers\SettingEducation\Year;
 
+use UploadFile;
+use Translation;
 use App\Models\Year;
 use Illuminate\Http\JsonResponse;
-use Translation;
 use App\Concretes\RequestHandler;
 
 class YearRequestHandler extends RequestHandler
 {
     public function handleCreate(): static
     {
+
         $this->setPriority();
         $this->bindCreatedBy();
         $this->handleActiveEnum();
+        $this->uploadImage();
         $this->translateYear(null);
         return $this;
     }
@@ -22,6 +25,7 @@ class YearRequestHandler extends RequestHandler
     {
         $this->bindUpdatedBy();
         $this->handleActiveEnum();
+        $this->uploadImage($model);
         $this->translateYear($model->year);
         return $this;
     }
@@ -40,5 +44,10 @@ class YearRequestHandler extends RequestHandler
     public function handleReorder($model): JsonResponse
     {
         return $this->reorder($model);
+    }
+
+    public function uploadImage($model = null): void
+    {
+        $this->data["image"] = UploadFile::uploadFile('public', $this->data["image"], 'years/images', $model, "image");
     }
 }

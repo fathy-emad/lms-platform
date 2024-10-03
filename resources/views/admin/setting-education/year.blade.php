@@ -53,6 +53,7 @@
                             <table class="display datatables" id="data-table-ajax">
                                 <thead>
                                 <tr>
+                                    <th>{{ __("attributes.image") }}</th>
                                     <th>#ID</th>
                                     <th>{{ __("attributes.priority") }}</th>
                                     <th>{{ __("attributes.year") }}</th>
@@ -66,6 +67,7 @@
                                 </thead>
                                 <tfoot>
                                 <tr>
+                                    <th>{{ __("attributes.image") }}</th>
                                     <th>#ID</th>
                                     <th>{{ __("attributes.priority") }}</th>
                                     <th>{{ __("attributes.year") }}</th>
@@ -105,6 +107,10 @@
                                     <div class="col-12 mb-3">
                                         <label for="year">{{ __("attributes.year") }}</label>
                                         <input type="text" name="year" class="form-control" id="year"/>
+                                    </div>
+
+                                    <div class="col-sm-12 mb-3 fileUploadBuilder">
+                                        <label for="flag">{{ __("attributes.image") }}</label>
                                     </div>
 
                                     <div class="col-sm-12 mb-3 media">
@@ -155,6 +161,10 @@
                                                     <input type="hidden" name="stage_id" value="{{request("stage_id")}}">
                                                 </div>
 
+                                                <div class="col-sm-12 mb-3 fileUploadBuilder">
+                                                    <label for="flag">{{ __("attributes.image") }}</label>
+                                                </div>
+
                                                 <div class="col-sm-12 mb-3 media">
                                                     <label class="col-form-label m-r-10">{{ __("attributes.ActiveEnum") }}</label>
                                                     <div class="media-body icon-state">
@@ -194,6 +204,12 @@
         let dataTableLocale =  "{{session("locale")}}";
         let dataTableReorder = {"selector": "td:nth-child(2)", "uri": `${APP_URL}/${pageData.link}/reorder`};
         let datatableColumns = [
+            {
+                "data": "image.file",
+                "render": function(data) {
+                    return data ? `<img src="${APP_URL}/uploads/${data}" style="height: 25px; width: auto;">` : '-';
+                }
+            },
             { "data": "id" },
             { "data": "priority" },
             { "data": "year.translate" },
@@ -245,6 +261,7 @@
             let form = modal.find("form");
             form[0].reset();
             $(modal).find("[name=id]").val(data.id);
+            fileUploadBuilder($(modal).find(".fileUploadBuilder"), "image", data.image, false, "image/png");
             modal.find("[name=ActiveEnum]").prop("checked", data.ActiveEnum.key === "active");
             modal.find("[data-locale]").each(function (){
                 let locale = $(this).data("locale");
@@ -258,6 +275,7 @@
             let form = $(this).find("form");
             form[0].reset();
             $(this).find('#year').val('');
+            fileUploadBuilder($(".create_modal").find(".fileUploadBuilder"), "image", null, false, "image/png");
         });
 
         $(document).ready(function() {
