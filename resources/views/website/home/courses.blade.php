@@ -139,7 +139,6 @@
                                                         {{ $course->titleTranslate->translates[app()->getLocale()] }}
                                                     </a>
                                                 </h3>
-
                                                 <div class="course-info d-flex align-items-center">
                                                     <div class="rating-img d-flex align-items-center">
                                                         <img src="{{ URL::asset('/build/img/icon/icon-01.svg') }}" alt="">

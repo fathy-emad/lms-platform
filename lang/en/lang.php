@@ -203,6 +203,14 @@
         'all_years_description' => "Here you can explore all the years or categories available. Whether you're looking for courses that suit your academic level or prefer a specific field, you'll find everything you need here. Our programs offer a wide variety of topics that meet the needs of all students.",
         'teachers' => 'Teachers',
         'select_stage' => 'Select Stage',
-        'select_category' => 'Select Category'
-	];
+        'select_category' => 'Select Category',
+        'featured_courses_description' => 'Explore the best courses for third-year secondary school. These featured courses are designed to help students excel in every subject, offering top-quality educational resources and expert guidance in each field.',
+        'featured_courses' => 'Featured Courses',
+        'whats_new' => 'What’s New',
+        'trending_courses' => 'Trending Courses',
+        'trending_courses_description' => "Stay up-to-date with the most popular courses that are trending right now. Our carefully curated trending courses are designed to provide you with cutting-edge knowledge and skills across various subjects. Whether you're looking to dive into a new topic or advance in your current field, these courses have been highly rated by learners and are in high demand. Explore the top trends in education and stay ahead with our expertly crafted content tailored to help you succeed.",
+        'featured_instructor_description' => "Meet our top instructors who are experts in their respective fields. These featured instructors are dedicated to delivering high-quality education and are committed to helping students achieve their full potential. With years of experience and a passion for teaching, they bring real-world knowledge and practical skills to every lesson. Learn from the best and gain insights that will set you apart in your academic and professional journey.",
+        'featured_instructor' => 'Featured Teachers'
+
+    ];
 ?>
