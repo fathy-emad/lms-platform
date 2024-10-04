@@ -210,7 +210,8 @@
         'trending_courses' => 'Trending Courses',
         'trending_courses_description' => "Stay up-to-date with the most popular courses that are trending right now. Our carefully curated trending courses are designed to provide you with cutting-edge knowledge and skills across various subjects. Whether you're looking to dive into a new topic or advance in your current field, these courses have been highly rated by learners and are in high demand. Explore the top trends in education and stay ahead with our expertly crafted content tailored to help you succeed.",
         'featured_instructor_description' => "Meet our top instructors who are experts in their respective fields. These featured instructors are dedicated to delivering high-quality education and are committed to helping students achieve their full potential. With years of experience and a passion for teaching, they bring real-world knowledge and practical skills to every lesson. Learn from the best and gain insights that will set you apart in your academic and professional journey.",
-        'featured_instructor' => 'Featured Teachers'
+        'featured_instructor' => 'Featured Teachers',
+        'blogs' => 'Blogs'
 
     ];
 ?>
