@@ -308,6 +308,7 @@
                 },
                 success: function(response) {
                     let data = response.data;
+                    console.log(data);
                     $("[name=id]").val(data.id);
                     $("[name=name]").val(data.name);
                     $("[name=GenderEnum]").val(data.GenderEnum.key);
@@ -316,6 +317,8 @@
                     $("[name=country_id]").val(data.country_id);
                     $("[name=TeacherStatusEnum]").val(data.TeacherStatusEnum.translate);
                     $("[name=national_id]").val(data.national_id);
+                    $("[name=stage_id]").val(data.stage_id);
+                    $("[name=edu_subject_id]").val(data.edu_subject_id);
                     fileUploadBuilder($(".fileUploadBuilder"), "image", data.image, false, "image/*");
 
                 },

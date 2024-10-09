@@ -33,6 +33,8 @@ class RegisterResource extends JsonResource
                 "email" => $this->email,
                 "TeacherStatusEnum" => new TranslationResource($this->TeacherStatusEnum, true),
                 "GenderEnum" => new TranslationResource($this->GenderEnum, true),
+                "stage_id" => $this->stage_id,
+                "edu_subject_id" => $this->edu_subject_id
             ],
             default => [
                 "id" => $this->id,
