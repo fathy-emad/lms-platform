@@ -108,9 +108,9 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="form-group mb-0">
-                                            <button class="btn btn-primary btn-block" onclick="submitForm(this)" type="button">{{ __("lang.update") }}</button>
-                                        </div>
+{{--                                        <div class="form-group mb-0">--}}
+{{--                                            <button class="btn btn-primary btn-block" onclick="submitForm(this)" type="button">{{ __("lang.update") }}</button>--}}
+{{--                                        </div>--}}
                                     </form>
                                 </div>
 
