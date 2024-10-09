@@ -317,8 +317,9 @@
                     $("[name=country_id]").val(data.country_id);
                     $("[name=TeacherStatusEnum]").val(data.TeacherStatusEnum.translate);
                     $("[name=national_id]").val(data.national_id);
-                    $("[name=stage_id]").val(data.stage_id);
-                    $("[name=edu_subject_id]").val(data.edu_subject_id);
+                    $("[name=stage_id]").val(data.stage_id).trigger("change");
+                    $("[name=edu_subject_id]").val(data.edu_subject_id).trigger("change");
+                    $("[name=prefix]").val(data.prefix).trigger("change");
                     fileUploadBuilder($(".fileUploadBuilder"), "image", data.image, false, "image/*");
 
                 },
