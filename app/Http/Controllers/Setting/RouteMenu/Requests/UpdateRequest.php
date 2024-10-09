@@ -13,7 +13,7 @@ class UpdateRequest extends ValidateRequest
         return [
             "id" => "required|integer|exists:route_menus",
             "title" => "required|array|min:1",
-            "title.ar" => "required|string|regex:/^[\x{0600}-\x{06FF}\s]+$/u",
+            "title.ar" =>  "required|string|regex:/^[\x{0600}-\x{06FF}\s\W]+$/u",
             "title.*" => "nullable|string",
             "route" => "required|unique:route_menus,route," . $this->id,
             //"priority" => "nullable|integer",

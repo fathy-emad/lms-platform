@@ -17,7 +17,7 @@ class UpdateRequest extends ValidateRequest
             "id" => "required|integer|exists:curricula,id",
             "subject_id" => "required|integer|exists:subjects,id",
             "curriculum" => "required|array|min:1",
-            "curriculum.ar" => "required|string|regex:/^[\x{0600}-\x{06FF}\s]+$/u",
+            "curriculum.ar" =>  "required|string|regex:/^[\x{0600}-\x{06FF}\s\W]+$/u",
             "curriculum.*" => "nullable|string",
             "EduTermsEnums" => "required|array|min:1",
             "EduTermsEnums.*" => [new Enum(EduTermsEnum::class)],

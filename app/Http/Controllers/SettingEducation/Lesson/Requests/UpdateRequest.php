@@ -16,7 +16,7 @@ class UpdateRequest extends ValidateRequest
             "id" => "required|integer|exists:lessons,id",
             "chapter_id" => "required|integer|exists:chapters,id",
             "lesson" => "required|array|min:1",
-            "lesson.ar" => "required|string|regex:/^[\x{0600}-\x{06FF}\s]+$/u",
+            "lesson.ar" =>  "required|string|regex:/^[\x{0600}-\x{06FF}\s\W]+$/u",
             "lesson.*" => "nullable|string",
             "ActiveEnum" => ["sometimes", "string", new Enum(ActiveEnum::class)],
         ];

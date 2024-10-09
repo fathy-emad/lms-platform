@@ -16,7 +16,7 @@ class UpdateRequest extends ValidateRequest
             "id" => "required|exists:stages,id",
             "country_id" => "required|integer|exists:countries,id",
             "stage" => "required|array|min:1",
-            "stage.ar" => "required|string|regex:/^[\x{0600}-\x{06FF}\s]+$/u",
+            "stage.ar" =>  "required|string|regex:/^[\x{0600}-\x{06FF}\s\W]+$/u",
             "stage.*" => "nullable|string",
             "ActiveEnum" => ["sometimes", "string", new Enum(ActiveEnum::class)],
         ];

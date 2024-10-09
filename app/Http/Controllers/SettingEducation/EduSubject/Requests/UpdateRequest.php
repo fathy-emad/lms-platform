@@ -12,7 +12,7 @@ class UpdateRequest extends ValidateRequest
         return [
             "id" => "required|exists:languages,id",
             "subject" => "required|array|min:1",
-            "subject.ar" => "required|string|regex:/^[\x{0600}-\x{06FF}\s]+$/u",
+            "subject.ar" =>  "required|string|regex:/^[\x{0600}-\x{06FF}\s\W]+$/u",
             "subject.*" => "nullable|string",
         ];
     }
