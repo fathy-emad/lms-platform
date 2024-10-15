@@ -47,9 +47,9 @@
                     <div class="breadcrumb-list">
                         <h2 class="breadcrumb-title">{{ $title }}</h2>
                         <nav aria-label="breadcrumb" class="page-breadcrumb">
-                            <ol class="breadcrumb">
-                                <li class="breadcrumb-item"><a href="{{ route('student.website') }}">{{ $item1 }}</a></li>
-                                <li class="breadcrumb-item active" aria-current="page">{{ $item2 }}</li>
+                            <ol class="breadcrumb" dir="ltr">
+                                <li class="breadcrumb-item active"><a class="active" href="{{ route('student.website') }}">{{ $item1 }}</a></li>
+                                <li class="breadcrumb-item" aria-current="page">{{ $item2 }}</li>
                             </ol>
                         </nav>
                     </div>
@@ -68,7 +68,7 @@
                 <div class="col-md-12 col-12">
                     <div class="breadcrumb-list">
                         <nav aria-label="breadcrumb" class="page-breadcrumb">
-                            <ol class="breadcrumb">
+                            <ol class="breadcrumb" dir="ltr">
                                 <li class="breadcrumb-item"><a href="{{ route('student.website') }}">{{ $title }}</a></li>
                                 <li class="breadcrumb-item" aria-current="page">{{ $item1 }}</li>
                                 <li class="breadcrumb-item" aria-current="page">{{ $item2 }}</li>
@@ -100,7 +100,7 @@
                     <div class="breadcrumb-list">
                         <h2 class="breadcrumb-title">{{ $title }}</h2>
                         <nav aria-label="breadcrumb" class="page-breadcrumb">
-                            <ol class="breadcrumb">
+                            <ol class="breadcrumb" dir="ltr">
                                 <li class="breadcrumb-item"><a href="{{ route('student.profile') }}">{{ $item1 }}</a></li>
                                 <li class="breadcrumb-item active" aria-current="page">{{ $item2 }}</li>
                             </ol>
@@ -113,7 +113,10 @@
     <!-- /Breadcrumb -->
 @endif
 
-@if(Route::is(['students-grid','students-list','blog-details','blog-grid','blog-list','blog-masonry','blog-modern','student.courses','course-list','faq','student.faqs','student.curricula','notifications','pricing-plan','student.privacy_policy','student.support','student.terms_condition','wishlist']))
+@if(Route::is(['students-grid','students-list','blog-details','blog-grid','blog-list','blog-masonry','blog-modern',
+'student.courses','course-list','faq','student.faqs','student.curricula','notifications','pricing-plan',
+'student.privacy_policy','student.support','student.terms_condition','wishlist'
+]))
 	<!-- Breadcrumb -->
     <div class="breadcrumb-bar">
         <div class="container">
@@ -121,7 +124,7 @@
                 <div class="col-md-12 col-12">
                     <div class="breadcrumb-list">
                         <nav aria-label="breadcrumb" class="page-breadcrumb">
-                            <ol class="breadcrumb">
+                            <ol class="breadcrumb" dir="ltr">
                                 <li class="breadcrumb-item"><a href="{{route('student.website')}}">{{ $title }}</a></li>
                                 <li class="breadcrumb-item">{{ $item1 }}</li>
                                 <li class="breadcrumb-item">{{ $item2 }}</li>

@@ -104,7 +104,7 @@
                                 <p class="mb-0">
                                     <img src="{{ URL::asset('/build/img/icon/icon-21.svg') }}" alt=""
                                         class="img-fluid">
-                                    +20 114-166-1776
+                                    <span dir="ltr">+20 111-322-2537</span>
                                 </p>
                             </div>
                             <div class="social-icon-soon mt-3 justify-content-start">

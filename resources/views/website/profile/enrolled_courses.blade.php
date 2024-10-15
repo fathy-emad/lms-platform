@@ -70,9 +70,15 @@
                                                             <div class="product-content">
                                                                 <div class="course-group d-flex">
                                                                     <div class="course-group-img d-flex">
-                                                                        <a href="{{url('instructor-profile')}}"><img src="{{ URL::asset($active_enrollment->course->teacher->image["file"] ? "uploads/".$active_enrollment->course->teacher->image["file"] : '/build/img/user/user1.jpg') }}" alt="Img" class="img-fluid"></a>
+                                                                        <a href="{{ route('student.teacher.profile', ["teacher_id" => $active_enrollment->course->teacher->id]) }}">
+                                                                            <img src="{{ URL::asset($active_enrollment->course->teacher->image["file"] ? "uploads/".$active_enrollment->course->teacher->image["file"] : '/build/img/user/user1.jpg') }}" alt="Img" class="img-fluid">
+                                                                        </a>
                                                                         <div class="course-name">
-                                                                            <h4><a href="{{url('instructor-profile')}}">{{ $active_enrollment->course->teacher->prefix }}/ {{ $active_enrollment->course->teacher->name }}</a></h4>
+                                                                            <h4>
+                                                                                <a href="{{ route('student.teacher.profile', ["teacher_id" => $active_enrollment->course->teacher->id]) }}">
+                                                                                    {{ $active_enrollment->course->teacher->prefix }}/ {{ $active_enrollment->course->teacher->name }}
+                                                                                </a>
+                                                                            </h4>
                                                                             <p>{{ __("lang.teacher") }}</p>
                                                                         </div>
                                                                     </div>
@@ -126,9 +132,11 @@
                                                             <div class="product-content">
                                                                 <div class="course-group d-flex">
                                                                     <div class="course-group-img d-flex">
-                                                                        <a href="{{url('instructor-profile')}}"><img src="{{ URL::asset($all_enrollment->course->teacher->image["file"] ? "uploads/".$all_enrollment->course->teacher->image["file"] : '/build/img/user/user1.jpg') }}" alt="Img" class="img-fluid"></a>
+                                                                        <a href="{{ route('student.teacher.profile', ["teacher_id" => $all_enrollment->course->teacher->id]) }}">
+                                                                            <img src="{{ URL::asset($all_enrollment->course->teacher->image["file"] ? "uploads/".$all_enrollment->course->teacher->image["file"] : '/build/img/user/user1.jpg') }}" alt="Img" class="img-fluid"></a>
                                                                         <div class="course-name">
-                                                                            <h4><a href="{{url('instructor-profile')}}">{{ $all_enrollment->course->teacher->prefix }}/ {{ $all_enrollment->course->teacher->name }}</a></h4>
+                                                                            <h4><a href="{{ route('student.teacher.profile', ["teacher_id" => $all_enrollment->course->teacher->id]) }}">
+                                                                                    {{ $all_enrollment->course->teacher->prefix }}/ {{ $all_enrollment->course->teacher->name }}</a></h4>
                                                                             <p>{{ __("lang.teacher") }}</p>
                                                                         </div>
                                                                     </div>
@@ -182,9 +190,11 @@
                                                             <div class="product-content">
                                                                 <div class="course-group d-flex">
                                                                     <div class="course-group-img d-flex">
-                                                                        <a href="{{url('instructor-profile')}}"><img src="{{ URL::asset($completed_enrollment->course->teacher->image["file"] ? "uploads/".$completed_enrollment->course->teacher->image["file"] : '/build/img/user/user1.jpg') }}" alt="Img" class="img-fluid"></a>
+                                                                        <a href="{{ route('student.teacher.profile', ["teacher_id" => $completed_enrollment->course->teacher->id]) }}">
+                                                                            <img src="{{ URL::asset($completed_enrollment->course->teacher->image["file"] ? "uploads/".$completed_enrollment->course->teacher->image["file"] : '/build/img/user/user1.jpg') }}" alt="Img" class="img-fluid"></a>
                                                                         <div class="course-name">
-                                                                            <h4><a href="{{url('instructor-profile')}}">{{ $completed_enrollment->course->teacher->prefix }}/ {{ $completed_enrollment->course->teacher->name }}</a></h4>
+                                                                            <h4><a href="{{ route('student.teacher.profile', ["teacher_id" => $completed_enrollment->course->teacher->id]) }}">
+                                                                                    {{ $completed_enrollment->course->teacher->prefix }}/ {{ $completed_enrollment->course->teacher->name }}</a></h4>
                                                                             <p>{{ __("lang.teacher") }}</p>
                                                                         </div>
                                                                     </div>

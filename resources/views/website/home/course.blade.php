@@ -604,7 +604,7 @@
 
                                             @foreach($latestCourses as $latest)
                                                 <li>
-                                                    <div class="post-thumb">
+                                                    <div class="post-thumb" @if(app()->getLocale() == "ar") style="float: right" @endif>
                                                         <a href="{{ route('student.course', ["course_id" => $latest->id]) }}">
                                                             <img class="img-fluid"
                                                                  src="{{ URL::asset(isset($latest->image?->file) ? 'uploads/'.$latest->image?->file : '/build/img/course.png') }}"

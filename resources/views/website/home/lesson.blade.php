@@ -138,7 +138,7 @@
                                         <a class="{{ !$chapter->lessons()->where("id", request("lesson_id"))->exists() ? "collapsed" : "" }}"
                                            data-bs-toggle="collapse" href="#collapseOne_{{$chapter->id}}"
                                            aria-expanded="false">{{ $chapter->chapterTranslate->translates[app()->getLocale()] }}
-                                            <span>{{ $chapter->lessons->count() }} {{ __("lang.lessons") }}</span> </a>
+                                            <span @if(app()->getLocale() == "ar") style="float: left" @endif>{{ $chapter->lessons->count() }} {{ __("lang.lessons") }}</span> </a>
                                     </h6>
                                     <div id="collapseOne_{{$chapter->id}}" class="card-collapse collapse {{ $chapter->lessons()->where("id", request("lesson_id"))->exists() ? "show" : "" }}" style="">
                                         <div class="student-percent lesson-percent">
@@ -194,7 +194,15 @@
                                     <p>
                                         {{ $course->curriculum->subject->year->stage->stageTranslate->translates[app()->getLocale()] }},
                                         {{ $course->curriculum->subject->year->yearTranslate->translates[app()->getLocale()] }},
-                                        {{ $course->curriculum->subject->subject->subjectTranslate->translates[app()->getLocale()] }}
+                                        {{ $course->curriculum->subject->subject->subjectTranslate->translates[app()->getLocale()] }},
+                                        <a href="{{ route('student.curricula', ["year_id" => $course->curriculum->subject->year->id]) }}"
+                                            style="font-weight: bolder;color: #f66962">
+                                            {{ $course->curriculum->curriculumTranslate->translates[app()->getLocale()] }},
+                                        </a>
+                                        <a href="{{ route('student.course', ["course_id" => $course->id]) }}"
+                                           style="font-weight: bolder;color: #f66962">
+                                            {{ $course->titleTranslate->translates[app()->getLocale()] }}
+                                        </a>
                                     </p>
                                     <p>
                                         {{floor($lesson_duration / 60) }} {{ __("lang.hr") }} {{floor($lesson_duration % 60) }} {{ __("lang.min") }}
