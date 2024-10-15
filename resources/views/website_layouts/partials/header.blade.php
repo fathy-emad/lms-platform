@@ -153,9 +153,24 @@
 
 @if(app()->getLocale() == "ar")
     <style>
-        .main-menu-wrapper {
-            transform: translateX(260px);
+
+        @media (max-width: 991.98px) {
+            .main-menu-wrapper {
+                order: 3;
+                width: 260px;
+                position: fixed;
+                top: 0;
+                bottom: 0;
+                inset-inline-start: 0;
+                overflow-x: hidden;
+                overflow-y: auto;
+                z-index: 1060;
+                transform: translateX(260px);
+                transition: all 0.4s;
+                background-color: #f66962;
+            }
         }
+
     </style>
 @endif
 
