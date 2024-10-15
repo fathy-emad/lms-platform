@@ -169,6 +169,10 @@
                 transition: all 0.4s;
                 background-color: #f66962;
             }
+
+            .nav-float-mobile {
+                float: left !important;
+            }
         }
 
     </style>
@@ -203,7 +207,7 @@
                 <ul class="main-nav">
                     <li class="has-submenu {{ Route::is("student.website") ? "active" : "" }}"><a class="" href="{{ route("student.website") }}">{{ __("lang.home") }}</a></li>
                     <li class="has-submenu {{ Route::is(["student.curricula", "student.courses", "student.course", "student.lesson"]) ? "active" : ""  }}">
-                        <a href="#">{{ __("lang.curricula") }} <i class="fas fa-chevron-down"></i></a>
+                        <a href="#">{{ __("lang.curricula") }} <i class="fas fa-chevron-down nav-float-mobile"></i></a>
                         @php
                             $stages = \App\Models\Stage::with(['years' => function($query) {
                                                             $query->where('ActiveEnum', \App\Enums\ActiveEnum::Active->value)
@@ -239,7 +243,7 @@
                         </ul>
                     </li>
                     <li class="has-submenu">
-                        <a href="#"> {{ __("lang.language") }} <i class="fas fa-chevron-down"></i></a>
+                        <a href="#"> {{ __("lang.language") }} <i class="fas fa-chevron-down nav-float-mobile"></i></a>
                         <ul class="submenu">
                             <li class="{{ app()->getLocale() == "ar" ? 'active' : '' }}"><a href="{{ route('lang', 'ar')}}">AR (العربية)</a></li>
                             <li class="{{ app()->getLocale() !== "ar" ? 'active' : '' }}"><a href="{{ route('lang', 'en')}}">EN (English)</a></li>
@@ -251,7 +255,7 @@
                         <li class="login-link"><a href="{{ route('student.auth.login') }}">{{ __("lang.login") }} / {{ __("lang.register") }}</a></li>
                     @else
                         <li class="login-link"><a href="{{ route('student.cart') }}">{{ __("lang.cart") }}</a></li>
-                        <li class="login-link"><a href="{{ route('student.profile') }}"><i class="feather-home"></i>{{ __("lang.profile") }}</a></li>
+                        <li class="login-link"><a href="{{ route('student.profile') }}"><i class="feather-home nav-float-mobile"></i>{{ __("lang.profile") }}</a></li>
                         <li class="login-link">
                             <form id="form" method="POST"
                                   action="{{ url("api/student/auth/logout") }}" authorization="{{ session("student_data")["jwtToken"] }}" locale="{{app()->getLocale()}}" csrf="{{ csrf_token()}}">
