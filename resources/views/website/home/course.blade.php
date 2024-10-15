@@ -423,73 +423,73 @@
                         <!-- /other Instructor courses -->
 
                         <!-- Reviews -->
-                        <div class="card review-sec">
-                            <div class="card-body">
-                                <h5 class="subs-title">Reviews</h5>
-                                <div class="instructor-wrap">
-                                    <div class="about-instructor">
-                                        <div class="abt-instructor-img">
-                                            <a href="{{ url('instructor-profile') }}"><img
-                                                    src="{{ URL::asset('/build/img/user/user1.jpg') }}" alt="img"
-                                                    class="img-fluid"></a>
-                                        </div>
-                                        <div class="instructor-detail">
-                                            <h5><a href="{{ url('instructor-profile') }}">Nicole Brown</a></h5>
-                                            <p>UX/UI Designer</p>
-                                        </div>
-                                    </div>
-                                    <div class="rating">
-                                        <i class="fas fa-star filled"></i>
-                                        <i class="fas fa-star filled"></i>
-                                        <i class="fas fa-star filled"></i>
-                                        <i class="fas fa-star filled"></i>
-                                        <i class="fas fa-star filled"></i>
-                                        <span class="d-inline-block average-rating">5 Instructor Rating</span>
-                                    </div>
-                                </div>
-                                <p class="rev-info">“ This is the second Photoshop course I have completed with
-                                    Cristian. Worth
-                                    every penny and recommend it highly. To get the most out of this course, its
-                                    best to to take
-                                    the Beginner to Advanced course first. The sound and video quality is of a good
-                                    standard.
-                                    Thank you Cristian. “</p>
-                                <a href="javascript:;" class="btn btn-reply"><i class="feather-corner-up-left"></i>
-                                    Reply</a>
-                            </div>
-                        </div>
+{{--                        <div class="card review-sec">--}}
+{{--                            <div class="card-body">--}}
+{{--                                <h5 class="subs-title">Reviews</h5>--}}
+{{--                                <div class="instructor-wrap">--}}
+{{--                                    <div class="about-instructor">--}}
+{{--                                        <div class="abt-instructor-img">--}}
+{{--                                            <a href="{{ url('instructor-profile') }}"><img--}}
+{{--                                                    src="{{ URL::asset('/build/img/user/user1.jpg') }}" alt="img"--}}
+{{--                                                    class="img-fluid"></a>--}}
+{{--                                        </div>--}}
+{{--                                        <div class="instructor-detail">--}}
+{{--                                            <h5><a href="{{ url('instructor-profile') }}">Nicole Brown</a></h5>--}}
+{{--                                            <p>UX/UI Designer</p>--}}
+{{--                                        </div>--}}
+{{--                                    </div>--}}
+{{--                                    <div class="rating">--}}
+{{--                                        <i class="fas fa-star filled"></i>--}}
+{{--                                        <i class="fas fa-star filled"></i>--}}
+{{--                                        <i class="fas fa-star filled"></i>--}}
+{{--                                        <i class="fas fa-star filled"></i>--}}
+{{--                                        <i class="fas fa-star filled"></i>--}}
+{{--                                        <span class="d-inline-block average-rating">5 Instructor Rating</span>--}}
+{{--                                    </div>--}}
+{{--                                </div>--}}
+{{--                                <p class="rev-info">“ This is the second Photoshop course I have completed with--}}
+{{--                                    Cristian. Worth--}}
+{{--                                    every penny and recommend it highly. To get the most out of this course, its--}}
+{{--                                    best to to take--}}
+{{--                                    the Beginner to Advanced course first. The sound and video quality is of a good--}}
+{{--                                    standard.--}}
+{{--                                    Thank you Cristian. “</p>--}}
+{{--                                <a href="javascript:;" class="btn btn-reply"><i class="feather-corner-up-left"></i>--}}
+{{--                                    Reply</a>--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
                         <!-- /Reviews -->
 
                         <!-- Comment -->
-                        <div class="card comment-sec">
-                            <div class="card-body">
-                                <h5 class="subs-title">Post A comment</h5>
-                                <form>
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <div class="input-block">
-                                                <input type="text" class="form-control" placeholder="Full Name">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="input-block">
-                                                <input type="email" class="form-control" placeholder="Email">
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="input-block">
-                                        <input type="email" class="form-control" placeholder="Subject">
-                                    </div>
-                                    <div class="input-block">
-                                        <textarea rows="4" class="form-control"
-                                                  placeholder="Your Comments"></textarea>
-                                    </div>
-                                    <div class="submit-section">
-                                        <button class="btn submit-btn" type="submit">Submit</button>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
+{{--                        <div class="card comment-sec">--}}
+{{--                            <div class="card-body">--}}
+{{--                                <h5 class="subs-title">Post A comment</h5>--}}
+{{--                                <form>--}}
+{{--                                    <div class="row">--}}
+{{--                                        <div class="col-md-6">--}}
+{{--                                            <div class="input-block">--}}
+{{--                                                <input type="text" class="form-control" placeholder="Full Name">--}}
+{{--                                            </div>--}}
+{{--                                        </div>--}}
+{{--                                        <div class="col-md-6">--}}
+{{--                                            <div class="input-block">--}}
+{{--                                                <input type="email" class="form-control" placeholder="Email">--}}
+{{--                                            </div>--}}
+{{--                                        </div>--}}
+{{--                                    </div>--}}
+{{--                                    <div class="input-block">--}}
+{{--                                        <input type="email" class="form-control" placeholder="Subject">--}}
+{{--                                    </div>--}}
+{{--                                    <div class="input-block">--}}
+{{--                                        <textarea rows="4" class="form-control"--}}
+{{--                                                  placeholder="Your Comments"></textarea>--}}
+{{--                                    </div>--}}
+{{--                                    <div class="submit-section">--}}
+{{--                                        <button class="btn submit-btn" type="submit">Submit</button>--}}
+{{--                                    </div>--}}
+{{--                                </form>--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
                         <!-- /Comment -->
                     </div>
 

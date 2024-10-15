@@ -2696,7 +2696,7 @@ html.menu-opened body {
 }
 .user-love {
   padding: 80px 0px;
-  background-image: url(../img/user-love.jpg);
+  background-image: url(../img/login-bg.png);
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
