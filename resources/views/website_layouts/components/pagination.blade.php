@@ -12,7 +12,7 @@
          @endif
 
          <li class="page-item prev {{ $data->currentPage() == 1 ? "disabled" : "" }}">
-             <a class="page-link" href="{{ $data->path() . "?page=" . $data->currentPage() - 1 }}" tabindex="-1"><i class="fas fa-angle-left"></i></a>
+             <a class="page-link" href="{{ $data->path() . "?page=" . $data->currentPage() - 1 }}" tabindex="-1"><i class="fas @if(app()->getLocale() == "ar") fa-angle-right @else fa-angle-left @endif"></i></a>
          </li>
 
          @for($i = 1; $i <= ceil($data->total() / $data->perPage()); $i++)
@@ -21,7 +21,7 @@
              </li>
          @endfor
          <li class="page-item next {{ $data->currentPage() == $data->lastPage() ? "disabled" : "" }}">
-             <a class="page-link" href="{{ $data->path() . "?page=" . $data->currentPage() + 1 }}"><i class="fas fa-angle-right"></i></a>
+             <a class="page-link" href="{{ $data->path() . "?page=" . $data->currentPage() + 1 }}"><i class="fas @if(app()->getLocale() == "ar") fa-angle-left @else fa-angle-right @endif"></i></a>
          </li>
          </ul>
      </div>
