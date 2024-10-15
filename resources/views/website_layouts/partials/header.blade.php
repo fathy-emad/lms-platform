@@ -150,6 +150,17 @@
     <header class="header header-page">
 @endif
 
+
+@if(app()->getLocale() == "ar")
+    <style>
+        .main-menu-wrapper {
+            transform: translateX(260px);
+        }
+    </style>
+@endif
+
+
+
 <div class="header-fixed">
     <nav class="navbar navbar-expand-lg header-nav scroll-sticky">
         <div class="container">
