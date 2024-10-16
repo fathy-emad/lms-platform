@@ -17,7 +17,7 @@ class UpdateRequest extends ValidateRequest
             "id" => "required|exists:languages,id",
             "locale" => "required|string|unique:languages,locale,".$this->id,
             "language" => "required|array|min:1",
-            "language.ar" =>  "required|string|regex:/^[\x{0600}-\x{06FF}\s\W]+$/u",
+            "language.ar" =>  "required|string",
             "language.*" => "nullable|string",
             "flag" => "nullable|array",
             "flag.key" => [

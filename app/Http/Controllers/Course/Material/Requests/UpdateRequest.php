@@ -23,7 +23,7 @@ class UpdateRequest extends ValidateRequest
                 ->ignore($this->id)
             ],
             "description" => "required|array|min:1",
-            "description.ar" =>  "required|string|regex:/^[\x{0600}-\x{06FF}\s\W]+$/u",
+            "description.ar" =>  "required|string",
             "description.*" => "nullable|string",
             'video' => 'required|string',
             'video_duration' => 'required|integer',

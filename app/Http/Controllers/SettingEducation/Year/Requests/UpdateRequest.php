@@ -17,7 +17,7 @@ class UpdateRequest extends ValidateRequest
             "id" => "required|integer|exists:years,id",
             "stage_id" => "required|integer|exists:stages,id",
             "year" => "required|array|min:1",
-            "year.ar" =>  "required|string|regex:/^[\x{0600}-\x{06FF}\s\W]+$/u",
+            "year.ar" =>  "required|string",
             "year.*" => "nullable|string",
             "image.key" => [
                 "nullable",

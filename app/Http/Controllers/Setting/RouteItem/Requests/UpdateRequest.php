@@ -15,7 +15,7 @@ class UpdateRequest extends ValidateRequest
             "menu_id" => "required|integer|exists:route_menus,id",
             "model" => "required|string",
             "title" => "required|array|min:1",
-            "title.ar" =>  "required|string|regex:/^[\x{0600}-\x{06FF}\s\W]+$/u",
+            "title.ar" =>  "required|string",
             "title.*" => "nullable|string",
             "route" => [
                 "required",

@@ -14,7 +14,7 @@ class UpdateRequest extends ValidateRequest
         return [
             "id" => "required|integer|exists:faqs,id",
             "question" => "required|array",
-            "question.ar" =>  "required|string|regex:/^[\x{0600}-\x{06FF}\s\W]+$/u",
+            "question.ar" =>  "required|string",
             "question.*" => "nullable|string",
             "answer" => "required|array",
             "answer.ar" => "required|string",
