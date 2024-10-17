@@ -36,7 +36,7 @@
                                                 $cost = $item->course->cost["course"];
                                                 $total += $cost;
                                                 $course_id = $item->course->id;
-                                                $course_image = \Illuminate\Support\Facades\URL::asset(isset($item->course->image?->file) ? 'uploads/'.$item->course->image?->file : '/build/img/course.png');
+                                                $course_image = \Illuminate\Support\Facades\URL::asset(isset($item->course->image['file']) ? 'uploads/'.$item->course->image['file'] : '/build/img/course.png');
                                                 $course_title = $item->course->titleTranslate->translates[app()->getLocale()];
                                                 $stage_title = $item->course->curriculum->subject->year->stage->stageTranslate->translates[app()->getLocale()];
                                                 $curriculum_title = $item->course->curriculum->subject->year->yearTranslate->translates[app()->getLocale()];

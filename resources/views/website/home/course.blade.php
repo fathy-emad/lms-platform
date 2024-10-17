@@ -347,7 +347,7 @@
                                                 <div class="product-img">
                                                     <a href="{{ route('student.course', ["course_id" => $teacher_course->id]) }}">
                                                         <img class="img-fluid" alt="Img"
-                                                             src="{{ URL::asset(isset($teacher_course->image?->file) ? 'uploads/'.$teacher_course->image?->file : '/build/img/course.png') }}">
+                                                             src="{{ URL::asset(isset($teacher_course->image['file']) ? 'uploads/'.$teacher_course->image['file'] : '/build/img/course.png') }}">
                                                     </a>
                                                     <div class="price">
                                                         <h3>{{$teacher_course->cost["course"]}} LE
@@ -358,7 +358,7 @@
                                                     <div class="course-group d-flex">
                                                         <div class="course-group-img d-flex">
 
-                                                            <div class="course-nameبي">
+                                                            <div class="course-name">
                                                                 <h4>
                                                                     <a href="{{ route('student.course', ["course_id" => $teacher_course->id]) }}">
                                                                         {{ $teacher_course->titleTranslate->translates[app()->getLocale()] }}
@@ -607,7 +607,7 @@
                                                     <div class="post-thumb" @if(app()->getLocale() == "ar") style="float: right" @endif>
                                                         <a href="{{ route('student.course', ["course_id" => $latest->id]) }}">
                                                             <img class="img-fluid"
-                                                                 src="{{ URL::asset(isset($latest->image?->file) ? 'uploads/'.$latest->image?->file : '/build/img/course.png') }}"
+                                                                 src="{{ URL::asset(isset($latest->image['file']) ? 'uploads/'.$latest->image['file'] : '/build/img/course.png') }}"
                                                                  alt="">
                                                         </a>
                                                     </div>
