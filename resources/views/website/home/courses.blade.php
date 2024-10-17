@@ -105,7 +105,7 @@
                                             <div class="product-img">
                                                 <a href="{{ route('student.course', ["course_id" => $course->id]) }}">
                                                     <img class="img-fluid" alt=""
-                                                         src="{{ URL::asset(isset($course->image?->file) ? 'uploads/'.$course->image?->file : '/build/img/course.png') }}">
+                                                         src="{{ URL::asset(isset($course->image['file']) ? 'uploads/'.$course->image['file'] : '/build/img/course.png') }}">
                                                 </a>
                                                 <div class="price">
                                                     <h3>{{$course->cost["course"]}} LE<span>{{$course->cost["course"] * 2}} LE</span></h3>
@@ -197,7 +197,7 @@
                                                         <div class="post-thumb" @if(app()->getLocale() == "ar") style="float: right" @endif>
                                                             <a href="{{ route('student.course', ["course_id" => $latest->id]) }}">
                                                                 <img class="img-fluid"
-                                                                     src="{{ URL::asset(isset($course->image?->file) ? 'uploads/'.$course->image?->file : '/build/img/course.png') }}"
+                                                                     src="{{ URL::asset(isset($course->image['file']) ? 'uploads/'.$course->image['file'] : '/build/img/course.png') }}"
                                                                      alt="">
                                                             </a>
                                                         </div>
