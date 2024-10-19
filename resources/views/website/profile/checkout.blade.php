@@ -149,7 +149,7 @@
                                         <div class="row">
                                             <div class="col-lg-12 col-md-12">
                                                 <div class="condinue-shop">
-                                                    <a href="tel:+201141661776" class="btn btn-primary" type="submit"> <i class="fa fa-phone"></i> {{ __("lang.manual") }} </a>
+                                                    <a href="tel:+201113222537" class="btn btn-primary" type="submit"> <i class="fa fa-phone"></i> {{ __("lang.manual") }} </a>
                                                 </div>
                                             </div>
                                         </div>
