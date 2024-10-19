@@ -61,7 +61,7 @@
                                                         <div class="product">
                                                             <div class="product-img">
                                                                 <a href="{{ route('student.course', ["course_id" => $active_enrollment->course->id]) }}">
-                                                                    <img class="img-fluid" alt="Img" src="{{ URL::asset(isset($active_enrollment->image['file']) ? 'uploads/'.$active_enrollment->image['file'] : '/build/img/course.png') }}">
+                                                                    <img class="img-fluid" alt="Img" src="{{ URL::asset(isset($active_enrollment->course->image['file']) ? 'uploads/'.$active_enrollment->course->image['file'] : '/build/img/course.png') }}">
                                                                 </a>
                                                                 <div class="price">
                                                                     <h3>{{$active_enrollment->payment->cost}} LE</h3>
@@ -123,7 +123,7 @@
                                                         <div class="product">
                                                             <div class="product-img">
                                                                 <a href="{{ route('student.course', ["course_id" => $all_enrollment->course->id]) }}">
-                                                                    <img class="img-fluid" alt="Img" src="{{ URL::asset(isset($all_enrollment->image['file']) ? 'uploads/'.$all_enrollment->image['file'] : '/build/img/course.png') }}">
+                                                                    <img class="img-fluid" alt="Img" src="{{ URL::asset(isset($all_enrollment->course->image['file']) ? 'uploads/'.$all_enrollment->course->image['file'] : '/build/img/course.png') }}">
                                                                 </a>
                                                                 <div class="price">
                                                                     <h3>{{$all_enrollment->payment->cost}} LE</h3>
@@ -181,7 +181,7 @@
                                                         <div class="product">
                                                             <div class="product-img">
                                                                 <a href="{{ route('student.course', ["course_id" => $completed_enrollment->course->id]) }}">
-                                                                    <img class="img-fluid" alt="Img" src="{{ URL::asset(isset($completed_enrollment->image['file']) ? 'uploads/'.$completed_enrollment->image['file'] : '/build/img/course.png') }}">
+                                                                    <img class="img-fluid" alt="Img" src="{{ URL::asset(isset($completed_enrollment->course->image['file']) ? 'uploads/'.$completed_enrollment->course->image['file'] : '/build/img/course.png') }}">
                                                                 </a>
                                                                 <div class="price">
                                                                     <h3>{{$completed_enrollment->payment->cost}} LE</h3>
