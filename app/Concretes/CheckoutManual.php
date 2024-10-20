@@ -47,10 +47,10 @@ class CheckoutManual implements CheckoutInterface
 
             // Create Student Payments and enrollments
             foreach ($data["items"] as $item) {
-                $courseExpiresAtMonth = $item->course->curriculum->to->value;
+                $courseExpiresAtMonth = $item->course->curriculum->to->value; //2
 
                 if ($currentMonth > $courseExpiresAtMonth)
-                    $currentYear += 1;
+                    $year = $currentYear + 1;
 
                 // Create Payment Record
                 $payment = $this->paymentRepository->create([
@@ -65,7 +65,7 @@ class CheckoutManual implements CheckoutInterface
                     "student_id" => $user->id,
                     "payment_id" => $payment->id,
                     "course_id" => $item->course_id,
-                    "expired_at" => Carbon::create($currentYear, $courseExpiresAtMonth,1, 0, 0, 0, $user->country->timezone)
+                    "expired_at" => Carbon::create($year, $courseExpiresAtMonth,1, 0, 0, 0, $user->country->timezone)
                         ->endOfMonth()->setTime(23, 59, 59)->copy()->setTimezone('UTC'),
                 ]);
 
