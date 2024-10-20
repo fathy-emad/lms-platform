@@ -1,5 +1,5 @@
 @extends('website_layouts.mainlayout')
-@section('title') register @endsection
+@section('title') {{ __("lang.register") }} @endsection
 @section('style')
     <style>
         /* Hide the arrow of the number input */
@@ -50,20 +50,20 @@
                     <div class="img-logo">
                         <img src="{{ URL::asset('/build/img/logo.svg') }}" class="img-fluid" alt="Logo">
                         <div class="back-home">
-                            <a class="text-primary" href="{{ route('student.website') }}">Back to Home</a>
+                            <a class="text-primary" href="{{ route('student.website') }}">{{ __("lang.back_to_home") }}</a>
                         </div>
                     </div>
-                    <h1>Sign up</h1>
+                    <h1>{{ __("lang.create_an_account") }}</h1>
                     <form novalidate="" class="theme-form needs-validation" id="form" method="POST"
                           action="{{ url("api/student/auth/register") }}" locale="{{app()->getLocale()}}" csrf="{{ csrf_token()}}">
 
                         <div class="input-block">
-                            <label class="form-control-label">Full Name</label>
-                            <input type="text" class="form-control" name="name" placeholder="Enter your Full Name" required>
+                            <label class="form-control-label">{{ __("attributes.name") }}</label>
+                            <input type="text" class="form-control" name="name" placeholder="{{ __("lang.place_name") }}" required>
                         </div>
 
                         <div class="input-block">
-                            <label class="add-course-label">Gender</label>
+                            <label class="add-course-label">{{ __("attributes.gender") }}</label>
                             <select class="form-control form-select" name="GenderEnum" style="border-color: rgba(255, 222, 218, 0.71);" required>
                                 @foreach(\App\Enums\GenderEnum::cases() as $gender)
                                     <option value="{{$gender->value}}">{{ __("enum.GenderEnum.".$gender->name) }}</option>
@@ -74,7 +74,7 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="input-block">
-                                    <label class="add-course-label">Country</label>
+                                    <label class="add-course-label">{{ __("attributes.country") }}</label>
                                     @php $countries = \App\Models\Country::with("countryTranslate")->get(); @endphp
                                     <select class="form-control form-select" name="country_id" style="border-color: rgba(255, 222, 218, 0.71);">
                                         @foreach($countries as $country)
@@ -85,25 +85,25 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="input-block">
-                                    <label class="form-control-label">Phone</label>
-                                    <input type="number" name="phone" step="1" maxlength="10" id="phone"  minlength="10" class="form-control" placeholder="Please enter your phone" required/>
+                                    <label class="form-control-label">{{ __("attributes.phone") }}</label>
+                                    <input type="number" name="phone" step="1" maxlength="10" id="phone"  minlength="10" class="form-control" placeholder="{{ __("lang.place_phone") }}" required/>
                                 </div>
                             </div>
                         </div>
 
                         <div class="input-block">
-                            <label class="form-control-label">Email</label>
-                            <input type="email" name="email" class="form-control" placeholder="Enter your email address">
-                            <div id="" class="text-primary">Be sure this email work correctly to get your account if lost</div>
+                            <label class="form-control-label">{{ __("attributes.email") }}</label>
+                            <input type="email" name="email" class="form-control" placeholder="{{ __("lang.place_email") }}">
+                            <div id="" class="text-primary">{{__("lang.correct_email")}}</div>
                         </div>
 
                         <div class="input-block">
-                            <label class="form-control-label">School</label>
-                            <input type="text" class="form-control" name="school" placeholder="Enter your Full Name" required>
+                            <label class="form-control-label">{{ __("attributes.school") }}</label>
+                            <input type="text" class="form-control" name="school" placeholder="{{ __("lang.place_school") }}" required>
                         </div>
 
                         <div class="input-block">
-                            <label class="form-label">Born</label>
+                            <label class="form-label">{{ __("attributes.born") }}</label>
                             <div class="datepicker-icon">
                                 <span class="form-icon">
                                     <i class="bx bx-calendar"></i>
@@ -113,9 +113,9 @@
                         </div>
 
                         <div class="input-block">
-                            <label class="form-control-label">Password</label>
+                            <label class="form-control-label">{{ __("attributes.password") }}</label>
                             <div class="pass-group" id="passwordInput">
-                                <input type="password" name="password" class="form-control pass-input" placeholder="Enter your password">
+                                <input type="password" name="password" class="form-control pass-input" placeholder="{{ __("lang.place_password") }}">
                                 <span class="toggle-password feather-eye-off"></span>
                                 <span class="pass-checked"><i class="feather-check"></i></span>
                             </div>
@@ -129,9 +129,9 @@
                         </div>
 
                         <div class="input-block">
-                            <label class="form-control-label">Password confirmation</label>
+                            <label class="form-control-label">{{ __("attributes.password_confirmation") }}</label>
                             <div class="pass-group" id="passwordInputConfirmation">
-                                <input type="password" name="password_confirmation" class="form-control pass-input" placeholder="Enter your password confirmation">
+                                <input type="password" name="password_confirmation" class="form-control pass-input" placeholder="{{ __("lang.place_password_confirmation") }}">
                                 <span class="toggle-password feather-eye-off"></span>
                                 <span class="pass-checked"><i class="feather-check"></i></span>
                             </div>
@@ -139,13 +139,13 @@
 
                         <div class="form-check remember-me">
                             <label class="form-check-label mb-0">
-                                <input class="form-check-input" type="checkbox" name="terms_of_service_and_privacy_policy" value="1" required> I agree to the <a
-                                    href="{{ url('term-condition') }}">Terms of Service</a> and <a
-                                    href="{{ url('privacy-policy') }}">Privacy Policy.</a>
+                                <input class="form-check-input" type="checkbox" name="terms_of_service_and_privacy_policy" value="1" required>{{ __("lang.agree") }} <a
+                                    href="{{ url('term-condition') }}">{{ __("lang.terms_condition") }}</a> | <a
+                                    href="{{ url('privacy-policy') }}">{{ __("lang.privacy_policy") }}.</a>
                             </label>
                         </div>
                         <div class="d-grid">
-                            <button class="btn btn-primary btn-start" type="button" onclick="submitForm(this, null, successCallback)">Create Account</button>
+                            <button class="btn btn-primary btn-start" type="button" onclick="submitForm(this, null, successCallback)">{{ __("lang.register") }}</button>
                         </div>
                     </form>
                 </div>
@@ -159,7 +159,7 @@
 {{--                                                 class="img-fluid" alt="Logo">Sign In using Facebook</a></li>--}}
 {{--                        </ul>--}}
                     </div>
-                    <p class="mb-0"><span class="text-black">Already have an account?</span> <a href="{{ url('login') }}">Sign in</a></p>
+                    <p class="mb-0"><span class="text-black">{{ __("lang.have_account") }}</span> <a href="{{ url('login') }}">{{ __("lang.sign_in") }}</a></p>
                 </div>
             </div>
             <!-- /Login -->

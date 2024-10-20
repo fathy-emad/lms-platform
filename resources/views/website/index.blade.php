@@ -82,4 +82,26 @@
         });
 
     </script>
+
+    <script>
+        function cartFunctions(element) {
+            let form = $(element).parent("form");
+
+            let handleSuccess = function() {
+                location.reload();
+            };
+
+            let handleError = function(){
+                window.location = "{{route("student.auth.login")}}";
+            };
+
+            if($(element).find("i").hasClass("color-active"))
+                form.find("[name=_method").remove();
+            else
+                form.append('<input type="hidden" name="_method" value="DELETE">')
+
+            submitForm($(element), null, handleSuccess, handleError);
+        }
+
+    </script>
 @endsection

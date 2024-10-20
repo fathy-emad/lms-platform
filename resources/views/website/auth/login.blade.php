@@ -1,5 +1,5 @@
 @extends('website_layouts.mainlayout')
-@section('title') login @endsection
+@section('title') {{ __("lang.login") }} @endsection
 @section('style')
 @endsection
 
@@ -14,21 +14,21 @@
                         <div class="img-logo">
                             <img src="{{ URL::asset('/build/img/logo.svg') }}" class="img-fluid" alt="Logo">
                             <div class="back-home">
-                                <a href="{{ route('student.website') }}" class="text-primary">Back to Home</a>
+                                <a href="{{ route('student.website') }}" class="text-primary">{{ __("lang.back_to_home") }}</a>
                             </div>
                         </div>
-                        <h1>Sign in to Your Account</h1>
+                        <h1>{{ __("lang.sign_in") }}</h1>
 
                         <form novalidate="" class="theme-form needs-validation" id="form" method="POST"
                               action="{{ url("api/student/auth/login") }}" locale="{{app()->getLocale()}}" csrf="{{ csrf_token()}}">
 
                             <div class="input-block">
-                                <label class="form-control-label">Email</label>
+                                <label class="form-control-label">{{ __("attributes.email") }}</label>
                                 <input type="email" class="form-control" value="" name="email"
                                        id="email"/>
                             </div>
                             <div class="input-block">
-                                <label class="form-control-label">Password</label>
+                                <label class="form-control-label">{{ __("attributes.password") }}</label>
                                 <div class="pass-group">
                                     <input type="password" class="form-control pass-input" value="" name="password"
                                            id="password">
@@ -36,10 +36,10 @@
                                 </div>
                             </div>
                             <div class="forgot">
-                                <span><a class="forgot-link" href="{{ route('student.auth.forget-password') }}">Forgot Password?</a></span>
+                                <span><a class="forgot-link" href="{{ route('student.auth.forget-password') }}">{{ __("lang.forget_password") }}</a></span>
                             </div>
                             <div class="d-grid">
-                                <button class="btn btn-primary btn-start" type="button" onclick="submitForm(this, null)">Sign In</button>
+                                <button class="btn btn-primary btn-start" type="button" onclick="submitForm(this, null)">{{ __("lang.login") }}</button>
                             </div>
                         </form>
                     </div>
@@ -54,7 +54,7 @@
 {{--                                                 class="img-fluid" alt="Logo">Sign In using Facebook</a></li>--}}
 {{--                        </ul>--}}
                     </div>
-                    <p class="mb-0"><span class="text-black"> New student ?</span> <a href="{{ route('student.auth.register') }}">Create an Account</a></p>
+                    <p class="mb-0"><span class="text-black">{{ __("lang.new_student") }}</span> <a href="{{ route('student.auth.register') }}">{{ __("lang.create_an_account") }}</a></p>
                 </div>
             </div>
             <!-- /Login -->
