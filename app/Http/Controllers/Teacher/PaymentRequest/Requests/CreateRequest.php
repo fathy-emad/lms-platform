@@ -20,8 +20,8 @@ class CreateRequest extends ValidateRequest
                     $payments = TeacherPayment::where(["teacher_id" => $value, "TeacherPaymentStatusEnum" => "pending"])->get();
                     $requests = PaymentRequest::where("teacher_id", $value)->whereIn("TeacherPaymentStatusEnum", ['in-review', 'on-way'])->get();
 
-                    if ($payments->sum("cost") < 500)
-                        $fail("Sorry your request should over 10,000 LE! and you have " . $payments->sum('cost') ."LE");
+                    if ($payments->sum("cost") < 0)
+                        $fail("Sorry your request should over 3000 LE! and you have " . $payments->sum('cost') ."LE");
 
                     if ($requests->count())
                         $fail("Sorry you have request not finished yet.");
