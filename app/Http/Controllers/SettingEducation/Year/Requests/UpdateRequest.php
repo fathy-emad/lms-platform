@@ -22,7 +22,7 @@ class UpdateRequest extends ValidateRequest
             "image.key" => [
                 "nullable",
                 "integer",
-                Rule::exists("countries", "flag->key")->where(function ($query){
+                Rule::exists("years", "image->key")->where(function ($query){
                     return $query->where("id", $this->id);
                 })
             ],

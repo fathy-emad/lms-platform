@@ -244,5 +244,6 @@
         'place_school' => 'Enter your School Name',
         'place_password' => 'Enter your password',
         'place_password_confirmation' => 'Enter your password confirmation',
+        'choose_phone_number' => 'Choose phone number'
     ];
 ?>

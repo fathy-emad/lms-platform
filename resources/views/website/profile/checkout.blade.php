@@ -147,9 +147,20 @@
                                     <!-- manual -->
                                     <form action="cart" form-type="manual">
                                         <div class="row">
+                                            <div class="input-block" data-select2-id="8">
+                                                <label for="phoneNumber" class="add-course-label">{{ __("lang.choose_phone_number") }}</label>
+                                                <select id="phoneNumber" class="form-control select select2-hidden-accessible" data-select2-id="1" tabindex="-1" aria-hidden="true" dir="ltr">
+                                                    <option value="+201113222537" dir="ltr">+20 111-322-2537</option>
+                                                    <option value="+201158517707" dir="ltr">+20 115-851-7707</option>
+                                                </select>
+                                            </div>
                                             <div class="col-lg-12 col-md-12">
                                                 <div class="condinue-shop">
-                                                    <a href="tel:+201113222537" class="btn btn-primary" type="submit"> <i class="fa fa-phone"></i> {{ __("lang.manual") }} </a>
+                                                    <a id="callButton" href="tel:+201113222537" class="btn btn-primary" type="submit">
+                                                        <i class="fa fa-phone"></i>
+                                                        {{ __("lang.manual") }}
+                                                        <span id="number" dir="ltr"></span>
+                                                    </a>
                                                 </div>
                                             </div>
                                         </div>
@@ -229,5 +240,16 @@
                 $("[form-type='" + $(this).val() +"']").show();
             });
         })
+    </script>
+
+    <script>
+        $(document).ready(function() {
+            // Update the call button's href attribute when the user selects a different phone number
+            $('#phoneNumber').on('change', function() {
+                var selectedNumber = $(this).val();
+                $('#callButton').attr('href', 'tel:' + selectedNumber);
+                $('#number').text(" (" + selectedNumber + ") ");
+            }).trigger("change");
+        });
     </script>
 @endsection

@@ -94,17 +94,22 @@
                                 <div class="footer-address">
                                     <img src="{{ URL::asset('/build/img/icon/icon-20.svg') }}" alt=""
                                         class="img-fluid">
-                                    <p> 3556 Omer ibn alkhatab Street, Cairo,<br> Egypte, CA 94108 </p>
+                                    <p> 35 Omer ibn alkhatab Street, Cairo,<br> Egypt, EG 94108 </p>
                                 </div>
                                 <p>
                                     <img src="{{ URL::asset('/build/img/icon/icon-19.svg') }}" alt=""
                                         class="img-fluid">
                                     loomyacademy@loomyacademy.com
                                 </p>
-                                <p class="mb-0">
+                                <p class="mb-3">
                                     <img src="{{ URL::asset('/build/img/icon/icon-21.svg') }}" alt=""
                                         class="img-fluid">
                                     <span dir="ltr">+20 111-322-2537</span>
+                                </p>
+                                <p class="mb-0">
+                                    <img src="{{ URL::asset('/build/img/icon/icon-21.svg') }}" alt=""
+                                         class="img-fluid">
+                                    <span dir="ltr">+20 115-851-7707</span>
                                 </p>
                             </div>
                             <div class="social-icon-soon mt-3 justify-content-start">

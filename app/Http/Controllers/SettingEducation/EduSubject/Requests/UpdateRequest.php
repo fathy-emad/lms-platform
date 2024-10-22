@@ -10,7 +10,7 @@ class UpdateRequest extends ValidateRequest
     {
 
         return [
-            "id" => "required|exists:languages,id",
+            "id" => "required|exists:edu_subjects,id",
             "subject" => "required|array|min:1",
             "subject.ar" =>  "required|string",
             "subject.*" => "nullable|string",

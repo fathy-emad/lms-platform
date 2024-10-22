@@ -242,5 +242,6 @@
         'place_school' => 'أدخل اسم مدرستك',
         'place_password' => 'أدخل كلمة المرور',
         'place_password_confirmation' => 'أدخل كلمة المرور التأكيدية',
+        'choose_phone_number' => 'إختر رقم الهاتف'
     ];
 ?>

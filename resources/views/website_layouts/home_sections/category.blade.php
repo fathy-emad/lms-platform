@@ -24,7 +24,7 @@
                     <div class="feature-bg">
                         <div class="feature-header">
                             <div class="feature-icon">
-                                <a href="{{ route("student.curricula", ["year_id", $year->id]) }}">
+                                <a href="{{ route("student.curricula", ["year_id" => $year->id]) }}">
                                     <img src="{{ URL::asset(isset($year->image["file"]) ? 'uploads/' . $year->image["file"] : '/build/img/categories-icon.png') }}" alt="Img">
                                 </a>
                             </div>
