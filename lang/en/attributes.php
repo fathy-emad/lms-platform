@@ -73,5 +73,6 @@ return [
     'current_password' => 'Current Password',
     'answer' => 'Answer',
     'header' => 'Header',
-    'body' => 'Body'
+    'body' => 'Body',
+    'IsFeatured' => "Is featured?"
 ];

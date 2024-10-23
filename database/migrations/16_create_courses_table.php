@@ -23,6 +23,7 @@ return new class extends Migration
             $table->string("video")->nullable();
             $table->json("image")->nullable();
             $table->enum('ActiveEnum', ActiveEnum::values())->default(ActiveEnum::Active->value);
+            $table->boolean('IsFeatured')->default(false);
             $table->unsignedBigInteger('created_by');
             $table->unsignedBigInteger('updated_by')->nullable();
 

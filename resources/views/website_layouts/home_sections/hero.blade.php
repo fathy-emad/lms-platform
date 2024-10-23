@@ -63,7 +63,7 @@
                         <p>{{ __("lang.hero_title_four", ["users" => 25000]) }} <br>{{ __("lang.hero_title_five") }}</p>
                         <div class="trust-rating d-flex align-items-center">
                             <div class="rate-head">
-                                <h2><span>1000</span>+</h2>
+                                <h2><span>25,000</span>+</h2>
                             </div>
                             <div class="rating d-flex align-items-center">
                                 <h2 class="d-inline-block average-rating">4.4</h2>

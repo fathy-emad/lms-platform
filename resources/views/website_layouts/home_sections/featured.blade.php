@@ -1,42 +1,19 @@
 @php
-    $bestCourses = \App\Models\Course::whereHas('curriculum', function ($query) {
-        $query->where('ActiveEnum', \App\Enums\ActiveEnum::Active->value)
-            ->whereHas('chapters', function ($chapterQuery) {
-                $chapterQuery->where('ActiveEnum', \App\Enums\ActiveEnum::Active->value)
-                    ->whereHas('lessons', function ($lessonQuery) {
-                        $lessonQuery->where('ActiveEnum', \App\Enums\ActiveEnum::Active->value);
-                    });
-            })
-            ->whereHas('subject', function ($subjectQuery) {
-                $subjectQuery->where('ActiveEnum', \App\Enums\ActiveEnum::Active->value)
-                    ->whereHas('year', function ($yearQuery) {
-                        $yearQuery->where('id', 1)
-                            ->where('ActiveEnum', \App\Enums\ActiveEnum::Active->value);
-                    });
-            });
-        })
-        ->where('ActiveEnum', \App\Enums\ActiveEnum::Active->value)  // Course must be active
+    $bestCourses = \App\Models\Course::where('ActiveEnum', \App\Enums\ActiveEnum::Active->value)
+        ->where("IsFeatured", true)
         ->with(['teacher','curriculum.chapters.lessons' => function ($query) {
-            $query->where('ActiveEnum', \App\Enums\ActiveEnum::Active->value);  // Filter active lessons
+            $query->where('ActiveEnum', \App\Enums\ActiveEnum::Active->value);
         }])
-        ->withSum('materials', 'video_duration')  // Sum the video duration from materials
-        ->withCount('enrollments')  // Count the enrollments for each course
+        ->withSum('materials', 'video_duration')
+        ->orderBy("id", "desc")
         ->get()
         ->map(function ($course) {
-            // Count active lessons by traversing curriculum -> chapters -> lessons
             $course->lessons_count = $course->curriculum->chapters->sum(function ($chapter) {
                 return $chapter->lessons->count();
             });
 
             return $course;
-        })
-        ->groupBy(function ($course) {
-            return $course->curriculum->subject->id;
-        })
-        ->map(function ($courses) {
-            return $courses->first();
         });
-
 @endphp
 <section class="section new-course">
     <div class="container">

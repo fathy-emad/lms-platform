@@ -16,6 +16,7 @@ class CourseRequestHandler extends RequestHandler
         $this->translateTitle(null);
         $this->translateDescription(null);
         $this->handleActiveEnum();
+        $this->handleFeatured();
         return $this;
     }
 
@@ -26,6 +27,7 @@ class CourseRequestHandler extends RequestHandler
         $this->translateTitle($model->title);
         $this->translateDescription($model->description);
         $this->handleActiveEnum();
+        $this->handleFeatured();
         return $this;
     }
 
@@ -42,5 +44,10 @@ class CourseRequestHandler extends RequestHandler
     public function uploadImage($model = null): void
     {
         $this->data["image"] = UploadFile::uploadFile('public', $this->data["image"], 'courses/images', $model, "image");
+    }
+
+    public function handleFeatured(): void
+    {
+        $this->data["IsFeatured"] = isset($this->data["IsFeatured"]) && $this->data["IsFeatured"];
     }
 }

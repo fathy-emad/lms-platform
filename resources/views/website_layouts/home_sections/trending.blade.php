@@ -1,36 +1,16 @@
 @php
-    $trendingCourses = \App\Models\Course::whereHas('curriculum', function ($query) {
-        $query->where('ActiveEnum', \App\Enums\ActiveEnum::Active->value)
-            ->whereHas('chapters', function ($chapterQuery) {
-                $chapterQuery->where('ActiveEnum', \App\Enums\ActiveEnum::Active->value)
-                    ->whereHas('lessons', function ($lessonQuery) {
-                        $lessonQuery->where('ActiveEnum', \App\Enums\ActiveEnum::Active->value);
-                    });
-            })
-            ->whereHas('subject', function ($subjectQuery) {
-                $subjectQuery->where('ActiveEnum', \App\Enums\ActiveEnum::Active->value)
-                    ->whereHas('year', function ($yearQuery) {
-                        $yearQuery->where('id', '!=', 1)  // Exclude Year id = 1
-                            ->where('ActiveEnum', \App\Enums\ActiveEnum::Active->value);
-                    });
-            });
-        })
+    $trendingCourses = \App\Models\Course::withCount(['enrollments' => function ($query) {
+            $query->whereYear('created_at', \Carbon\Carbon::now()->year);
+        }])
         ->where('ActiveEnum', \App\Enums\ActiveEnum::Active->value)  // Course must be active
-        ->whereHas('enrollments', function ($enrollmentQuery) {
-            $enrollmentQuery->whereYear('created_at', \Carbon\Carbon::now()->year);  // Only current year enrollments
-        })
-        ->with(['curriculum.chapters.lessons' => function ($query) {
-            $query->where('ActiveEnum', \App\Enums\ActiveEnum::Active->value);  // Filter active lessons
-        }])
         ->withSum('materials', 'video_duration')  // Sum the video duration from materials
-        ->withCount(['enrollments' => function ($query) {
-            $query->whereYear('created_at', \Carbon\Carbon::now()->year);  // Only count enrollments in the current year
-        }])
-        ->orderBy('enrollments_count', 'desc')  // Order by enrollments count
-        ->limit(20)  // Limit to the top 20 courses
+        ->whereHas('enrollments', function ($query) {
+            $query->whereYear('created_at', \Carbon\Carbon::now()->year);
+        })
+        ->orderBy('enrollments_count', 'desc')
+        ->limit(20)
         ->get()
         ->map(function ($course) {
-            // Count active lessons by traversing curriculum -> chapters -> lessons
             $course->lessons_count = $course->curriculum->chapters->sum(function ($chapter) {
                 return $chapter->lessons->count();
             });

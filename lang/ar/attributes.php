@@ -73,5 +73,6 @@ return [
     'current_password' => 'كلمة المرور الحالية',
     'answer' => 'الإجابة',
     'header' => 'العنوان',
-    'body' => 'المحتوى'
+    'body' => 'المحتوى',
+    'IsFeatured' => "مميزة؟"
 ];

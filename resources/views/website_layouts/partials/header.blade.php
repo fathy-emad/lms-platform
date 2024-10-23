@@ -315,9 +315,9 @@
                                                 <div class="media">
                                                     <div class="d-flex media-wide">
                                                         <div class="avatar">
-                                                            <a href="#">
+                                                            <a href="{{ route('student.course', ["course_id" => $item->course->id]) }}">
                                                                 <img alt="Img"
-                                                                     src="{{ URL::asset('/build/img/course/course-04.jpg') }}">
+                                                                     src="{{ URL::asset(isset($item->course->image['file']) ? 'uploads/'.$item->course->image['file'] : '/build/img/course.png') }}">
                                                             </a>
                                                         </div>
                                                         <div class="media-body">

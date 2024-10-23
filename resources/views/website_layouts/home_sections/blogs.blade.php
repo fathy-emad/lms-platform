@@ -1,5 +1,5 @@
 @php
-    $students_count = \App\Models\Student::count();
+    $students_count = \App\Models\Enrollment::count();
     $courses_count = \App\Models\Course::count();
 @endphp
 <section class="section latest-blog">
@@ -186,7 +186,8 @@
                             </div>
                         </div>
                         <div class="course-count">
-                            <h3><span class="counterUp">{{ __($students_count) }}</span></h3>
+{{--                            <h3><span class="counterUp">{{ __($students_count) }}</span></h3>--}}
+                            <h3><span class="counterUp">25000</span>+</h3>
                             <p>{{ __("lang.student_enrolled") }}</p>
                         </div>
                     </div>
@@ -200,7 +201,8 @@
                             </div>
                         </div>
                         <div class="course-count">
-                            <h3><span class="counterUp">{{ __($courses_count) }}</span></h3>
+{{--                            <h3><span class="counterUp">{{ __($courses_count) }}</span></h3>--}}
+                            <h3><span class="counterUp">120</span>+</h3>
                             <p>{{ __("lang.courses") }}</p>
                         </div>
                     </div>
@@ -214,7 +216,7 @@
                             </div>
                         </div>
                         <div class="course-count">
-                            <h3><span class="counterUp">1</span></h3>
+                            <h3><span class="counterUp">1</span>+</h3>
                             <p>{{ __("lang.countries") }}</p>
                         </div>
                     </div>

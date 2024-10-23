@@ -131,7 +131,7 @@
 
                 @foreach($data->payments as $payment)
                     <tr>
-                        <td><img src="{{asset('assets/images/email-template/4.png')}}" alt="" width="130"></td>
+                        <td><img src="{{ URL::asset(isset($payment->course->image['file']) ? 'uploads/'.$payment->course->image['file'] : '/build/img/course.png') }}" alt="" width="130"></td>
                         <td valign="top" style="padding-left: 5px;">
                             <h5 style="margin-top: 15px;">{{ $payment->course->titleTranslate->translates[app()->getLocale()] }}</h5>
                             <h5 style="margin-top: 15px;">{{ $payment->course->curriculum->curriculumTranslate->translates[app()->getLocale()] }}</h5>
@@ -175,7 +175,7 @@
                     <td class="user-info" width="57" height="25"><img src="{{asset('assets/images/email-template/space.jpg')}}" alt=" " height="25" width="57"></td>
                     <td class="user-info" style="font-size: 13px; font-weight: 400; color: #444444; letter-spacing: 0.2px;width: 50%;">
                         <h5 style="font-size: 16px;font-weight: 500;color: #000; line-height: 16px; padding-bottom: 13px; border-bottom: 1px solid #e6e8eb; letter-spacing: -0.65px; margin-top:0; margin-bottom: 13px;">www.loomyedu.com</h5>
-                        <p style="text-align: left;font-weight: normal; font-size: 14px; color: #000000;line-height: 21px;    margin-top: 0;">268 Cambridge Lane New Albany,<br> IN 47150268 Cambridge Lane <br>New Albany, IN 47150</p>
+                        <p style="text-align: left;font-weight: normal; font-size: 14px; color: #000000;line-height: 21px;    margin-top: 0;">35 Omer ibn alkhatab Street, <br> Cairo, Egypt, <br> EG 94108</p>
                     </td>
                 </tr>
                 </tbody>

@@ -32,6 +32,7 @@ class CreateRequest extends ValidateRequest
             "image.title" => "nullable|string",
             "percentage" => "required|numeric",
             "ActiveEnum" => ["sometimes", "string", new Enum(ActiveEnum::class)],
+            "IsFeatured" => ["sometimes", "string"],
         ];
     }
 }

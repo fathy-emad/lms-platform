@@ -51,4 +51,8 @@
 <!-- Main CSS -->
 <link rel="stylesheet" href="{{ url('/build/css/style.css') }}">
 
+<style>
+    .notify-alert .close { position: unset !important; }
+</style>
+
 @yield('style')

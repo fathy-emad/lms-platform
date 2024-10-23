@@ -15,7 +15,8 @@ class Course extends Model
         "cost" => "array",
         "percentage" => "float",
         "image" => "array",
-        "ActiveEnum" => ActiveEnum::class
+        "ActiveEnum" => ActiveEnum::class,
+        "IsFeatured" => "boolean"
     ];
 
     public function getCostAttribute($value)

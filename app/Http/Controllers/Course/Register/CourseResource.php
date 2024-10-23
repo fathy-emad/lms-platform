@@ -49,6 +49,7 @@ class CourseResource extends JsonResource
                 "video" => $this->video,
                 "image" => $this->image,
                 "ActiveEnum" => new TranslationResource($this->ActiveEnum, true),
+                "IsFeatured" => $this->IsFeatured,
                 "created_by" => new AuthorResource($this->createdBy),
                 "updated_by" => $this->when($this->updatedBy, new AuthorResource($this->updatedBy), null),
                 "created_at" => new DateTimeResource($this->created_at),

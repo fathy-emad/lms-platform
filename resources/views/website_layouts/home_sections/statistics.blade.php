@@ -15,7 +15,8 @@
                                     <img src="{{ URL::asset('/build/img/pencil-icon.svg') }}" alt="Img">
                                 </div>
                                 <div class="course-inner-content">
-                                    <h4><span>{{ $courses_count }}</span></h4>
+{{--                                    <h4><span>{{ $courses_count }}</span>+</h4>--}}
+                                    <h4><span>120</span>+</h4>
                                     <p>{{ __("lang.online_courses") }}</p>
                                 </div>
                             </div>
@@ -60,7 +61,8 @@
                                     <img src="{{ URL::asset('/build/img/gratuate-icon.svg') }}" alt="Img">
                                 </div>
                                 <div class="course-inner-content">
-                                    <h4><span>{{ $students_count }}</span>+</h4>
+{{--                                    <h4><span>{{ $students_count }}</span>+</h4>--}}
+                                    <h4><span>25000</span>+</h4>
                                     <p>{{ __("lang.online_students") }}</p>
                                 </div>
                             </div>

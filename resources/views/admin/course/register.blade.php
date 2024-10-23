@@ -59,6 +59,7 @@
                                     <th>{{ __("attributes.cost") }}</th>
                                     <th>{{ __("attributes.percentage") }}</th>
                                     <th>{{ __("attributes.ActiveEnum") }}</th>
+                                    <th>{{ __("attributes.IsFeatured") }}</th>
                                     <th>{{ __("attributes.created_at") }}</th>
                                     <th>{{ __("attributes.updated_at") }}</th>
                                     <th>{{ __("attributes.actions") }}</th>
@@ -73,6 +74,7 @@
                                     <th>{{ __("attributes.cost") }}</th>
                                     <th>{{ __("attributes.percentage") }}</th>
                                     <th>{{ __("attributes.ActiveEnum") }}</th>
+                                    <th>{{ __("attributes.IsFeatured") }}</th>
                                     <th>{{ __("attributes.created_at") }}</th>
                                     <th>{{ __("attributes.updated_at") }}</th>
                                     <th>{{ __("attributes.actions") }}</th>
@@ -156,6 +158,15 @@
                                         <div class="media-body icon-state">
                                             <label class="switch">
                                                 <input type="checkbox" name="ActiveEnum" value="{{\App\Enums\ActiveEnum::Active->value}}"><span class="switch-state"></span>
+                                            </label>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-12 mb-3 media">
+                                        <label class="col-form-label m-r-10">{{ __("attributes.IsFeatured") }}</label>
+                                        <div class="media-body icon-state">
+                                            <label class="switch">
+                                                <input type="checkbox" name="IsFeatured" value="1"><span class="switch-state"></span>
                                             </label>
                                         </div>
                                     </div>
@@ -246,6 +257,15 @@
                                                 </div>
                                             </div>
 
+                                            <div class="col-sm-12 mb-3 media">
+                                                <label class="col-form-label m-r-10">{{ __("attributes.IsFeatured") }}</label>
+                                                <div class="media-body icon-state">
+                                                    <label class="switch">
+                                                        <input type="checkbox" name="IsFeatured" value="1"><span class="switch-state"></span>
+                                                    </label>
+                                                </div>
+                                            </div>
+
                                         </div>
 
                                         <div class="tab-pane fade" id="update-title-translate" role="tabpanel" aria-labelledby="update-title-translate-tab">
@@ -304,6 +324,7 @@
             },
             { "data": "percentage" },
             { "data": "ActiveEnum.translate" },
+            { "data": "IsFeatured" },
             { "data": "created_at.dateTime" },
             { "data": "updated_at.dateTime" },
             {
@@ -330,6 +351,9 @@
         ];
 
         function openModalUpdate(data) {
+
+            console.log(data);
+
             let modal = $(".update_modal");
             let form = modal.find("form");
             form[0].reset();
@@ -340,6 +364,7 @@
             modal.find("#cost_chapter").val(data.cost["chapter"]);
             modal.find("#cost_lesson").val(data.cost["lesson"]);
             modal.find("[name=ActiveEnum]").prop("checked", data.ActiveEnum.key === "active");
+            modal.find("[name=IsFeatured]").prop("checked", data.IsFeatured);
             modal.find("[name=curriculum_id]").val(data.curriculum.id).trigger("change");
             modal.find("[name=video]").val(data.video);
             fileUploadBuilder($(modal).find(".fileUploadBuilder"), "image", data.image, true, "image/*");
