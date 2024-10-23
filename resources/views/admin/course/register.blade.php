@@ -352,8 +352,6 @@
 
         function openModalUpdate(data) {
 
-            console.log(data);
-
             let modal = $(".update_modal");
             let form = modal.find("form");
             form[0].reset();
