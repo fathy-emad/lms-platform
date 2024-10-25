@@ -74,5 +74,6 @@ return [
     'answer' => 'الإجابة',
     'header' => 'العنوان',
     'body' => 'المحتوى',
-    'IsFeatured' => "مميزة؟"
+    'IsFeatured' => "مميزة؟",
+    'transactionTo' => 'الرقم المحول لة'
 ];

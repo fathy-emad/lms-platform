@@ -93,7 +93,10 @@
                                     <h3>1 - Are you sure you want to enroll courses cart?</h3>
                                     <h3>2 - For <span class="text-danger" id="for_student"></span></h3>
                                     <h3>3 - With total <span class="text-danger" id="with_total"></span></h3>
-
+                                    <div class="col-12 mb-3">
+                                        <label for="transactionTo">{{ __("attributes.transactionTo") }}</label>
+                                        <input type="text" name="transactionTo" class="form-control" id="transactionTo">
+                                    </div>
                                 </div>
                             </div>
                             <div class="form-group mb-0">

@@ -74,5 +74,6 @@ return [
     'answer' => 'Answer',
     'header' => 'Header',
     'body' => 'Body',
-    'IsFeatured' => "Is featured?"
+    'IsFeatured' => "Is featured?",
+    'transactionTo' => 'Transaction to'
 ];

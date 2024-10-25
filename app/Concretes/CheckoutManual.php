@@ -27,8 +27,12 @@ class CheckoutManual implements CheckoutInterface
         protected TeacherPaymentRepository $teacherPaymentRepository,
     ){}
 
-    public function pay(Student $user, PaymentServiceEnum $service, PaymentMethodEnum $method, array $data): void
+    public function pay(array $data): void
     {
+        $user = Student::find($data["student_id"]);
+        $cartData = $this->cartItems($user->carts);
+        $service = PaymentServiceEnum::from($data["PaymentServiceEnum"]);
+        $method = PaymentMethodEnum::from($data["PaymentMethodEnum"]);
 
         try {
             $currentMonth = Carbon::now($user->country->timezone)->format('m');
@@ -39,14 +43,16 @@ class CheckoutManual implements CheckoutInterface
                 "student_id" => $user->id,
                 "PaymentServiceEnum" => $service->value,
                 "PaymentMethodEnum" => $method->value,
-                "paymentData" => $data,
-                "totalCost" => $data["totalCost"],
-                "itemCount" => count($data["items"]),
+                "paymentData" => $cartData,
+                "totalCost" => $cartData["totalCost"],
+                "itemCount" => count($cartData["items"]),
+                "created_by" => auth("admin")?->id(),
+                "transactionTo" => $data["transactionTo"]
             ]);
 
 
             // Create Student Payments and enrollments
-            foreach ($data["items"] as $item) {
+            foreach ($cartData["items"] as $item) {
                 $courseExpiresAtMonth = $item->course->curriculum->to->value; //2
 
                 if ($currentMonth > $courseExpiresAtMonth)
@@ -93,6 +99,20 @@ class CheckoutManual implements CheckoutInterface
         }
     }
 
+    public function cartItems($cartItems): array
+    {
+        $total = 0;
+        $items = [];
+        foreach ($cartItems as $key => $item)
+        {
+            $items[$key] = $item;
+            $total += (float) $item->course->cost["course"];
+        }
 
+        return [
+            "totalCost" => (float) $total,
+            "items" => $items
+        ];
+    }
 
 }

@@ -3,9 +3,6 @@
 namespace App\Services;
 
 use ApiResponse;
-use App\Models\Cart;
-use App\Models\Student;
-use App\Enums\PaymentMethodEnum;
 use App\Enums\PaymentServiceEnum;
 use Illuminate\Support\Facades\DB;
 use App\Interfaces\CheckoutInterface;
@@ -28,10 +25,7 @@ class CheckoutService
             $serviceClass = $this->resolveServiceClass($data["PaymentServiceEnum"]);
             $this->via($serviceClass);
 
-            $user = Student::find($data["student_id"]);
-            $cartData = $this->cartItems($data["student_id"]);
-
-            $this->service->pay($user, PaymentServiceEnum::from($data["PaymentServiceEnum"]), PaymentMethodEnum::from($data["PaymentMethodEnum"]), $cartData);
+            $this->service->pay($data);
 
             DB::commit();
 
@@ -39,24 +33,6 @@ class CheckoutService
             DB::rollBack();
             throw new HttpResponseException(ApiResponse::sendError(["Checkout error" => [$e->getMessage()]], 'Checkout error please try again later', null));
         }
-    }
-
-
-    public function cartItems(int $userId): array
-    {
-        $total = 0;
-        $items = [];
-        $cartItems = Cart::where("student_id", $userId)->get();
-        foreach ($cartItems as $key => $item)
-        {
-            $items[$key] = $item;
-            $total += (float) $item->course->cost["course"];
-        }
-
-        return [
-            "totalCost" => (float) $total,
-            "items" => $items
-        ];
     }
 
     private function resolveServiceClass(string $serviceEnum): string

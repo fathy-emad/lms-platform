@@ -17,6 +17,7 @@ class CreateRequest extends ValidateRequest
         return [
             "PaymentServiceEnum" => ["required", "string", new Enum(PaymentServiceEnum::class)],
             "PaymentMethodEnum" => ["required", "string", new Enum(PaymentMethodEnum::class)],
+            "transactionTo" => "nullable|digits:11|required_if:PaymentServiceEnum,CheckoutManual",
             "student_id" => [
                 "required",
                 "integer",
@@ -25,7 +26,7 @@ class CreateRequest extends ValidateRequest
                 function ($attribute, $value, $fail) {
                     if(! Cart::where("student_id", $this->student_id)->exists())
                     {
-                        return $fail("You do not have any items in cart");
+                        return $fail("You do not have any courses in cart");
                     }
                 }
             ],
