@@ -79,7 +79,11 @@
                                                                                     {{ $active_enrollment->course->teacher->prefix }}/ {{ $active_enrollment->course->teacher->name }}
                                                                                 </a>
                                                                             </h4>
-                                                                            <p>{{ __("lang.teacher") }}</p>
+                                                                            <p>
+                                                                                {{ $active_enrollment->course->curriculum->subject->year->yearTranslate->translates[app()->getLocale()] }}
+                                                                                -
+                                                                                {{ $active_enrollment->course->curriculum->subject->subject->subjectTranslate->translates[app()->getLocale()] }}
+                                                                            </p>
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -137,7 +141,11 @@
                                                                         <div class="course-name">
                                                                             <h4><a href="{{ route('student.teacher.profile', ["teacher_id" => $all_enrollment->course->teacher->id]) }}">
                                                                                     {{ $all_enrollment->course->teacher->prefix }}/ {{ $all_enrollment->course->teacher->name }}</a></h4>
-                                                                            <p>{{ __("lang.teacher") }}</p>
+                                                                            <p>
+                                                                                {{ $all_enrollment->course->curriculum->subject->year->yearTranslate->translates[app()->getLocale()] }}
+                                                                                -
+                                                                                {{ $all_enrollment->course->curriculum->subject->subject->subjectTranslate->translates[app()->getLocale()] }}
+                                                                            </p>
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -195,7 +203,11 @@
                                                                         <div class="course-name">
                                                                             <h4><a href="{{ route('student.teacher.profile', ["teacher_id" => $completed_enrollment->course->teacher->id]) }}">
                                                                                     {{ $completed_enrollment->course->teacher->prefix }}/ {{ $completed_enrollment->course->teacher->name }}</a></h4>
-                                                                            <p>{{ __("lang.teacher") }}</p>
+                                                                            <p>
+                                                                                {{ $completed_enrollment->course->curriculum->subject->year->yearTranslate->translates[app()->getLocale()] }}
+                                                                                -
+                                                                                {{ $completed_enrollment->course->curriculum->subject->subject->subjectTranslate->translates[app()->getLocale()] }}
+                                                                            </p>
                                                                         </div>
                                                                     </div>
                                                                 </div>

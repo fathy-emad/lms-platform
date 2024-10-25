@@ -119,7 +119,11 @@
                                                                 class="img-fluid"></a>
                                                         <div class="course-name">
                                                             <h4><a href="{{ route('student.teacher.profile', ["teacher_id" => $course->teacher->id]) }}">{{ $course->teacher->prefix }}/ {{ $course->teacher->name }}</a></h4>
-                                                            <p>{{ __("lang.teacher") }}</p>
+                                                            <p>
+                                                                {{ $course->curriculum->subject->year->yearTranslate->translates[app()->getLocale()] }}
+                                                                -
+                                                                {{ $course->curriculum->subject->subject->subjectTranslate->translates[app()->getLocale()] }}
+                                                            </p>
                                                         </div>
                                                     </div>
                                                     <div class="course-share d-flex align-items-center justify-content-center">
