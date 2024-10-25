@@ -175,6 +175,119 @@
 {{--                </div>--}}
 {{--            </div>--}}
 {{--        </div>--}}
+        <div class="lab-course">
+            <div class="section-header aos" data-aos="fade-up">
+                <div class="section-sub-head feature-head text-center">
+                    <h2>Unlimited access to 360+ courses <br>and 1,600+ hands-on labs</h2>
+                </div>
+            </div>
+            {{--            <div class="icon-group aos" data-aos="fade-up">--}}
+            {{--                <div class="offset-lg-1 col-lg-12">--}}
+            {{--                    <div class="row">--}}
+            {{--                        <div class="col-lg-1 col-3">--}}
+            {{--                            <div class="total-course d-flex align-items-center">--}}
+            {{--                                <div class="blur-border">--}}
+            {{--                                    <div class="enroll-img ">--}}
+            {{--                                        <img src="{{ URL::asset('/build/img/icon/icon-09.svg') }}" alt="Img"--}}
+            {{--                                             class="img-fluid">--}}
+            {{--                                    </div>--}}
+            {{--                                </div>--}}
+            {{--                            </div>--}}
+            {{--                        </div>--}}
+            {{--                        <div class="col-lg-1 col-3">--}}
+            {{--                            <div class="total-course d-flex align-items-center">--}}
+            {{--                                <div class="blur-border">--}}
+            {{--                                    <div class="enroll-img ">--}}
+            {{--                                        <img src="{{ URL::asset('/build/img/icon/icon-10.svg') }}" alt="Img"--}}
+            {{--                                             class="img-fluid">--}}
+            {{--                                    </div>--}}
+            {{--                                </div>--}}
+            {{--                            </div>--}}
+            {{--                        </div>--}}
+            {{--                        <div class="col-lg-1 col-3">--}}
+            {{--                            <div class="total-course d-flex align-items-center">--}}
+            {{--                                <div class="blur-border">--}}
+            {{--                                    <div class="enroll-img ">--}}
+            {{--                                        <img src="{{ URL::asset('/build/img/icon/icon-16.svg') }}" alt="Img"--}}
+            {{--                                             class="img-fluid">--}}
+            {{--                                    </div>--}}
+            {{--                                </div>--}}
+            {{--                            </div>--}}
+            {{--                        </div>--}}
+            {{--                        <div class="col-lg-1 col-3">--}}
+            {{--                            <div class="total-course d-flex align-items-center">--}}
+            {{--                                <div class="blur-border">--}}
+            {{--                                    <div class="enroll-img ">--}}
+            {{--                                        <img src="{{ URL::asset('/build/img/icon/icon-12.svg') }}" alt="Img"--}}
+            {{--                                             class="img-fluid">--}}
+            {{--                                    </div>--}}
+            {{--                                </div>--}}
+            {{--                            </div>--}}
+            {{--                        </div>--}}
+            {{--                        <div class="col-lg-1 col-3">--}}
+            {{--                            <div class="total-course d-flex align-items-center">--}}
+            {{--                                <div class="blur-border">--}}
+            {{--                                    <div class="enroll-img ">--}}
+            {{--                                        <img src="{{ URL::asset('/build/img/icon/icon-13.svg') }}" alt="Img"--}}
+            {{--                                             class="img-fluid">--}}
+            {{--                                    </div>--}}
+            {{--                                </div>--}}
+            {{--                            </div>--}}
+            {{--                        </div>--}}
+            {{--                        <div class="col-lg-1 col-3">--}}
+            {{--                            <div class="total-course d-flex align-items-center">--}}
+            {{--                                <div class="blur-border">--}}
+            {{--                                    <div class="enroll-img ">--}}
+            {{--                                        <img src="{{ URL::asset('/build/img/icon/icon-14.svg') }}" alt="Img"--}}
+            {{--                                             class="img-fluid">--}}
+            {{--                                    </div>--}}
+            {{--                                </div>--}}
+            {{--                            </div>--}}
+            {{--                        </div>--}}
+            {{--                        <div class="col-lg-1 col-3">--}}
+            {{--                            <div class="total-course d-flex align-items-center">--}}
+            {{--                                <div class="blur-border">--}}
+            {{--                                    <div class="enroll-img ">--}}
+            {{--                                        <img src="{{ URL::asset('/build/img/icon/icon-15.svg') }}" alt="Img"--}}
+            {{--                                             class="img-fluid">--}}
+            {{--                                    </div>--}}
+            {{--                                </div>--}}
+            {{--                            </div>--}}
+            {{--                        </div>--}}
+            {{--                        <div class="col-lg-1 col-3">--}}
+            {{--                            <div class="total-course d-flex align-items-center">--}}
+            {{--                                <div class="blur-border">--}}
+            {{--                                    <div class="enroll-img ">--}}
+            {{--                                        <img src="{{ URL::asset('/build/img/icon/icon-16.svg') }}" alt="Img"--}}
+            {{--                                             class="img-fluid">--}}
+            {{--                                    </div>--}}
+            {{--                                </div>--}}
+            {{--                            </div>--}}
+            {{--                        </div>--}}
+            {{--                        <div class="col-lg-1 col-3">--}}
+            {{--                            <div class="total-course d-flex align-items-center">--}}
+            {{--                                <div class="blur-border">--}}
+            {{--                                    <div class="enroll-img ">--}}
+            {{--                                        <img src="{{ URL::asset('/build/img/icon/icon-17.svg') }}" alt="Img"--}}
+            {{--                                             class="img-fluid">--}}
+            {{--                                    </div>--}}
+            {{--                                </div>--}}
+            {{--                            </div>--}}
+            {{--                        </div>--}}
+            {{--                        <div class="col-lg-1 col-3">--}}
+            {{--                            <div class="total-course d-flex align-items-center">--}}
+            {{--                                <div class="blur-border">--}}
+            {{--                                    <div class="enroll-img ">--}}
+            {{--                                        <img src="{{ URL::asset('/build/img/icon/icon-18.svg') }}" alt="Img"--}}
+            {{--                                             class="img-fluid">--}}
+            {{--                                    </div>--}}
+            {{--                                </div>--}}
+            {{--                            </div>--}}
+            {{--                        </div>--}}
+            {{--                    </div>--}}
+            {{--                </div>--}}
+            {{--            </div>--}}
+        </div>
         <div class="enroll-group aos" data-aos="fade-up">
             <div class="row ">
                 <div class="col-lg-4 col-md-6">
@@ -218,119 +331,6 @@
                         <div class="course-count">
                             <h3><span class="counterUp">1</span>+</h3>
                             <p>{{ __("lang.countries") }}</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="lab-course">
-            <div class="section-header aos" data-aos="fade-up">
-                <div class="section-sub-head feature-head text-center">
-                    <h2>Unlimited access to 360+ courses <br>and 1,600+ hands-on labs</h2>
-                </div>
-            </div>
-            <div class="icon-group aos" data-aos="fade-up">
-                <div class="offset-lg-1 col-lg-12">
-                    <div class="row">
-                        <div class="col-lg-1 col-3">
-                            <div class="total-course d-flex align-items-center">
-                                <div class="blur-border">
-                                    <div class="enroll-img ">
-                                        <img src="{{ URL::asset('/build/img/icon/icon-09.svg') }}" alt="Img"
-                                             class="img-fluid">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-1 col-3">
-                            <div class="total-course d-flex align-items-center">
-                                <div class="blur-border">
-                                    <div class="enroll-img ">
-                                        <img src="{{ URL::asset('/build/img/icon/icon-10.svg') }}" alt="Img"
-                                             class="img-fluid">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-1 col-3">
-                            <div class="total-course d-flex align-items-center">
-                                <div class="blur-border">
-                                    <div class="enroll-img ">
-                                        <img src="{{ URL::asset('/build/img/icon/icon-16.svg') }}" alt="Img"
-                                             class="img-fluid">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-1 col-3">
-                            <div class="total-course d-flex align-items-center">
-                                <div class="blur-border">
-                                    <div class="enroll-img ">
-                                        <img src="{{ URL::asset('/build/img/icon/icon-12.svg') }}" alt="Img"
-                                             class="img-fluid">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-1 col-3">
-                            <div class="total-course d-flex align-items-center">
-                                <div class="blur-border">
-                                    <div class="enroll-img ">
-                                        <img src="{{ URL::asset('/build/img/icon/icon-13.svg') }}" alt="Img"
-                                             class="img-fluid">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-1 col-3">
-                            <div class="total-course d-flex align-items-center">
-                                <div class="blur-border">
-                                    <div class="enroll-img ">
-                                        <img src="{{ URL::asset('/build/img/icon/icon-14.svg') }}" alt="Img"
-                                             class="img-fluid">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-1 col-3">
-                            <div class="total-course d-flex align-items-center">
-                                <div class="blur-border">
-                                    <div class="enroll-img ">
-                                        <img src="{{ URL::asset('/build/img/icon/icon-15.svg') }}" alt="Img"
-                                             class="img-fluid">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-1 col-3">
-                            <div class="total-course d-flex align-items-center">
-                                <div class="blur-border">
-                                    <div class="enroll-img ">
-                                        <img src="{{ URL::asset('/build/img/icon/icon-16.svg') }}" alt="Img"
-                                             class="img-fluid">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-1 col-3">
-                            <div class="total-course d-flex align-items-center">
-                                <div class="blur-border">
-                                    <div class="enroll-img ">
-                                        <img src="{{ URL::asset('/build/img/icon/icon-17.svg') }}" alt="Img"
-                                             class="img-fluid">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-1 col-3">
-                            <div class="total-course d-flex align-items-center">
-                                <div class="blur-border">
-                                    <div class="enroll-img ">
-                                        <img src="{{ URL::asset('/build/img/icon/icon-18.svg') }}" alt="Img"
-                                             class="img-fluid">
-                                    </div>
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </div>
