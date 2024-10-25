@@ -60,7 +60,11 @@
                                                 class="img-fluid"></a>
                                         <div class="course-name">
                                             <h4><a href="{{ route('student.teacher.profile', ["teacher_id" => $trend_course->teacher->id]) }}">{{ $trend_course->teacher->prefix }}/ {{ $trend_course->teacher->name }}</a></h4>
-                                            <p>{{ __("lang.teacher") }}</p>
+                                            <p>
+                                                {{ $trend_course->curriculum->subject->year->yearTranslate->translates[app()->getLocale()] }}
+                                                -
+                                                {{ $trend_course->curriculum->subject->subject->subjectTranslate->translates[app()->getLocale()] }}
+                                            </p>
                                         </div>
                                     </div>
                                     <div class="course-share d-flex align-items-center justify-content-center">
@@ -91,9 +95,6 @@
                                     </div>
                                 </div>
                                 <div class="d-flex align-items-center justify-content-between">
-                                    @if(auth('student')->user() && auth('student')->user()->enrollments && auth('student')->user()->enrollments()->where('course_id', $trend_course->id)->whereDate("expired_at", ">=", \Carbon\Carbon::now(auth('student')->user()->country->timezone))->exists())
-                                        <small class="web-badge bg-danger mb-3">exp: {{auth('student')->user()->enrollments()->where('course_id', $trend_course->id)->whereDate("expired_at", ">=", \Carbon\Carbon::now(auth('student')->user()->country->timezone))->latest()->first()->expired_at}}</small>
-                                    @endif
                                     <div class="rating m-0">
                                         <i class="fas fa-star filled"></i>
                                         <i class="fas fa-star filled"></i>
@@ -112,6 +113,9 @@
                                         </form>
                                     </div>
                                 </div>
+                                @if(auth('student')->user() && auth('student')->user()->enrollments && auth('student')->user()->enrollments()->where('course_id', $trend_course->id)->whereDate("expired_at", ">=", \Carbon\Carbon::now(auth('student')->user()->country->timezone))->exists())
+                                    <small class="web-badge bg-danger mb-3">exp: {{auth('student')->user()->enrollments()->where('course_id', $trend_course->id)->whereDate("expired_at", ">=", \Carbon\Carbon::now(auth('student')->user()->country->timezone))->latest()->first()->expired_at}}</small>
+                                @endif
                             </div>
                         </div>
                     </div>

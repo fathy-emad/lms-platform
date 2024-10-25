@@ -51,7 +51,11 @@
                                                     class="img-fluid"></a>
                                             <div class="course-name">
                                                 <h4><a href="{{ route('student.teacher.profile', ["teacher_id" => $best_course->teacher->id]) }}">{{ $best_course->teacher->prefix }}/ {{ $best_course->teacher->name }}</a></h4>
-                                                <p>{{ __("lang.teacher") }}</p>
+                                                <p>
+                                                    {{ $best_course->curriculum->subject->year->yearTranslate->translates[app()->getLocale()] }}
+                                                    -
+                                                    {{ $best_course->curriculum->subject->subject->subjectTranslate->translates[app()->getLocale()] }}
+                                                </p>
                                             </div>
                                         </div>
                                         <div class="course-share d-flex align-items-center justify-content-center">
@@ -81,10 +85,8 @@
                                             <p>{{ floor($best_course->materials_sum_video_duration / 60) }} {{__("lang.hr")}} {{ $best_course->materials_sum_video_duration % 60 }} {{__("lang.min")}}</p>
                                         </div>
                                     </div>
+
                                     <div class="d-flex align-items-center justify-content-between">
-                                        @if(auth('student')->user() && auth('student')->user()->enrollments && auth('student')->user()->enrollments()->where('course_id', $best_course->id)->whereDate("expired_at", ">=", \Carbon\Carbon::now(auth('student')->user()->country->timezone))->exists())
-                                            <small class="web-badge bg-danger mb-3">exp: {{auth('student')->user()->enrollments()->where('course_id', $best_course->id)->whereDate("expired_at", ">=", \Carbon\Carbon::now(auth('student')->user()->country->timezone))->latest()->first()->expired_at}}</small>
-                                        @endif
                                         <div class="rating m-0">
                                             <i class="fas fa-star filled"></i>
                                             <i class="fas fa-star filled"></i>
@@ -103,6 +105,9 @@
                                             </form>
                                         </div>
                                     </div>
+                                    @if(auth('student')->user() && auth('student')->user()->enrollments && auth('student')->user()->enrollments()->where('course_id', $best_course->id)->whereDate("expired_at", ">=", \Carbon\Carbon::now(auth('student')->user()->country->timezone))->exists())
+                                        <small class="web-badge bg-danger mb-3">exp: {{auth('student')->user()->enrollments()->where('course_id', $best_course->id)->whereDate("expired_at", ">=", \Carbon\Carbon::now(auth('student')->user()->country->timezone))->latest()->first()->expired_at}}</small>
+                                    @endif
                                 </div>
                             </div>
                         </div>
