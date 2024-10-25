@@ -30,7 +30,7 @@
                                     <div class="col-sm-12 col-md-1">
                                         <i class="fa-solid fa-magnifying-glass search-icon mt-3"></i>
                                     </div>
-                                    <div class="col-sm-12 col-md-5 text-center">
+                                    <div class="col-sm-12 col-md-5 text-center mb-3 mb-md-0">
                                             <span class="drop-detail" style="width: 100%">
                                                 <select class="form-select select" id="stages" onchange="selectYears()">
                                                    <option value="-1">-- {{ __("lang.select_stage") }} --</option>
