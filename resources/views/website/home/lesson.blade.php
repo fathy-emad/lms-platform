@@ -66,7 +66,7 @@
             $course_lesson_views = \App\Models\StudentLessonView::where("lesson_id", request("lesson_id"))
             ->whereIn("enrollment_id", $course_enrollment_ids)->orderBy("id", "desc");
 
-            if($lesson_video_view = $course_lesson_views->sum("views") < ($course_enrollments->count() * 5))
+            if($lesson_video_view = $course_lesson_views->sum("views") < ($course_enrollments->count() * 3))
             {
                 $videoId = $lesson_material->video;
                 $apiSecret = env("VDO_API_SECRET");

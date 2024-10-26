@@ -21,7 +21,7 @@
         </div>
         <div class="social-icon-soon">
             <ul>
-                <li><a href="javascript:;"><i class="fa-brands fa-facebook face-book"></i></a></li>
+                <li><a href="https://web.facebook.com/profile.php?id=61565693950861"><i class="fa-brands fa-facebook face-book"></i></a></li>
                 <li><a href="javascript:;"><i class="fa-brands fa-twitter twit-ter"></i></a></li>
                 <li><a href="javascript:;"><i class="fa-brands fa-instagram insta-gram"></i></a></li>
                 <li><a href="javascript:;"><i class="fa-brands fa-linkedin linked-in"></i></a></li>

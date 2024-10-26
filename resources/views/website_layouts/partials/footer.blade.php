@@ -101,11 +101,24 @@
                                         class="img-fluid">
                                     loomyacademy@loomyacademy.com
                                 </p>
+
                                 <p class="mb-3">
                                     <img src="{{ URL::asset('/build/img/icon/icon-21.svg') }}" alt=""
-                                        class="img-fluid">
-                                    <span dir="ltr">+20 111-322-2537</span>
+                                         class="img-fluid">
+                                    <span dir="ltr">+20 127-507-5161</span>
                                 </p>
+
+{{--                                <p class="mb-3">--}}
+{{--                                    <img src="{{ URL::asset('/build/img/icon/icon-21.svg') }}" alt=""--}}
+{{--                                         class="img-fluid">--}}
+{{--                                    <span dir="ltr">+20 111-306-0460</span>--}}
+{{--                                </p>--}}
+
+{{--                                <p class="mb-3">--}}
+{{--                                    <img src="{{ URL::asset('/build/img/icon/icon-21.svg') }}" alt=""--}}
+{{--                                        class="img-fluid">--}}
+{{--                                    <span dir="ltr">+20 111-322-2537</span>--}}
+{{--                                </p>--}}
                                 <p class="mb-0">
                                     <img src="{{ URL::asset('/build/img/icon/icon-21.svg') }}" alt=""
                                          class="img-fluid">
@@ -114,8 +127,8 @@
                             </div>
                             <div class="social-icon-soon mt-3 justify-content-start">
                                 <ul class="justify-content-start">
-                                    <li><a href="javascript:;"><i class="fa-brands fa-youtube you-tube"></i></a></li>
-                                    <li><a href="javascript:;"><i class="fa-brands fa-facebook face-book"></i></a></li>
+                                    <li><a href="https://www.youtube.com/@Loomy-Edu"><i class="fa-brands fa-youtube you-tube"></i></a></li>
+                                    <li><a href="https://web.facebook.com/profile.php?id=61565693950861"><i class="fa-brands fa-facebook face-book"></i></a></li>
                                     <li><a href="javascript:;"><i class="fa-brands fa-twitter twit-ter"></i></a></li>
                                     <li><a href="javascript:;"><i class="fa-brands fa-instagram insta-gram"></i></a></li>
                                     <li><a href="javascript:;"><i class="fa-brands fa-tiktok"></i></a></li>

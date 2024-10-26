@@ -150,13 +150,16 @@
                                             <div class="input-block" data-select2-id="8">
                                                 <label for="phoneNumber" class="add-course-label">{{ __("lang.choose_phone_number") }}</label>
                                                 <select id="phoneNumber" class="form-control select select2-hidden-accessible" data-select2-id="1" tabindex="-1" aria-hidden="true" dir="ltr">
+                                                    <option value="+201275075161" dir="ltr">+20 127-507-5161</option>
+                                                    <option value="+201275075162" dir="ltr">+20 127-507-5162</option>
+                                                    <option value="+201113060460" dir="ltr">+20 111-306-0460</option>
                                                     <option value="+201113222537" dir="ltr">+20 111-322-2537</option>
                                                     <option value="+201158517707" dir="ltr">+20 115-851-7707</option>
                                                 </select>
                                             </div>
                                             <div class="col-lg-12 col-md-12">
                                                 <div class="condinue-shop">
-                                                    <a id="callButton" href="tel:+201113222537" class="btn btn-primary" type="submit">
+                                                    <a id="callButton" href="tel:+201275075161" class="btn btn-primary" type="submit">
                                                         <i class="fa fa-phone"></i>
                                                         {{ __("lang.manual") }}
                                                         <span id="number" dir="ltr"></span>

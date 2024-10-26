@@ -194,8 +194,8 @@
             <table class="footer-social-icon" border="0" cellpadding="0" cellspacing="0" align="center" style="margin-top:20px;">
                 <tbody>
                 <tr>
-                    <td><a href="#"><img src="{{asset('assets/images/email-template/facebook.png')}}" alt=""></a></td>
-                    <td><a href="#"><img src="{{asset('assets/images/email-template/youtube.png')}}" alt=""></a></td>
+                    <td><a href="https://web.facebook.com/profile.php?id=61565693950861"><img src="{{asset('assets/images/email-template/facebook.png')}}" alt=""></a></td>
+                    <td><a href="https://www.youtube.com/@Loomy-Edu"><img src="{{asset('assets/images/email-template/youtube.png')}}" alt=""></a></td>
                     <td><a href="#"><img src="{{asset('assets/images/email-template/twitter.png')}}" alt=""></a></td>
                     <td><a href="#"><img src="{{asset('assets/images/email-template/gplus.png')}}" alt=""></a></td>
                     <td><a href="#"><img src="{{asset('assets/images/email-template/linkedin.png')}}" alt=""></a></td>
