@@ -562,14 +562,14 @@
                                         <li><img src="{{ URL::asset('/build/img/icon/play.svg') }}" class="me-2"
                                                  alt=""> {{ __("lang.non_downloadable") }}
                                         </li>
-                                        <li><img src="{{ URL::asset('/build/img/icon/key.svg') }}" class="me-2"
-                                                 alt=""> {{ __("lang.watch_times") }}
-                                        </li>
                                         <li><img src="{{ URL::asset('/build/img/icon/mobile.svg') }}" class="me-2"
                                                  alt=""> {{ __("lang.Access_from_any_device") }}
                                         </li>
                                         <li><img src="{{ URL::asset('/build/img/icon/cloud.svg') }}" class="me-2"
                                                  alt=""> {{ __("lang.assignments") }}
+                                        </li>
+                                        <li><img src="{{ URL::asset('/build/img/icon/key.svg') }}" class="me-2"
+                                                 alt=""> {{ __("lang.watch_times") }}:<span> 3</span>
                                         </li>
                                         <li><img src="{{ URL::asset('/build/img/icon/users.svg') }}" class="me-2"
                                                  alt=""> {{ __("lang.enrolled") }}:
