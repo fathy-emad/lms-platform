@@ -204,7 +204,11 @@
         'teachers' => 'Teachers',
         'select_stage' => 'Select Stage',
         'select_category' => 'Select Category',
-        'featured_courses_description' => 'Explore the best courses for third-year secondary school. These featured courses are designed to help students excel in every subject, offering top-quality educational resources and expert guidance in each field.',
+        'featured_courses_description' => "
+📚 Looking for excellence?
+At LoomyEdu, we offer a carefully curated selection of courses designed to meet the needs of high school students. Whether you're aiming for a deeper understanding of subjects or looking to improve your study skills, these courses provide everything you need to succeed.
+
+Each course is crafted by top educators, offering comprehensive and simplified explanations along with updated educational resources to help you excel in your exams. Secure your spot now and get.",
         'featured_courses' => 'Featured Courses',
         'whats_new' => 'What’s New',
         'trending_courses' => 'Trending Courses',
