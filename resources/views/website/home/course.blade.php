@@ -569,7 +569,7 @@
                                                  alt=""> {{ __("lang.assignments") }}
                                         </li>
                                         <li><img src="{{ URL::asset('/build/img/icon/key.svg') }}" class="me-2"
-                                                 alt=""> {{ __("lang.watch_times") }}:<span> 3</span>
+                                                 alt=""> {{ __("lang.watch_times") }}:<span> 3 </span>
                                         </li>
                                         <li><img src="{{ URL::asset('/build/img/icon/users.svg') }}" class="me-2"
                                                  alt=""> {{ __("lang.enrolled") }}:
