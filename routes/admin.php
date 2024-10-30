@@ -1,7 +1,9 @@
 <?php
 
+use App\Http\Controllers\Setting\CancellationRefundPolicy\CancellationRefundPolicyController;
 use App\Http\Controllers\Setting\FAQ\FAQController;
 use App\Http\Controllers\Setting\PrivacyPolicy\PrivacyPolicyController;
+use App\Http\Controllers\Setting\ReturnRefundPolicy\ReturnRefundPolicyController;
 use App\Http\Controllers\Setting\TermsCondition\TermsConditionController;
 use App\Http\Controllers\Student\Checkout\CheckoutController;
 use App\Http\Controllers\Teacher\CourseRequest\CourseRequestController;
@@ -111,6 +113,24 @@ Route::middleware(['apiAuth:admin', 'apiPermission'])->group(function (){
             Route::post('privacy-policy', 'create');
             Route::put('privacy-policy', 'update');
             Route::delete('privacy-policy', 'delete');
+        });
+
+
+        //Return Refund Policy
+        Route::controller(ReturnRefundPolicyController::class)->group(function (){
+            Route::get('return-refund-policy', 'read');
+            Route::post('return-refund-policy', 'create');
+            Route::put('return-refund-policy', 'update');
+            Route::delete('return-refund-policy', 'delete');
+        });
+
+
+        //Cancellation Refund Policy
+        Route::controller(CancellationRefundPolicyController::class)->group(function (){
+            Route::get('cancellation-refund-policy', 'read');
+            Route::post('cancellation-refund-policy', 'create');
+            Route::put('cancellation-refund-policy', 'update');
+            Route::delete('cancellation-refund-policy', 'delete');
         });
 
 

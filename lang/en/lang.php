@@ -162,6 +162,8 @@
         'no_invoices' => 'You do not have invoices',
         'terms_condition' => 'Terms & Conditions',
         'privacy_policy' => 'Privacy Policy',
+        'cancel_refund_policy' => 'Cancellation & refund policy',
+        'return_refund_policy' => 'Return & Refund Policy',
         'faqs' => 'FAQs',
         'faqs_title' => 'Have questions? Search through our Help Center',
         'faqs_header' => 'Frequently asked questions',

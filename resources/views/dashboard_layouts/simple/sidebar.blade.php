@@ -34,7 +34,7 @@
                                     </a>
                                     <ul class="sidebar-submenu" style="display:{{ $activeMenu ? "block" : "none" }}">
                                         @foreach($items as $item)
-                                            @if(!in_array(explode("/", $item["link"])[2], ["setting-education", "setting"]) || in_array(explode("/", $item["link"])[3], ["stage", "edu-subject", "route-menu", "country", "language", "faq", "terms-conditions", "privacy-policy"]))
+                                            @if(!in_array(explode("/", $item["link"])[2], ["setting-education", "setting"]) || in_array(explode("/", $item["link"])[3], ["stage", "edu-subject", "route-menu", "country", "language", "faq", "terms-conditions", "privacy-policy", "cancellation-refund-policy", "return-refund-policy"]))
                                                 <li><a href="{{url(str_replace("api/", "", $item["link"]))}}" class="{{$api == $item["link"] ? 'active' : ''}}"><i data-feather="settings"></i>{{ $item["title"]["translates"][app()->getLocale()] }}</a></li>
                                             @endif
                                         @endforeach
