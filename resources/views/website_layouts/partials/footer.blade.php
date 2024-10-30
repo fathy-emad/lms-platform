@@ -11,6 +11,8 @@
     'student.profile.settings.edit-profile',
     'student.terms_condition',
     'student.privacy_policy',
+    'student.return_refund_policy',
+    'student.cancellation_refund_policy',
     'student.faqs',
     'student.lesson',
     'student.support',
@@ -156,7 +158,7 @@
                                 <ul>
                                     <li><a href="{{ Route('student.terms_condition') }}">{{ __("lang.terms_condition") }}</a></li>
                                     <li><a href="{{ Route('student.privacy_policy') }}">{{ __("lang.privacy_policy") }}</a></li>
-                                    <li><a href="{{ Route('student.cancel_refund_policy') }}">{{ __("lang.cancel_refund_policy") }}</a></li>
+                                    <li><a href="{{ Route('student.cancellation_refund_policy') }}">{{ __("lang.cancellation_refund_policy") }}</a></li>
                                     <li><a href="{{ Route('student.return_refund_policy') }}">{{ __("lang.return_refund_policy") }}</a></li>
                                 </ul>
                             </div>

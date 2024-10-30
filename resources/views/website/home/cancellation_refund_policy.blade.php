@@ -1,24 +1,24 @@
 @extends('website_layouts.mainlayout')
-@section('title') {{ __("lang.return_refund_policy") }} @endsection
+@section('title') {{ __("lang.cancellation_refund_policy") }} @endsection
 @section('content')
     @component('website_layouts.components.breadcrumb')
         @slot('title')
-            {{ __("lang.return_refund_policy") }}
+            {{ __("lang.cancellation_refund_policy") }}
         @endslot
         @slot('item1')
             {{ __("lang.home") }}
         @endslot
         @slot('item2')
-            {{ __("lang.return_refund_policy") }}
+            {{ __("lang.cancellation_refund_policy") }}
         @endslot
     @endcomponent
     @component('website_layouts.components.pagebanner')
         @slot('title')
-            {{ __("lang.return_refund_policy") }}
+            {{ __("lang.cancellation_refund_policy") }}
         @endslot
     @endcomponent
 
-    @php $terms = \App\Models\ReturnRefundPolicy::where("ActiveEnum", \App\Enums\ActiveEnum::Active->value)->get(); @endphp
+    @php $terms = \App\Models\CancellationRefundPolicy::where("ActiveEnum", \App\Enums\ActiveEnum::Active->value)->get(); @endphp
 
         <!-- Help Details -->
     <div class="page-content">

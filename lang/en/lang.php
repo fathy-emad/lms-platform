@@ -162,7 +162,7 @@
         'no_invoices' => 'You do not have invoices',
         'terms_condition' => 'Terms & Conditions',
         'privacy_policy' => 'Privacy Policy',
-        'cancel_refund_policy' => 'Cancellation & refund policy',
+        'cancellation_refund_policy' => 'Cancellation & refund policy',
         'return_refund_policy' => 'Return & Refund Policy',
         'faqs' => 'FAQs',
         'faqs_title' => 'Have questions? Search through our Help Center',
@@ -250,6 +250,6 @@ Each course is crafted by top educators, offering comprehensive and simplified e
         'place_school' => 'Enter your School Name',
         'place_password' => 'Enter your password',
         'place_password_confirmation' => 'Enter your password confirmation',
-        'choose_phone_number' => 'Choose phone number'
+        'choose_phone_number' => 'Choose phone number',
     ];
 ?>

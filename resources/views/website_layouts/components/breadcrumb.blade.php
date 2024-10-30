@@ -37,6 +37,8 @@
         'student.privacy_policy',
         'student.support',
         'student.terms_condition',
+        'student.cancellation_refund_policy',
+        'student.return_refund_policy',
         'wishlist'
     ]))
     <!-- Breadcrumb -->
@@ -115,7 +117,8 @@
 
 @if(Route::is(['students-grid','students-list','blog-details','blog-grid','blog-list','blog-masonry','blog-modern',
 'student.courses','course-list','faq','student.faqs','student.curricula','notifications','pricing-plan',
-'student.privacy_policy','student.support','student.terms_condition','wishlist'
+'student.privacy_policy','student.support','student.terms_condition','wishlist', 'student.cancellation_refund_policy',
+        'student.return_refund_policy',
 ]))
 	<!-- Breadcrumb -->
     <div class="breadcrumb-bar">

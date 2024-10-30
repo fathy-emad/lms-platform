@@ -62,7 +62,7 @@ Route::prefix("admin")->name("admin.")->middleware("entity.locale")->group(funct
             Route::view('faq', 'admin.setting.faq')->name("faq");
             Route::view('terms-conditions', 'admin.setting.terms-conditions')->name("terms-conditions");
             Route::view('privacy-policy', 'admin.setting.privacy-policy')->name("privacy-policy");
-            Route::view('return-refund-policy', 'admin.setting.return-refund-policy')->name("cancellation-refund-policy");
+            Route::view('return-refund-policy', 'admin.setting.return-refund-policy')->name("return-refund-policy");
             Route::view('cancellation-refund-policy', 'admin.setting.cancellation-refund-policy')->name("cancellation-refund-policy");
         });
 
@@ -527,7 +527,7 @@ Route::name("student.")->middleware("entity.locale")->group(function (){
         Route::view("lesson/{course_id}/{lesson_id}", "website.home.lesson")->name("lesson");
         Route::view("term-condition", "website.home.term_condition")->name("terms_condition");
         Route::view("privacy-policy", "website.home.privacy_policy")->name("privacy_policy");
-        Route::view("cancel-refund-policy", 'website.home.cancel_refund_policy')->name("cancel_refund_policy");
+        Route::view("cancellation-refund-policy", 'website.home.cancellation_refund_policy')->name("cancellation_refund_policy");
         Route::view("return-refund-policy", 'website.home.return_refund_policy')->name("return_refund_policy");
         Route::view("faqs", "website.home.faqs")->name("faqs");
         Route::view("support", "website.home.support")->name("support");

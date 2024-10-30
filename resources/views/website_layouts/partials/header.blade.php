@@ -71,6 +71,8 @@
         'student-notifications',
         'student-social-profile',
         'student.terms_condition',
+        'student.cancellation_refund_policy',
+        'student.return_refund_policy',
     ]))
     <header class="header">
 @endif
@@ -146,6 +148,8 @@
         'student-notifications',
         'student-social-profile',
         'student.terms_condition',
+        'student.cancellation_refund_policy',
+        'student.return_refund_policy',
     ]))
     <header class="header header-page">
 @endif
