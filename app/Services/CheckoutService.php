@@ -40,6 +40,7 @@ class CheckoutService
         return match ($serviceEnum) {
             //PaymentServiceEnum::CheckoutPaymob->value => \App\Concretes\CheckoutPaymob::class,
             PaymentServiceEnum::CheckoutManual->value => \App\Concretes\CheckoutManual::class,
+            PaymentServiceEnum::CheckoutPaytabs->value => \App\Concretes\CheckoutPaytabs::class,
             default => throw new \InvalidArgumentException("Unsupported payment service: $serviceEnum"),
         };
     }

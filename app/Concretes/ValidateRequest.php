@@ -17,7 +17,7 @@ class ValidateRequest extends FormRequest
     protected function failedValidation(Validator $validator): void
     {
         throw new HttpResponseException(
-            ApiResponse::sendError($validator->errors()->toArray(), 'validation error', null)
+            ApiResponse::sendError($validator->errors()->toArray(), __("lang.validation_error"), null)
         );
     }
 }

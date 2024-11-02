@@ -11,5 +11,6 @@ enum PaymentServiceEnum: string
     use EnumTrait;
 
     case CheckoutPaymob = 'CheckoutPaymob';
+    case CheckoutPaytabs = 'CheckoutPaytabs';
     case CheckoutManual = 'CheckoutManual';
 }

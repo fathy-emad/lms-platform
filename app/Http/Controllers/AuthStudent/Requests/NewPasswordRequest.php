@@ -36,7 +36,19 @@ class NewPasswordRequest extends ValidateRequest
         return [
             "verifyToken.exists" => "This token is invalid or expired please resend code"
         ];
+    }
 
+
+
+    public function attributes(): array
+    {
+        return [
+            "email" => __("attributes.email"),
+            "password" => __("attributes.password"),
+            "password_confirmation" => __("attributes.password_confirmation"),
+            "verifyToken" => __("attributes.verifyToken"),
+            "terms_of_service_and_privacy_policy" => __("lang.terms_condition") . " " . __("lang.privacy_policy"),
+        ];
     }
 
 }

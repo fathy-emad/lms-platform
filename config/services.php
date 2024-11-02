@@ -31,4 +31,10 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
+    'paytabs' => [
+        'endpoint' => env('PAYTABS_ENDPOINT', 'https://secure-egypt.paytabs.com'),
+        'profile_id' => env('PAYTABS_PROFILE_ID'),
+        'server_key' => env('PAYTABS_SERVER_KEY'),
+    ],
+
 ];

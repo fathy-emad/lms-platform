@@ -33,7 +33,7 @@ class AuthController extends Controller
     public function login(LoginRequest $request): JsonResponse
     {
         $data = $this->requestHandler->set($request->validated())->handleLogin()->get();
-        if (! $data["token"]) return ApiResponse::sendError(["Authentication error" => [$data["message"]]], "Login error", null);
+        if (! $data["token"]) return ApiResponse::sendError(["Authentication error" => [$data["message"]]], __("lang.login_error"), null);
         return ApiResponse::sendSuccess(new LoginResource($data["data"]), "Login successfully", null);
     }
     public function logout(): JsonResponse

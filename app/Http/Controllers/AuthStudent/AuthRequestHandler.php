@@ -55,12 +55,12 @@ class AuthRequestHandler extends RequestHandler
         if (!$token = Auth::guard("student")->attempt($this->data))
         {
             $this->data["token"] = null;
-            $this->data["message"] = "Your email or password is invalid";
+            $this->data["message"] = __("lang.invalid_email_password");
         }
 
         else
         {
-            $this->data["message"] = "you are Auth";
+            $this->data["message"] = __("lang.you_auth");
             $this->data["token"] = $token;
         }
     }
@@ -69,7 +69,7 @@ class AuthRequestHandler extends RequestHandler
         if (isset($this->data["token"]) && auth('student')->user()->StudentStatusEnum->value != StudentStatusEnum::Active->value)
         {
             $this->data["token"] = null;
-            $this->data["message"] = "You are not active student account please contact us";
+            $this->data["message"] = __("lang.blocked_student");
         }
     }
     public function addJwtTokenToModel(): void
@@ -114,11 +114,5 @@ class AuthRequestHandler extends RequestHandler
         $this->data["data"] = $model;
         return $this;
     }
-
-
-
-
-
-
 
 }

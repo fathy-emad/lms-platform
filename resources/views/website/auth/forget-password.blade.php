@@ -13,34 +13,34 @@
                     <div class="img-logo">
                         <img src="{{ URL::asset('/build/img/logo.svg') }}" class="img-fluid" alt="Logo">
                         <div class="back-home">
-                            <a class="text-primary" href="{{ route('student.website') }}">Back to Home</a>
+                            <a class="text-primary" href="{{ route('student.website') }}">{{ __("lang.back_to_home") }}</a>
                         </div>
                     </div>
-                    <h1>Forgot Password ?</h1>
+                    <h1>{{ __("lang.forget_password") }}</h1>
                     <div class="reset-password">
-                        <p>Enter your email to reset your password.</p>
+                        <p>{{ __("lang.reset_password_email") }}</p>
                     </div>
                     <form novalidate="" class="theme-form needs-validation" id="form" method="POST"
                           action="{{ url("api/student/auth/forget-password") }}" locale="{{app()->getLocale()}}" csrf="{{ csrf_token()}}">
 
                         <div class="input-block">
-                            <label class="form-control-label">Email</label>
-                            <input type="email" name="email" id="email" class="form-control" placeholder="Enter your email address">
+                            <label class="form-control-label">{{ __("attributes.email") }}</label>
+                            <input type="email" name="email" id="email" class="form-control" placeholder="{{ __("lang.place_email") }}">
                         </div>
                         <div class="d-grid">
-                            <button class="btn btn-start" type="button" onclick="submitForm(this)">Send OTP</button>
+                            <button class="btn btn-start" type="button" onclick="submitForm(this)">{{ __("lang.send_otp") }}</button>
                         </div>
                     </form>
 
-                    <h1 class="mt-5">Enter Verification Code</h1>
+                    <h1 class="mt-5">{{ __("lang.enter_verify_code") }}</h1>
                     <div class="reset-password">
-                        <p>We have just sent a verification code to your registered email</p>
+                        <p>{{ __("lang.verify_code_desc") }}</p>
                     </div>
                     <form novalidate="" class="theme-form needs-validation " id="form" method="POST"
                           action="{{ url("api/student/auth/new-password") }}" locale="{{app()->getLocale()}}" csrf="{{ csrf_token()}}">
                         <div class="row">
                             <div class="col-lg-12">
-                                <div class="d-flex digit-group">
+                                <div class="d-flex digit-group" dir="ltr">
                                     <input type="text" class="form-control" id="digit-1" name="verifyToken[0]"
                                            data-next="digit-2" value="" />
 
@@ -64,9 +64,9 @@
 
                         <div class="input-block mt-3">
                             <input type="hidden" name="email" id="newPasswordEmail">
-                            <label class="form-control-label">Password</label>
+                            <label class="form-control-label">{{ __("attributes.password") }}</label>
                             <div class="pass-group" id="passwordInput">
-                                <input type="password" name="password" class="form-control pass-input" placeholder="Enter your password">
+                                <input type="password" name="password" class="form-control pass-input" placeholder="{{ __("lang.place_password") }}">
                                 <span class="toggle-password feather-eye-off"></span>
                                 <span class="pass-checked"><i class="feather-check"></i></span>
                             </div>
@@ -80,9 +80,9 @@
                         </div>
 
                         <div class="input-block">
-                            <label class="form-control-label">Password confirmation</label>
+                            <label class="form-control-label">{{ __("attributes.password_confirmation") }}</label>
                             <div class="pass-group" id="passwordInputConfirmation">
-                                <input type="password" name="password_confirmation" class="form-control pass-input" placeholder="Enter your password confirmation">
+                                <input type="password" name="password_confirmation" class="form-control pass-input" placeholder="{{ __("lang.place_password_confirmation") }}">
                                 <span class="toggle-password feather-eye-off"></span>
                                 <span class="pass-checked"><i class="feather-check"></i></span>
                             </div>
@@ -90,13 +90,13 @@
 
                         <div class="form-check remember-me">
                             <label class="form-check-label mb-0">
-                                <input class="form-check-input" type="checkbox" name="terms_of_service_and_privacy_policy" value="1" required> I agree to the <a
-                                    href="{{ url('term-condition') }}">Terms of Service</a> and <a
-                                    href="{{ url('privacy-policy') }}">Privacy Policy.</a>
+                                <input class="form-check-input" type="checkbox" name="terms_of_service_and_privacy_policy" value="1" required>{{ __("lang.agree") }} <a
+                                    href="{{ url('term-condition') }}">{{ __("lang.terms_condition") }}</a> | <a
+                                    href="{{ url('privacy-policy') }}">{{ __("lang.privacy_policy") }}.</a>
                             </label>
                         </div>
                         <div class="d-grid">
-                            <button class="btn btn-primary btn-start" type="button" onclick="submitForm(this, null, successCallback)">Create new Password</button>
+                            <button class="btn btn-primary btn-start" type="button" onclick="submitForm(this, null, successCallback)">{{ __("lang.create_new_password") }}</button>
                         </div>
 
                     </form>

@@ -17,4 +17,14 @@ class ChangePasswordRequest extends ValidateRequest
         ];
     }
 
+
+    public function attributes(): array
+    {
+        return [
+            "password" => __("attributes.password"),
+            "password_confirmation" => __("attributes.password_confirmation"),
+            "currentPassword" => __("attributes.currentPassword"),
+        ];
+    }
+
 }

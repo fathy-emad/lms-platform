@@ -53,7 +53,8 @@ class CheckoutManual implements CheckoutInterface
 
             // Create Student Payments and enrollments
             foreach ($cartData["items"] as $item) {
-                $courseExpiresAtMonth = $item->course->curriculum->to->value; //2
+
+                $courseExpiresAtMonth = $item->course->curriculum->to->value;
 
                 if ($currentMonth > $courseExpiresAtMonth)
                     $year = $currentYear + 1;

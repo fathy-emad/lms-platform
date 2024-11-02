@@ -28,4 +28,18 @@ class RegisterRequest extends ValidateRequest
         ];
     }
 
+    public function attributes(): array
+    {
+        return [
+            "name" => __("attributes.name"),
+            "phone" => __("attributes.phone"),
+            "email" => __("attributes.email"),
+            "password" => __("attributes.password"),
+            "password_confirmation" => __("attributes.password_confirmation"),
+            "born" => __("attributes.born"),
+            "school" => __("attributes.school"),
+            "terms_of_service_and_privacy_policy" => __("lang.terms_condition") . " " . __("lang.privacy_policy"),
+        ];
+    }
+
 }

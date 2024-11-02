@@ -13,4 +13,11 @@ class ForgetPasswordRequest extends ValidateRequest
         ];
     }
 
+    public function attributes(): array
+    {
+        return [
+            "email" => __("attributes.email"),
+        ];
+    }
+
 }
