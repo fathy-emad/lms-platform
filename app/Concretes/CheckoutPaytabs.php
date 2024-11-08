@@ -3,9 +3,11 @@
 namespace App\Concretes;
 
 use ApiResponse;
+use Illuminate\Support\Facades\Log;
 use Notification;
 use Carbon\Carbon;
 use App\Models\Student;
+use Illuminate\Http\Request;
 use App\Enums\PaymentMethodEnum;
 use App\Enums\PaymentServiceEnum;
 use App\Interfaces\CheckoutInterface;
@@ -35,7 +37,7 @@ class CheckoutPaytabs implements CheckoutInterface
         $this->paytabsServerKey = config('services.paytabs.server_key'); // PayTabs server key
     }
 
-    public function pay(array $data): void
+    public function pay(array $data): mixed
     {
         $user = Student::find($data["student_id"]);
         $cartData = $this->cartItems($user->carts);
@@ -44,14 +46,15 @@ class CheckoutPaytabs implements CheckoutInterface
 
         try {
 
-            // Create the invoice before payment request
+            //Create invoice
             $invoice = $this->invoiceRepository->create([
                 "student_id" => $user->id,
                 "PaymentServiceEnum" => $service->value,
                 "PaymentMethodEnum" => $method->value,
-                "paymentData" => $cartData,
+                "paymentData" => ["cart_data" => $cartData],
                 "totalCost" => $cartData["totalCost"],
                 "itemCount" => count($cartData["items"]),
+                "PaymentStatusEnum" => "pending"
             ]);
 
             // Prepare payment details for PayTabs
@@ -60,13 +63,20 @@ class CheckoutPaytabs implements CheckoutInterface
             // Send the payment request to PayTabs
             $paytabsResponse = $this->sendPaytabsPayment($paymentDetails);
 
-            // Check for success and handle the response
-            if ($paytabsResponse["response_code"] == "100") {
-                // Save payment, enrollment, etc. after successful payment
-                $this->finalizePayment($invoice, $cartData, $user);
-            } else {
-                throw new \Exception($paytabsResponse['result']);
+            if ($paytabsResponse->status() == 200)
+            {
+                $invoice->update([
+                    "paymentData" => [
+                        "cart_data" => $cartData,
+                        "payment_data" => $paytabsResponse->json(),
+                    ],
+                ]);
+                return $paytabsResponse->json();
             }
+
+
+            else
+                throw new HttpResponseException(ApiResponse::sendError(["Checkout error" => $paytabsResponse->json()], 'Checkout error please try again later', null));
 
         } catch (\Exception $e) {
             throw new HttpResponseException(ApiResponse::sendError(["Checkout error" => [$e->getMessage()]], 'Checkout error, please try again later', null));
@@ -93,7 +103,7 @@ class CheckoutPaytabs implements CheckoutInterface
                 "country" => 'EGYPT',
             ],
             "return" => route('payment.callback', ['invoice_id' => $invoice->id]),
-            "callback" => route('payment.paytabs.callback'), // PayTabs callback
+            "callback" => route('payment.paytabs.callback'),
             "hide_shipping" => true,
         ];
     }
@@ -102,11 +112,11 @@ class CheckoutPaytabs implements CheckoutInterface
     private function sendPaytabsPayment(array $paymentDetails)
     {
         $response = Http::withHeaders([
-            'Authorization' => "Bearer " . $this->paytabsServerKey,
+            'Authorization' => $this->paytabsServerKey,
             'Content-Type' => 'application/json',
-        ])->post($this->paytabsEndpoint . '/payment/request', $paymentDetails);
+        ])->post($this->paytabsEndpoint, $paymentDetails);
 
-        return $response->json();
+        return $response;
     }
 
     // Finalize payment process (create enrollment, payment, teacher payment)
@@ -167,4 +177,40 @@ class CheckoutPaytabs implements CheckoutInterface
             "items" => $items
         ];
     }
+
+    public function handleReturnPaytabs(Request $request, $invoice_id)
+    {
+        // Retrieve the invoice and student ID
+        $invoice = $this->invoiceRepository->getById($invoice_id);
+        $student_id = $invoice->student_id;
+        return redirect()->route('student.enrolled_courses');
+
+    }
+
+    public function handleCallbackPaytabs(Request $request)
+    {
+        $callbackData = $request->all();
+        Log::info('PayTabs Callback Data:', $callbackData);
+
+        if (isset($callbackData['tran_ref']) && isset($callbackData['response_code'])) {
+            $invoice = $this->invoiceRepository->findByTransactionId($callbackData['tran_ref']); // Assuming you have a method to find the invoice by transaction ID
+
+            if ($invoice) {
+                if ($callbackData['response_code'] == '100') { // 100 typically indicates success
+                    $invoice->update(['PaymentStatusEnum' => 'paid']);
+                    $this->finalizePayment($invoice, $invoice->paymentData['cart_data'], $invoice->student);
+                    return response()->json(['message' => 'Payment successfully processed'], 200);
+                } else {
+                    // Transaction failed
+                    $invoice->update(['PaymentStatusEnum' => 'failed']);
+                    return response()->json(['message' => 'Payment failed'], 400);
+                }
+            } else {
+                return response()->json(['message' => 'Invoice not found'], 404);
+            }
+        } else {
+            return response()->json(['message' => 'Invalid callback data'], 400);
+        }
+    }
+
 }

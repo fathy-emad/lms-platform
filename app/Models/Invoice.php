@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Enums\PaymentMethodEnum;
 use App\Enums\PaymentServiceEnum;
+use App\Enums\PaymentStatusEnum;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -19,6 +20,7 @@ class Invoice extends Model
         "totalCost" => "float",
         "PaymentServiceEnum" => PaymentServiceEnum::class,
         "PaymentMethodEnum" => PaymentMethodEnum::class,
+        "PaymentStatusEnum" => PaymentStatusEnum::class,
     ];
 
     protected static function boot(): void

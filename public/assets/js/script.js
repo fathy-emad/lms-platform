@@ -387,6 +387,8 @@ function submitForm(submit, datatable = null, successCallback = null, errorCallb
                     handleLoginSuccess(response, entity, csrf, submit);
                 } else if (action.split("/").pop() === "logout") {
                     handleLogoutSuccess(entity, csrf, submit);
+                //} else if(action.split("/").pop() === "checkout"){
+                    //handleFormCheckout(response);
                 } else {
                     handleFormSuccess(response, form, datatable, submit, successCallback);
                 }
@@ -445,6 +447,15 @@ function handleLogoutSuccess(entity, csrf, submit) {
             handleFormError(submit, xhr.responseText || "Unknown error");
         }
     });
+}
+
+function handleFormCheckout(response)
+{
+    let title = "Checkout redirect";
+    let message = "You will redirect to Pay page";
+    notifyForm(title, message, "success", function () {
+        window.location = response.data.redirect_url;
+    }, 0, 1000);
 }
 
 function handleFormSuccess(response, form, datatable, submit, successCallback) {

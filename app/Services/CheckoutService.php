@@ -17,17 +17,16 @@ class CheckoutService
         $this->service = app($service);
     }
 
-    public function pay(array $data): void
+    public function pay(array $data)
     {
         DB::beginTransaction();
         try {
 
             $serviceClass = $this->resolveServiceClass($data["PaymentServiceEnum"]);
             $this->via($serviceClass);
-
-            $this->service->pay($data);
-
+            $return = $this->service->pay($data);
             DB::commit();
+            return $return;
 
         } catch (\Exception $e) {
             DB::rollBack();

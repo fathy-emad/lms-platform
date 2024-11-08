@@ -27,6 +27,14 @@ return new class extends Migration
                 ->on("students")
                 ->restrictOnDelete()
                 ->cascadeOnUpdate();
+            $table->unsignedBigInteger("created_by");
+            $table->foreign("created_by")
+                ->references("id")
+                ->on("admins")
+                ->restrictOnDelete()
+                ->cascadeOnUpdate();
+            $table->string("transactionTo");
+            $table->enum('PaymentStatusEnum', \App\Enums\PaymentStatusEnum::values());
             $table->timestamps();
         });
     }

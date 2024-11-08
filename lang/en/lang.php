@@ -257,10 +257,10 @@ Each course is crafted by top educators, offering comprehensive and simplified e
         'verify_code_desc' => 'We have just sent a verification code to your registered email',
         'create_new_password' => 'Create new Password',
         'validation_error' => 'validation error',
-        'view_exceeded' => 'Views limit exceeded. May the force be with you! or',
+        'views_exceeded' => 'Views limit exceeded. May the force be with you! or',
         'invalid_email_password' => 'Your email or password is invalid',
         'you_auth' => "you are Authorized",
         'blocked_student' => 'You are not active student account please contact us',
-        'login_error' => 'Login Error'
+        'login_error' => 'Login Error',
     ];
 ?>

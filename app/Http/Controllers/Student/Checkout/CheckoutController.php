@@ -20,8 +20,8 @@ class CheckoutController extends Controller
 
     public function create(CreateRequest $request): JsonResponse
     {
-        $this->checkoutService->pay($request->validated());
-        return ApiResponse::sendSuccess([], "Checkout created successfully", null);
+        $return = $this->checkoutService->pay($request->validated());
+        return ApiResponse::sendSuccess($return, "Checkout created successfully", null);
     }
 
     public function read(Request $request): JsonResponse

@@ -170,55 +170,19 @@
                                     </form>
 
                                     <!-- payTabs -->
-                                    <form action="cart" form-type="paytabs" style="display: none">
+                                    <form action="{{ url("api/student/checkout") }}" id="form" form-type="paytabs"
+                                          style="display: none" method="post" authorization="{{session("student_data")["jwtToken"] ?? ''}}">
+                                        <input type="hidden" name="PaymentServiceEnum" value="CheckoutPaytabs">
+                                        <input type="hidden" name="PaymentMethodEnum" value="Card">
+                                        <input type="hidden" name="student_id" value="{{ auth("student")->id() }}">
                                         <div class="row">
-                                            @include("website_layouts.components.errors.coming_soon")
-{{--                                            <div class="col-lg-12">--}}
-{{--                                                <div class="input-block">--}}
-{{--                                                    <label class="form-control-label">{{ __("lang.card_number") }}</label>--}}
-{{--                                                    <input type="text" class="form-control"--}}
-{{--                                                           placeholder="XXXX XXXX XXXX XXXX">--}}
-{{--                                                </div>--}}
-{{--                                            </div>--}}
-{{--                                            <div class="col-lg-4">--}}
-{{--                                                <div class="input-block">--}}
-{{--                                                    <label class="form-label">{{ __("lang.month") }}</label>--}}
-{{--                                                    <select class="form-select select" name="sellist1">--}}
-{{--                                                        <option>Month</option>--}}
-{{--                                                        <option>Jun</option>--}}
-{{--                                                        <option>Feb</option>--}}
-{{--                                                        <option>March</option>--}}
-{{--                                                    </select>--}}
-{{--                                                </div>--}}
-{{--                                            </div>--}}
-{{--                                            <div class="col-lg-4">--}}
-{{--                                                <div class="input-block">--}}
-{{--                                                    <label class="form-label">{{ __("lang.year") }}</label>--}}
-{{--                                                    <select class="form-select select" name="sellist1">--}}
-{{--                                                        <option>Year</option>--}}
-{{--                                                        <option>2023</option>--}}
-{{--                                                        <option>2022</option>--}}
-{{--                                                        <option>2021</option>--}}
-{{--                                                    </select>--}}
-{{--                                                </div>--}}
-{{--                                            </div>--}}
-{{--                                            <div class="col-lg-4">--}}
-{{--                                                <div class="input-block">--}}
-{{--                                                    <label class="form-control-label">CVV</label>--}}
-{{--                                                    <input type="text" class="form-control" placeholder="XXXX">--}}
-{{--                                                </div>--}}
-{{--                                            </div>--}}
-{{--                                            <div class="col-lg-12">--}}
-{{--                                                <div class="input-block">--}}
-{{--                                                    <label class="form-control-label">{{ __("lang.name_on_card") }}</label>--}}
-{{--                                                    <input type="text" class="form-control" placeholder="Address">--}}
-{{--                                                </div>--}}
-{{--                                            </div>--}}
-{{--                                            <div class="col-lg-12 col-md-12">--}}
-{{--                                                <div class="condinue-shop">--}}
-{{--                                                    <button class="btn btn-primary" type="submit">{{ __("lang.pay") }}</button>--}}
-{{--                                                </div>--}}
-{{--                                            </div>--}}
+                                            <div class="col-lg-12 col-md-12">
+                                                <div class="condinue-shop">
+                                                    <button class="btn btn-primary" type="button" onclick="submitForm(this,null,null,null)">
+                                                        @include("website_layouts.components.errors.coming_soon")
+                                                    </button>
+                                                </div>
+                                            </div>
                                         </div>
                                     </form>
                                 </div>
@@ -237,16 +201,18 @@
 
 @section("script")
     <script>
+
         $(function () {
+
+        })
+
+        $(document).ready(function() {
+
             $("[name=payment_service]").on("click", function () {
                 $("[form-type]").hide();
                 $("[form-type='" + $(this).val() +"']").show();
-            });
-        })
-    </script>
+            }).trigger("click");
 
-    <script>
-        $(document).ready(function() {
             // Update the call button's href attribute when the user selects a different phone number
             $('#phoneNumber').on('change', function() {
                 var selectedNumber = $(this).val();
@@ -254,5 +220,6 @@
                 $('#number').text(" (" + selectedNumber + ") ");
             }).trigger("change");
         });
+
     </script>
 @endsection

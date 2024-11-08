@@ -8,5 +8,5 @@ use App\Models\Student;
 
 interface CheckoutInterface
 {
-    public function pay(array $data): void;
+    public function pay(array $data): mixed;
 }

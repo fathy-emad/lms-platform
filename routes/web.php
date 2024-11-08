@@ -12,6 +12,8 @@
 */
 
 
+use App\Concretes\CheckoutPaytabs;
+use App\Http\Controllers\Student\Checkout\CheckoutController;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Artisan;
@@ -485,8 +487,6 @@ Route::get('/clear-cache', function() {
     Artisan::call('route:clear');
     return "Cache is cleared";
 })->name('clear.cache');
-
-
 
 Route::name("student.")->middleware("entity.locale")->group(function (){
 

@@ -27,7 +27,7 @@ class CheckoutManual implements CheckoutInterface
         protected TeacherPaymentRepository $teacherPaymentRepository,
     ){}
 
-    public function pay(array $data): void
+    public function pay(array $data): mixed
     {
         $user = Student::find($data["student_id"]);
         $cartData = $this->cartItems($user->carts);
@@ -47,7 +47,8 @@ class CheckoutManual implements CheckoutInterface
                 "totalCost" => $cartData["totalCost"],
                 "itemCount" => count($cartData["items"]),
                 "created_by" => auth("admin")?->id(),
-                "transactionTo" => $data["transactionTo"]
+                "transactionTo" => $data["transactionTo"],
+                "PaymentStatusEnum" => "success"
             ]);
 
 
@@ -93,6 +94,8 @@ class CheckoutManual implements CheckoutInterface
 
             //send email from here
             Notification::via([new NotificationEmail()])->send($user->fresh(), $invoice, "invoice");
+
+            return true;
 
         } catch (\Exception $e) {
 

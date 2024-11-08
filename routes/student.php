@@ -1,5 +1,6 @@
 <?php
 
+use App\Concretes\CheckoutPaytabs;
 use App\Http\Controllers\AuthStudent\AuthController;
 use App\Http\Controllers\Student\Cart\CartController;
 use App\Http\Controllers\Student\Checkout\CheckoutController;
@@ -17,6 +18,18 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "api student auth" middleware group. Make something great!
 |
 */
+
+
+//Paytabs callback
+Route::controller(CheckoutPaytabs::class)->group(function (){
+    // Route for handling the return URL (redirects user back after payment)
+    Route::get('/payment/callback/{invoice_id}', 'handleReturnPaytabs')
+        ->name('payment.callback');
+
+    // Route for handling the callback URL (used by PayTabs to notify your server)
+    Route::post('/payment/paytabs/callback', 'handleCallbackPaytabs')
+        ->name('payment.paytabs.callback');
+});
 
 Route::prefix('auth')->controller(AuthController::class)->group(function (){
 

@@ -32,9 +32,9 @@ return [
     ],
 
     'paytabs' => [
-        'endpoint' => env('PAYTABS_ENDPOINT', 'https://secure-egypt.paytabs.com'),
-        'profile_id' => env('PAYTABS_PROFILE_ID'),
-        'server_key' => env('PAYTABS_SERVER_KEY'),
+        'endpoint' => env('PAYTABS_ENDPOINT', 'https://secure-egypt.paytabs.com/payment/request'),
+        'profile_id' => env('PAYTABS_PROFILE_ID', '138092'),
+        'server_key' => env('PAYTABS_SERVER_KEY', 'SJJ9N2ZDNT-JJKZKRLJ9B-WT6TKG6RTJ'),
     ],
 
 ];

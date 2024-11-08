@@ -35,6 +35,10 @@
                             </div>
                             <div class="checkout-form">
                                 <div class="table-responsive custom-table">
+                                    @if(session('message'))
+                                        @dd("ddadada")
+                                        <div class="alert alert-success">{{ session('message') }}</div>
+                                    @endif
                                     <table class="table table-nowrap mb-0">
                                         <thead>
                                         <tr>
