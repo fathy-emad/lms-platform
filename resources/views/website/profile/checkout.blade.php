@@ -134,7 +134,7 @@
                                     <div class="col-lg-12">
                                         <div class="wallet-method">
                                             <label class="radio-inline custom_radio me-4">
-                                                <input type="radio" name="payment_service" value="manual" checked="">
+                                                <input type="radio" name="payment_service" value="manual" checked="checked">
                                                 <span class="checkmark"></span> {{ __("lang.manual") }}
                                             </label>
                                             <label class="radio-inline custom_radio">
@@ -160,7 +160,7 @@
                                             <div class="col-lg-12 col-md-12">
                                                 <div class="condinue-shop">
                                                     <a id="callButton" href="tel:+201275075161" class="btn btn-primary" type="submit">
-                                                        <i class="fa fa-phone"></i>
+                                                        <i class="fa fa-phone"></i>&nbsp;
                                                         {{ __("lang.manual") }}
                                                         <span id="number" dir="ltr"></span>
                                                     </a>
@@ -178,9 +178,7 @@
                                         <div class="row">
                                             <div class="col-lg-12 col-md-12">
                                                 <div class="condinue-shop">
-                                                    <button class="btn btn-primary" type="button" onclick="submitForm(this,null,null,null)">
-                                                        @include("website_layouts.components.errors.coming_soon")
-                                                    </button>
+                                                    @include("website_layouts.components.errors.coming_soon")
                                                 </div>
                                             </div>
                                         </div>
@@ -202,16 +200,12 @@
 @section("script")
     <script>
 
-        $(function () {
-
-        })
-
         $(document).ready(function() {
 
             $("[name=payment_service]").on("click", function () {
                 $("[form-type]").hide();
                 $("[form-type='" + $(this).val() +"']").show();
-            }).trigger("click");
+            });
 
             // Update the call button's href attribute when the user selects a different phone number
             $('#phoneNumber').on('change', function() {

@@ -31,12 +31,12 @@
                         <i class="bx bxs-graduation"></i>{{ __("lang.enrolled_courses") }}
                     </a>
                 </li>
-                <li class="nav-item {{ Request::is('student.cart') ? 'active' : '' }}">
+                <li class="nav-item {{ Route::is('student.cart') ? 'active' : '' }}">
                     <a href="{{ route('student.cart') }}" class="nav-link">
                         <i class="bx bxs-cart"></i>{{ __("lang.cart") }}
                     </a>
                 </li>
-                <li class="nav-item {{ Request::is('student.invoices') ? 'active' : '' }}">
+                <li class="nav-item {{ Route::is('student.invoices') ? 'active' : '' }}">
                     <a href="{{ route('student.invoices') }}" class="nav-link">
                         <i class="bx bxs-dollar-circle"></i>{{ __("lang.invoices") }}
                     </a>

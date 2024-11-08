@@ -150,6 +150,8 @@
                                                      $material = $materials->where("lesson_id", $lesson->id)->first();
                                                      $duration = isset($material) ? $material->video_duration : 0;
                                                      $is_free = isset($material) && $material->FreeEnum == \App\Enums\FreeEnum::Free;
+                                                     $lesson_views = \App\Models\StudentLessonView::where("lesson_id", $lesson->id)
+                                                                                ->whereIn("enrollment_id", $course_enrollment_ids ?? [])->orderBy("id", "desc");
                                                  @endphp
                                                 <li>
 
@@ -158,6 +160,7 @@
                                                            class="{{ $lesson->id == request("lesson_id") ? 'play-intro' : '' }}">
                                                             {{ $lesson->lessonTranslate->translates[app()->getLocale()] }}
                                                             <small>({{floor($duration / 60) }} {{ __("lang.hr") }} {{floor($duration % 60) }} {{ __("lang.min") }})</small>
+                                                            @if($enrolled)<small>({{ $lesson_views->sum("views") . " : 3 " .  __("lang.views") }})</small>@endif
                                                         </a>
                                                         <div>
                                                             <img src="{{ URL::asset('/build/img/icon/play-icon.svg') }}" alt="">
@@ -206,7 +209,7 @@
                                     </p>
                                     <p>
                                         {{floor($lesson_duration / 60) }} {{ __("lang.hr") }} {{floor($lesson_duration % 60) }} {{ __("lang.min") }}
-                                        <span class="text-danger">&nbsp;({{ isset($course_lesson_views) ? $course_lesson_views->sum("views") : 0 }} {{ __("lang.views") }})</span>
+                                        <span class="text-danger">&nbsp;({{ isset($course_lesson_views) ? $course_lesson_views->sum("views") . " : 3" : "0 : 3" }} {{ __("lang.views") }})</span>
                                     </p>
                                     @if($watch_video)
                                         <div class="introduct-video">

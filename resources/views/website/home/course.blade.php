@@ -107,6 +107,15 @@
                  ->whereDate("expired_at", ">=", \Carbon\Carbon::now($student->country->timezone))
                  ->where("course_id", $course?->id)
                  ->exists();
+
+                if ($enrolled)
+                {
+                    $course_enrollments = $student->enrollments()
+                    ->whereDate("expired_at", ">=", \Carbon\Carbon::now($student->country->timezone))
+                    ->where("course_id", $course?->id)->get();
+
+                    $course_enrollment_ids = array_column($course_enrollments->toArray(), "id");
+                }
         }
 
     @endphp
@@ -255,6 +264,13 @@
                                                                     @if(($enrolled && !$isFree) || $isFree)
                                                                         <a href="{{ route("student.lesson", ["course_id" => $course->id, "lesson_id" => $lesson->id]) }}">{{ __("lang.preview") }}</a>
                                                                     @endif
+                                                                    @if($enrolled)
+                                                                        @php
+                                                                            $lesson_views = \App\Models\StudentLessonView::where("lesson_id", $lesson->id)
+                                                                                ->whereIn("enrollment_id", $course_enrollment_ids)->orderBy("id", "desc");
+                                                                        @endphp
+                                                                        <span class="text-danger">({{ $lesson_views->sum("views") . " : 3 " . __("lang.views") }})</span>
+                                                                    @endif
                                                                     <span>{{ $duration }}</span>
                                                                 </div>
                                                             </li>
@@ -364,6 +380,11 @@
                                                                         {{ $teacher_course->titleTranslate->translates[app()->getLocale()] }}
                                                                     </a>
                                                                 </h4>
+                                                                <p>
+                                                                    {{ $teacher_course->curriculum->subject->year->yearTranslate->translates[app()->getLocale()] }}
+                                                                    -
+                                                                    {{ $teacher_course->curriculum->subject->subject->subjectTranslate->translates[app()->getLocale()] }}
+                                                                </p>
                                                             </div>
                                                         </div>
                                                         <div class="course-share d-flex align-items-center justify-content-center">

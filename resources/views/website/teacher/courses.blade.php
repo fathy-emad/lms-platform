@@ -61,6 +61,11 @@
                                                                                 {{ $course->titleTranslate->translates[app()->getLocale()] }}
                                                                             </a>
                                                                         </h4>
+                                                                        <p>
+                                                                            {{ $course->curriculum->subject->year->yearTranslate->translates[app()->getLocale()] }}
+                                                                            -
+                                                                            {{ $course->curriculum->subject->subject->subjectTranslate->translates[app()->getLocale()] }}
+                                                                        </p>
                                                                     </div>
                                                                 </div>
                                                                 <div class="course-share d-flex align-items-center justify-content-center">
