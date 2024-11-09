@@ -24,9 +24,8 @@ class CheckoutService
 
             $serviceClass = $this->resolveServiceClass($data["PaymentServiceEnum"]);
             $this->via($serviceClass);
-            $return = $this->service->pay($data);
+            $this->service->pay($data);
             DB::commit();
-            return $return;
 
         } catch (\Exception $e) {
             DB::rollBack();
