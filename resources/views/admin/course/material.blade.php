@@ -535,8 +535,8 @@
 
                             //Get bank-questions
                             $.ajax({
-                                url: APP_URL + "/api/admin/setting-education/bank-question?where=teacher_id:{{ request("teacher_id") }},lesson_id:"+lesson_id+",ActiveEnum:{{\App\Enums\ActiveEnum::Active->value}}"+
-                                    "&orWhere=teacher_id:null,lesson_id:"+lesson_id+",ActiveEnum:{{\App\Enums\ActiveEnum::Active->value}}",
+                                url: APP_URL + "/api/admin/setting-education/bank-question?where=teacher_id:{{ request("teacher_id") }},lesson_id:"+lesson_id+
+                                    "&orWhere=teacher_id:null,lesson_id:"+lesson_id,
                                 type: "GET",
                                 data: null,
                                 processData: false,

@@ -11,6 +11,31 @@ class UpdateRequest extends ValidateRequest
 {
     public function rules(): array
     {
+        $guard = $this->attributes->get("guard");
+
+        if ($guard == "teacher")
+        {
+            return [
+                'id' => 'required|integer|exists:materials,id',
+                "description" => "required|array|min:1",
+                "description.ar" =>  "required|string",
+                "description.*" => "nullable|string",
+                'images.*.key' => 'nullable|integer',
+                'images.*.file' => 'nullable|image',
+                'images.*.title' => 'nullable|string',
+                'files.*.key' => 'nullable|integer',
+                'files.*.file' => 'nullable|mimes:pdf,doc,docx,txt,ppt,pptx',
+                'files.*.title' => 'nullable|string',
+                'assignment' => 'required|array|min:1',
+                'assignment.*' => [
+                    'required',
+                    'integer',
+                    Rule::exists("bank_questions", "id")->where(fn($query) => $query->where("lesson_id", $this->lesson_id))
+                ],
+
+            ];
+        }
+
         return [
             'id' => 'required|integer|exists:materials,id',
             'course_id' => 'required|integer|exists:courses,id',
@@ -34,7 +59,11 @@ class UpdateRequest extends ValidateRequest
             'files.*.file' => 'nullable|mimes:pdf,doc,docx,txt,ppt,pptx',
             'files.*.title' => 'nullable|string',
             'assignment' => 'required|array|min:1',
-            'assignment.*' => 'required|integer|exists:bank_questions,id',
+            'assignment.*' => [
+                'required',
+                'integer',
+                Rule::exists("bank_questions", "id")->where(fn($query) => $query->where("lesson_id", $this->lesson_id))
+            ],
             'FreeEnum' => "sometimes|in:".implode(",", FreeEnum::values()),
             "ActiveEnum" => "sometimes|in:".implode(",", ActiveEnum::values()),
         ];

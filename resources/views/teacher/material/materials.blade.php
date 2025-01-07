@@ -37,13 +37,6 @@
             <div class="col-sm-12">
                 <div class="card">
                     <div class="card-header">
-
-                        <button class="btn btn-primary mb-3" type="button" data-bs-toggle="modal" data-bs-target=".create_modal"
-                                data-bs-original-title="{{ __('lang.create') }} Material"
-                                title="{{ __('lang.create') }} Material">
-                            {{ __('lang.create') }} Material
-                        </button>
-
                         <nav class="breadcrumb breadcrumb-icon">
                             <a class="breadcrumb-item" href="" data-bread="course">({{ __("attributes.course") }})</a>
                             <a class="breadcrumb-item" href="" data-bread="chapter">({{ __("attributes.chapter") }})</a>
@@ -77,101 +70,6 @@
             </div>
         </div>
 
-        <!-- Create modal -->
-        <div class="modal fade create_modal" aria-labelledby="myLargeModalLabel" style="display: none;" data-bs-backdrop="static" data-bs-keyboard="false" aria-hidden="true">
-            <div class="modal-dialog modal-lg">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h4 class="modal-title" id="myLargeModalLabel">{{ __('lang.create') }} Material</h4>
-                        <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close" data-bs-original-title="" title=""></button>
-                    </div>
-                    <div class="modal-body">
-                        <form novalidate="" class="needs-validation" id="form1" method="POST" authorization="{{session("teacher_data")["jwtToken"]}}"
-                              action="{{ url('api/teacher/material') }}" locale="{{session("locale")}}" csrf="{{ csrf_token()}}">
-                            <div class="form-group">
-                                <div class="row">
-
-                                    <div class="col-12">
-                                        <ul class="nav nav-pills nav-info mb-3" id="pills-infotab" role="tablist">
-                                            <li class="nav-item"><a class="nav-link active" id="create-data-tab" data-bs-toggle="pill" href="#create-data" role="tab" aria-controls="create-data" aria-selected="true" data-bs-original-title="" title=""><i class="icofont icofont-ui-home"></i>data</a></li>
-                                            <li class="nav-item"><a class="nav-link" id="create-assignment-tab" data-bs-toggle="pill" href="#create-assignment" role="tab" aria-controls="create-assignment" aria-selected="false" data-bs-original-title="" title=""><i class="icofont icofont-contacts"></i>assignment</a></li>
-{{--                                            <li class="nav-item"><a class="nav-link" id="update-translate-tab" data-bs-toggle="pill" href="#update-translate" role="tab" aria-controls="update-translate" aria-selected="false" data-bs-original-title="" title=""><i class="icofont icofont-contacts"></i>description translates</a></li>--}}
-                                        </ul>
-                                        <div class="tab-content" id="pills-infotabContent">
-
-                                            <div class="tab-pane fade active show" id="create-data" role="tabpanel" aria-labelledby="create-data-tab">
-                                                <div class="col-12 mb-3">
-                                                    <input type="hidden" name="course_id" value="{{request("course_id")}}">
-                                                </div>
-
-                                                <div class="col-12 mb-3">
-                                                    <label for="lesson_id">{{ __("attributes.lesson") }}</label>
-                                                    <select name="lesson_id" class="form-control" id="lesson_id" ></select>
-                                                </div>
-
-                                                <div class="col-12 mb-3">
-                                                    <label for="description">{{ __("attributes.description") }}</label>
-                                                    <textarea type="text" name="description" class="form-control" id="description"></textarea>
-                                                </div>
-
-                                                <div class="col-12 mb-3">
-                                                    <label for="video">{{ __("attributes.video") }}</label>
-                                                    <input type="text" class="form-control" name="video" id="video" />
-                                                </div>
-
-                                                <div class="col-12 mb-3">
-                                                    <label for="video_duration">{{ __("attributes.video_duration") }} (in min)</label>
-                                                    <input type="number" class="form-control" name="video_duration" id="video_duration" />
-                                                </div>
-
-                                                <div class="col-sm-12 mb-3 imagesUploadBuilder">
-                                                    <label for="images">{{ __("attributes.images") }}</label>
-                                                </div>
-
-                                                <div class="col-sm-12 mb-3 filesUploadBuilder">
-                                                    <label for="files">{{ __("attributes.files") }}</label>
-                                                </div>
-
-                                                <div class="col-sm-12 mb-3 media">
-                                                    <label class="col-form-label m-r-10">{{ __("attributes.FreeEnum") }}</label>
-                                                    <div class="media-body icon-state">
-                                                        <label class="switch">
-                                                            <input type="checkbox" name="FreeEnum" value="{{\App\Enums\FreeEnum::Free->value}}"><span class="switch-state"></span>
-                                                        </label>
-                                                    </div>
-                                                </div>
-
-                                                <div class="col-sm-12 mb-3 media">
-                                                    <label class="col-form-label m-r-10">{{ __("attributes.ActiveEnum") }}</label>
-                                                    <div class="media-body icon-state">
-                                                        <label class="switch">
-                                                            <input type="checkbox" name="ActiveEnum" value="{{\App\Enums\ActiveEnum::Active->value}}"><span class="switch-state"></span>
-                                                        </label>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="tab-pane fade" id="create-assignment" role="tabpanel" aria-labelledby="create-assignment-tab">
-                                                <div class="row megaOptions"></div>
-
-                                            </div>
-
-{{--                                            <div class="tab-pane fade" id="update-translate" role="tabpanel" aria-labelledby="update-translate-tab">--}}
-{{--                                                <div class="row update-translates"></div>--}}
-{{--                                            </div>--}}
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group mb-0">
-                                <button class="btn btn-primary btn-block" onclick="submitForm(this, $('#data-table-ajax'))" type="button">{{ __("lang.create") }}</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-
         <!-- Update modal -->
         <div class="modal fade update_modal" aria-labelledby="myLargeModalLabel" style="display: none;" data-bs-backdrop="static" aria-hidden="true">
             <div class="modal-dialog modal-lg">
@@ -197,23 +95,10 @@
                                         <div class="tab-content" id="pills-infotabContent">
 
                                             <div class="tab-pane fade active show" id="update-data" role="tabpanel" aria-labelledby="update-data-tab">
-                                                <div class="col-12 mb-3">
-                                                    <input type="hidden" name="course_id" value="{{request("course_id")}}">
-                                                </div>
 
-                                                <div class="col-12 mb-3">
+                                                <div class="col-12 mb-3" style="display: none">
                                                     <label for="lesson_id">{{ __("attributes.lesson") }}</label>
                                                     <select name="lesson_id" class="form-control" id="lesson_id" ></select>
-                                                </div>
-
-                                                <div class="col-12 mb-3">
-                                                    <label for="video">{{ __("attributes.video") }}</label>
-                                                    <input type="text" class="form-control" name="video" id="video" />
-                                                </div>
-
-                                                <div class="col-12 mb-3">
-                                                    <label for="video_duration">{{ __("attributes.video_duration") }} (in min)</label>
-                                                    <input type="number" class="form-control" name="video_duration" id="video_duration" />
                                                 </div>
 
                                                 <div class="col-sm-12 mb-3 imagesUploadBuilder">
@@ -224,23 +109,6 @@
                                                     <label for="files">{{ __("attributes.files") }}</label>
                                                 </div>
 
-                                                <div class="col-sm-12 mb-3 media">
-                                                    <label class="col-form-label m-r-10">{{ __("attributes.FreeEnum") }}</label>
-                                                    <div class="media-body icon-state">
-                                                        <label class="switch">
-                                                            <input type="checkbox" name="FreeEnum" value="{{\App\Enums\FreeEnum::Free->value}}"><span class="switch-state"></span>
-                                                        </label>
-                                                    </div>
-                                                </div>
-
-                                                <div class="col-sm-12 mb-3 media">
-                                                    <label class="col-form-label m-r-10">{{ __("attributes.ActiveEnum") }}</label>
-                                                    <div class="media-body icon-state">
-                                                        <label class="switch">
-                                                            <input type="checkbox" name="ActiveEnum" value="{{\App\Enums\ActiveEnum::Active->value}}"><span class="switch-state"></span>
-                                                        </label>
-                                                    </div>
-                                                </div>
                                             </div>
 
                                             <div class="tab-pane fade" id="update-assignment" role="tabpanel" aria-labelledby="update-assignment-tab">

@@ -30,7 +30,11 @@ class CreateRequest extends ValidateRequest
             'files.*.file' => 'nullable|mimes:pdf,doc,docx,txt,ppt,pptx',
             'files.*.title' => 'nullable|string',
             'assignment' => 'required|array|min:1',
-            'assignment.*' => 'required|integer|exists:bank_questions,id',
+            'assignment.*' => [
+                'required',
+                'integer',
+                Rule::exists("bank_questions", "id")->where(fn($query) => $query->where("lesson_id", $this->lesson_id))
+            ],
             'FreeEnum' => "sometimes|in:".implode(",", FreeEnum::values()),
             "ActiveEnum" => "sometimes|in:".implode(",", ActiveEnum::values()),
         ];

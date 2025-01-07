@@ -32,22 +32,19 @@ class MaterialRequestHandler extends RequestHandler
     public function uploadImages($model = null): void
     {
         if (isset($this->data["images"]))
-        {
             $this->data["images"] = UploadFile::uploadFiles('public', $this->data["images"], 'course/materials/images', $model, 'images');
-        }
     }
 
     public function uploadFiles($model = null): void
     {
         if (isset($this->data["files"]))
-        {
             $this->data["files"] = UploadFile::uploadFiles('public', $this->data["files"], 'course/materials/files', $model, 'files');
-        }
     }
 
     public function handleFreeEnum(): void
     {
-        $this->data["FreeEnum"] = isset($this->data["FreeEnum"]) ? FreeEnum::Free->value :  FreeEnum::NotFree->value;
+        if (isset($this->data["FreeEnum"]))
+            $this->data["FreeEnum"] = isset($this->data["FreeEnum"]) ? FreeEnum::Free->value :  FreeEnum::NotFree->value;
     }
 
     public function translateDescription(?int $id): void

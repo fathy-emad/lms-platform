@@ -29,6 +29,7 @@ class CheckoutManual implements CheckoutInterface
 
     public function pay(array $data): void
     {
+
         $user = Student::find($data["student_id"]);
         $cartData = $this->cartItems($user->carts);
         $service = PaymentServiceEnum::from($data["PaymentServiceEnum"]);
@@ -57,8 +58,11 @@ class CheckoutManual implements CheckoutInterface
 
                 $courseExpiresAtMonth = $item->course->curriculum->to->value;
 
-                if ($currentMonth > $courseExpiresAtMonth)
+                if ($currentMonth < $courseExpiresAtMonth)
                     $year = $currentYear + 1;
+                else
+                    $year = $currentYear;
+
 
                 // Create Payment Record
                 $payment = $this->paymentRepository->create([
@@ -78,7 +82,7 @@ class CheckoutManual implements CheckoutInterface
                 ]);
 
                 //Create Teacher Payment
-                $this->teacherPaymentRepository->create([
+                $teacher_payment = $this->teacherPaymentRepository->create([
                     "invoice_id" => $invoice->id,
                     "student_id" => $user->id,
                     "payment_id" => $payment->id,

@@ -16,7 +16,7 @@ class StatisticsResource extends JsonResource
             "year" => new TranslationResource($curriculum->subject->year->yearTranslate),
             "curriculum" => new TranslationResource($curriculum->curriculumTranslate),
             "terms" => $curriculum->EduTermsEnums->map(fn($enum) => new TranslationResource($enum, true)),
-            "types" => $curriculum->EduTermsEnums->map(fn($enum) => new TranslationResource($enum, true)),
+            "types" => $curriculum->EduTypesEnums->map(fn($enum) => new TranslationResource($enum, true)),
             "course" => new TranslationResource($course->titleTranslate),
             "count" => $this->count(),
             "cost" => $this->sum("cost"),
